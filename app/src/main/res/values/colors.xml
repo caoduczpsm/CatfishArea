@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FFDAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="received_message_background">#090016</color>
+    <color name="backgroundPrimary">#FAF7F7</color>
+    <color name="backgroundColor">#c6e4df</color>
+    <color name="colorPrimary">#0081C9</color>
+    <color name="red">#FF0000</color>
+    <color name="textGray">#87888a</color>
+    <color name="black2">#23000000</color>
+    <color name="trans">#00FFFFFF</color>
+
+    <color name="charcoal">#FF394249</color>
+    <color name="medium_jungle_green">#FF273238</color>
+</resources>

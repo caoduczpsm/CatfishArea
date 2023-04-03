@@ -1,0 +1,122 @@
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+}
+
+android {
+    namespace 'com.example.catfisharea'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.example.catfisharea"
+        minSdk 23
+        multiDexEnabled true
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    //Scalable Size Unit (support for different screens sizes)
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.intuit.ssp:ssp-android:1.0.6'
+
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //Chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    //Firebase
+    implementation platform('com.google.firebase:firebase-bom:31.1.1')
+    implementation 'com.google.firebase:firebase-firestore:24.4.3'
+    implementation platform('com.google.firebase:firebase-bom:28.2.1') // add this
+    implementation 'com.google.firebase:firebase-messaging:23.1.1'
+    implementation 'com.google.firebase:firebase-iid:21.1.0' // add this
+    implementation 'com.google.firebase:firebase-storage:20.1.0'
+    //OTP
+    implementation 'com.google.firebase:firebase-auth:21.1.0'
+    implementation 'com.google.android.gms:play-services-safetynet:18.0.1'
+    implementation 'com.firebase:geofire-android-common:3.1.0'
+
+    //RoundedImageView
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
+    //Check permission
+    implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
+
+    //Read Excel
+    implementation 'net.sourceforge.jexcelapi:jxl:2.6.12'
+    implementation 'com.loopj.android:android-async-http:1.4.10'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Mapbox
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1'
+    //implementation 'com.mapbox.maps:android:10.11.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:6.10.0'
+
+    // Intent Animation
+    implementation 'com.github.mohammadatif:Animatoo:master'
+
+    //Horizon datepicker
+    implementation 'com.github.jhonnyx2012:horizontal-picker:1.0.6'
+
+    //FloatingButton
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
+
+//    Video call
+    implementation('org.jitsi.react:jitsi-meet-sdk:+') { transitive = true }
+
+    //Read write excel
+    implementation "org.apache.poi:poi:3.17"
+    implementation "org.apache.poi:poi-ooxml:3.17"
+    implementation group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '3.1.0'
+    implementation 'javax.xml.stream:stax-api:1.0'
+    implementation 'com.fasterxml:aalto-xml:1.2.2'
+
+    //view table
+    implementation "com.cleveroad:adaptivetablelayout:1.2.1"
+
+    implementation 'com.github.levitnudi:LegacyTableView:1.4'
+}
