@@ -1,5 +1,7 @@
 package com.example.catfisharea.activities;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -41,5 +43,15 @@ public class BaseActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Animatoo.animateSlideRight(this);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+
+        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
+        override.fontScale = 1.0f;
+        applyOverrideConfiguration(override);
+
+        super.attachBaseContext(newBase);
     }
 }
