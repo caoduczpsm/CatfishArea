@@ -3,9 +3,11 @@ package com.example.catfisharea.activities.alluser;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.app.catfisharea.databinding.ActivityViewPlanBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.adapter.PlanAdapter;
+
 import com.example.catfisharea.models.Plan;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;

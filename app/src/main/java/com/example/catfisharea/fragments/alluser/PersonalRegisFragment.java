@@ -22,12 +22,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.FragmentPersonalRegisBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+
 import com.example.catfisharea.activities.admin.AdminHomeActivity;
 import com.example.catfisharea.activities.personal.PersonalUserHomeActivity;
 import com.example.catfisharea.activities.worker.WorkerHomeActivity;
+
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.FirebaseFirestore;

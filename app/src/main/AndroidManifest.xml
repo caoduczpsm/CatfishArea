@@ -32,22 +32,34 @@
         android:theme="@style/Theme.CatfishArea"
         tools:targetApi="31">
         <activity
-            android:name=".activities.personal.PersonalUserHomeActivity"
+            android:name="com.example.catfisharea.activities.alluser.ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.alluser.SetInfoRegisAdminActivity"
+            android:name="com.example.catfisharea.activities.alluser.UserActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.alluser.VerifyOTPActivity"
+            android:name="com.example.catfisharea.activities.alluser.ConversationActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.alluser.SendOTPActivity"
+            android:name="com.example.catfisharea.activities.personal.PersonalUserHomeActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.alluser.RegisterActivity"
+            android:name="com.example.catfisharea.activities.alluser.SetInfoRegisAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.alluser.LoginActivity"
+            android:name="com.example.catfisharea.activities.alluser.VerifyOTPActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.catfisharea.activities.alluser.ViewPlanActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.catfisharea.activities.alluser.SendOTPActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.catfisharea.activities.alluser.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.catfisharea.activities.alluser.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,21 +68,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.worker.WorkerHomeActivity"
+            android:name="com.example.catfisharea.activities.worker.WorkerHomeActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.admin.AdminHomeActivity"
-            android:exported="true">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity
-            android:name=".MainActivity"
+            android:name="com.example.catfisharea.activities.admin.AdminHomeActivity"
             android:exported="true">
 
             <!-- <intent-filter> -->

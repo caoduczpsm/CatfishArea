@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.personal.PersonalUserHomeActivity">
+    tools:context="com.example.catfisharea.activities.personal.PersonalUserHomeActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

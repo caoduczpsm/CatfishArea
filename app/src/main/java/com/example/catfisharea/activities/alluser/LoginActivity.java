@@ -4,14 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
 
 import com.android.app.catfisharea.databinding.ActivityLoginBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.admin.AdminHomeActivity;
 import com.example.catfisharea.activities.personal.PersonalUserHomeActivity;
+
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -19,7 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding mBinding;
     private PreferenceManager preferenceManager;
     private FirebaseFirestore database;
@@ -74,9 +77,10 @@ public class LoginActivity extends BaseActivity {
     private void logIn(){
         // Giả lập trạng thái loading và ẩn nút đăng nhập
         loading(true);
+
         database.collection(Constants.KEY_COLLECTION_USER)
                 .whereEqualTo(Constants.KEY_PHONE, mBinding.edtPhoneLogin.getText().toString())
-                .whereEqualTo(Constants.KEY_PASSWORD, mBinding.edtPhoneLogin.getText().toString())
+                .whereEqualTo(Constants.KEY_PASSWORD, mBinding.edtPasswordLogin.getText().toString())
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0){

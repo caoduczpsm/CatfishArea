@@ -2,7 +2,9 @@ package com.example.catfisharea.activities.personal;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
 import com.android.app.catfisharea.databinding.ActivityPersonalUserHomeBinding;
+
 
 public class PersonalUserHomeActivity extends AppCompatActivity {
     private ActivityPersonalUserHomeBinding mBinding;

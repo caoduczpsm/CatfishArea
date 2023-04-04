@@ -1,6 +1,7 @@
 package com.example.catfisharea.activities.alluser;
 
 import android.os.Bundle;
+
 import com.android.app.catfisharea.databinding.ActivitySetInfoRegisAdminBinding;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.ViewPagerAdapter;

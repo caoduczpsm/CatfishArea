@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.alluser.PersonalRegisFragment">
+    tools:context="com.example.catfisharea.fragments.alluser.PersonalRegisFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:padding="@dimen/_10sdp"

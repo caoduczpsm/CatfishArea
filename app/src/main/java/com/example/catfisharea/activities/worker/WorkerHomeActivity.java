@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.android.app.catfisharea.databinding.ActivityWorkerHomeBinding;
 import com.example.catfisharea.activities.BaseActivity;
 
+
 public class WorkerHomeActivity extends BaseActivity {
 
     private ActivityWorkerHomeBinding mBinding;

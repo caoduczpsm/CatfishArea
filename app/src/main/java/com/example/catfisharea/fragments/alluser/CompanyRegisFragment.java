@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.android.app.catfisharea.databinding.FragmentCompanyRegisBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.admin.AdminHomeActivity;
+
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.FirebaseFirestore;

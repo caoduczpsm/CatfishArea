@@ -6,7 +6,7 @@
     android:contentDescription="@string/app_name"
     android:overScrollMode="never"
     android:scrollbars="none"
-    tools:context=".activities.alluser.VerifyOTPActivity">
+    tools:context="com.example.catfisharea.activities.alluser.VerifyOTPActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

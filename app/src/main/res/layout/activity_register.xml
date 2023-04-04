@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.alluser.RegisterActivity">
+    tools:context="com.example.catfisharea.activities.alluser.RegisterActivity">
 
     <View
         android:id="@+id/view6"

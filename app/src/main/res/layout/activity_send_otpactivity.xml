@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.alluser.SendOTPActivity">
+    tools:context="com.example.catfisharea.activities.alluser.SendOTPActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

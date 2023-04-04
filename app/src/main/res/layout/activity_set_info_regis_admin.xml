@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".activities.alluser.SetInfoRegisAdminActivity">
+    tools:context="com.example.catfisharea.activities.alluser.SetInfoRegisAdminActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarSetInfo"

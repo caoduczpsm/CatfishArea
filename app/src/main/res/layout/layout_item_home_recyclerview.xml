@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="5dp"
     app:cardElevation="5dp"
     app:cardUseCompatPadding="true">
@@ -11,24 +11,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/_8sdp">
+
         <TextView
             android:id="@+id/nameItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_chevron_right"
             android:text="Vùng 01"
-            android:textSize="@dimen/_14ssp"
             android:textColor="@color/black"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
-            android:drawableEnd="@drawable/ic_chevron_right"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/nameEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_8sdp"
+            android:text="Vùng trống"
+            android:textAlignment="center"
+            android:textColor="@color/textGray"
+            android:textSize="@dimen/_13ssp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/nameItem" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerviewItemHome"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/nameItem"
-            android:paddingTop="@dimen/_8sdp"/>
+            android:paddingTop="@dimen/_8sdp"
+            app:layout_constraintTop_toBottomOf="@id/nameItem" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>
