@@ -1,13 +1,11 @@
 package com.example.catfisharea.activities.alluser;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
-
 import androidx.appcompat.app.AppCompatActivity;
-
+import com.android.app.catfisharea.databinding.ActivityViewPlanBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.adapter.PlanAdapter;
-import com.example.catfisharea.databinding.ActivityViewPlanBinding;
 import com.example.catfisharea.models.Plan;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
@@ -16,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ViewPlanActivity extends AppCompatActivity {
     private ActivityViewPlanBinding mBinding;
@@ -35,6 +34,7 @@ public class ViewPlanActivity extends AppCompatActivity {
         getDataPlan();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getDataPlan() {
         mPlans = new ArrayList<>();
         planAdapter = new PlanAdapter(mPlans);
@@ -53,15 +53,16 @@ public class ViewPlanActivity extends AppCompatActivity {
 
                                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
                                         String acreage = doc.getString(Constants.KEY_ACREAGE);
-                                        int consistence = doc.getLong(Constants.KEY_CONSISTENCE).intValue();
-                                        int numberOfFish = doc.getLong(Constants.KEY_NUMBER_OF_FISH).intValue();
-                                        float survivalRate = doc.getDouble(Constants.KEY_SURVIVAL_RATE).floatValue();
-                                        int numberOfFishAlive = doc.getLong(Constants.KEY_NUMBER_OF_FISH_ALIVE).intValue();
-                                        float harvestSize = doc.getDouble(Constants.KEY_HARVEST_SIZE).floatValue();
-                                        int harvestYield = doc.getLong(Constants.KEY_HARVEST_YIELD).intValue();
-                                        float fcr = doc.getDouble(Constants.KEY_FCR).floatValue();
-                                        int food = doc.getLong(Constants.KEY_FOOD).intValue();
-                                        int fingerlingSamples = doc.getLong(Constants.KEY_FINGERLING_SAMPLES).intValue();
+                                        int consistence = Objects.requireNonNull(doc.getLong(Constants.KEY_CONSISTENCE)).intValue();
+                                        int numberOfFish = Objects.requireNonNull(doc.getLong(Constants.KEY_NUMBER_OF_FISH)).intValue();
+                                        float survivalRate = Objects.requireNonNull(doc.getDouble(Constants.KEY_SURVIVAL_RATE)).floatValue();
+                                        int numberOfFishAlive = Objects.requireNonNull(doc.getLong(Constants.KEY_NUMBER_OF_FISH_ALIVE)).intValue();
+                                        float harvestSize = Objects.requireNonNull(doc.getDouble(Constants.KEY_HARVEST_SIZE)).floatValue();
+                                        int harvestYield = Objects.requireNonNull(doc.getLong(Constants.KEY_HARVEST_YIELD)).intValue();
+                                        float fcr = Objects.requireNonNull(doc.getDouble(Constants.KEY_FCR)).floatValue();
+                                        int food = Objects.requireNonNull(doc.getLong(Constants.KEY_FOOD)).intValue();
+                                        int fingerlingSamples = Objects.requireNonNull(doc.getLong(Constants.KEY_FINGERLING_SAMPLES)).intValue();
+                                        assert acreage != null;
                                         plan.setAcreage(Integer.parseInt(plan.getAcreage()) + Integer.parseInt(acreage) + "");
                                         plan.setConsistence(plan.getConsistence() + consistence);
                                         plan.setNumberOfFish(plan.getNumberOfFish() + numberOfFish);

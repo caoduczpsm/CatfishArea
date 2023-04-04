@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.catfisharea.databinding.LayoutPlanItemBinding;
+import com.android.app.catfisharea.databinding.LayoutPlanItemBinding;
 import com.example.catfisharea.models.Plan;
 
 import java.text.DecimalFormat;

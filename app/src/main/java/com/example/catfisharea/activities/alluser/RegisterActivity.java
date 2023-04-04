@@ -1,15 +1,12 @@
 package com.example.catfisharea.activities.alluser;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.android.app.catfisharea.databinding.ActivityRegisterBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
-import com.example.catfisharea.R;
 import com.example.catfisharea.activities.BaseActivity;
-import com.example.catfisharea.databinding.ActivityRegisterBinding;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.FirebaseFirestore;

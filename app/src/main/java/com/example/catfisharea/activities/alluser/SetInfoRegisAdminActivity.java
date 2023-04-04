@@ -1,13 +1,9 @@
 package com.example.catfisharea.activities.alluser;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-
-import com.example.catfisharea.R;
+import com.android.app.catfisharea.databinding.ActivitySetInfoRegisAdminBinding;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.ViewPagerAdapter;
-import com.example.catfisharea.databinding.ActivitySetInfoRegisAdminBinding;
 import com.example.catfisharea.fragments.alluser.CompanyRegisFragment;
 import com.example.catfisharea.fragments.alluser.PersonalRegisFragment;
 import com.example.catfisharea.ultilities.Constants;

@@ -1,14 +1,11 @@
 package com.example.catfisharea.adapter;
 
-import android.graphics.Region;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.catfisharea.databinding.LayoutItemRecyclerViewItemHomeBinding;
+import com.android.app.catfisharea.databinding.LayoutItemRecyclerViewItemHomeBinding;
 import com.example.catfisharea.models.RegionModel;
 
 import java.util.List;

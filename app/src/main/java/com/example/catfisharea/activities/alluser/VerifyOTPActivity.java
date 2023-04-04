@@ -1,8 +1,6 @@
 package com.example.catfisharea.activities.alluser;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,11 +8,10 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.app.catfisharea.R;
+import com.android.app.catfisharea.databinding.ActivityVerifyOtpactivityBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
-import com.example.catfisharea.R;
-
 import com.example.catfisharea.activities.BaseActivity;
-import com.example.catfisharea.databinding.ActivityVerifyOtpactivityBinding;
 import com.example.catfisharea.ultilities.Constants;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;

@@ -3,23 +3,21 @@ package com.example.catfisharea.adapter;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.catfisharea.databinding.LayoutItemHomeRecyclerviewBinding;
+import com.android.app.catfisharea.databinding.LayoutItemHomeRecyclerviewBinding;
 import com.example.catfisharea.models.ItemHome;
-import com.example.catfisharea.models.RegionModel;
 
 import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
 
-    private List<ItemHome> mRegion;
-    private Context context;
+    private final List<ItemHome> mRegion;
+    private final Context context;
 
     public HomeAdapter(Context context, List<ItemHome> item) {
         this.mRegion = item;
@@ -45,7 +43,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     }
 
     class HomeViewHolder extends RecyclerView.ViewHolder {
-        private LayoutItemHomeRecyclerviewBinding mBinding;
+        private final LayoutItemHomeRecyclerviewBinding mBinding;
         private ItemHomeAdapter adapter;
         public HomeViewHolder(LayoutItemHomeRecyclerviewBinding mBinding) {
             super(mBinding.getRoot());

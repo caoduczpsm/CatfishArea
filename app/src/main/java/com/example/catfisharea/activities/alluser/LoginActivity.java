@@ -7,12 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.app.catfisharea.databinding.ActivityLoginBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
-import com.example.catfisharea.R;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.admin.AdminHomeActivity;
 import com.example.catfisharea.activities.personal.PersonalUserHomeActivity;
-import com.example.catfisharea.databinding.ActivityLoginBinding;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentSnapshot;

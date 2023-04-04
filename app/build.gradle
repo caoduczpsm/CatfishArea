@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.catfisharea'
+    namespace 'com.android.app.catfisharea'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.catfisharea"
+        applicationId "com.android.app.catfisharea"
         minSdk 23
         multiDexEnabled true
         targetSdk 33

@@ -1,0 +1,100 @@
+{
+  "project_info": {
+    "project_number": "757443875953",
+    "project_id": "catfish-area",
+    "storage_bucket": "catfish-area.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757443875953:android:7fd7aa2c4e3dbb7f01f7d0",
+        "android_client_info": {
+          "package_name": "com.android.app.catfisharea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "757443875953-jqh1gaf642bkhefir5ue8rjnrfct65bp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.app.catfisharea",
+            "certificate_hash": "2076acbcf59e028b29ab090736a92e6df81b1bae"
+          }
+        },
+        {
+          "client_id": "757443875953-p0g437k2tc86furk6b2e8q9ie4jc6cg5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.app.catfisharea",
+            "certificate_hash": "cfea6ebe9676ae33afd2c506b2eed5bb803f9348"
+          }
+        },
+        {
+          "client_id": "757443875953-n69unh5ckea3r3q5nlv8p0n5sbhok060.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7VPUAju126zUhZs3ePAA6syzEaICdrfI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "757443875953-n69unh5ckea3r3q5nlv8p0n5sbhok060.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757443875953:android:b63fb0e37068dec601f7d0",
+        "android_client_info": {
+          "package_name": "com.example.catfisharea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "757443875953-pvhankkoph19oa7tvtnkhp2poqpjn21s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.catfisharea",
+            "certificate_hash": "2076acbcf59e028b29ab090736a92e6df81b1bae"
+          }
+        },
+        {
+          "client_id": "757443875953-qagfflkj80cdu8moch5tdu51o3ktol2b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.catfisharea",
+            "certificate_hash": "cfea6ebe9676ae33afd2c506b2eed5bb803f9348"
+          }
+        },
+        {
+          "client_id": "757443875953-n69unh5ckea3r3q5nlv8p0n5sbhok060.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7VPUAju126zUhZs3ePAA6syzEaICdrfI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "757443875953-n69unh5ckea3r3q5nlv8p0n5sbhok060.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

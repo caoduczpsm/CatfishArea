@@ -1,12 +1,9 @@
 package com.example.catfisharea.activities.worker;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
-import com.example.catfisharea.R;
+import com.android.app.catfisharea.databinding.ActivityWorkerHomeBinding;
 import com.example.catfisharea.activities.BaseActivity;
-import com.example.catfisharea.databinding.ActivityWorkerHomeBinding;
 
 public class WorkerHomeActivity extends BaseActivity {
 
