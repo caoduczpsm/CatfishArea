@@ -6,4 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".activities.worker.WorkerHomeActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:translationZ="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarWorkerHome"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="10dp"
+            android:translationZ="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_nav"
+            app:title="Trần Quốc Khánh" />
+
+        <ImageView
+            android:id="@+id/imageNotify"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:padding="@dimen/_2sdp"
+            android:src="@drawable/ic_notification"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imageChat"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageChat"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:padding="@dimen/_3sdp"
+            android:src="@drawable/ic_chat"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:id="@+id/toolbarShadow"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/toolbar_dropshadow"
+        app:layout_constraintTop_toBottomOf="@id/layoutToolbar"/>
+
+    <include
+        android:id="@+id/layoutControlWorkerHome"
+        layout="@layout/layout_control_worker_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarShadow"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

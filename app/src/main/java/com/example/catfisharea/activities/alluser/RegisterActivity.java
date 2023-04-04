@@ -12,10 +12,12 @@ import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.databinding.ActivityRegisterBinding;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegisterActivity extends BaseActivity {
     private ActivityRegisterBinding mBinding;
     private PreferenceManager preferenceManager;
+    private FirebaseFirestore database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,9 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void initActivity() {
+        database = FirebaseFirestore.getInstance();
         preferenceManager = new PreferenceManager(this);
+        preferenceManager.putString(Constants.KEY_TYPE_REGIS, "personalRegis");
     }
 
     private void setListener() {
@@ -64,11 +68,11 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void signUp(){
-//        Intent intent = new Intent(getApplicationContext(), SendOTPActivity.class);
-//        intent.putExtra(Constants.KEY_PHONE, mBinding.edtPhoneRegister.getText().toString());
-//        intent.putExtra(Constants.KEY_PASSWORD, mBinding.edtPasswordRegister.getText().toString().trim());
-//        Animatoo.animateSlideLeft(RegisterActivity.this);
-//        startActivity(intent);
+        Intent intent = new Intent(getApplicationContext(), SendOTPActivity.class);
+        intent.putExtra(Constants.KEY_PHONE, mBinding.edtPhoneRegister.getText().toString());
+        intent.putExtra(Constants.KEY_PASSWORD, mBinding.edtPasswordRegister.getText().toString().trim());
+        Animatoo.animateSlideLeft(RegisterActivity.this);
+        startActivity(intent);
     }
 
     private Boolean isValidSignUpDetails(){

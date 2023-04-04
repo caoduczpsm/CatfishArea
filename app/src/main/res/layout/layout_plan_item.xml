@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
+        android:translationZ="10dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/nameItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Khu 01"
+                android:textSize="@dimen/_20sdp"
+                android:textColor="@color/white"
+                android:textAllCaps="true"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_20sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:drawableEnd="@drawable/ic_chevron_right"
+                android:drawableTint="@color/white"
+                android:paddingEnd="@dimen/_10sdp"
+                android:background="@color/colorPrimary"/>
+            <LinearLayout
+                android:id="@+id/layoutDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingRight="@dimen/_20sdp"
+                app:layout_constraintTop_toBottomOf="@id/nameItem"
+                app:layout_constraintStart_toStartOf="parent"
+                android:weightSum="5">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ngày"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30-07-2022"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutAcreage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingRight="@dimen/_20sdp"
+                app:layout_constraintTop_toBottomOf="@id/layoutDate"
+                app:layout_constraintStart_toStartOf="parent"
+                android:weightSum="5">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tổng diện tích mặt nước"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/acreage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10000"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" m²"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutConsistence"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingRight="@dimen/_20sdp"
+                app:layout_constraintTop_toBottomOf="@id/layoutAcreage"
+                app:layout_constraintStart_toStartOf="parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mật độ thả"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/consistence"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="75"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=" con/m²"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutNumberOfFish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingRight="@dimen/_20sdp"
+                app:layout_constraintTop_toBottomOf="@id/layoutConsistence"
+                app:layout_constraintStart_toStartOf="parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tổng số cá thả"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/numberOfFish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10000"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" con"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/LayoutFingerlingSamples"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingRight="@dimen/_20sdp"
+                app:layout_constraintTop_toBottomOf="@id/layoutNumberOfFish"
+                app:layout_constraintStart_toStartOf="parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mẫu cá"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/fingerlingSamples"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10000"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" con/kg"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutSurvivalRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingRight="@dimen/_20sdp"
+                app:layout_constraintTop_toBottomOf="@id/LayoutFingerlingSamples"
+                app:layout_constraintStart_toStartOf="parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tỷ lệ sống"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/survivalRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="65"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" %"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutNumberOfFishAlive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingRight="@dimen/_20sdp"
+                app:layout_constraintTop_toBottomOf="@id/layoutSurvivalRate"
+                app:layout_constraintStart_toStartOf="parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Số lượng cá còn"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/numberOfFishAlive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10000"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" con"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutHarvestSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingRight="@dimen/_20sdp"
+                app:layout_constraintTop_toBottomOf="@id/layoutNumberOfFishAlive"
+                app:layout_constraintStart_toStartOf="parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Size thu hoạch"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/harvestSize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10000"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" kg/con"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutHarvestYield"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingRight="@dimen/_20sdp"
+                app:layout_constraintTop_toBottomOf="@id/layoutHarvestSize"
+                app:layout_constraintStart_toStartOf="parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sản lượng thu hoạch"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/harvestYield"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10000"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" kg"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutFCR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingRight="@dimen/_20sdp"
+                app:layout_constraintTop_toBottomOf="@id/layoutHarvestYield"
+                app:layout_constraintStart_toStartOf="parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="FCR"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/fcr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1.67"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutFood"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingRight="@dimen/_20sdp"
+                app:layout_constraintTop_toBottomOf="@id/layoutFCR"
+                app:layout_constraintStart_toStartOf="parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thức ăn/Vụ nuôi"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/food"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1000"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" kg"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/textGray" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

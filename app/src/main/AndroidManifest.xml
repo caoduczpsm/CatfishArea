@@ -32,6 +32,18 @@
         android:theme="@style/Theme.CatfishArea"
         tools:targetApi="31">
         <activity
+            android:name=".activities.personal.PersonalUserHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.alluser.SetInfoRegisAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.alluser.VerifyOTPActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.alluser.SendOTPActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.alluser.RegisterActivity"
             android:exported="false" />
         <activity

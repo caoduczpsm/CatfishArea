@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.alluser.CompanyRegisFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:padding="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/layoutImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageProfile"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile"
+                app:civ_border_color="@color/black"
+                app:civ_border_width="1dp" />
+
+            <TextView
+                android:id="@+id/textAddImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Chọn Ảnh"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp"
+                tools:ignore="HardcodedText,TextContrastCheck" />
+
+        </FrameLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputCompanyName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:hint="Tên công ty"
+            app:layout_constraintStart_toStartOf="parent"
+            app:endIconMode="clear_text"
+            app:layout_constraintTop_toBottomOf="@id/layoutImage"
+            app:startIconDrawable="@drawable/ic_company"
+            app:startIconTint="@color/colorPrimary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtCompanyName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:gravity="center_vertical"
+                android:textColor="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputCompanyCode"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:hint="Mã công ty"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputCompanyName"
+            app:startIconDrawable="@drawable/ic_code"
+            app:endIconMode="clear_text"
+            app:startIconTint="@color/colorPrimary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtCompanyCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:gravity="center_vertical"
+                android:textColor="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputCompanyPhone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:hint="Số điện thoại công ty"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputCompanyCode"
+            app:startIconDrawable="@drawable/ic_call_gray"
+            app:startIconTint="@color/colorPrimary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtCompanyPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:gravity="center_vertical"
+                android:textColor="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputCompanyAddress"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:hint="Địa chỉ"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputCompanyPhone"
+            app:startIconDrawable="@drawable/ic_location_blue"
+            app:startIconTint="@color/colorPrimary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtCompanyAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:gravity="center_vertical"
+                android:textColor="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRegis"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/button_login"
+            android:text="Đăng Ký"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputCompanyAddress"
+            tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/btnRegis"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btnRegis" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activities.alluser.SetInfoRegisAdminActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarSetInfo"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="10dp"
+        android:translationZ="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back_activity"
+        app:title="Thông tin cá nhân" />
+
+    <View
+        android:id="@+id/toolbar_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:elevation="10dp"
+        android:translationZ="10dp"
+        android:background="@drawable/toolbar_dropshadow"
+        app:layout_constraintTop_toBottomOf="@id/toolbarSetInfo"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:paddingTop="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_shadow">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/background_tab_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabGravity="fill"
+            app:tabIndicator="@drawable/tab_indicator"
+            app:tabIndicatorAnimationMode="elastic"
+            app:tabIndicatorGravity="stretch"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/black"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"
+            tools:ignore="SpeakableTextPresentCheck">
+
+        </androidx.viewpager.widget.ViewPager>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
