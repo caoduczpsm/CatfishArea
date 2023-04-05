@@ -1,11 +1,23 @@
 package com.example.catfisharea.activities.admin;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityAdminHomeBinding;
 import com.example.catfisharea.activities.BaseActivity;
+import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
+import com.example.catfisharea.activities.alluser.SettingGroupActivity;
 import com.example.catfisharea.activities.alluser.ViewPlanActivity;
 import com.example.catfisharea.adapter.HomeAdapter;
 
@@ -50,6 +62,10 @@ public class AdminHomeActivity extends BaseActivity {
 
         mBinding.toolbarAdminHome.setTitle(preferenceManager.getString(Constants.KEY_NAME));
 
+        mBinding.imageConference.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), ConferenceActivity.class));
+        });
+
         mBinding.imageChat.setOnClickListener(view -> {
             startActivity(new Intent(getApplicationContext(), ConversationActivity.class));
         });
@@ -63,6 +79,60 @@ public class AdminHomeActivity extends BaseActivity {
 
         });
 
+        mBinding.layoutControlAdminHome.layoutArea.setOnClickListener(view -> {
+
+        });
+
+    }
+
+    private void openDialogArea() {
+        final Dialog dialog = openDialog(R.layout.layout_dialog_options_area);
+        assert dialog != null;
+
+        ConstraintLayout layoutArea = dialog.findViewById(R.id.layoutArea);
+        ConstraintLayout layoutCampus = dialog.findViewById(R.id.layoutCampus);
+        ConstraintLayout layoutPond = dialog.findViewById(R.id.layoutPond);
+        Button btnClose = dialog.findViewById(R.id.btnClose);
+
+        layoutArea.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AreaManagementActivity.class);
+            intent.putExtra("typeActivity", Constants.KEY_AREA);
+            startActivity(intent);
+        });
+
+        layoutCampus.setOnClickListener(view -> {
+
+        });
+
+        layoutPond.setOnClickListener(view -> {
+
+        });
+
+        btnClose.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
+
+        dialog.show();
+
+    }
+
+    private Dialog openDialog(int layout) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(layout);
+        dialog.setCancelable(true);
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return null;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+
+        return dialog;
     }
 
     private void getDataHome() {

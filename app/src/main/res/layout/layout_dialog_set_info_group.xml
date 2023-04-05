@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/border_fun_background"
+    android:padding="@dimen/_10sdp"
+    android:layout_gravity="center"
+    android:layout_width="@dimen/_280sdp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tạo Nhóm Trò Chuyện"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/_18sdp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <FrameLayout
+        android:id="@+id/layoutImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTitle">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/imageGroupProfile"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:background="@drawable/background_image"
+            android:scaleType="centerCrop"
+            app:riv_oval="true" />
+
+        <TextView
+            android:id="@+id/textAddImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/Add_image"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10ssp" />
+
+    </FrameLayout>
+
+    <EditText
+        android:id="@+id/textGroupName"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/black"
+        android:background="@drawable/edit_text"
+        android:drawableStart="@drawable/ic_user"
+        android:drawablePadding="@dimen/_5sdp"
+        android:drawableTint="@color/colorPrimary"
+        android:hint="Tên nhóm"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:padding="@dimen/_5sdp"
+        android:textColorHint="@color/black"
+        tools:ignore="HardcodedText,TextFields,UnusedAttribute,TextContrastCheck"
+        app:layout_constraintTop_toBottomOf="@+id/layoutImage" />
+
+    <EditText
+        android:id="@+id/textGroupDescription"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@drawable/edit_text"
+        android:drawableStart="@drawable/ic_description2"
+        android:drawablePadding="@dimen/_5sdp"
+        android:drawableTint="@color/colorPrimary"
+        android:hint="Mô tả"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:padding="@dimen/_5sdp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:layout_constraintTop_toBottomOf="@+id/textGroupName"
+        tools:ignore="HardcodedText,TextFields,UnusedAttribute,TextContrastCheck"
+        tools:layout_editor_absoluteX="13dp" />
+
+    <Button
+        android:id="@+id/btnCreateGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_fun_background"
+        android:backgroundTint="#B3F0D3"
+        android:text="Tạo"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textGroupDescription"
+        app:layout_constraintWidth_percent="0.48"
+        tools:ignore="HardcodedText,UnusedAttribute" />
+
+    <Button
+        android:id="@+id/btnClose"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:background="@drawable/border_fun_background"
+        android:backgroundTint="@color/red"
+        android:text="Đóng"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.48"
+        tools:ignore="HardcodedText,UnusedAttribute" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.catfisharea.activities.alluser.ConferenceActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarConference"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="10dp"
+        android:translationZ="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back_activity"
+        app:title="Hội nghị" />
+
+    <View
+        android:id="@+id/toolbar_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/toolbar_dropshadow"
+        android:elevation="5dp"
+        android:translationZ="5dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbarConference" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/newMeeting"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:background="@drawable/border_fun_background"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Cuộc họp mới"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintEnd_toStartOf="@id/joinMeeting"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_shadow" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/joinMeeting"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:background="@drawable/border_fun_background"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Tham gia cuộc họp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/newMeeting"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_shadow" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
