@@ -113,13 +113,7 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
         //FireStore
         database = FirebaseFirestore.getInstance();
         action = getArguments().getString("action");
-        if (action.equals("create")) {
-            getAraes();
-        } else if (action.equals("edit")) {
-            mBinding.toolbarManageArea.setTitle("Chỉnh sửa vùng");
-            idItem = getArguments().getString("idItem");
-            setData(idItem);
-        }
+
         return mBinding.getRoot();
     }
 
@@ -463,6 +457,13 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
+        if (action.equals("create")) {
+            getAraes();
+        } else if (action.equals("edit")) {
+            mBinding.toolbarManageArea.setTitle("Chỉnh sửa vùng");
+            idItem = getArguments().getString("idItem");
+            setData(idItem);
+        }
         mapboxMap.setStyle(Style.SATELLITE_STREETS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {

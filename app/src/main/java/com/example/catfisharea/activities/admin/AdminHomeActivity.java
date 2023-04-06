@@ -33,6 +33,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firestore.v1.StructuredQuery;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class AdminHomeActivity extends BaseActivity {
@@ -80,7 +82,7 @@ public class AdminHomeActivity extends BaseActivity {
         });
 
         mBinding.layoutControlAdminHome.layoutArea.setOnClickListener(view -> {
-
+            openDialogArea();
         });
 
     }
@@ -98,14 +100,21 @@ public class AdminHomeActivity extends BaseActivity {
             Intent intent = new Intent(this, AreaManagementActivity.class);
             intent.putExtra("typeActivity", Constants.KEY_AREA);
             startActivity(intent);
+            dialog.dismiss();
         });
 
         layoutCampus.setOnClickListener(view -> {
-
+            Intent intent = new Intent(this, AreaManagementActivity.class);
+            intent.putExtra("typeActivity", Constants.KEY_CAMPUS);
+            startActivity(intent);
+            dialog.dismiss();
         });
 
         layoutPond.setOnClickListener(view -> {
-
+            Intent intent = new Intent(this, AreaManagementActivity.class);
+            intent.putExtra("typeActivity", Constants.KEY_POND);
+            startActivity(intent);
+            dialog.dismiss();
         });
 
         btnClose.setOnClickListener(view -> {
@@ -157,9 +166,25 @@ public class AdminHomeActivity extends BaseActivity {
                                     itemHome.setReginonList(campuses);
                                     itemHomes.add(itemHome);
                                     homeAdapter.notifyDataSetChanged();
+                                    Collections.sort(itemHome.getReginonList(), new Comparator<RegionModel>() {
+                                        @Override
+                                        public int compare(RegionModel o1, RegionModel o2) {
+                                            return (o1.getName().compareToIgnoreCase(o2.getName()));
+                                        }
+                                    });
+                                    Collections.sort(itemHomes, new Comparator<ItemHome>() {
+                                        @Override
+                                        public int compare(ItemHome o1, ItemHome o2) {
+                                            return (o1.getRegionModel().getName().compareToIgnoreCase(o2.getRegionModel().getName()));
+                                        }
+                                    });
+                                    homeAdapter.notifyDataSetChanged();
                                 });
+
                     }
                 });
+
+
     }
 
 

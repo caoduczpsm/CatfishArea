@@ -55,7 +55,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
         public void setData(ItemHome item) {
             mBinding.nameItem.setText(item.getRegionModel().getName());
-            if (item.getReginonList().isEmpty()) {
+            if (item.getReginonList() == null || item.getReginonList().isEmpty()) {
                 if (item.getRegionModel() instanceof Area) {
                     mBinding.nameEmpty.setText("Vùng trống");
                     mBinding.nameEmpty.setVisibility(View.VISIBLE);

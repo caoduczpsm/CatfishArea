@@ -28,13 +28,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.catfisharea.R;
-import com.example.catfisharea.adapters.MultipleUserSelectionAdapter;
-import com.example.catfisharea.adapters.SpinnerAdapter;
-import com.example.catfisharea.databinding.FragmentCreatePondBinding;
+import com.android.app.catfisharea.R;
+import com.android.app.catfisharea.databinding.FragmentCreatePondBinding;
+import com.example.catfisharea.adapter.MultipleUserSelectionAdapter;
+import com.example.catfisharea.adapter.SpinnerAdapter;
 import com.example.catfisharea.listeners.MultipleListener;
 import com.example.catfisharea.models.Area;
 import com.example.catfisharea.models.Campus;
+import com.example.catfisharea.models.RegionModel;
 import com.example.catfisharea.models.Task;
 import com.example.catfisharea.models.User;
 import com.example.catfisharea.ultilities.Constants;
@@ -115,6 +116,7 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
         icon = iconFactory.fromResource(R.drawable.ic_pond_marker);
 
         action = getArguments().getString("action");
+
         if (action.equals("create")) {
 
         } else if (action.equals("edit")) {
@@ -135,6 +137,9 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
 
     @SuppressLint("ClickableViewAccessibility")
     private void setListener() {
+        if (mapboxMap == null) {
+            Log.d("Mapboxmap null", "map is null");
+        }
         mBinding.edtNameArea.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -341,32 +346,32 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
         String acreage = mBinding.edtAcreage.getText().toString();
 
         if (name.isEmpty()) {
-            mBinding.edtNameArea.setHint("Hãy nhập tên ao");
-            mBinding.edtNameArea.setHintTextColor(getContext().getResources().getColor(R.color.red));
-            mBinding.edtNameArea.setBackgroundResource(R.drawable.edit_text_error);
+//            mBinding.edtNameArea.setHint("Hãy nhập tên ao");
+//            mBinding.edtNameArea.setHintTextColor(getContext().getResources().getColor(R.color.red));
+//            mBinding.edtNameArea.setBackgroundResource(R.drawable.edit_text_error);
             isFinish = false;
         }
         if (areaSelected == null) {
-            mBinding.spinnerArea.setBackgroundResource(R.drawable.edit_text_error);
+//            mBinding.spinnerArea.setBackgroundResource(R.drawable.edit_text_error);
             isFinish = false;
         }
         if (campusSelected == null) {
-            mBinding.spinnerCampus.setBackgroundResource(R.drawable.edit_text_error);
+//            mBinding.spinnerCampus.setBackgroundResource(R.drawable.edit_text_error);
             isFinish = false;
         }
         if (mUsersSelected.size() == 0) {
-            mBinding.edtWorker.setBackgroundResource(R.drawable.edit_text_error);
-            mBinding.edtNameArea.setHint("Hãy chọn công nhân");
-            mBinding.edtNameArea.setHintTextColor(getContext().getResources().getColor(R.color.red));
+//            mBinding.edtWorker.setBackgroundResource(R.drawable.edit_text_error);
+//            mBinding.edtNameArea.setHint("Hãy chọn công nhân");
+//            mBinding.edtNameArea.setHintTextColor(getContext().getResources().getColor(R.color.red));
             isFinish = false;
         }
         if (marker == null) {
-            mBinding.layoutMaps.setBackgroundResource(R.drawable.edit_text_error);
+//            mBinding.layoutMaps.setBackgroundResource(R.drawable.edit_text_error);
             isFinish = false;
         } if (acreage.isEmpty()) {
-            mBinding.edtAcreage.setHint("Hãy nhập diện tích ao");
-            mBinding.edtAcreage.setHintTextColor(getContext().getResources().getColor(R.color.red));
-            mBinding.edtAcreage.setBackgroundResource(R.drawable.edit_text_error);
+//            mBinding.edtAcreage.setHint("Hãy nhập diện tích ao");
+//            mBinding.edtAcreage.setHintTextColor(getContext().getResources().getColor(R.color.red));
+//            mBinding.edtAcreage.setBackgroundResource(R.drawable.edit_text_error);
             isFinish = false;
         }
         if (isFinish) {
@@ -442,6 +447,7 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
         }
     }
 
+    @SuppressLint("NewApi")
     private void getPonds(String campusId) {
         mapboxMap.getMarkers().forEach(it -> {
             mapboxMap.removeMarker(it);
@@ -461,7 +467,7 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
     }
 
     private void setDataAreaSpinner() {
-        List<Object> mArae = new ArrayList<>();
+        List<RegionModel> mArae = new ArrayList<>();
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this.getContext(), R.layout.layout_spinner_item, mArae);
         mBinding.spinnerArea.setAdapter(spinnerAdapter);
         if (action.equals("create")) {
@@ -564,7 +570,7 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
     //    lấy dữ liệu cho spinner khu và vẽ khu đã chọn lên bản đồ
     private void setDataCampusSpinner() {
         setDefaultUI();
-        ArrayList<Object> mCampus = new ArrayList<>();
+        ArrayList<RegionModel> mCampus = new ArrayList<>();
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this.getContext(), R.layout.layout_spinner_item, mCampus);
         mBinding.spinnerCampus.setAdapter(spinnerAdapter);
         if (action.equals("create")) {
@@ -694,6 +700,7 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
+        Log.d("Mapboxmap null", "onMapReady");
         mapboxMap.setStyle(Style.SATELLITE_STREETS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
@@ -825,16 +832,16 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
     private void setDefaultUI (){
         mBinding.edtNameArea.setHint("Nhập tên ao");
         mBinding.edtNameArea.setHintTextColor(getContext().getResources().getColor(R.color.textGray));
-        mBinding.edtNameArea.setBackgroundResource(R.drawable.edit_text);
+        mBinding.edtNameArea.setBackgroundResource(R.drawable.background_edit_text);
 
         mBinding.edtAcreage.setHint("Nhập diện tích");
         mBinding.edtAcreage.setHintTextColor(getContext().getResources().getColor(R.color.textGray));
-        mBinding.edtAcreage.setBackgroundResource(R.drawable.edit_text);
+        mBinding.edtAcreage.setBackgroundResource(R.drawable.background_edit_text);
 
         mBinding.edtWorker.setHintTextColor(getContext().getResources().getColor(R.color.textGray));
-        mBinding.edtWorker.setBackgroundResource(R.drawable.edit_text);
-        mBinding.spinnerCampus.setBackgroundResource(R.drawable.edit_text);
-        mBinding.spinnerArea.setBackgroundResource(R.drawable.edit_text);
-        mBinding.layoutMaps.setBackgroundResource(R.drawable.edit_text);
+        mBinding.edtWorker.setBackgroundResource(R.drawable.background_edit_text);
+        mBinding.spinnerCampus.setBackgroundResource(R.drawable.background_edit_text);
+        mBinding.spinnerArea.setBackgroundResource(R.drawable.background_edit_text);
+        mBinding.layoutMaps.setBackgroundResource(R.drawable.background_edit_text);
     }
 }

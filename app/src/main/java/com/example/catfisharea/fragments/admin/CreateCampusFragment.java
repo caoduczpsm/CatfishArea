@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -38,6 +39,8 @@ import com.example.catfisharea.adapter.SpinnerAdapter;
 import com.example.catfisharea.adapter.UserPickerAdapter;
 import com.example.catfisharea.listeners.PickUserListener;
 import com.example.catfisharea.models.Area;
+import com.example.catfisharea.models.ItemHome;
+import com.example.catfisharea.models.RegionModel;
 import com.example.catfisharea.models.User;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
@@ -68,6 +71,8 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.turf.TurfJoins;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -106,7 +111,6 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
     private String idItem;
     private User mUserEdit;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -120,13 +124,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
         //FireStore
         database = FirebaseFirestore.getInstance();
         action = getArguments().getString("action");
-        if (action.equals("create")) {
-            getAraes();
-        } else if (action.equals("edit")) {
-            mBinding.toolbarManageCampus.setTitle("Chỉnh sửa khu");
-            idItem = getArguments().getString("idItem");
-            setData(idItem);
-        }
+
         return mBinding.getRoot();
     }
 
@@ -156,17 +154,20 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                                 .addAll(listpoint)
                                 .color(Color.BLACK)
                                 .width(3);
+
                         Polyline line = mapboxMap.addPolyline(rectOptions);
-                        mapboxMap.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
-                            @Override
-                            public boolean onMapClick(@NonNull LatLng point) {
-                                if (TurfJoins.inside(Point.fromLngLat(point.getLatitude(), point.getLongitude()),
-                                        com.mapbox.geojson.Polygon.fromLngLats(boundingBoxList))) {
-                                    Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
-                                }
-                                return false;
-                            }
-                        });
+
+
+//                        mapboxMap.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
+//                            @Override
+//                            public boolean onMapClick(@NonNull LatLng point) {
+//                                if (TurfJoins.inside(Point.fromLngLat(point.getLatitude(), point.getLongitude()),
+//                                        com.mapbox.geojson.Polygon.fromLngLats(boundingBoxList))) {
+//                                    Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
+//                                }
+//                                return false;
+//                            }
+//                        });
                     }
                 });
 
@@ -423,7 +424,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
     }
 
     private void setDataSpinner() {
-        ArrayList<Object> mArae = new ArrayList<>();
+        ArrayList<RegionModel> mArae = new ArrayList<>();
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this.getContext(), R.layout.layout_spinner_item, mArae);
         mBinding.spinnerArea.setAdapter(spinnerAdapter);
         if (action.equals("create")) {
@@ -437,8 +438,15 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                             Area area = new Area(id, name, geoList);
                             mArae.add(area);
                         }
+                        Collections.sort(mArae, new Comparator<RegionModel>() {
+                            @Override
+                            public int compare(RegionModel o1, RegionModel o2) {
+                                return (o1.getName().compareToIgnoreCase(o2.getName()));
+                            }
+                        });
                         spinnerAdapter.notifyDataSetChanged();
                     });
+
             mBinding.spinnerArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
@@ -643,6 +651,13 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
+        if (action.equals("create") && mapboxMap != null) {
+            getAraes();
+        } else if (action.equals("edit")) {
+            mBinding.toolbarManageCampus.setTitle("Chỉnh sửa khu");
+            idItem = getArguments().getString("idItem");
+            setData(idItem);
+        }
         mapboxMap.setStyle(Style.SATELLITE_STREETS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {

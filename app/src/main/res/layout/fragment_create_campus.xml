@@ -38,8 +38,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_8sdp"
             android:hint="Tên khu"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/textInputArea"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:startIconTint="@color/colorPrimary">
@@ -101,54 +102,84 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/textArea"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputArea"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:hint="Vùng"
+            app:endIconMode="dropdown_menu"
+            app:layout_constraintBottom_toBottomOf="@id/textInputNameCampus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textInputNameCampus"
+            app:layout_constraintTop_toTopOf="@id/textInputNameCampus"
+            app:startIconTint="@color/colorPrimary">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinnerArea"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/black">
+
+            </AutoCompleteTextView>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLatitute"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:padding="@dimen/_10sdp"
-            android:text="Vùng"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_16ssp"
-            android:textStyle="bold"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:hint="Tọa độ N"
+            app:layout_constraintEnd_toStartOf="@id/textInputLongtitute"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layoutManager"
-            app:layout_constraintWidth_percent="0.2" />
+            app:startIconTint="@color/colorPrimary">
 
-        <Spinner
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtLatitute"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:inputType="text"
+                android:textColor="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            android:id="@+id/spinnerArea"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLongtitute"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginEnd="@dimen/_19sdp"
-            android:background="@drawable/background_edit_text"
-            android:gravity="center_vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textArea"
-            app:layout_constraintTop_toTopOf="@id/textArea" />
-
-        <TextView
-            android:id="@+id/textAddress"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_10sdp"
-            android:text="Địa chỉ"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_16ssp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/spinnerArea" />
+            android:layout_marginTop="@dimen/_8sdp"
+            android:hint="Tọa độ E"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textInputLatitute"
+            app:layout_constraintTop_toBottomOf="@id/layoutManager"
+            app:startIconTint="@color/colorPrimary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtLongtitute"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:inputType="text"
+                android:textColor="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutMaps"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:background="@drawable/background_edit_text"
             android:padding="@dimen/_5sdp"
             app:layout_constraintBottom_toTopOf="@id/saveBtnCreate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textAddress">
+            app:layout_constraintTop_toBottomOf="@id/textInputLatitute">
 
             <com.mapbox.mapboxsdk.maps.MapView
                 android:id="@+id/mapView"

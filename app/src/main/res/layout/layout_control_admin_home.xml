@@ -79,7 +79,7 @@
                         android:id="@+id/imageArea"
                         android:layout_width="@dimen/_35sdp"
                         android:layout_height="@dimen/_35sdp"
-                        android:src="@drawable/ic_area"
+                        android:src="@drawable/ic_area_home"
                         android:translationZ="10dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
