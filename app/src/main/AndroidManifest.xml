@@ -32,6 +32,24 @@
         android:theme="@style/Theme.CatfishArea"
         tools:targetApi="31">
         <activity
+            android:name="com.example.catfisharea.activities.admin.CreateSimpleAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.catfisharea.activities.admin.CreateMultipleAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.catfisharea.activities.admin.DeleteAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.catfisharea.activities.admin.PermissionEditActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.catfisharea.activities.admin.WearhouseCreateActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.catfisharea.activities.admin.WarehouseActivity"
+            android:exported="false" />
+        <activity
             android:name="com.example.catfisharea.activities.admin.ManagementAreaActivity"
             android:exported="false" />
         <activity

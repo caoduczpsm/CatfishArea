@@ -11,225 +11,207 @@
         android:id="@+id/toolbarManagePond"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:elevation="20dp"
+        android:elevation="10dp"
+        android:translationZ="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back_activity"
         app:title="Thêm ao" />
 
-    <TextView
-        android:id="@+id/textNameArea"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/_10sdp"
-        android:text="Tên ao"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_16ssp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarManagePond"
-        app:layout_constraintWidth_percent="0.3" />
-
-    <EditText
-        android:id="@+id/edtNameArea"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_40sdp"
-        android:background="@drawable/background_edit_text"
-        android:hint="Nhập tên ao"
-        android:paddingStart="@dimen/_10sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/textNameArea"
-        app:layout_constraintTop_toTopOf="@id/textNameArea"
-        app:layout_constraintWidth_percent="0.6" />
-
-    <TextView
-        android:id="@+id/textAcreage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:padding="@dimen/_10sdp"
-        android:text="Diện tích"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_16ssp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtNameArea"
-        app:layout_constraintWidth_percent="0.3" />
-
-    <EditText
-        android:id="@+id/edtAcreage"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_40sdp"
-        android:background="@drawable/background_edit_text"
-        android:hint="Nhập diện tích"
-        android:paddingStart="@dimen/_10sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/textAcreage"
-        app:layout_constraintTop_toTopOf="@id/textAcreage"
-        app:layout_constraintWidth_percent="0.6" />
-
-    <TextView
-        android:id="@+id/textArea"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:padding="@dimen/_10sdp"
-        android:text="Vùng"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_16ssp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtAcreage"
-        app:layout_constraintWidth_percent="0.3" />
-
-    <Spinner
-        android:id="@+id/spinnerArea"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_40sdp"
-        android:background="@drawable/background_edit_text"
-        android:gravity="center_vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/textArea"
-        app:layout_constraintTop_toTopOf="@id/textArea"
-        app:layout_constraintWidth_percent="0.6" />
-
-    <TextView
-        android:id="@+id/textCampus"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:padding="@dimen/_10sdp"
-        android:text="Khu"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_16ssp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinnerArea"
-        app:layout_constraintWidth_percent="0.3" />
-
-    <Spinner
-        android:id="@+id/spinnerCampus"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_40sdp"
-        android:background="@drawable/background_edit_text"
-        android:gravity="center_vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/textCampus"
-        app:layout_constraintTop_toTopOf="@id/textCampus"
-        app:layout_constraintWidth_percent="0.6" />
-
-    <TextView
-        android:id="@+id/textWorker"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:padding="@dimen/_10sdp"
-        android:text="Công nhân"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_16ssp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinnerCampus"
-        app:layout_constraintWidth_percent="0.35" />
-
-    <EditText
-        android:id="@+id/edtWorker"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_40sdp"
-        android:background="@drawable/background_edit_text"
-        android:editable="false"
-        android:focusable="false"
-        android:hint="Chọn công nhân"
-        android:paddingStart="@dimen/_10sdp"
-        app:layout_constraintEnd_toEndOf="@id/spinnerCampus"
-        app:layout_constraintStart_toEndOf="@id/textWorker"
-        app:layout_constraintTop_toTopOf="@id/textWorker" />
-
-    <TextView
-        android:id="@+id/textAddress"
+    <View
+        android:id="@+id/toolbarShadow"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/_10sdp"
-        android:text="Địa chỉ"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_16ssp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/edtWorker" />
+        android:layout_height="4dp"
+        android:background="@drawable/toolbar_dropshadow"
+        android:elevation="5dp"
+        android:translationZ="5dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbarManagePond" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutMaps"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/background_edit_text"
-        android:padding="@dimen/_5sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textAddress"
-        app:layout_constraintWidth_percent="0.9">
+        android:padding="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarShadow">
 
-        <com.mapbox.mapboxsdk.maps.MapView
-            android:id="@+id/mapView"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputNamePond"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <ImageView
-            android:id="@+id/zoomOutBtn"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_20sdp"
-            android:src="@drawable/ic_zoom_out_map"
+            android:layout_height="wrap_content"
+            android:hint="Tên ao"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/black" />
+            app:startIconTint="@color/colorPrimary">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/centerLoc"
-            android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtNameArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:inputType="text"
+                android:textColor="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputAcreage"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="15dp"
-            android:src="@drawable/ic_my_location"
+            android:hint="Diện tích"
+            android:layout_marginTop="@dimen/_8sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputNamePond"
+            app:startIconTint="@color/colorPrimary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtAcreage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:inputType="numberDecimal"
+                android:textColor="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputArea"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:hint="Vùng"
+            app:endIconMode="dropdown_menu"
+            app:layout_constraintEnd_toStartOf="@id/textInputCampus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputAcreage"
+            app:startIconTint="@color/colorPrimary">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinnerArea"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/black"></AutoCompleteTextView>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputCampus"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Khu"
+            app:endIconMode="dropdown_menu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textInputArea"
+            app:layout_constraintTop_toBottomOf="@id/textInputNamePond"
+            app:layout_constraintTop_toTopOf="@id/textInputArea"
+            app:startIconTint="@color/colorPrimary">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinnerCampus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/black"></AutoCompleteTextView>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputWorker"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Công nhân"
+            app:endIconMode="dropdown_menu"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/_8sdp"
+            app:layout_constraintTop_toBottomOf="@id/textInputArea"
+            app:startIconTint="@color/colorPrimary">
+
+            <AutoCompleteTextView
+                android:id="@+id/edtWorker"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/black"></AutoCompleteTextView>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutMaps"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:background="@drawable/background_edit_text"
+            android:padding="@dimen/_5sdp"
+            app:layout_constraintBottom_toTopOf="@id/saveBtnCreate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputWorker">
+
+            <com.mapbox.mapboxsdk.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/zoomOutBtn"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/ic_zoom_out_map"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/black" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/centerLoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
+                android:src="@drawable/ic_my_location"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="@color/white" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/freeHandBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
+                android:src="@drawable/baseline_draw_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/centerLoc"
+                app:tint="@color/white" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/deleteBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
+                android:src="@drawable/baseline_delete_forever_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/freeHandBtn"
+                app:tint="@color/white" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/saveBtnCreate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:background="@drawable/button_login"
+            android:text="Lưu"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@color/white" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/freeHandBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="15dp"
-            android:src="@drawable/baseline_draw_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/centerLoc"
-            app:tint="@color/white" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/deleteBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="15dp"
-            android:src="@drawable/baseline_delete_forever_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/freeHandBtn"
-            app:tint="@color/white" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/saveBtnCreate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:background="@drawable/button_login"
-        android:text="Lưu"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_15ssp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutMaps"
-        app:layout_constraintWidth_percent="0.9" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

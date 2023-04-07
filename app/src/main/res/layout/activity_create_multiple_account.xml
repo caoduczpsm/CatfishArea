@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.example.catfisharea.activities.admin.CreateMultipleAccountActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarMultipleAccount"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:elevation="10dp"
+        android:translationZ="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back_activity"
+        app:tint="@color/black"
+        app:title="Tạo nhiều tài khoản"
+        app:titleTextColor="@color/black" />
+
+    <View
+        android:id="@+id/toolbar_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/toolbar_dropshadow"
+        android:elevation="10dp"
+        android:translationZ="5dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbarMultipleAccount" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/inputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@drawable/background_border"
+        android:padding="@dimen/_5sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_shadow">
+
+        <EditText
+            android:id="@+id/edtAmountAdmin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/background_edit_text"
+            android:drawableStart="@drawable/ic_admin"
+            android:drawablePadding="@dimen/_5sdp"
+            android:drawableTint="@color/colorPrimary"
+            android:hint="Số admin"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:padding="@dimen/_5sdp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText,TextFields,UnusedAttribute,TextContrastCheck" />
+
+        <EditText
+            android:id="@+id/edtAmountAccountant"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/background_edit_text"
+            android:drawableStart="@drawable/ic_accountant"
+            android:drawablePadding="@dimen/_5sdp"
+            android:drawableTint="@color/colorPrimary"
+            android:hint="Số kế toán"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:padding="@dimen/_5sdp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtAmountAdmin"
+            tools:ignore="HardcodedText,TextFields,UnusedAttribute,TextContrastCheck" />
+
+        <EditText
+            android:id="@+id/edtAmountRegionalChief"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/background_edit_text"
+            android:drawableStart="@drawable/ic_area_home"
+            android:drawablePadding="@dimen/_5sdp"
+            android:drawableTint="@color/colorPrimary"
+            android:hint="Số trưởng vùng"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:padding="@dimen/_5sdp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtAmountAccountant"
+            tools:ignore="HardcodedText,TextFields,UnusedAttribute,TextContrastCheck" />
+
+        <EditText
+            android:id="@+id/edtAmountDirectory"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/background_edit_text"
+            android:drawableStart="@drawable/ic_campus"
+            android:drawablePadding="@dimen/_5sdp"
+            android:drawableTint="@color/colorPrimary"
+            android:hint="Số trưởng khu"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:padding="@dimen/_5sdp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtAmountRegionalChief"
+            tools:ignore="HardcodedText,TextFields,UnusedAttribute,TextContrastCheck" />
+
+        <EditText
+            android:id="@+id/edtAmountWorker"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/background_edit_text"
+            android:drawableStart="@drawable/ic_pond"
+            android:drawablePadding="@dimen/_5sdp"
+            android:drawableTint="@color/colorPrimary"
+            android:hint="Số công nhân"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:padding="@dimen/_5sdp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtAmountDirectory"
+            tools:ignore="HardcodedText,TextFields,UnusedAttribute,TextContrastCheck" />
+
+        <EditText
+            android:id="@+id/edtPasswordDefault"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/background_edit_text"
+            android:drawableStart="@drawable/ic_lock"
+            android:drawablePadding="@dimen/_5sdp"
+            android:drawableTint="@color/colorPrimary"
+            android:hint="Mật khẩu mặc định"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:padding="@dimen/_5sdp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtAmountWorker"
+            tools:ignore="HardcodedText,TextFields,UnusedAttribute,TextContrastCheck" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/btnCreate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnCreate" />
+
+    <Button
+        android:id="@+id/btnCreate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/border_fun_background"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Tạo"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputLayout"
+        app:layout_constraintWidth_percent="0.7"
+        tools:ignore="HardcodedText,UnusedAttribute" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

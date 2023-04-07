@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityAdminHomeBinding;
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
@@ -78,13 +79,81 @@ public class AdminHomeActivity extends BaseActivity {
         });
 
         mBinding.layoutControlAdminHome.layoutAccount.setOnClickListener(view -> {
-
+            openDialogAccount();
         });
 
         mBinding.layoutControlAdminHome.layoutArea.setOnClickListener(view -> {
             openDialogArea();
         });
 
+        mBinding.layoutControlAdminHome.layoutWarehouse.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), WarehouseActivity.class));
+        });
+
+    }
+
+    private void openDialogAccount() {
+        final Dialog dialog = openDialog(R.layout.layout_dialog_options_account);
+        assert dialog != null;
+
+        ConstraintLayout layoutCreate = dialog.findViewById(R.id.layoutCreate);
+        ConstraintLayout layoutChange = dialog.findViewById(R.id.layoutChange);
+        ConstraintLayout layoutDelete = dialog.findViewById(R.id.layoutDelete);
+        Button btnClose = dialog.findViewById(R.id.btnClose);
+
+        layoutCreate.setOnClickListener(view -> {
+            selectOptionToCreateAccount();
+            dialog.dismiss();
+        });
+
+        layoutChange.setOnClickListener(view -> {
+            Intent intent = new Intent(this, PermissionEditActivity.class);
+            intent.putExtra("typeActivity", Constants.KEY_CAMPUS);
+            startActivity(intent);
+            dialog.dismiss();
+        });
+
+        layoutDelete.setOnClickListener(view -> {
+            Intent intent = new Intent(this, DeleteAccountActivity.class);
+            intent.putExtra("typeActivity", Constants.KEY_POND);
+            startActivity(intent);
+            dialog.dismiss();
+        });
+
+        btnClose.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
+
+    private void selectOptionToCreateAccount() {
+        final Dialog dialog = openDialog(R.layout.layout_dialog_select_option_create_account);
+        assert dialog != null;
+
+        //Button trong dialog
+        Button no_btn = dialog.findViewById(R.id.btnClose);
+
+        //ConstrainLayout trong dialog
+        ConstraintLayout layoutALotAccount = dialog.findViewById(R.id.layoutALotAccount);
+        ConstraintLayout layoutOneAccount = dialog.findViewById(R.id.layoutOneAccount);
+
+        layoutALotAccount.setOnClickListener(view -> {
+            dialog.dismiss();
+            Intent intent = new Intent(getApplicationContext(), CreateMultipleAccountActivity.class);
+            Animatoo.animateSlideLeft(AdminHomeActivity.this);
+            startActivity(intent);
+        });
+
+        layoutOneAccount.setOnClickListener(view -> {
+            dialog.dismiss();
+            Intent intent = new Intent(getApplicationContext(), CreateSimpleAccountActivity.class);
+            Animatoo.animateSlideLeft(AdminHomeActivity.this);
+            startActivity(intent);
+        });
+
+        no_btn.setOnClickListener(view -> dialog.dismiss());
+        dialog.show();
     }
 
     private void openDialogArea() {
@@ -183,8 +252,6 @@ public class AdminHomeActivity extends BaseActivity {
 
                     }
                 });
-
-
     }
 
 
