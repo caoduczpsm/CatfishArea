@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
@@ -66,10 +67,12 @@ public class AdminHomeActivity extends BaseActivity {
         mBinding.toolbarAdminHome.setTitle(preferenceManager.getString(Constants.KEY_NAME));
 
         mBinding.imageConference.setOnClickListener(view -> {
+            Log.d("Action chat", "call");
             startActivity(new Intent(getApplicationContext(), ConferenceActivity.class));
         });
 
         mBinding.imageChat.setOnClickListener(view -> {
+            Log.d("Action chat", "call");
             startActivity(new Intent(getApplicationContext(), ConversationActivity.class));
         });
 

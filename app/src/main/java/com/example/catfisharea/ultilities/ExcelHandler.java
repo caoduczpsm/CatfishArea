@@ -3,6 +3,8 @@ package com.example.catfisharea.ultilities;
 import android.net.Uri;
 import android.os.Environment;
 
+import com.example.catfisharea.listeners.ExcelListener;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -56,13 +58,13 @@ public class ExcelHandler {
     }
 
     //    Dọc sheet và sử lý dữ liệu trong ô bằng cách thêm logic vào hàm
-//    public void readDataFromSheet(Sheet sheet, ExcelListener excelListener) {
-//        for (Row row : sheet) {
-//            for (Cell cell : row) {
-//                excelListener.handlerCell(cell);
-//            }
-//        }
-//    }
+    public void readDataFromSheet(Sheet sheet, ExcelListener excelListener) {
+        for (Row row : sheet) {
+            for (Cell cell : row) {
+                excelListener.handlerCell(cell);
+            }
+        }
+    }
 //    Đọc sheet và trả về mảng dữ liệu theo dòng
     public List<List<String>> readDataSheet(Sheet sheet) {
         List<List<String>> resultData = new ArrayList<>();

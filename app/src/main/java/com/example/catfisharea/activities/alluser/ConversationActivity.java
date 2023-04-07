@@ -253,20 +253,4 @@ public class ConversationActivity extends BaseActivity implements ConversionList
     private void showToast(String message){
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-
-        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-
-        super.attachBaseContext(newBase);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Animatoo.animateSlideRight(this);
-    }
 }
