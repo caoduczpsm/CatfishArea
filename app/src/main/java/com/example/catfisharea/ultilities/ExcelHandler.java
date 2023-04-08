@@ -69,6 +69,8 @@ public class ExcelHandler {
     public List<List<String>> readDataSheet(Sheet sheet) {
         List<List<String>> resultData = new ArrayList<>();
         for (Row row : sheet) {
+            if (row.getRowNum() == 0)
+                continue;
             List<String> rowData = new ArrayList();
             for (Cell cell : row) {
                 rowData.add(cell.toString());
@@ -103,7 +105,7 @@ public class ExcelHandler {
         String[] filename1;
         String fn;
         String filepath = uri.getPath();
-        String filePath1[] = filepath.split(":");
+        String[] filePath1 = filepath.split(":");
         filename1 = filepath.split("/");
         fn = filename1[filename1.length - 1];
         return Environment.getExternalStorageDirectory().getPath() + "/" + filePath1[1];

@@ -1,5 +1,6 @@
 package com.example.catfisharea.activities.admin;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,19 +11,15 @@ import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityAdminHomeBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
-import com.example.catfisharea.activities.alluser.SettingGroupActivity;
 import com.example.catfisharea.activities.alluser.ViewPlanActivity;
 import com.example.catfisharea.adapter.HomeAdapter;
-
 import com.example.catfisharea.models.Area;
 import com.example.catfisharea.models.Campus;
 import com.example.catfisharea.models.ItemHome;
@@ -30,13 +27,10 @@ import com.example.catfisharea.models.RegionModel;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.Filter;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firestore.v1.StructuredQuery;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class AdminHomeActivity extends BaseActivity {
@@ -55,6 +49,7 @@ public class AdminHomeActivity extends BaseActivity {
         setListener();
     }
 
+    @SuppressLint("LogNotTimber")
     private void setListener() {
         database = FirebaseFirestore.getInstance();
         preferenceManager = new PreferenceManager(this);
@@ -81,17 +76,11 @@ public class AdminHomeActivity extends BaseActivity {
             startActivity(intent);
         });
 
-        mBinding.layoutControlAdminHome.layoutAccount.setOnClickListener(view -> {
-            openDialogAccount();
-        });
+        mBinding.layoutControlAdminHome.layoutAccount.setOnClickListener(view -> openDialogAccount());
 
-        mBinding.layoutControlAdminHome.layoutArea.setOnClickListener(view -> {
-            openDialogArea();
-        });
+        mBinding.layoutControlAdminHome.layoutArea.setOnClickListener(view -> openDialogArea());
 
-        mBinding.layoutControlAdminHome.layoutWarehouse.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), WarehouseActivity.class));
-        });
+        mBinding.layoutControlAdminHome.layoutWarehouse.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), WarehouseActivity.class)));
 
     }
 
@@ -123,9 +112,7 @@ public class AdminHomeActivity extends BaseActivity {
             dialog.dismiss();
         });
 
-        btnClose.setOnClickListener(view -> {
-            dialog.dismiss();
-        });
+        btnClose.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
     }
@@ -189,9 +176,7 @@ public class AdminHomeActivity extends BaseActivity {
             dialog.dismiss();
         });
 
-        btnClose.setOnClickListener(view -> {
-            dialog.dismiss();
-        });
+        btnClose.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
 
@@ -216,6 +201,7 @@ public class AdminHomeActivity extends BaseActivity {
         return dialog;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getDataHome() {
         database.collection(Constants.KEY_COLLECTION_AREA)
                 .whereEqualTo(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID))
@@ -238,24 +224,13 @@ public class AdminHomeActivity extends BaseActivity {
                                     itemHome.setReginonList(campuses);
                                     itemHomes.add(itemHome);
                                     homeAdapter.notifyDataSetChanged();
-                                    Collections.sort(itemHome.getReginonList(), new Comparator<RegionModel>() {
-                                        @Override
-                                        public int compare(RegionModel o1, RegionModel o2) {
-                                            return (o1.getName().compareToIgnoreCase(o2.getName()));
-                                        }
-                                    });
-                                    Collections.sort(itemHomes, new Comparator<ItemHome>() {
-                                        @Override
-                                        public int compare(ItemHome o1, ItemHome o2) {
-                                            return (o1.getRegionModel().getName().compareToIgnoreCase(o2.getRegionModel().getName()));
-                                        }
-                                    });
+                                    Collections.sort(itemHome.getReginonList(), (o1, o2) -> (o1.getName().compareToIgnoreCase(o2.getName())));
+                                    Collections.sort(itemHomes, (o1, o2) -> (o1.getRegionModel().getName().compareToIgnoreCase(o2.getRegionModel().getName())));
                                     homeAdapter.notifyDataSetChanged();
                                 });
 
                     }
                 });
     }
-
 
 }
