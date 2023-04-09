@@ -32,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void initActivity() {
         preferenceManager = new PreferenceManager(this);
         preferenceManager.putString(Constants.KEY_TYPE_REGIS, "personalRegis");
+        mBinding.radioPersonal.setChecked(true);
     }
 
     private void setListener() {

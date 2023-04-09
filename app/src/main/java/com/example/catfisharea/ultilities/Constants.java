@@ -76,6 +76,7 @@ public class Constants {
 
     // Các trưởng dữ liệu nhiệm vụ
     public static final String KEY_COLLECTION_TASK = "tasks";
+    public static final String KEY_COLLECTION_FIXED_TASK = "fixedTasks";
     public static final String KEY_CREATOR_ID = "creatorID";
     public static final String KEY_CREATOR_NAME = "creatorName";
     public static final String KEY_CREATOR_IMAGE = "creatorImage";
@@ -94,6 +95,9 @@ public class Constants {
     public static final String KEY_TASK_TITLE = "title";
     public static final String KEY_MY_DIRECTOR_TASK = "myTasks";
     public static final String KEY_DIRECTOR_ALLOCATION_TASK = "allocationTasks";
+    public static final String KEY_FIXED_TASK_FEED_FISH = "Cho cá ăn";
+    public static final String KEY_FIXED_TASK_MEASURE_WATER = "Đo chất lượng nước";
+    public static final String KEY_TYPE_OF_TASK = "typeOfTask";
 
     // Các trường dữ liệu bình luận nhiệm vụ
     public static final String KEY_COLLECTION_COMMENT_TASK = "commentTasks";

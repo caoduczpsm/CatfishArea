@@ -12,10 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +50,8 @@ public class AdditionTaskFragment extends Fragment implements MultipleListener {
     private TextView textSelectUser, textDayOfStart, textDayOfEnd;
     private ImageView imageSelectDirector;
     private EditText edtContent, edtTitle;
+    private RadioButton radioFixedTask, radioMomentarilyTask;
+    private Spinner spinnerTypeOfFixedTask;
 
     public AdditionTaskFragment() {
     }
@@ -79,6 +84,15 @@ public class AdditionTaskFragment extends Fragment implements MultipleListener {
         edtContent = view.findViewById(R.id.edtContent);
         edtTitle = view.findViewById(R.id.edtTitle);
 
+        //RadioButton
+        radioFixedTask = view.findViewById(R.id.radioFixedTask);
+        radioMomentarilyTask = view.findViewById(R.id.radioMomentarilyTask);
+
+        //Spinner
+        spinnerTypeOfFixedTask = view.findViewById(R.id.spinnerTypeOfTask);
+
+        radioFixedTask.setChecked(true);
+
         init();
         getUsers();
         setListener();
@@ -101,6 +115,15 @@ public class AdditionTaskFragment extends Fragment implements MultipleListener {
         //List
         users = new ArrayList<>();
         selectedDirector = new ArrayList<>();
+        List<String> typeOfFixedTask = new ArrayList<>();
+
+        typeOfFixedTask.add(Constants.KEY_FIXED_TASK_FEED_FISH);
+        typeOfFixedTask.add(Constants.KEY_FIXED_TASK_MEASURE_WATER);
+
+        //ArrayAdapter
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), R.layout.custom_layout_spinner, typeOfFixedTask);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTypeOfFixedTask.setAdapter(adapter);
 
         //Adapter
         usersAdapter = new MultipleUserSelectionAdapter(users, this);
@@ -145,73 +168,166 @@ public class AdditionTaskFragment extends Fragment implements MultipleListener {
 
         // Tạo nhiệm vụ mới
         btnCreate.setOnClickListener(view -> {
-            selectedDirector = usersAdapter.getSelectedUser();
-            if (isValidSignUpDetails()){
-                loading(true);
-
-                List<String> receiverIds = new ArrayList<>();
-                List<String> receiverNames = new ArrayList<>();
-                List<String> receiverImages = new ArrayList<>();
-                List<String> receiverPhones = new ArrayList<>();
-                List<String> receiverCompleted = new ArrayList<>();
-
-                // Duyệt qua các trưởng vùng mà người dùng chọn để lấy tên và id
-                for (User user : selectedDirector) {
-                    receiverIds.add(user.id);
-                    receiverNames.add(user.name);
-                    receiverImages.add(user.image);
-                    receiverPhones.add(user.phone);
-                }
-
-                // Tạo các trường dữ liệu cho bảng task
-                HashMap<String, Object> task = new HashMap<>();
-                task.put(Constants.KEY_CREATOR_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-                task.put(Constants.KEY_CREATOR_NAME, preferenceManager.getString(Constants.KEY_NAME));
-                task.put(Constants.KEY_CREATOR_PHONE, preferenceManager.getString(Constants.KEY_PHONE));
-                task.put(Constants.KEY_CREATOR_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
-                task.put(Constants.KEY_RECEIVER_ID, receiverIds);
-                task.put(Constants.KEY_RECEIVER_NAME, receiverNames);
-                task.put(Constants.KEY_RECEIVER_IMAGE, receiverImages);
-                task.put(Constants.KEY_RECEIVER_PHONE, receiverPhones);
-                task.put(Constants.KEY_AMOUNT_RECEIVERS, selectedDirector.size() + "");
-                task.put(Constants.KEY_AMOUNT_RECEIVERS_COMPLETED, "0");
-                task.put(Constants.KEY_RECEIVERS_ID_COMPLETED, receiverCompleted);
-                task.put(Constants.KEY_DAY_START_TASK, textDayOfStart.getText().toString());
-                task.put(Constants.KEY_DAY_END_TASK, textDayOfEnd.getText().toString());
-                task.put(Constants.KEY_TASK_CONTENT, edtContent.getText().toString());
-                task.put(Constants.KEY_TASK_TITLE, edtTitle.getText().toString());
-                task.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
-
-                // Tạo nhiệm vụ lên cơ sở dữ liệu
-                database.collection(Constants.KEY_COLLECTION_TASK)
-                        .add(task)
-                        .addOnCompleteListener(task1 -> {
-
-                            loading(false);
-
-                            // Cập nhật lại tình trạng ban đầu cho các ô dữ liệu
-                            textDayOfStart.setText("Chọn ngày bắt đầu");
-                            textDayOfEnd.setText("Chọn ngày kết thúc");
-                            edtContent.setText("");
-                            edtTitle.setText("");
-                            usersAdapter.setUserUnSelected(users);
-
-                            // Hiển hoặc ẩn danh sách trưởng khu
-                            if (directorRecyclerView.getVisibility() == View.VISIBLE){
-                                directorRecyclerView.setVisibility(View.GONE);
-                                imageSelectDirector.setImageResource(R.drawable.ic_up);
-                            } else {
-                                directorRecyclerView.setVisibility(View.VISIBLE);
-                                imageSelectDirector.setImageResource(R.drawable.ic_down);
-                            }
-
-
-                        }).addOnFailureListener(e -> showToast(e.getMessage()));
-
-            }
+            if (radioMomentarilyTask.isChecked())
+                createMomentarilyTask();
+            if (radioFixedTask.isChecked())
+                createFixedTask();
         });
 
+        radioFixedTask.setOnClickListener(view -> setVisibilityTextOfDay(false));
+
+        radioMomentarilyTask.setOnClickListener(view -> setVisibilityTextOfDay(true));
+
         btnDone.setOnClickListener(view -> replaceFragments(new OverviewTaskFragment()));
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void createFixedTask(){
+        selectedDirector.clear();
+        selectedDirector = usersAdapter.getSelectedUser();
+        if (isValidSignUpDetailsForFixedTask()){
+            loading(true);
+
+            List<String> receiverIds = new ArrayList<>();
+            List<String> receiverNames = new ArrayList<>();
+            List<String> receiverImages = new ArrayList<>();
+            List<String> receiverPhones = new ArrayList<>();
+            List<String> receiverCompleted = new ArrayList<>();
+
+            // Duyệt qua các trưởng vùng mà người dùng chọn để lấy tên và id
+            for (User user : selectedDirector) {
+                receiverIds.add(user.id);
+                receiverNames.add(user.name);
+                receiverImages.add(user.image);
+                receiverPhones.add(user.phone);
+            }
+
+            // Tạo các trường dữ liệu cho bảng task
+            HashMap<String, Object> task = new HashMap<>();
+            task.put(Constants.KEY_CREATOR_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+            task.put(Constants.KEY_CREATOR_NAME, preferenceManager.getString(Constants.KEY_NAME));
+            task.put(Constants.KEY_CREATOR_PHONE, preferenceManager.getString(Constants.KEY_PHONE));
+            task.put(Constants.KEY_CREATOR_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
+            task.put(Constants.KEY_RECEIVER_ID, receiverIds);
+            task.put(Constants.KEY_RECEIVER_NAME, receiverNames);
+            task.put(Constants.KEY_RECEIVER_IMAGE, receiverImages);
+            task.put(Constants.KEY_RECEIVER_PHONE, receiverPhones);
+            task.put(Constants.KEY_AMOUNT_RECEIVERS, selectedDirector.size() + "");
+            task.put(Constants.KEY_AMOUNT_RECEIVERS_COMPLETED, "0");
+            task.put(Constants.KEY_RECEIVERS_ID_COMPLETED, receiverCompleted);
+            task.put(Constants.KEY_TASK_CONTENT, edtContent.getText().toString());
+            task.put(Constants.KEY_TASK_TITLE, spinnerTypeOfFixedTask.getSelectedItem().toString());
+            task.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
+
+            // Tạo nhiệm vụ lên cơ sở dữ liệu
+            database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                    .add(task)
+                    .addOnCompleteListener(task1 -> {
+
+                        loading(false);
+
+                        // Cập nhật lại tình trạng ban đầu cho các ô dữ liệu
+                        edtContent.setText("");
+                        edtTitle.setText("");
+                        usersAdapter.setUserUnSelected(users);
+
+                        // Hiển hoặc ẩn danh sách trưởng khu
+                        if (directorRecyclerView.getVisibility() == View.VISIBLE){
+                            directorRecyclerView.setVisibility(View.GONE);
+                            imageSelectDirector.setImageResource(R.drawable.ic_up);
+                        } else {
+                            directorRecyclerView.setVisibility(View.VISIBLE);
+                            imageSelectDirector.setImageResource(R.drawable.ic_down);
+                        }
+
+
+                    }).addOnFailureListener(e -> showToast(e.getMessage()));
+
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void createMomentarilyTask(){
+        selectedDirector.clear();
+        selectedDirector = usersAdapter.getSelectedUser();
+        if (isValidSignUpDetailsForMomentarilyTask()){
+            loading(true);
+
+            List<String> receiverIds = new ArrayList<>();
+            List<String> receiverNames = new ArrayList<>();
+            List<String> receiverImages = new ArrayList<>();
+            List<String> receiverPhones = new ArrayList<>();
+            List<String> receiverCompleted = new ArrayList<>();
+
+            // Duyệt qua các trưởng vùng mà người dùng chọn để lấy tên và id
+            for (User user : selectedDirector) {
+                receiverIds.add(user.id);
+                receiverNames.add(user.name);
+                receiverImages.add(user.image);
+                receiverPhones.add(user.phone);
+            }
+
+            // Tạo các trường dữ liệu cho bảng task
+            HashMap<String, Object> task = new HashMap<>();
+            task.put(Constants.KEY_CREATOR_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+            task.put(Constants.KEY_CREATOR_NAME, preferenceManager.getString(Constants.KEY_NAME));
+            task.put(Constants.KEY_CREATOR_PHONE, preferenceManager.getString(Constants.KEY_PHONE));
+            task.put(Constants.KEY_CREATOR_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
+            task.put(Constants.KEY_RECEIVER_ID, receiverIds);
+            task.put(Constants.KEY_RECEIVER_NAME, receiverNames);
+            task.put(Constants.KEY_RECEIVER_IMAGE, receiverImages);
+            task.put(Constants.KEY_RECEIVER_PHONE, receiverPhones);
+            task.put(Constants.KEY_AMOUNT_RECEIVERS, selectedDirector.size() + "");
+            task.put(Constants.KEY_AMOUNT_RECEIVERS_COMPLETED, "0");
+            task.put(Constants.KEY_RECEIVERS_ID_COMPLETED, receiverCompleted);
+            task.put(Constants.KEY_DAY_START_TASK, textDayOfStart.getText().toString());
+            task.put(Constants.KEY_DAY_END_TASK, textDayOfEnd.getText().toString());
+            task.put(Constants.KEY_TASK_CONTENT, edtContent.getText().toString());
+            task.put(Constants.KEY_TASK_TITLE, edtTitle.getText().toString());
+            task.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
+
+            // Tạo nhiệm vụ lên cơ sở dữ liệu
+            database.collection(Constants.KEY_COLLECTION_TASK)
+                    .add(task)
+                    .addOnCompleteListener(task1 -> {
+
+                        loading(false);
+
+                        // Cập nhật lại tình trạng ban đầu cho các ô dữ liệu
+                        textDayOfStart.setText("Chọn ngày bắt đầu");
+                        textDayOfEnd.setText("Chọn ngày kết thúc");
+                        edtContent.setText("");
+                        edtTitle.setText("");
+                        usersAdapter.setUserUnSelected(users);
+
+                        // Hiển hoặc ẩn danh sách trưởng khu
+                        if (directorRecyclerView.getVisibility() == View.VISIBLE){
+                            directorRecyclerView.setVisibility(View.GONE);
+                            imageSelectDirector.setImageResource(R.drawable.ic_up);
+                        } else {
+                            directorRecyclerView.setVisibility(View.VISIBLE);
+                            imageSelectDirector.setImageResource(R.drawable.ic_down);
+                        }
+
+
+                    }).addOnFailureListener(e -> showToast(e.getMessage()));
+
+        }
+
+    }
+
+    private void setVisibilityTextOfDay(boolean isVisible){
+        if (isVisible){
+            textDayOfEnd.setVisibility(View.VISIBLE);
+            textDayOfStart.setVisibility(View.VISIBLE);
+            edtTitle.setVisibility(View.VISIBLE);
+            spinnerTypeOfFixedTask.setVisibility(View.GONE);
+        } else {
+            textDayOfEnd.setVisibility(View.GONE);
+            textDayOfStart.setVisibility(View.GONE);
+            edtTitle.setVisibility(View.GONE);
+            spinnerTypeOfFixedTask.setVisibility(View.VISIBLE);
+        }
     }
 
     // Hàm lấy các user từ database về và hiển thị ra recyclerview
@@ -310,7 +426,7 @@ public class AdditionTaskFragment extends Fragment implements MultipleListener {
     }
 
     // Hàm kiểm tra người dùng đã nhập đủ dữ liệu chưa
-    private Boolean isValidSignUpDetails(){
+    private Boolean isValidSignUpDetailsForMomentarilyTask(){
         if(selectedDirector.size() == 0){
             showToast("Chọn ít nhất một trưởng vùng!");
             return false;
@@ -319,6 +435,22 @@ public class AdditionTaskFragment extends Fragment implements MultipleListener {
             return false;
         } else if(textDayOfEnd.getText().toString().trim().isEmpty()){
             showToast("Bạn chưa chọn ngày kết thúc");
+            return false;
+        } else if(edtContent.getText().toString().trim().isEmpty()){
+            showToast("Bạn chưa nhập nội dung công việc!");
+            return false;
+        } else if(edtTitle.getText().toString().trim().isEmpty()){
+            showToast("Bạn chưa nhập tiêu đề công việc!");
+            return false;
+        } else{
+            return true;
+        }
+    }
+
+    // Hàm kiểm tra người dùng đã nhập đủ dữ liệu chưa
+    private Boolean isValidSignUpDetailsForFixedTask(){
+        if(selectedDirector.size() == 0){
+            showToast("Chọn ít nhất một trưởng vùng!");
             return false;
         } else if(edtContent.getText().toString().trim().isEmpty()){
             showToast("Bạn chưa nhập nội dung công việc!");

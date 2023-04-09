@@ -5,12 +5,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.FragmentCompletedTaskBinding;
 import com.example.catfisharea.adapter.TaskAdapter;
 import com.example.catfisharea.bottomsheet.CommentBottomSheetFragment;
@@ -24,12 +21,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CompletedTaskFragment extends Fragment implements MultipleListener {
 
     private FragmentCompletedTaskBinding mBinding;
     private FirebaseFirestore database;
-    PreferenceManager preferenceManager;
+    private PreferenceManager preferenceManager;
     private TaskAdapter taskAdapter;
     private List<Task> tasks;
     int daySelected, monthSelected, yearSelected;
@@ -184,7 +182,7 @@ public class CompletedTaskFragment extends Fragment implements MultipleListener 
                         if (day.contains(daySelected) && (yearSelected == Integer.parseInt(yearStart) || yearSelected == Integer.parseInt(yearEnd))
                                 && (monthSelected == Integer.parseInt(monthStart) || monthSelected == Integer.parseInt(monthEnd))){
 
-                            if (queryDocumentSnapshot.getString(Constants.KEY_STATUS_TASK).equals(Constants.KEY_COMPLETED)){
+                            if (Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_STATUS_TASK), Constants.KEY_COMPLETED)){
                                 Task task1 = new Task();
                                 task1.id = queryDocumentSnapshot.getId();
                                 task1.title = queryDocumentSnapshot.getString(Constants.KEY_TASK_TITLE);
@@ -520,7 +518,7 @@ public class CompletedTaskFragment extends Fragment implements MultipleListener 
     @Override
     public void onTaskClicker(Task task) {
         CommentBottomSheetFragment bottomSheetDialog = CommentBottomSheetFragment.newInstance(task);
-        bottomSheetDialog.show(getActivity().getSupportFragmentManager(), bottomSheetDialog.getTag());
+        bottomSheetDialog.show(requireActivity().getSupportFragmentManager(), bottomSheetDialog.getTag());
     }
 
     @Override

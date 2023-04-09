@@ -131,6 +131,22 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
             setDrawableTint(Color.parseColor("#51b155"));
         }
 
+        if (taskComment.typeOfTask == null){
+            mBinding.textCompletedTask.setVisibility(View.VISIBLE);
+            mBinding.textUnCompletedTask.setVisibility(View.VISIBLE);
+            mBinding.textAssignmentFixedTask.setVisibility(View.GONE);
+            mBinding.textDate.setVisibility(View.VISIBLE);
+            mBinding.textLeave.setVisibility(View.VISIBLE);
+            mBinding.imageLeave.setVisibility(View.VISIBLE);
+        } else {
+            mBinding.textCompletedTask.setVisibility(View.GONE);
+            mBinding.textUnCompletedTask.setVisibility(View.GONE);
+            mBinding.textAssignmentFixedTask.setVisibility(View.VISIBLE);
+            mBinding.textDate.setVisibility(View.GONE);
+            mBinding.textLeave.setVisibility(View.GONE);
+            mBinding.imageLeave.setVisibility(View.GONE);
+        }
+
         if (comments.size() == 0) {
             mBinding.notComment.setVisibility(View.VISIBLE);
         }
@@ -156,9 +172,11 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
 
         mBinding.layoutSend.setOnClickListener(v -> sendComment());
 
-        mBinding.textCompletedTask.setOnClickListener(view -> openShowUserCompletedDialog());
+        mBinding.textCompletedTask.setOnClickListener(view -> showUserCompletedDialog());
 
-        mBinding.textUnCompletedTask.setOnClickListener(view -> openShowUserUnCompletedDialog());
+        mBinding.textUnCompletedTask.setOnClickListener(view -> showUserUnCompletedDialog());
+
+        mBinding.textAssignmentFixedTask.setOnClickListener(view -> showUserAssignFixedTask());
     }
 
     private void readComments() {
@@ -237,7 +255,7 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
         mBinding.inputeMessage.setText(null);
     }
 
-    private void openShowUserUnCompletedDialog() {
+    private void showUserUnCompletedDialog() {
         Dialog dialog = openDialog(R.layout.layout_dialog_show_user_uncompleted);
         assert dialog != null;
 
@@ -253,7 +271,19 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
         dialog.show();
     }
 
-    private void openShowUserCompletedDialog() {
+    private void showUserAssignFixedTask() {
+        Dialog dialog = openDialog(R.layout.layout_dialog_show_user_assign_fixed_task);
+        assert dialog != null;
+
+        Button btnClose = dialog.findViewById(R.id.btnClose);
+        RecyclerView assignedUserRecyclerView = dialog.findViewById(R.id.userRecyclerView);
+        assignedUserRecyclerView.setAdapter(usersAdapter);
+        getAssignmentUserForFixedTask();
+        btnClose.setOnClickListener(view -> dialog.dismiss());
+        dialog.show();
+    }
+
+    private void showUserCompletedDialog() {
         Dialog dialog = openDialog(R.layout.layout_dialog_show_user_completed);
         assert dialog != null;
 
@@ -344,6 +374,38 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
                                     } else textMessage.setVisibility(View.GONE);
                                 });
 
+                    }
+
+                });
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void getAssignmentUserForFixedTask() {
+        users.clear();
+        database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                .document(taskComment.id)
+                .get()
+                .addOnCompleteListener(task -> {
+
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    List<String> receiverID = (List<String>) documentSnapshot.get(Constants.KEY_RECEIVER_ID);
+                    assert receiverID != null;
+                    for (String id : receiverID) {
+                        database.collection(Constants.KEY_COLLECTION_USER)
+                                .document(id)
+                                .get()
+                                .addOnCompleteListener(task1 -> {
+                                    DocumentSnapshot documentSnapshot1 = task1.getResult();
+                                    User user = new User();
+                                    user.name = documentSnapshot1.getString(Constants.KEY_NAME);
+                                    user.phone = documentSnapshot1.getString(Constants.KEY_PHONE);
+                                    user.position = documentSnapshot1.getString(Constants.KEY_TYPE_ACCOUNT);
+                                    user.image = documentSnapshot1.getString(Constants.KEY_IMAGE);
+                                    user.token = documentSnapshot1.getString(Constants.KEY_FCM_TOKEN);
+                                    user.id = documentSnapshot1.getId();
+                                    users.add(user);
+                                    usersAdapter.notifyDataSetChanged();
+                                });
                     }
 
                 });

@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/_13sdp"
+                    android:layout_marginStart="@dimen/_13sdp"
                     android:layout_toEndOf="@id/imageBack"
                     android:ellipsize="end"
                     android:gravity="center"
@@ -103,6 +103,7 @@
                     android:layout_height="@dimen/_35sdp"
                     app:cardBackgroundColor="#34aa44"
                     app:cardCornerRadius="1000dp"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -125,6 +126,7 @@
                     android:textColor="@color/textGray"
                     android:textSize="@dimen/_13ssp"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/imageLeave"
                     app:layout_constraintStart_toEndOf="@id/imageLeave"
                     app:layout_constraintTop_toTopOf="@id/imageLeave"
@@ -140,6 +142,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_13ssp"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/textLeave"
                     app:layout_constraintStart_toEndOf="@id/textLeave"
                     app:layout_constraintTop_toTopOf="@id/textLeave"
@@ -195,6 +198,25 @@
                     app:layout_constraintTop_toBottomOf="@+id/textUnCompletedTask"
                     tools:ignore="HardcodedText,TextContrastCheck" />
 
+                <TextView
+                    android:id="@+id/textAssignmentFixedTask"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/background_edit_text"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:text="Danh sách công nhân nhận nhiệm vụ."
+                    android:textColor="#4CAF50"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/ic_list_completed"
+                    app:drawableTint="#4CAF50"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textUnCompletedTask"
+                    tools:ignore="HardcodedText,TextContrastCheck" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -219,6 +241,7 @@
                 android:orientation="vertical"
                 android:overScrollMode="never"
                 android:paddingBottom="@dimen/_25sdp"
+                android:background="@color/backgroundPrimary"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:stackFromEnd="true">
 
@@ -245,6 +268,7 @@
                 android:layout_marginBottom="@dimen/_6sdp"
                 android:background="@drawable/background_chat_input"
                 android:paddingStart="@dimen/_10sdp"
+                android:backgroundTint="#9AE8E3E3"
                 tools:ignore="RtlSymmetry">
 
                 <EditText
@@ -261,6 +285,7 @@
                     android:paddingEnd="@dimen/_5sdp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"
+                    android:backgroundTint="#4FE8E3E3"
                     tools:ignore="HardcodedText,LabelFor,TextContrastCheck" />
 
                 <ImageView

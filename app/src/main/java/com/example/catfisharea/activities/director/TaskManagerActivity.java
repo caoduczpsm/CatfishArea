@@ -1,13 +1,10 @@
 package com.example.catfisharea.activities.director;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +15,7 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.ViewPagerAdapter;
 import com.example.catfisharea.fragments.director.CompletedTaskFragment;
+import com.example.catfisharea.fragments.director.FixedTaskFragment;
 import com.example.catfisharea.fragments.director.OverviewTaskFragment;
 import com.example.catfisharea.fragments.director.UnfinishedTaskFragment;
 import com.example.catfisharea.ultilities.Constants;
@@ -41,6 +39,7 @@ public class TaskManagerActivity extends BaseActivity implements DatePickerListe
     private CompletedTaskFragment completedTaskFragment;
     private UnfinishedTaskFragment unfinishedTaskFragment;
     private OverviewTaskFragment overviewTaskFragment;
+    private FixedTaskFragment fixedTaskFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +48,13 @@ public class TaskManagerActivity extends BaseActivity implements DatePickerListe
         setContentView(mBinding.getRoot());
         init();
         Animatoo.animateSlideLeft(TaskManagerActivity.this);
-        adapter.addFragment(overviewTaskFragment, "Tổng Quan");
-        adapter.addFragment(completedTaskFragment, "Hoàn Thành");
+        adapter.addFragment(overviewTaskFragment, "Tổng Quan Nhiệm Vụ");
+        adapter.addFragment(completedTaskFragment, "Đã Hoàn Thành");
         adapter.addFragment(unfinishedTaskFragment, "Chưa Hoàn Thành");
-
+        if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR) ||
+            preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_WORKER)){
+            adapter.addFragment(fixedTaskFragment, "Nhiệm Vụ Cố định");
+        }
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -76,6 +78,7 @@ public class TaskManagerActivity extends BaseActivity implements DatePickerListe
         completedTaskFragment = new CompletedTaskFragment();
         unfinishedTaskFragment = new UnfinishedTaskFragment();
         overviewTaskFragment = new OverviewTaskFragment();
+        fixedTaskFragment = new FixedTaskFragment();
 
         if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR))
             mBinding.layoutRadioButton.setVisibility(View.VISIBLE);

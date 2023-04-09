@@ -138,7 +138,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MultipleTaskSe
         void bindTaskSelection(final Task task){
             mBinding.nameTask.setText(task.title);
             mBinding.noteTask.setText(task.taskContent);
-            mBinding.dateTask.setText(task.dayOfStart +" - " + task.dayOfEnd);
+            if (task.typeOfTask == null){
+                mBinding.imageLeave.setVisibility(View.VISIBLE);
+                mBinding.dateTask.setText(task.dayOfStart +" - " + task.dayOfEnd);
+            }
             if (task.status.equals("uncompleted") && !task.receiversCompleted.contains(preferenceManager.getString(Constants.KEY_USER_ID))) {
                 mBinding.textStatus.setText("Chưa hoàn thành");
                 mBinding.textStatus.setTextColor(Color.parseColor("#ed444f"));
@@ -215,21 +218,31 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MultipleTaskSe
                 }
             }
 
-            mBinding.layoutUserSelection.setOnLongClickListener(view -> {
-                if (task.isSelected){
-                    mBinding.viewBackground.setBackgroundResource(R.drawable.user_selection_background);
-                    mBinding.imageSelected.setVisibility(View.GONE);
-                    task.isSelected = false;
-                    if (getSelectedTask().size() == 0){
-                        multipleListener.onMultipleUserSelection(false);
-                    }
-                } else{
+            if (task.typeOfTask != null){
+                if (task.status.equals(Constants.KEY_UNCOMPLETED)){
+                    mBinding.viewBackground.setBackgroundResource(R.drawable.background_task_uncompleted);
+                } else {
                     mBinding.viewBackground.setBackgroundResource(R.drawable.background_user_selected);
-                    mBinding.imageSelected.setVisibility(View.VISIBLE);
-                    task.isSelected = true;
-                    multipleListener.onMultipleUserSelection(true);
                 }
-                isMultipleSelection = true;
+            }
+
+            mBinding.layoutUserSelection.setOnLongClickListener(view -> {
+                if (task.typeOfTask == null) {
+                    if (task.isSelected){
+                        mBinding.viewBackground.setBackgroundResource(R.drawable.user_selection_background);
+                        mBinding.imageSelected.setVisibility(View.GONE);
+                        task.isSelected = false;
+                        if (getSelectedTask().size() == 0){
+                            multipleListener.onMultipleUserSelection(false);
+                        }
+                    } else{
+                        mBinding.viewBackground.setBackgroundResource(R.drawable.background_user_selected);
+                        mBinding.imageSelected.setVisibility(View.VISIBLE);
+                        task.isSelected = true;
+                        multipleListener.onMultipleUserSelection(true);
+                    }
+                    isMultipleSelection = true;
+                }
                 return true;
             });
 

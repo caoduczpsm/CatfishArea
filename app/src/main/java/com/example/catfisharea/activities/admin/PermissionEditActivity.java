@@ -1,12 +1,9 @@
 package com.example.catfisharea.activities.admin;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -360,8 +357,6 @@ public class PermissionEditActivity extends BaseActivity implements MultipleList
                         });
                 // Hàm giúp bỏ chọn các user đang được người dùng chọn sau khi bấm thay đổi quyền
                 usersAdapter.setUserUnSelected(users);
-//                cbAllAccount.setChecked(false);
-//                cbAllAccount.setText("Tất Cả");
 
             }
 
