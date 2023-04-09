@@ -59,12 +59,10 @@ public class DirectorHomeActivity extends BaseActivity {
         mBinding.toolbaDirectorHome.setTitle(preferenceManager.getString(Constants.KEY_NAME));
 
         mBinding.imageConference.setOnClickListener(view -> {
-            Log.d("Action chat", "call");
             startActivity(new Intent(getApplicationContext(), ConferenceActivity.class));
         });
 
         mBinding.imageChat.setOnClickListener(view -> {
-            Log.d("Action chat", "call");
             startActivity(new Intent(getApplicationContext(), ConversationActivity.class));
         });
 
@@ -87,6 +85,11 @@ public class DirectorHomeActivity extends BaseActivity {
 
         mBinding.layoutControlDirectorHome.layoutTask.setOnClickListener(view -> {
             startActivity(new Intent(getApplicationContext(), TaskManagerActivity.class));
+        });
+
+        mBinding.layoutControlDirectorHome.layoutRequest.setOnClickListener(view ->{
+            Intent intent = new Intent(this, RequestManagementActivity.class);
+            startActivity(intent);
         });
 
     }

@@ -32,6 +32,15 @@
         android:theme="@style/Theme.CatfishArea"
         tools:targetApi="31">
         <activity
+            android:name="com.example.catfisharea.activities.director.RequestImportActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.catfisharea.activities.director.RequestLeaveActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.catfisharea.activities.director.RequestManagementActivity"
+            android:exported="false" />
+        <activity
             android:name="com.example.catfisharea.activities.director.TaskManagerActivity"
             android:exported="false" />
         <activity

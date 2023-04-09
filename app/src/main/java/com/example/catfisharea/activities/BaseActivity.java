@@ -32,6 +32,11 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         documentReference.update(Constants.KEY_AVAILABILITY, 0);

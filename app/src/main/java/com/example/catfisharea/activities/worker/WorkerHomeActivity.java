@@ -1,19 +1,100 @@
 package com.example.catfisharea.activities.worker;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.android.app.catfisharea.databinding.ActivityWorkerHomeBinding;
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
+import com.example.catfisharea.activities.alluser.ConferenceActivity;
+import com.example.catfisharea.activities.alluser.ConversationActivity;
+import com.example.catfisharea.activities.alluser.LoginActivity;
+import com.example.catfisharea.activities.director.DirectorHomeActivity;
+import com.example.catfisharea.activities.director.RequestManagementActivity;
+import com.example.catfisharea.activities.director.TaskManagerActivity;
+import com.example.catfisharea.ultilities.Constants;
+import com.example.catfisharea.ultilities.PreferenceManager;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 
 public class WorkerHomeActivity extends BaseActivity {
 
     private ActivityWorkerHomeBinding mBinding;
+    private PreferenceManager preferenceManager;
+    private FirebaseFirestore database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = ActivityWorkerHomeBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+        preferenceManager = new PreferenceManager(this);
+        database = FirebaseFirestore.getInstance();
+
+        setListener();
+    }
+
+    private void setListener() {
+        mBinding.toolbarWorkerHome.setNavigationOnClickListener(view -> {
+            onBackPressed();
+        });
+
+        mBinding.layoutControlWorkerHome.layoutTask.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), TaskManagerActivity.class));
+        });
+
+        mBinding.layoutControlWorkerHome.layoutRequest.setOnClickListener(view -> {
+            Intent intent = new Intent(this, RequestManagementActivity.class);
+            startActivity(intent);
+        });
+
+        mBinding.toolbarWorkerHome.setTitle(preferenceManager.getString(Constants.KEY_NAME));
+
+        mBinding.imageConference.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), ConferenceActivity.class));
+        });
+
+        mBinding.imageChat.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), ConversationActivity.class));
+        });
+
+        mBinding.imageLogout.setOnClickListener(view -> {
+            logOut();
+        });
+    }
+
+    // Hàm đăng xuất
+    public void logOut() {
+
+        showToast("Đang đăng xuất...");
+
+        DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USER).document(
+                preferenceManager.getString(Constants.KEY_USER_ID)
+        );
+
+        // Xóa bộ nhớ tạm
+        preferenceManager.clear();
+
+        // Xóa FCM TOKEN
+        HashMap<String, Object> updates = new HashMap<>();
+        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
+        documentReference.update(updates)
+                .addOnSuccessListener(unused -> {
+                    // Xóa bộ nhớ tạm
+                    preferenceManager.clear();
+                    // Chuyển sang màn hình đăng nhập
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    finish();
+                })
+                .addOnFailureListener(e -> showToast("Không thể đăng xuất..."));
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

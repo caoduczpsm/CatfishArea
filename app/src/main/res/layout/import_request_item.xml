@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="@dimen/_5sdp">
+
+    <TextView
+        android:id="@+id/nameItem"
+        android:layout_width="0dp"
+        android:background="@drawable/cell"
+        android:layout_height="@dimen/_35sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_15ssp"
+        android:paddingLeft="@dimen/_10sdp"
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toStartOf="@id/amountItem"/>
+    <TextView
+        android:background="@drawable/cell"
+        android:gravity="center_vertical"
+        android:id="@+id/amountItem"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_35sdp"
+        android:text="0"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_15ssp"
+        android:paddingLeft="@dimen/_10sdp"
+        app:layout_constraintTop_toTopOf="@id/nameItem"
+        app:layout_constraintStart_toEndOf="@id/nameItem"
+        app:layout_constraintEnd_toEndOf="@id/removeItem"/>
+    <ImageView
+        android:id="@+id/removeItem"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_35sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/nameItem"
+        android:src="@drawable/baseline_delete_forever_24"
+        android:padding="@dimen/_5sdp"/>
+    <EditText
+        android:background="@drawable/cell"
+        android:visibility="gone"
+        android:id="@+id/nameChildItem"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:paddingStart="@dimen/_30sdp"
+        android:hint="Nhập tên"
+        app:layout_constraintTop_toBottomOf="@id/nameItem"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
