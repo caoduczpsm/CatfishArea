@@ -1,28 +1,26 @@
 package com.example.catfisharea.activities.alluser;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
-
 import com.android.app.catfisharea.databinding.ActivityLoginBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.admin.AdminHomeActivity;
 import com.example.catfisharea.activities.personal.PersonalUserHomeActivity;
-
 import com.example.catfisharea.ultilities.Constants;
+import com.example.catfisharea.ultilities.EncryptHandler;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     private ActivityLoginBinding mBinding;
     private PreferenceManager preferenceManager;
     private FirebaseFirestore database;
@@ -40,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
     private void initActivity() {
         //PreferenceManager
         preferenceManager = new PreferenceManager(getApplicationContext());
+
+        preferenceManager.putString(Constants.KEY_USER_ID, "");
 
         //FireStore
         database = FirebaseFirestore.getInstance();
@@ -59,13 +59,13 @@ public class LoginActivity extends AppCompatActivity {
 //                intent = new Intent(getApplicationContext(), WorkerHomepageActivity.class);
 //            }
             //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-
             startActivity(intent);
             finish();
         }
     }
 
     private void setListener() {
+
         mBinding.btnLogin.setOnClickListener(view -> logIn());
 
         mBinding.textRegis.setOnClickListener(view -> {
@@ -77,10 +77,17 @@ public class LoginActivity extends AppCompatActivity {
     private void logIn(){
         // Giả lập trạng thái loading và ẩn nút đăng nhập
         loading(true);
-
+        String password = null;
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                password = EncryptHandler.encryptPassword(Objects.requireNonNull(mBinding.edtPasswordLogin.getText()).toString());
+            }
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+            e.printStackTrace();
+        }
         database.collection(Constants.KEY_COLLECTION_USER)
-                .whereEqualTo(Constants.KEY_PHONE, mBinding.edtPhoneLogin.getText().toString())
-                .whereEqualTo(Constants.KEY_PASSWORD, mBinding.edtPasswordLogin.getText().toString())
+                .whereEqualTo(Constants.KEY_PHONE, Objects.requireNonNull(mBinding.edtPhoneLogin.getText()).toString())
+                .whereEqualTo(Constants.KEY_PASSWORD, password)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0){

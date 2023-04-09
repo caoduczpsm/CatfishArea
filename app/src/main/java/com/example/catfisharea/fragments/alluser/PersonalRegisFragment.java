@@ -12,6 +12,7 @@ import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -32,12 +33,15 @@ import com.example.catfisharea.activities.personal.PersonalUserHomeActivity;
 import com.example.catfisharea.activities.worker.WorkerHomeActivity;
 
 import com.example.catfisharea.ultilities.Constants;
+import com.example.catfisharea.ultilities.EncryptHandler;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
@@ -55,8 +59,9 @@ public class PersonalRegisFragment extends Fragment {
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = FragmentPersonalRegisBinding.inflate(inflater, container, false);
@@ -107,10 +112,10 @@ public class PersonalRegisFragment extends Fragment {
 
         mBinding.btnRegis.setOnClickListener(view -> {
             if (preferenceManager.getString(Constants.KEY_CHECK_AVAILABLE_DATA).equals(Constants.KEY_CHECK_AVAILABLE_DATA)) {
-                String address = mBinding.edtAddress.getText().toString();
-                String dateOfBirth = mBinding.textDateOfBirth.getText().toString();
-                String name = mBinding.edtName.getText().toString();
-                String personalID = mBinding.edtPersonalID.getText().toString();
+                String address = Objects.requireNonNull(mBinding.edtAddress.getText()).toString();
+                String dateOfBirth = Objects.requireNonNull(mBinding.textDateOfBirth.getText()).toString();
+                String name = Objects.requireNonNull(mBinding.edtName.getText()).toString();
+                String personalID = Objects.requireNonNull(mBinding.edtPersonalID.getText()).toString();
 
                 // Cập nhật dữ liệu của người dùng còn thiếu lên firebase
                 HashMap<String, Object> user = new HashMap<>();
@@ -170,16 +175,23 @@ public class PersonalRegisFragment extends Fragment {
 
         // Giả lập loading, hiển thị progress bar trong thời gian chờ đăng ký tài khoản
         loading(true);
-
+        String encryptPassword = null;
+        try {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                encryptPassword = EncryptHandler.encryptPassword(password);
+            }
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+            e.printStackTrace();
+        }
         // Tạo các trường trong bảng users
         HashMap<String, Object> user = new HashMap<>();
         user.put(Constants.KEY_PHONE, phone);
-        user.put(Constants.KEY_PASSWORD, password);
+        user.put(Constants.KEY_PASSWORD, encryptPassword);
         user.put(Constants.KEY_IMAGE, encodedImage);
-        user.put(Constants.KEY_NAME, mBinding.edtName.getText().toString());
-        user.put(Constants.KEY_PERSONAL_ID, mBinding.edtPersonalID.getText().toString());
-        user.put(Constants.KEY_DATEOFBIRTH, mBinding.textDateOfBirth.getText().toString());
-        user.put(Constants.KEY_ADDRESS, mBinding.edtAddress.getText().toString());
+        user.put(Constants.KEY_NAME, Objects.requireNonNull(mBinding.edtName.getText()).toString());
+        user.put(Constants.KEY_PERSONAL_ID, Objects.requireNonNull(mBinding.edtPersonalID.getText()).toString());
+        user.put(Constants.KEY_DATEOFBIRTH, Objects.requireNonNull(mBinding.textDateOfBirth.getText()).toString());
+        user.put(Constants.KEY_ADDRESS, Objects.requireNonNull(mBinding.edtAddress.getText()).toString());
         user.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_USER);
 
         // Đẩy thông tin công ty lên Firebase
@@ -221,10 +233,10 @@ public class PersonalRegisFragment extends Fragment {
         preferenceManager.putString(Constants.KEY_PHONE, phone);
         preferenceManager.putString(Constants.KEY_PASSWORD, password);
         preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
-        preferenceManager.putString(Constants.KEY_NAME, mBinding.edtName.getText().toString());
-        preferenceManager.putString(Constants.KEY_PERSONAL_ID, mBinding.edtPersonalID.getText().toString());
-        preferenceManager.putString(Constants.KEY_DATEOFBIRTH, mBinding.textDateOfBirth.getText().toString());
-        preferenceManager.putString(Constants.KEY_ADDRESS, mBinding.edtAddress.getText().toString());
+        preferenceManager.putString(Constants.KEY_NAME, Objects.requireNonNull(mBinding.edtName.getText()).toString());
+        preferenceManager.putString(Constants.KEY_PERSONAL_ID, Objects.requireNonNull(mBinding.edtPersonalID.getText()).toString());
+        preferenceManager.putString(Constants.KEY_DATEOFBIRTH, Objects.requireNonNull(mBinding.textDateOfBirth.getText()).toString());
+        preferenceManager.putString(Constants.KEY_ADDRESS, Objects.requireNonNull(mBinding.edtAddress.getText()).toString());
         preferenceManager.putString(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_ADMIN);
 
         viewPager = requireActivity().findViewById(R.id.viewPager);
@@ -286,16 +298,16 @@ public class PersonalRegisFragment extends Fragment {
         if (encodedImage == null) {
             showToast("Hãy chọn hình ảnh!");
             return false;
-        } else if (mBinding.edtName.getText().toString().trim().isEmpty()) {
+        } else if (Objects.requireNonNull(mBinding.edtName.getText()).toString().trim().isEmpty()) {
             showToast("Hãy nhập họ và tên!");
             return false;
-        } else if (mBinding.edtPersonalID.getText().toString().trim().isEmpty()) {
+        } else if (Objects.requireNonNull(mBinding.edtPersonalID.getText()).toString().trim().isEmpty()) {
             showToast("Hãy nhập CMND/CCCD");
             return false;
-        } else if (mBinding.textDateOfBirth.getText().toString().trim().isEmpty()) {
+        } else if (Objects.requireNonNull(mBinding.textDateOfBirth.getText()).toString().trim().isEmpty()) {
             showToast("Hãy chọn ngày tháng năm sinh!");
             return false;
-        } else if (mBinding.edtAddress.getText().toString().trim().isEmpty()) {
+        } else if (Objects.requireNonNull(mBinding.edtAddress.getText()).toString().trim().isEmpty()) {
             showToast("Hãy nhập địa chỉ!");
             return false;
         } else {

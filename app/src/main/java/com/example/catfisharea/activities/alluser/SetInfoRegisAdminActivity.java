@@ -12,7 +12,6 @@ import com.example.catfisharea.ultilities.PreferenceManager;
 
 public class SetInfoRegisAdminActivity extends BaseActivity {
     private ActivitySetInfoRegisAdminBinding mBinding;
-    private ViewPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +27,7 @@ public class SetInfoRegisAdminActivity extends BaseActivity {
         //PreferenceManager
         PreferenceManager preferenceManager = new PreferenceManager(getApplicationContext());
 
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         // Lấy trạng thái đăng ký cá nhân hoặc công ty từ bộ nhớ tạm
         String typeRegis = preferenceManager.getString(Constants.KEY_TYPE_REGIS);

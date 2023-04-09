@@ -121,4 +121,7 @@ dependencies {
     implementation "com.cleveroad:adaptivetablelayout:1.2.1"
 
     implementation 'com.github.levitnudi:LegacyTableView:1.4'
+
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    //implementation 'xerces:xercesImpl:2.12.0'
 }

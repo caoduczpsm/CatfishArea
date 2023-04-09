@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
@@ -24,13 +25,17 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.admin.AdminHomeActivity;
 
 import com.example.catfisharea.ultilities.Constants;
+import com.example.catfisharea.ultilities.EncryptHandler;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class CompanyRegisFragment extends Fragment {
     private FragmentCompanyRegisBinding mBinding;
@@ -44,12 +49,12 @@ public class CompanyRegisFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentCompanyRegisBinding.inflate(inflater, container, false);
 
         //PreferenceManager
-        preferenceManager = new PreferenceManager(getContext().getApplicationContext());
+        preferenceManager = new PreferenceManager(requireContext().getApplicationContext());
 
         //FireStore
         database = FirebaseFirestore.getInstance();
@@ -89,10 +94,19 @@ public class CompanyRegisFragment extends Fragment {
         address = preferenceManager.getString(Constants.KEY_ADDRESS);
         encodedPersonalImage = preferenceManager.getString(Constants.KEY_IMAGE);
 
+        String encryptPassword = null;
+        try {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                encryptPassword = EncryptHandler.encryptPassword(password);
+            }
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+            e.printStackTrace();
+        }
+
         // Tạo các trường trong bảng users
         HashMap<String, Object> user = new HashMap<>();
         user.put(Constants.KEY_PHONE, phone);
-        user.put(Constants.KEY_PASSWORD, password);
+        user.put(Constants.KEY_PASSWORD, encryptPassword);
         user.put(Constants.KEY_IMAGE,encodedPersonalImage);
         user.put(Constants.KEY_NAME, name);
         user.put(Constants.KEY_PERSONAL_ID, personalID);
@@ -102,11 +116,11 @@ public class CompanyRegisFragment extends Fragment {
 
         // Tạo các trường dữ liệu trong bảng companies
         HashMap<String, Object> company = new HashMap<>();
-        company.put(Constants.KEY_COMPANY_NAME, mBinding.edtCompanyName.getText().toString());
-        company.put(Constants.KEY_COMPANY_ADDRESS, mBinding.edtCompanyAddress.getText().toString());
+        company.put(Constants.KEY_COMPANY_NAME, Objects.requireNonNull(mBinding.edtCompanyName.getText()).toString());
+        company.put(Constants.KEY_COMPANY_ADDRESS, Objects.requireNonNull(mBinding.edtCompanyAddress.getText()).toString());
         company.put(Constants.KEY_COMPANY_IMAGE, encodedCompanyImage);
-        company.put(Constants.KEY_COMPANY_PHONE, mBinding.edtCompanyPhone.getText().toString());
-        company.put(Constants.KEY_COMPANY_CODE, mBinding.edtCompanyCode.getText().toString());
+        company.put(Constants.KEY_COMPANY_PHONE, Objects.requireNonNull(mBinding.edtCompanyPhone.getText()).toString());
+        company.put(Constants.KEY_COMPANY_CODE, Objects.requireNonNull(mBinding.edtCompanyCode.getText()).toString());
         company.put(Constants.KEY_COMPANY_TOTAL_ACCOUNT, "1");
         company.put(Constants.KEY_COMPANY_AMOUNT_ADMIN, "1");
         company.put(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT, "0");
@@ -151,7 +165,7 @@ public class CompanyRegisFragment extends Fragment {
 
                                 // Chuyển màn hình sang màn hình chính của Admin
                                 Intent intent = new Intent(getContext(), AdminHomeActivity.class);
-                                Animatoo.animateSlideLeft(getContext());
+                                Animatoo.animateSlideLeft(requireContext());
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
 
@@ -184,7 +198,7 @@ public class CompanyRegisFragment extends Fragment {
                     if(result.getData() != null){
                         Uri imageUri = result.getData().getData();
                         try {
-                            InputStream inputStream = getActivity().getContentResolver().openInputStream(imageUri);
+                            InputStream inputStream = requireActivity().getContentResolver().openInputStream(imageUri);
                             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                             mBinding.imageProfile.setImageBitmap(bitmap);
                             mBinding.textAddImage.setVisibility(View.GONE);
@@ -201,16 +215,16 @@ public class CompanyRegisFragment extends Fragment {
         if(encodedCompanyImage == null){
             showToast("Hãy chọn hình ảnh!");
             return false;
-        } else if(mBinding.edtCompanyName.getText().toString().trim().isEmpty()){
+        } else if(Objects.requireNonNull(mBinding.edtCompanyName.getText()).toString().trim().isEmpty()){
             showToast("Hãy nhập họ và tên!");
             return false;
-        } else if(mBinding.edtCompanyCode.getText().toString().trim().isEmpty()){
+        } else if(Objects.requireNonNull(mBinding.edtCompanyCode.getText()).toString().trim().isEmpty()){
             showToast("Hãy nhập mã công ty!");
             return false;
-        } else if(mBinding.edtCompanyPhone.getText().toString().trim().isEmpty()){
+        } else if(Objects.requireNonNull(mBinding.edtCompanyPhone.getText()).toString().trim().isEmpty()){
             showToast("Hãy nhập số điện thoại công ty!");
             return false;
-        } else if(mBinding.edtCompanyAddress.getText().toString().trim().isEmpty()){
+        } else if(Objects.requireNonNull(mBinding.edtCompanyAddress.getText()).toString().trim().isEmpty()){
             showToast("Hãy nhập địa chỉ!");
             return false;
         } else if(mBinding.edtCompanyPhone.getText().toString().length() != 10){
