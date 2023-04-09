@@ -1,11 +1,8 @@
 package com.example.catfisharea.activities.alluser;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -13,10 +10,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
-import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityChatBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
@@ -25,6 +21,7 @@ import com.example.catfisharea.listeners.MessageListener;
 import com.example.catfisharea.models.ChatMessage;
 import com.example.catfisharea.models.User;
 import com.example.catfisharea.ultilities.Constants;
+import com.example.catfisharea.ultilities.EncryptHandler;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentChange;
@@ -33,10 +30,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -120,9 +115,10 @@ public class ChatActivity extends BaseActivity implements MessageListener {
 
     private void sendMessage(){
         HashMap<String, Object> message = new HashMap<>();
+        String encryptMessage = EncryptHandler.encryptAESMessage(binding.inputeMessage.getText().toString(), "This_Is_A_Secret_Key_Catfish_Area");
         message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
         message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-        message.put(Constants.KEY_MESSAGE, binding.inputeMessage.getText().toString());
+        message.put(Constants.KEY_MESSAGE, encryptMessage);
         message.put(Constants.KEY_TIMESTAMP, new Date());
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
         if(conversationId != null){
@@ -247,10 +243,12 @@ public class ChatActivity extends BaseActivity implements MessageListener {
             int count = chatMessages.size();
             for (DocumentChange documentChange : value.getDocumentChanges()){
                 if (documentChange.getType() == DocumentChange.Type.ADDED){
+                    String deCryptMessage = EncryptHandler.decryptAESMessage(documentChange.getDocument().getString(Constants.KEY_MESSAGE)
+                                , "This_Is_A_Secret_Key_Catfish_Area");
                     ChatMessage chatMessage = new ChatMessage();
                     chatMessage.senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
                     chatMessage.receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
-                    chatMessage.message = documentChange.getDocument().getString(Constants.KEY_MESSAGE);
+                    chatMessage.message = deCryptMessage;
                     chatMessage.dateTime = getReadableDateTime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP));
                     chatMessage.dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
                     if (Objects.equals(chatMessage.senderId, preferenceManager.getString(Constants.KEY_USER_ID)))

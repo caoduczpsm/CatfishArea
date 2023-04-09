@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.app.catfisharea.databinding.ActivitySetInfoRegisAdminBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
-import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.ViewPagerAdapter;
 import com.example.catfisharea.fragments.alluser.CompanyRegisFragment;
 import com.example.catfisharea.fragments.alluser.PersonalRegisFragment;
@@ -58,11 +57,9 @@ public class SetInfoRegisAdminActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-
         final Configuration override = new Configuration(newBase.getResources().getConfiguration());
         override.fontScale = 1.0f;
         applyOverrideConfiguration(override);
-
         super.attachBaseContext(newBase);
     }
 }

@@ -106,7 +106,7 @@ public class Constants {
     public static final String KEY_USER_COMMENT_POSITION = "userCommentPosition";
     public static final String KEY_TASK_COMMENT_ID = "taskID";
 
-    public static final String KEY_COLLECTION_CHAT = "chat";
+    public static final String KEY_COLLECTION_CHAT = "chats";
     public static final String KEY_SENDER_ID = "senderId";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_TIMESTAMP = "timestamp";

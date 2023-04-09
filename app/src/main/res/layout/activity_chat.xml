@@ -107,6 +107,7 @@
             android:layout_marginRight="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_6sdp"
             android:background="@drawable/background_chat_input"
+            android:backgroundTint="#9AE8E3E3"
             android:paddingEnd="@dimen/_10sdp"
             tools:ignore="RtlSymmetry">
 
@@ -123,6 +124,7 @@
                 android:paddingStart="@dimen/_5sdp"
                 android:paddingEnd="@dimen/_5sdp"
                 android:textColor="@color/black"
+                android:backgroundTint="#4FE8E3E3"
                 tools:ignore="HardcodedText,LabelFor,TextContrastCheck" />
 
             <ImageView

@@ -12,7 +12,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
-
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.android.app.catfisharea.R;
@@ -23,7 +22,6 @@ import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
 import com.example.catfisharea.activities.alluser.ViewPlanActivity;
-import com.example.catfisharea.activities.director.DirectorHomeActivity;
 import com.example.catfisharea.adapter.HomeAdapter;
 import com.example.catfisharea.models.Area;
 import com.example.catfisharea.models.Campus;

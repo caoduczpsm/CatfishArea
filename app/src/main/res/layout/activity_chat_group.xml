@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background_content_bottom"
-        android:backgroundTint="#56CAC5C5">
+        android:backgroundTint="@color/white">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/btn_top"
@@ -31,6 +31,7 @@
             android:layout_below="@id/btn_top"
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginRight="@dimen/_10sdp"
+            android:backgroundTint="@color/white"
             android:padding="@dimen/_3sdp">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -109,6 +110,7 @@
             android:layout_marginBottom="@dimen/_6sdp"
             android:background="@drawable/background_chat_input"
             android:paddingStart="@dimen/_10sdp"
+            android:backgroundTint="#9AE8E3E3"
             tools:ignore="RtlSymmetry">
 
             <EditText
@@ -124,6 +126,7 @@
                 android:paddingStart="@dimen/_5sdp"
                 android:paddingEnd="@dimen/_5sdp"
                 android:textColor="@color/black"
+                android:backgroundTint="#4FE8E3E3"
                 tools:ignore="HardcodedText,LabelFor,TextContrastCheck" />
 
             <ImageView

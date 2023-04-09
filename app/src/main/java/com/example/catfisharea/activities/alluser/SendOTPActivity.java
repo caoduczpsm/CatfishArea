@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivitySendOtpactivityBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
-import com.example.catfisharea.activities.BaseActivity;
 
 import com.example.catfisharea.ultilities.Constants;
 import com.google.firebase.FirebaseException;
@@ -114,11 +113,9 @@ public class SendOTPActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-
         final Configuration override = new Configuration(newBase.getResources().getConfiguration());
         override.fontScale = 1.0f;
         applyOverrideConfiguration(override);
-
         super.attachBaseContext(newBase);
     }
 }

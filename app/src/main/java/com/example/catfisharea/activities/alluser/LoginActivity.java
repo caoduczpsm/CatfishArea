@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         mBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
         Animatoo.animateSlideLeft(this);
+        Animatoo.animateSlideLeft(LoginActivity.this);
         initActivity();
         setListener();
     }
@@ -45,8 +46,6 @@ public class LoginActivity extends AppCompatActivity {
     private void initActivity() {
         //PreferenceManager
         preferenceManager = new PreferenceManager(getApplicationContext());
-
-        preferenceManager.putString(Constants.KEY_USER_ID, "");
 
         //FireStore
         database = FirebaseFirestore.getInstance();
@@ -155,6 +154,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Animatoo.animateSlideRight(this);
     }
 
     @Override
