@@ -1,46 +1,37 @@
 package com.example.catfisharea.activities.alluser;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.android.app.catfisharea.databinding.ActivityRegisterBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
-
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-public class RegisterActivity extends AppCompatActivity {
+import java.util.Objects;
+
+public class RegisterActivity extends BaseActivity {
     private ActivityRegisterBinding mBinding;
     private PreferenceManager preferenceManager;
-    private FirebaseFirestore database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        Animatoo.animateSlideLeft(this);
+        Animatoo.animateSlideLeft(RegisterActivity.this);
         initActivity();
         setListener();
     }
 
     private void initActivity() {
-        database = FirebaseFirestore.getInstance();
         preferenceManager = new PreferenceManager(this);
         preferenceManager.putString(Constants.KEY_TYPE_REGIS, "personalRegis");
     }
 
     private void setListener() {
-        mBinding.textLogin.setOnClickListener(view -> {
-            onBackPressed();
-        });
+        mBinding.textLogin.setOnClickListener(view -> onBackPressed());
 
         mBinding.btnRegis.setOnClickListener(view -> {
             if (isValidSignUpDetails())
@@ -72,23 +63,23 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void signUp(){
         Intent intent = new Intent(getApplicationContext(), SendOTPActivity.class);
-        intent.putExtra(Constants.KEY_PHONE, mBinding.edtPhoneRegister.getText().toString());
-        intent.putExtra(Constants.KEY_PASSWORD, mBinding.edtPasswordRegister.getText().toString().trim());
+        intent.putExtra(Constants.KEY_PHONE, Objects.requireNonNull(mBinding.edtPhoneRegister.getText()).toString());
+        intent.putExtra(Constants.KEY_PASSWORD, Objects.requireNonNull(mBinding.edtPasswordRegister.getText()).toString().trim());
         Animatoo.animateSlideLeft(RegisterActivity.this);
         startActivity(intent);
     }
 
     private Boolean isValidSignUpDetails(){
-        if(mBinding.edtPhoneRegister.getText().toString().trim().isEmpty()){
+        if(Objects.requireNonNull(mBinding.edtPhoneRegister.getText()).toString().trim().isEmpty()){
             showToast("Hãy nhập số điện thoại!");
             return false;
         } /*else if(!Patterns.EMAIL_ADDRESS.matcher(binding.inputEmail.getText().toString()).matches()){
             showToast("Enter valid image");
             return false;
-        }*/ else if(mBinding.edtPasswordRegister.getText().toString().trim().isEmpty()){
+        }*/ else if(Objects.requireNonNull(mBinding.edtPasswordRegister.getText()).toString().trim().isEmpty()){
             showToast("Hãy nhập mật khẩu!");
             return false;
-        } else if(mBinding.edtRePasswordRegister.getText().toString().trim().isEmpty()){
+        } else if(Objects.requireNonNull(mBinding.edtRePasswordRegister.getText()).toString().trim().isEmpty()){
             showToast("Hãy nhập lại mật khẩu!");
             return false;
         } else if(mBinding.edtPhoneRegister.getText().toString().length() != 10){
@@ -104,21 +95,5 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void showToast(String message){
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Animatoo.animateSlideRight(this);
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-
-        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-
-        super.attachBaseContext(newBase);
     }
 }

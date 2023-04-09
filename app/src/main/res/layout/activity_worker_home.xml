@@ -27,6 +27,16 @@
             app:title="Trần Quốc Khánh" />
 
         <ImageView
+            android:id="@+id/imageLogout"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:padding="@dimen/_2sdp"
+            android:src="@drawable/ic_logout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imageNotify"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
             android:id="@+id/imageNotify"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
