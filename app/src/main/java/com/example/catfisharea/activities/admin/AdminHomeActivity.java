@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityAdminHomeBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
@@ -89,7 +90,8 @@ public class AdminHomeActivity extends BaseActivity {
 
         mBinding.layoutControlAdminHome.layoutArea.setOnClickListener(view -> openDialogArea());
 
-        mBinding.layoutControlAdminHome.layoutWarehouse.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), WarehouseActivity.class)));
+        mBinding.layoutControlAdminHome.layoutWarehouse.setOnClickListener(view ->
+                startActivity(new Intent(getApplicationContext(), WarehouseActivity.class)));
 
     }
 
@@ -233,8 +235,11 @@ public class AdminHomeActivity extends BaseActivity {
                                     itemHome.setReginonList(campuses);
                                     itemHomes.add(itemHome);
                                     homeAdapter.notifyDataSetChanged();
-                                    Collections.sort(itemHome.getReginonList(), (o1, o2) -> (o1.getName().compareToIgnoreCase(o2.getName())));
-                                    Collections.sort(itemHomes, (o1, o2) -> (o1.getRegionModel().getName().compareToIgnoreCase(o2.getRegionModel().getName())));
+                                    Collections.sort(itemHome.getReginonList(),
+                                            (o1, o2) -> (o1.getName().compareToIgnoreCase(o2.getName())));
+                                    Collections.sort(itemHomes,
+                                            (o1, o2) -> (o1.getRegionModel().getName()
+                                                    .compareToIgnoreCase(o2.getRegionModel().getName())));
                                     homeAdapter.notifyDataSetChanged();
                                 });
 
@@ -272,5 +277,6 @@ public class AdminHomeActivity extends BaseActivity {
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
+
 
 }

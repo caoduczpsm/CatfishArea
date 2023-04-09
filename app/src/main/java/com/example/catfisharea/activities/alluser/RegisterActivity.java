@@ -1,8 +1,13 @@
 package com.example.catfisharea.activities.alluser;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.app.catfisharea.databinding.ActivityRegisterBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
@@ -11,7 +16,7 @@ import com.example.catfisharea.ultilities.PreferenceManager;
 
 import java.util.Objects;
 
-public class RegisterActivity extends BaseActivity {
+public class RegisterActivity extends AppCompatActivity {
     private ActivityRegisterBinding mBinding;
     private PreferenceManager preferenceManager;
 
@@ -95,5 +100,13 @@ public class RegisterActivity extends BaseActivity {
 
     private void showToast(String message){
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
+        override.fontScale = 1.0f;
+        applyOverrideConfiguration(override);
+        super.attachBaseContext(newBase);
     }
 }

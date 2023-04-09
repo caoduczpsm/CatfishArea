@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/border_fun_background"
+    android:padding="@dimen/_10sdp"
+    android:layout_gravity="center"
+    android:layout_width="@dimen/_280sdp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thông tin tài khoản"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/_18sdp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <FrameLayout
+        android:id="@+id/layoutImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTitle">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/imageUser"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:background="@drawable/background_image"
+            android:contentDescription="TODO"
+            android:scaleType="centerCrop"
+            app:riv_oval="true"
+            tools:ignore="ContentDescription,HardcodedText" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textPhone"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/background_edit_text"
+        android:drawablePadding="@dimen/_5sdp"
+        android:hint="Số điện thoại"
+        android:importantForAutofill="no"
+        android:gravity="center_vertical"
+        android:padding="@dimen/_5sdp"
+        android:textSize="@dimen/_14ssp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/layoutImage"
+        tools:ignore="HardcodedText,TextFields,UnusedAttribute,TextContrastCheck"
+        tools:layout_editor_absoluteX="26dp"
+        app:drawableStartCompat="@drawable/ic_call_gray"
+        app:drawableTint="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/textName"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/background_edit_text"
+        android:drawablePadding="@dimen/_5sdp"
+        android:hint="Họ và Tên"
+        android:importantForAutofill="no"
+        android:padding="@dimen/_5sdp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintTop_toBottomOf="@id/textPhone"
+        tools:ignore="HardcodedText,TextFields,UnusedAttribute,TextContrastCheck"
+        tools:layout_editor_absoluteX="26dp"
+        app:drawableStartCompat="@drawable/ic_user"
+        app:drawableTint="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/textPosition"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/background_edit_text"
+        android:drawablePadding="@dimen/_5sdp"
+        android:hint="Chức vụ"
+        android:importantForAutofill="no"
+        android:padding="@dimen/_5sdp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintTop_toBottomOf="@id/textName"
+        tools:ignore="HardcodedText,TextFields,UnusedAttribute,TextContrastCheck"
+        tools:layout_editor_absoluteX="26dp"
+        app:drawableStartCompat="@drawable/ic_accountant"
+        app:drawableTint="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/textDateOfBirth"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/background_edit_text"
+        android:drawablePadding="@dimen/_5sdp"
+        android:textColor="@color/black"
+        android:hint="Ngày Tháng Năm Sinh"
+        android:textSize="@dimen/_14ssp"
+        android:gravity="center_vertical"
+        android:padding="@dimen/_5sdp"
+        android:textColorHint="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/textPosition"
+        tools:ignore="Autofill,HardcodedText,TextFields,UnusedAttribute"
+        app:drawableStartCompat="@drawable/calendar"
+        app:drawableTint="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/textAddress"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/background_edit_text"
+        android:drawablePadding="@dimen/_5sdp"
+        android:hint="Địa Chỉ"
+        android:padding="@dimen/_5sdp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="@dimen/_14ssp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/textDateOfBirth"
+        tools:ignore="Autofill,HardcodedText,UnusedAttribute,TouchTargetSizeCheck,TextContrastCheck"
+        tools:layout_editor_absoluteX="26dp"
+        app:drawableStartCompat="@drawable/ic_location_blue"
+        app:drawableTint="@color/colorPrimary" />
+
+    <Button
+        android:id="@+id/btnClose"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_fun_background"
+        android:backgroundTint="@color/red"
+        android:text="Đóng"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textAddress"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintWidth_percent="0.48"
+        tools:ignore="HardcodedText,UnusedAttribute" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

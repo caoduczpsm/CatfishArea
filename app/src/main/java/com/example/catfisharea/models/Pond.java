@@ -11,6 +11,10 @@ public class Pond extends RegionModel {
     private boolean isSelected = false;
     private String idArea;
 
+    public Pond(String id, String name) {
+        super(id, name);
+    }
+
     public Pond(String id, String name, GeoPoint geo, String idCampus, String acreage) {
         super(id, name);
         this.geo = geo;

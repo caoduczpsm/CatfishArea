@@ -14,6 +14,10 @@ public class Campus extends RegionModel {
     private int numberPond = 0;
     private boolean isSelected = false;
 
+    public Campus(String id, String name) {
+        super(id, name);
+    }
+
     public Campus(String id, String name, List<GeoPoint> geoList, String idArea) {
         super(id, name);
         this.geoList = geoList;

@@ -25,7 +25,7 @@
                 android:background="@color/white">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutAccount"
+                    android:id="@+id/layoutTask"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
@@ -36,7 +36,7 @@
                         android:id="@+id/imageAccount"
                         android:layout_width="@dimen/_35sdp"
                         android:layout_height="@dimen/_35sdp"
-                        android:src="@drawable/ic_account"
+                        android:src="@drawable/ic_task"
                         android:translationZ="10dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/_4sdp"
                             android:gravity="center"
-                            android:text="Tài khoản"
+                            android:text="Nhiệm vụ"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_10ssp"
                             android:textStyle="bold" />
@@ -68,18 +68,18 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutArea"
+                    android:id="@+id/layoutHR"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    app:layout_constraintStart_toEndOf="@id/layoutAccount"
+                    app:layout_constraintStart_toEndOf="@id/layoutTask"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:id="@+id/imageArea"
                         android:layout_width="@dimen/_35sdp"
                         android:layout_height="@dimen/_35sdp"
-                        android:src="@drawable/ic_area_home"
+                        android:src="@drawable/ic_human_resources"
                         android:translationZ="10dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -103,7 +103,50 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/_4sdp"
                             android:gravity="center"
-                            android:text="Vùng nuôi"
+                            android:text="Nhân sự"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="bold" />
+                    </androidx.cardview.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutRequest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintStart_toEndOf="@id/layoutHR"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/imageRequest"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:src="@drawable/ic_request"
+                        android:translationZ="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardRequest"
+                        android:layout_width="@dimen/_86sdp"
+                        android:layout_height="@dimen/_78sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardElevation="@dimen/_6sdp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/imageRequest">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:gravity="center"
+                            android:text="Yêu cầu"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_10ssp"
                             android:textStyle="bold" />
@@ -115,7 +158,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    app:layout_constraintStart_toEndOf="@id/layoutArea"
+                    app:layout_constraintStart_toEndOf="@id/layoutRequest"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView

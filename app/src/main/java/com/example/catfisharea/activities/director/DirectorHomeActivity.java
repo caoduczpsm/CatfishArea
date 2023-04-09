@@ -11,9 +11,11 @@ import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityDirectorHomeBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
+import com.example.catfisharea.activities.admin.WarehouseActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
+import com.example.catfisharea.activities.alluser.ViewPlanActivity;
 import com.example.catfisharea.adapter.HomeAdapter;
 import com.example.catfisharea.models.Campus;
 import com.example.catfisharea.models.ItemHome;
@@ -27,6 +29,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -68,6 +71,24 @@ public class DirectorHomeActivity extends BaseActivity {
         mBinding.imageLogout.setOnClickListener(view -> {
             logOut();
         });
+
+        mBinding.layoutControlDirectorHome.layoutWarehouse.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), WarehouseActivity.class));
+        });
+
+        mBinding.layoutControlDirectorHome.layoutSeason.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ViewPlanActivity.class);
+            startActivity(intent);
+        });
+
+        mBinding.layoutControlDirectorHome.layoutHR.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), HumanResourceActivity.class));
+        });
+
+        mBinding.layoutControlDirectorHome.layoutTask.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), TaskManagerActivity.class));
+        });
+
     }
 
     private void initActivity() {
@@ -91,13 +112,16 @@ public class DirectorHomeActivity extends BaseActivity {
         database.collection(Constants.KEY_COLLECTION_POND).whereEqualTo(Constants.KEY_CAMPUS_ID, campusId)
                 .get().addOnSuccessListener(pondQuery -> {
                     List<RegionModel> regionModels = new ArrayList<>();
-                    for (DocumentSnapshot pondDocument: pondQuery.getDocuments()) {
+                    for (DocumentSnapshot pondDocument : pondQuery.getDocuments()) {
                         String pondId = pondDocument.getId();
                         String pondName = pondDocument.getString(Constants.KEY_NAME);
                         String acreage = pondDocument.getString(Constants.KEY_ACREAGE);
                         Pond pond = new Pond(pondId, pondName, null, campusId, acreage);
                         regionModels.add(pond);
                     }
+                    Collections.sort(itemHomes,
+                            (o1, o2) -> (o1.getRegionModel().getName()
+                                    .compareToIgnoreCase(o2.getRegionModel().getName())));
                     itemHome.setReginonList(regionModels);
                     homeAdapter.notifyDataSetChanged();
                 });

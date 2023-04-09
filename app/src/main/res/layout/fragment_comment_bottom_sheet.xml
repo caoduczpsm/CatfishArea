@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_content_bottom"
+    tools:context="com.example.catfisharea.bottomsheet.CommentBottomSheetFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/_5sdp"
+        tools:context=".activities.ChatActivity"
+        tools:ignore="UselessParent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="#56CAC5C5">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutTop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageBack"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:src="@drawable/ic_back_activity"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_13sdp"
+                    android:layout_toEndOf="@id/imageBack"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="Task Title"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageBack"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:cardBackgroundColor="#fff4ec"
+                    app:cardCornerRadius="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/textStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Chưa hoàn thành"
+                        android:textColor="#ffa96b"
+                        android:textSize="@dimen/_11ssp"
+                        app:drawableLeftCompat="@drawable/ic_access_time"
+                        tools:ignore="HardcodedText,TextContrastCheck" />
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/toolbar_shadow"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_below="@id/layoutTop"
+                android:background="@drawable/toolbar_dropshadow"
+                android:elevation="10dp"
+                android:translationZ="5dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutContentTask"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/toolbar_shadow"
+                android:background="@color/white"
+                android:padding="@dimen/_5sdp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/imageLeave"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    app:cardBackgroundColor="#34aa44"
+                    app:cardCornerRadius="1000dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/ic_access_time"
+                        app:tint="@color/white"
+                        tools:ignore="ContentDescription,ImageContrastCheck" />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/textLeave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:gravity="center_vertical"
+                    android:text="Thời gian:"
+                    android:textColor="@color/textGray"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/imageLeave"
+                    app:layout_constraintStart_toEndOf="@id/imageLeave"
+                    app:layout_constraintTop_toTopOf="@id/imageLeave"
+                    tools:ignore="HardcodedText,TextContrastCheck" />
+
+                <TextView
+                    android:id="@+id/textDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:text="20/10/2023 - 22/10/2023"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/textLeave"
+                    app:layout_constraintStart_toEndOf="@id/textLeave"
+                    app:layout_constraintTop_toTopOf="@id/textLeave"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/textContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="abc"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp"
+                    app:layout_constraintTop_toBottomOf="@id/imageLeave"
+                    tools:ignore="HardcodedText,TextContrastCheck"
+                    tools:layout_editor_absoluteX="6dp" />
+
+                <TextView
+                    android:id="@+id/textUnCompletedTask"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/background_edit_text"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:text="Danh sách chưa hoàn thành nhiệm vụ."
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/ic_list_uncompleted"
+                    app:drawableTint="@color/red"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textContent"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/textCompletedTask"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/background_edit_text"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:text="Danh sách đã hoàn thành nhiệm vụ."
+                    android:textColor="#4CAF50"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/ic_list_completed"
+                    app:drawableTint="#4CAF50"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textUnCompletedTask"
+                    tools:ignore="HardcodedText,TextContrastCheck" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/toolbar_shadow2"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_below="@id/layoutContentTask"
+                android:background="@drawable/toolbar_dropshadow"
+                android:elevation="10dp"
+                android:translationZ="5dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/commentRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/lauoutBottom"
+                android:layout_below="@id/toolbar_shadow2"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="2dp"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                android:paddingBottom="@dimen/_25sdp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:stackFromEnd="true">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/notComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Hiện chưa có bình luận."
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:visibility="gone"
+                tools:ignore="HardcodedText" />
+
+            <RelativeLayout
+                android:id="@+id/lauoutBottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_6sdp"
+                android:background="@drawable/background_chat_input"
+                android:paddingStart="@dimen/_10sdp"
+                tools:ignore="RtlSymmetry">
+
+                <EditText
+                    android:id="@+id/inputeMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_toStartOf="@id/layoutAttact"
+                    android:background="@drawable/background_chat_input"
+                    android:hint="Bình luận..."
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    tools:ignore="HardcodedText,LabelFor,TextContrastCheck" />
+
+                <ImageView
+                    android:id="@+id/layoutSend"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_alignParentEnd="true"
+                    android:padding="@dimen/_8sdp"
+                    android:src="@drawable/ic_send"
+                    android:visibility="invisible"
+                    app:tint="@color/black"
+                    tools:ignore="ContentDescription">
+
+                </ImageView>
+
+                <ImageView
+                    android:id="@+id/layoutAttact"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_toStartOf="@id/layoutImage"
+                    android:padding="@dimen/_8sdp"
+                    android:src="@drawable/ic_attach"
+                    app:tint="@color/black"
+                    tools:ignore="ContentDescription">
+
+                </ImageView>
+
+                <ImageView
+                    android:id="@+id/layoutImage"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_alignParentEnd="true"
+                    android:padding="@dimen/_8sdp"
+                    android:src="@drawable/ic_send_image"
+                    app:tint="@color/black"
+                    tools:ignore="ContentDescription">
+
+                </ImageView>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>
