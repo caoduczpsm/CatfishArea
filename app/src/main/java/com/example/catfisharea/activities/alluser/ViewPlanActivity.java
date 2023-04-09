@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.app.catfisharea.databinding.ActivityViewPlanBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.PlanAdapter;
 
 import com.example.catfisharea.models.Plan;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ViewPlanActivity extends AppCompatActivity {
+public class ViewPlanActivity extends BaseActivity {
     private ActivityViewPlanBinding mBinding;
     private FirebaseFirestore database;
     private List<Plan> mPlans;
@@ -30,9 +31,10 @@ public class ViewPlanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityViewPlanBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        Animatoo.animateSlideLeft(this);
+
         database = FirebaseFirestore.getInstance();
         preferenceManager = new PreferenceManager(this);
+        mBinding.toolbarViewPlan.setNavigationOnClickListener(view -> onBackPressed());
         getDataPlan();
     }
 

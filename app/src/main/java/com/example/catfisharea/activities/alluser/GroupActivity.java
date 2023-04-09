@@ -12,6 +12,7 @@ import android.view.View;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityGroupBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.GroupAdapter;
 import com.example.catfisharea.listeners.GroupListener;
 import com.example.catfisharea.models.Group;
@@ -23,7 +24,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupActivity extends AppCompatActivity implements GroupListener {
+public class GroupActivity extends BaseActivity implements GroupListener {
     private ActivityGroupBinding binding;
     private PreferenceManager preferenceManager;
     private GroupAdapter groupAdapter;
@@ -35,7 +36,7 @@ public class GroupActivity extends AppCompatActivity implements GroupListener {
         super.onCreate(savedInstanceState);
         binding = ActivityGroupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Animatoo.animateSlideLeft(GroupActivity.this);
+
         init();
         getGroups();
         setListeners();
@@ -158,13 +159,4 @@ public class GroupActivity extends AppCompatActivity implements GroupListener {
                 });
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-
-        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-
-        super.attachBaseContext(newBase);
-    }
 }

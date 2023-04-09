@@ -44,7 +44,7 @@ public class WearhouseCreateActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityWearhouseCreateBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        Animatoo.animateSlideLeft(this);
+
         setListener();
     }
 

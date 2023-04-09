@@ -82,6 +82,9 @@ public class CreateSimpleAccountActivity extends BaseActivity {
     }
 
     private void setListeners(){
+        mBinding.toolbarSimpleAccount.setNavigationOnClickListener(view -> {
+            onBackPressed();
+        });
         // Chọn hình ảnh
         mBinding.layoutImage.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

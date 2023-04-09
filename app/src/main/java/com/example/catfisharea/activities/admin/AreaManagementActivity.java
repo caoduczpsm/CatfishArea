@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -71,7 +73,6 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
         mBinding = ActivityAreaManagementBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        Animatoo.animateSlideLeft(this);
         mBinding.mapView.onCreate(savedInstanceState);
         mBinding.mapView.getMapAsync(this);
         preferenceManager = new PreferenceManager(this);
@@ -88,6 +89,9 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
         Intent mIntent = new Intent(this, ManagementAreaActivity.class);
 
         mBinding.recyclerViewAreaManager.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        mBinding.recyclerViewAreaManager.addItemDecoration(itemDecoration);
+
         mBinding.toolbarManageArea.setNavigationOnClickListener(view -> {
             onBackPressed();
         });
@@ -536,12 +540,6 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                 .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
                 .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
                 .check();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Animatoo.animateSlideRight(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

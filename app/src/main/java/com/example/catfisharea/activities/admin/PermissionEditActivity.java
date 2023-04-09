@@ -56,7 +56,7 @@ public class PermissionEditActivity extends BaseActivity implements MultipleList
         mBinding = ActivityPermissionEditBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
         init();
-        Animatoo.animateSlideLeft(PermissionEditActivity.this);
+
         getUsers();
         setListeners();
     }

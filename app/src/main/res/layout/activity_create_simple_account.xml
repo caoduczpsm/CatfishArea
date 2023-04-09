@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back_activity"
         app:tint="@color/black"
-        app:title="Tạo nhiều tài khoản"
+        app:title="Tạo một tài khoản"
         app:titleTextColor="@color/black" />
 
     <View
@@ -200,8 +200,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
-            android:hint="Ngày thánh năm sinh"
-            app:startIconDrawable="@drawable/ic_user"
+            android:hint="Địa chỉ"
+            app:startIconDrawable="@drawable/ic_location_blue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textInputDateOfBirth"
             app:startIconTint="@color/colorPrimary">

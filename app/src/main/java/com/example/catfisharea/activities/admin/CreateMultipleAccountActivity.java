@@ -30,7 +30,6 @@ public class CreateMultipleAccountActivity extends BaseActivity {
         mBinding = ActivityCreateMultipleAccountBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
         getWindow().setStatusBarColor(Color.parseColor("#FFFFFF"));
-        Animatoo.animateSlideLeft(CreateMultipleAccountActivity.this);
         init();
         setListeners();
 

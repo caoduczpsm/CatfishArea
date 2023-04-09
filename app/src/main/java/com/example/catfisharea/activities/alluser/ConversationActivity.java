@@ -49,7 +49,7 @@ public class ConversationActivity extends BaseActivity implements ConversionList
         setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext());
         init();
-        Animatoo.animateSlideLeft(ConversationActivity.this);
+
         getToken();
         setListeners();
         listenConversation();

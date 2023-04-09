@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivitySettingGroupBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.MultipleUserSelectionAdapter;
 import com.example.catfisharea.adapter.UsersAdapter;
 import com.example.catfisharea.listeners.MultipleListener;
@@ -54,7 +55,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class SettingGroupActivity extends AppCompatActivity implements MultipleListener, UserListener {
+public class SettingGroupActivity extends BaseActivity implements MultipleListener, UserListener {
     private Group group;
     private FirebaseFirestore database;
     private PreferenceManager preferenceManager;
@@ -73,7 +74,7 @@ public class SettingGroupActivity extends AppCompatActivity implements MultipleL
         binding = ActivitySettingGroupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         init();
-        Animatoo.animateSlideLeft(SettingGroupActivity.this);
+
         setGroupInfo();
         setListener();
     }
@@ -130,6 +131,8 @@ public class SettingGroupActivity extends AppCompatActivity implements MultipleL
     }
 
     private void setListener(){
+        binding.toolbarSettingGroup.setNavigationOnClickListener(view -> onBackPressed());
+
         // Mở hộp thoại đổi tên nhóm
         binding.layoutChangeName.setOnClickListener(view -> openChangeNameDialog());
 
@@ -817,16 +820,6 @@ public class SettingGroupActivity extends AppCompatActivity implements MultipleL
     }
 
     @Override
-    protected void attachBaseContext(Context newBase) {
-
-        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-
-        super.attachBaseContext(newBase);
-    }
-
-    @Override
     public void onMultipleUserSelection(Boolean isSelected) {
 
     }
@@ -850,4 +843,5 @@ public class SettingGroupActivity extends AppCompatActivity implements MultipleL
     public void onUserClicker(User user) {
 
     }
+
 }

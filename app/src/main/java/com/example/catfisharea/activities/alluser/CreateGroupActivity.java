@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityCreateGroupBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.MultipleUserSelectionAdapter;
 import com.example.catfisharea.listeners.MultipleListener;
 import com.example.catfisharea.listeners.UserListener;
@@ -49,7 +50,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CreateGroupActivity extends AppCompatActivity implements UserListener, MultipleListener {
+public class CreateGroupActivity extends BaseActivity implements UserListener, MultipleListener {
 
     private ActivityCreateGroupBinding binding;
     private PreferenceManager preferenceManager;
@@ -66,7 +67,7 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
         super.onCreate(savedInstanceState);
         binding = ActivityCreateGroupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Animatoo.animateSlideLeft(CreateGroupActivity.this);
+
         init();
         setListener();
         getUsers();
@@ -79,7 +80,7 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
     }
 
     private void setListener(){
-
+        binding.toolbarCreateGroup.setNavigationOnClickListener(view -> onBackPressed());
         binding.btnSelection.setOnClickListener(view -> {
             List<User> selectedUser = usersAdapter.getSelectedUser();
             StringBuilder userIds = new StringBuilder();
@@ -449,13 +450,4 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
 
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-
-        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-
-        super.attachBaseContext(newBase);
-    }
 }

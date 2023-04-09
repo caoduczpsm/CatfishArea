@@ -47,7 +47,7 @@ public class DeleteAccountActivity extends BaseActivity implements MultipleListe
         super.onCreate(savedInstanceState);
         mBinding = ActivityDeleteAccountBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        Animatoo.animateSlideLeft(this);
+
         init();
         getUsers();
         setListeners();

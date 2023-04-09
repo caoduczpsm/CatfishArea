@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityInviteBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.MultipleUserSelectionAdapter;
 import com.example.catfisharea.listeners.MultipleListener;
 import com.example.catfisharea.models.Task;
@@ -48,7 +49,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class InviteActivity extends AppCompatActivity implements MultipleListener {
+public class InviteActivity extends BaseActivity implements MultipleListener {
     private ActivityInviteBinding mBinding;
     private PreferenceManager preferenceManager;
     private MultipleUserSelectionAdapter usersAdapter;
@@ -62,7 +63,7 @@ public class InviteActivity extends AppCompatActivity implements MultipleListene
         super.onCreate(savedInstanceState);
         mBinding = ActivityInviteBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        Animatoo.animateSlideLeft(this);
+
         init();
         setListener();
     }
@@ -78,6 +79,10 @@ public class InviteActivity extends AppCompatActivity implements MultipleListene
     }
 
     private void setListener() {
+        mBinding.toolbarInvite.setOnClickListener(view -> {
+            onBackPressed();
+        });
+
         mBinding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -112,7 +117,7 @@ public class InviteActivity extends AppCompatActivity implements MultipleListene
             });
             List<User> mUsers = usersAdapter.getSelectedUser();
             if (mUsers != null && mUsers.size() > 0) {
-                for (User user: mUsers) {
+                for (User user : mUsers) {
                     initiateConference(user.token);
                 }
                 try {
@@ -155,10 +160,11 @@ public class InviteActivity extends AppCompatActivity implements MultipleListene
 
             sendRemoteMessage(body.toString(), Constants.REMOTE_MSG_INVITATION);
 
-        } catch (Exception exception){
+        } catch (Exception exception) {
 
         }
     }
+
     private void sendRemoteMessage(String remoteMessageBody, String type) {
         ApiClient.getClient().create(ApiService.class).sendMessage(
                 Constants.getRemoteMsgHeaders(), remoteMessageBody
@@ -454,12 +460,6 @@ public class InviteActivity extends AppCompatActivity implements MultipleListene
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Animatoo.animateSlideRight(this);
-    }
-
-    @Override
     public void onMultipleUserSelection(Boolean isSelected) {
 
     }
@@ -479,13 +479,4 @@ public class InviteActivity extends AppCompatActivity implements MultipleListene
 
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-
-        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-
-        super.attachBaseContext(newBase);
-    }
 }

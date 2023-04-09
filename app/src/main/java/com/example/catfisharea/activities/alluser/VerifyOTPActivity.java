@@ -1,7 +1,11 @@
 package com.example.catfisharea.activities.alluser;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,7 +26,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
 
-public class VerifyOTPActivity extends BaseActivity {
+public class VerifyOTPActivity extends AppCompatActivity {
     private ActivityVerifyOtpactivityBinding mBinding;
     private String verificationId;
     private String password;
@@ -32,7 +36,7 @@ public class VerifyOTPActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityVerifyOtpactivityBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-
+        Animatoo.animateSlideLeft(this);
         mBinding.textMobile.setText(getIntent().getStringExtra(Constants.KEY_PHONE));
         password = getIntent().getStringExtra(Constants.KEY_PASSWORD);
 
@@ -187,5 +191,21 @@ public class VerifyOTPActivity extends BaseActivity {
             public void afterTextChanged(Editable s) {}
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Animatoo.animateSlideRight(this);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+
+        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
+        override.fontScale = 1.0f;
+        applyOverrideConfiguration(override);
+
+        super.attachBaseContext(newBase);
     }
 }

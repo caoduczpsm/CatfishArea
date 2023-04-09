@@ -73,7 +73,7 @@ public class ChatGroupActivity extends BaseActivity implements MessageListener {
         setListeners();
         loadReceiverDetails();
         init();
-        Animatoo.animateSlideLeft(ChatGroupActivity.this);
+
         readMessages();
         //listenMessages();
 
@@ -91,6 +91,8 @@ public class ChatGroupActivity extends BaseActivity implements MessageListener {
         binding.chatRecyclerView.setAdapter(chatAdapter);
         binding.chatRecyclerView.setItemAnimator(null);
         database = FirebaseFirestore.getInstance();
+
+        binding.imageBack.setOnClickListener(view -> onBackPressed());
 
     }
 
@@ -386,13 +388,4 @@ public class ChatGroupActivity extends BaseActivity implements MessageListener {
 
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-
-        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-
-        super.attachBaseContext(newBase);
-    }
 }

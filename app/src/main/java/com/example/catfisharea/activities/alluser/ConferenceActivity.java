@@ -8,8 +8,9 @@ import android.os.Bundle;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityConferenceBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.example.catfisharea.activities.BaseActivity;
 
-public class ConferenceActivity extends AppCompatActivity {
+public class ConferenceActivity extends BaseActivity {
     private ActivityConferenceBinding mBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.catfisharea.activities.alluser.ChatActivity"
     android:paddingBottom="@dimen/_5sdp"
+    android:background="#56CAC5C5"
     android:animateLayoutChanges="true">
 
     <RelativeLayout
@@ -70,12 +71,21 @@
             <!--                android:src="@drawable/ic_video_call"/>-->
         </RelativeLayout>
 
+        <View
+            android:id="@+id/toolbar_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_below="@id/layoutTop"
+            android:background="@drawable/toolbar_dropshadow"
+            android:elevation="10dp"
+            android:translationZ="5dp" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chatRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/lauoutBottom"
-            android:layout_below="@id/layoutTop"
+            android:layout_below="@id/toolbar_shadow"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="2dp"
             android:clipToPadding="false"

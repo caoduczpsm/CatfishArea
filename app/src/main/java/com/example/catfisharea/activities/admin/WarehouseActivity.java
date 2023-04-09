@@ -33,7 +33,7 @@ public class WarehouseActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityWarehouseBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        Animatoo.animateSlideLeft(this);
+
         setUpActivity();
     }
 
@@ -45,6 +45,7 @@ public class WarehouseActivity extends BaseActivity {
         mBinding.recyclerViewWarehouse.setAdapter(warehouseAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         mBinding.recyclerViewWarehouse.addItemDecoration(itemDecoration);
+        mBinding.toolbarWarehouse.setNavigationOnClickListener(view -> onBackPressed());
         mBinding.createWarehouse.setOnClickListener(view -> {
             startActivity(new Intent(getApplicationContext(), WearhouseCreateActivity.class));
         });

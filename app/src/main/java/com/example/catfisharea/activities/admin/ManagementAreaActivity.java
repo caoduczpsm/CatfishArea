@@ -24,7 +24,7 @@ public class ManagementAreaActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityManagementAreaBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        Animatoo.animateSlideLeft(ManagementAreaActivity.this);
+
         request = getIntent().getStringExtra("request");
         String typeItem = getIntent().getStringExtra("typeItem");
         Bundle bundle = new Bundle();

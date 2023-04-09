@@ -1,7 +1,11 @@
 package com.example.catfisharea.activities.alluser;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -20,7 +24,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.concurrent.TimeUnit;
 
-public class SendOTPActivity extends BaseActivity {
+public class SendOTPActivity extends AppCompatActivity {
     private ActivitySendOtpactivityBinding mBinding;
 
     @Override
@@ -28,7 +32,7 @@ public class SendOTPActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivitySendOtpactivityBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-
+        Animatoo.animateSlideLeft(this);
         String mobile = getIntent().getStringExtra(Constants.KEY_PHONE);
         mBinding.inputMobile.setText(mobile);
         setListener();
@@ -100,5 +104,21 @@ public class SendOTPActivity extends BaseActivity {
                     });
 
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Animatoo.animateSlideRight(this);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+
+        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
+        override.fontScale = 1.0f;
+        applyOverrideConfiguration(override);
+
+        super.attachBaseContext(newBase);
     }
 }

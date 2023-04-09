@@ -1,8 +1,13 @@
 package com.example.catfisharea.activities.alluser;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.app.catfisharea.databinding.ActivitySetInfoRegisAdminBinding;
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.ViewPagerAdapter;
 import com.example.catfisharea.fragments.alluser.CompanyRegisFragment;
@@ -10,7 +15,7 @@ import com.example.catfisharea.fragments.alluser.PersonalRegisFragment;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
 
-public class SetInfoRegisAdminActivity extends BaseActivity {
+public class SetInfoRegisAdminActivity extends AppCompatActivity {
     private ActivitySetInfoRegisAdminBinding mBinding;
     private ViewPagerAdapter adapter;
 
@@ -19,7 +24,7 @@ public class SetInfoRegisAdminActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivitySetInfoRegisAdminBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        
+        Animatoo.animateSlideLeft(this);
         initActivity();
         
     }
@@ -44,5 +49,21 @@ public class SetInfoRegisAdminActivity extends BaseActivity {
         mBinding.tabLayout.setupWithViewPager(mBinding.viewPager);
 
         mBinding.toolbarSetInfo.setNavigationOnClickListener(view -> onBackPressed());
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Animatoo.animateSlideRight(this);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+
+        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
+        override.fontScale = 1.0f;
+        applyOverrideConfiguration(override);
+
+        super.attachBaseContext(newBase);
     }
 }

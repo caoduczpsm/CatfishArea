@@ -45,7 +45,7 @@ public class UserActivity extends BaseActivity implements UserListener {
         binding = ActivityUserBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         init();
-        Animatoo.animateSlideLeft(UserActivity.this);
+
         getUsers();
         setListeners();
     }

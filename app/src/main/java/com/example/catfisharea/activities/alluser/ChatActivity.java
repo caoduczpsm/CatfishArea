@@ -66,7 +66,7 @@ public class ChatActivity extends BaseActivity implements MessageListener {
         setListeners();
         loadReceiverDetails();
         init();
-        Animatoo.animateSlideLeft(ChatActivity.this);
+
         listenMessages();
 
         binding.inputeMessage.addTextChangedListener(new TextWatcher() {
@@ -111,8 +111,10 @@ public class ChatActivity extends BaseActivity implements MessageListener {
                 preferenceManager.getString(Constants.KEY_USER_ID),
                 this
         );
+
         binding.chatRecyclerView.setAdapter(chatAdapter);
         binding.chatRecyclerView.setItemAnimator(null);
+        binding.imageBack.setOnClickListener(view -> onBackPressed());
         database = FirebaseFirestore.getInstance();
     }
 
@@ -379,16 +381,6 @@ public class ChatActivity extends BaseActivity implements MessageListener {
     @Override
     public void onMessageSelection(Boolean isSelected, int position, List<ChatMessage> chatMessages, ChatMessage chatMessage) {
 
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-
-        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-
-        super.attachBaseContext(newBase);
     }
 
 }
