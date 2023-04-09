@@ -11,6 +11,8 @@ import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityAdminHomeBinding;
@@ -18,7 +20,9 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
+import com.example.catfisharea.activities.alluser.LoginActivity;
 import com.example.catfisharea.activities.alluser.ViewPlanActivity;
+import com.example.catfisharea.activities.director.DirectorHomeActivity;
 import com.example.catfisharea.adapter.HomeAdapter;
 import com.example.catfisharea.models.Area;
 import com.example.catfisharea.models.Campus;
@@ -26,11 +30,14 @@ import com.example.catfisharea.models.ItemHome;
 import com.example.catfisharea.models.RegionModel;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class AdminHomeActivity extends BaseActivity {
@@ -60,6 +67,8 @@ public class AdminHomeActivity extends BaseActivity {
         getDataHome();
 
         mBinding.toolbarAdminHome.setTitle(preferenceManager.getString(Constants.KEY_NAME));
+
+        mBinding.imageLogout.setOnClickListener(view -> logOut());
 
         mBinding.imageConference.setOnClickListener(view -> {
             Log.d("Action chat", "call");
@@ -231,6 +240,37 @@ public class AdminHomeActivity extends BaseActivity {
 
                     }
                 });
+    }
+
+    // Hàm đăng xuất
+    public void logOut() {
+
+        showToast("Đang đăng xuất...");
+
+        DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USER).document(
+                preferenceManager.getString(Constants.KEY_USER_ID)
+        );
+
+        // Xóa bộ nhớ tạm
+        preferenceManager.clear();
+
+        // Xóa FCM TOKEN
+        HashMap<String, Object> updates = new HashMap<>();
+        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
+        documentReference.update(updates)
+                .addOnSuccessListener(unused -> {
+                    // Xóa bộ nhớ tạm
+                    preferenceManager.clear();
+                    // Chuyển sang màn hình đăng nhập
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    Animatoo.animateSlideLeft(this);
+                    finish();
+                })
+                .addOnFailureListener(e -> showToast("Không thể đăng xuất..."));
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
 }
