@@ -47,7 +47,7 @@ public class WorkerHomeActivity extends BaseActivity {
     }
 
     private void setListener() {
-        mBinding.toolbarWorkerHome.setNavigationOnClickListener(view -> {
+        mBinding.toolbaWorkerHome.setNavigationOnClickListener(view -> {
             onBackPressed();
         });
 
@@ -60,7 +60,7 @@ public class WorkerHomeActivity extends BaseActivity {
             startActivity(intent);
         });
 
-        mBinding.toolbarWorkerHome.setTitle(preferenceManager.getString(Constants.KEY_NAME));
+        mBinding.toolbaWorkerHome.setTitle(preferenceManager.getString(Constants.KEY_NAME));
 
         mBinding.imageConference.setOnClickListener(view -> {
             startActivity(new Intent(getApplicationContext(), ConferenceActivity.class));

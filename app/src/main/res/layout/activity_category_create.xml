@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.catfisharea.activities.admin.WearhouseCreateActivity">
+    tools:context="com.example.catfisharea.activities.admin.CategoryCreateActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarWarehouseCreate"
+        android:id="@+id/toolbarCategoryCreate"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:elevation="10dp"
@@ -15,110 +15,117 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back_activity"
-        app:title="Tạo mới"
-        app:titleTextColor="@color/black" />
+        app:title="Tạo danh mục" />
 
     <View
-        android:id="@+id/toolbar_shadow"
+        android:id="@+id/toolbarShadow"
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:background="@drawable/toolbar_dropshadow"
-        android:elevation="10dp"
+        android:elevation="5dp"
         android:translationZ="5dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbarWarehouseCreate" />
+        app:layout_constraintTop_toBottomOf="@id/toolbarCategoryCreate" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/_10sdp"
+        android:layout_height="0dp"
+        android:padding="@dimen/_8sdp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_shadow">
+        app:layout_constraintTop_toBottomOf="@id/toolbarShadow">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputName"
+            android:id="@+id/textInputNameCategory"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tên"
+            android:hint="Tên danh mục"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtNameWarehouse"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputCampus"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:hint="Khu"
-            app:endIconMode="dropdown_menu"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputName"
+            app:layout_constraintTop_toTopOf="parent"
             app:startIconTint="@color/colorPrimary">
 
-            <AutoCompleteTextView
-                android:id="@+id/spinnerCampus"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtNameCategory"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/_8sdp"
-                android:textColor="@color/black"></AutoCompleteTextView>
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:inputType="text"
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputAceage"
+            android:id="@+id/textInputNameSupplier"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:hint="Diện tích"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:hint="Nhà sản xuất"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputCampus">
+            app:layout_constraintTop_toBottomOf="@id/textInputNameCategory"
+            app:startIconTint="@color/colorPrimary">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtAceage"
+                android:id="@+id/edtNameSupplier"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
+                android:gravity="center_vertical"
+                android:inputType="text"
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputDescription"
+            android:id="@+id/textInputUnit"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:hint="Mô tả"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:hint="Đơn vị tính"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputAceage">
+            app:layout_constraintTop_toBottomOf="@id/textInputNameSupplier"
+            app:startIconTint="@color/colorPrimary">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtDescription"
+                android:id="@+id/edtUnit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:gravity="center_vertical"
+                android:inputType="text"
+                android:textColor="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputEffect"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:hint="Công dụng"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputUnit"
+            app:startIconTint="@color/colorPrimary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtEffect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:inputType="text"
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/createWarehouse"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginStart="@dimen/_50sdp"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_50sdp"
-            android:background="@drawable/border_fun_background"
-            android:text="Lưu"
+            android:id="@+id/saveBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:background="@drawable/button_login"
+            android:text="Tạo"
             android:textColor="@color/white"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/_15ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputDescription" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@id/textInputEffect" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -337,7 +337,6 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
         mBinding.saveBtnCreate.setOnClickListener(view -> {
             saveCampus();
         });
-        setDataSpinner();
     }
 
     private void saveCampus() {
@@ -447,10 +446,9 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                         spinnerAdapter.notifyDataSetChanged();
                     });
 
-            mBinding.spinnerArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @RequiresApi(api = Build.VERSION_CODES.N)
+            mBinding.spinnerArea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Area area = (Area) parent.getItemAtPosition(position);
                     boundingBox.clear();
                     boundingBoxList.clear();
@@ -508,10 +506,6 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                             .zoom(19).build();
                     mapboxMap.setCameraPosition(areaPosition);
                     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(areaPosition), 500);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
 
                 }
             });
@@ -527,9 +521,10 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                                     Area area = new Area(id, name, geoList);
                                     mArae.add(area);
                                     spinnerAdapter.notifyDataSetChanged();
+                                    mBinding.spinnerArea.setListSelection(0);
+                                    mBinding.spinnerArea.setText(area.getName());
                                 });
                     });
-
         }
 
     }
@@ -658,6 +653,9 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
             idItem = getArguments().getString("idItem");
             setData(idItem);
         }
+
+        setDataSpinner();
+
         mapboxMap.setStyle(Style.SATELLITE_STREETS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {

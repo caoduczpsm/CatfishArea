@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/black2"
                 android:padding="@dimen/_4sdp"
-                android:text="Trưởng vùng"
+                android:text="Trưởng khu"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"

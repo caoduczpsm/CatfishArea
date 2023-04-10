@@ -194,12 +194,17 @@ public class Constants {
     public static final String KEY_FCR = "fcr";
     public static final String KEY_FOOD = "food";
     public static final String KEY_FINGERLING_SAMPLES = "fingerlingSamples";
-//    Kho
+    //    Kho
     public static final String KEY_COLLECTION_WAREHOUSE = "warehouses";
     public static final String KEY_DESCRIPTION = "description";
+    //    Danh mục kho
+    public static final String KEY_COLLECTION_CATEGORY = "categories";
+    public static final String KEY_PRODUCER = "producer";
+    public static final String KEY_UNIT = "unit";
+    public static final String KEY_EFFECT = "effect";
+
 
     public static HashMap<String, String> remoteMsgHeaders = null;
-
 
 
     public static HashMap<String, String> getRemoteMsgHeaders() {

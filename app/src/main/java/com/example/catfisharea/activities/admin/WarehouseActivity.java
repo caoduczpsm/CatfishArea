@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityWarehouseBinding;
@@ -27,6 +28,8 @@ public class WarehouseActivity extends BaseActivity {
     private PreferenceManager preferenceManager;
     private WarehouseAdapter warehouseAdapter;
     private List<Warehouse> mWarehouses;
+    private boolean isFABOpen = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +53,50 @@ public class WarehouseActivity extends BaseActivity {
             startActivity(new Intent(getApplicationContext(), WearhouseCreateActivity.class));
         });
         getDataWarehouse();
+
+        mBinding.fabNew.setOnClickListener(view -> {
+            if (!isFABOpen) {
+                showFABMenu();
+            } else {
+                closeFABMenu();
+            }
+        });
+
+        mBinding.fabNewCategory.setOnClickListener(view -> {
+            Intent intent = new Intent(this, CategoryCreateActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void getDataWarehouse() {
+        String type = preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT)
+        if (type.equals(Constants.KEY_DIRECTOR)) {
+            getDataWarehouseForDirector();
+        } else if (type.equals(Constants.KEY_REGIONAL_CHIEF)) {
+            getDataWarehouseForRegional();
+        }
+    }
+
+    private void getDataWarehouseForRegional() {
+        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                .whereEqualTo(Constants.KEY_AREA_ID, preferenceManager.getString(Constants.KEY_AREA_ID))
+                .get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                        String name = documentSnapshot.getString(Constants.KEY_NAME);
+                        String id = documentSnapshot.getId();
+                        String campusId = documentSnapshot.getString(Constants.KEY_CAMPUS_ID);
+                        String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
+                        String acreage = documentSnapshot.getString(Constants.KEY_ACREAGE);
+                        String description = documentSnapshot.getString(Constants.KEY_DESCRIPTION);
+
+                        Warehouse warehouse = new Warehouse(id, name, areaId, campusId, acreage, description);
+                        mWarehouses.add(warehouse);
+                    }
+                    warehouseAdapter.notifyDataSetChanged();
+                });
+    }
+
+    private void getDataWarehouseForDirector() {
         database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
                 .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
                 .get().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -71,5 +115,18 @@ public class WarehouseActivity extends BaseActivity {
                 });
     }
 
+    private void showFABMenu() {
+        isFABOpen = true;
+        mBinding.fabNewCategory.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        mBinding.textLeave.setVisibility(View.VISIBLE);
+        mBinding.textLeave.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+    }
+
+    private void closeFABMenu() {
+        isFABOpen = false;
+        mBinding.fabNewCategory.animate().translationY(0);
+        mBinding.textLeave.animate().translationY(0);
+        mBinding.textLeave.setVisibility(View.GONE);
+    }
 
 }

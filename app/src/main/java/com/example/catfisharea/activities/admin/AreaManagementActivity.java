@@ -78,7 +78,6 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
         preferenceManager = new PreferenceManager(this);
         database = FirebaseFirestore.getInstance();
         checkPermission();
-        setListener();
 
     }
 
@@ -513,6 +512,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
+        setListener();
         mapboxMap.setStyle(Style.SATELLITE_STREETS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {

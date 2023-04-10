@@ -117,14 +117,6 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
 
         action = getArguments().getString("action");
 
-        if (action.equals("create")) {
-
-        } else if (action.equals("edit")) {
-            mBinding.toolbarManagePond.setTitle("Chỉnh sửa ao");
-            idItem = getArguments().getString("idItem");
-            setData(idItem);
-        }
-
         return mBinding.getRoot();
     }
 
@@ -258,7 +250,7 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
         mBinding.saveBtnCreate.setOnClickListener(view -> {
             savePond();
         });
-        setDataAreaSpinner();
+
     }
 
     private void openPickUserDialog() {
@@ -368,7 +360,8 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
         if (marker == null) {
 //            mBinding.layoutMaps.setBackgroundResource(R.drawable.edit_text_error);
             isFinish = false;
-        } if (acreage.isEmpty()) {
+        }
+        if (acreage.isEmpty()) {
 //            mBinding.edtAcreage.setHint("Hãy nhập diện tích ao");
 //            mBinding.edtAcreage.setHintTextColor(getContext().getResources().getColor(R.color.red));
 //            mBinding.edtAcreage.setBackgroundResource(R.drawable.edit_text_error);
@@ -483,10 +476,9 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
                         }
                         spinnerAdapter.notifyDataSetChanged();
                     });
-            mBinding.spinnerArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @RequiresApi(api = Build.VERSION_CODES.N)
+            mBinding.spinnerArea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Area area = (Area) parent.getItemAtPosition(position);
 //                boundingBox.clear();
 //                boundingBoxList.clear();
@@ -522,11 +514,6 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
                     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(areaPosition), 500);
                     setDataCampusSpinner();
                 }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
             });
         } else {
             database.collection(Constants.KEY_COLLECTION_POND).document(idItem)
@@ -542,6 +529,9 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
                                     setDataCampusSpinner();
                                     mArae.add(area);
                                     spinnerAdapter.notifyDataSetChanged();
+                                    mBinding.spinnerArea.setListSelection(1);
+                                    mBinding.spinnerArea.setText(name);
+
                                     for (GeoPoint point : geoList) {
                                         arraylistoflatlng.add(new LatLng(point.getLatitude(), point.getLongitude()));
                                     }
@@ -589,7 +579,6 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
                     });
 
             mBinding.spinnerCampus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @SuppressLint("NewApi")
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     setDefaultUI();
@@ -617,6 +606,7 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
                             .zoom(20).build();
                     mapboxMap.setCameraPosition(areaPosition);
                     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(areaPosition), 500);
+
                 }
 
                 @Override
@@ -637,6 +627,9 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
                                     campusSelected = campus;
                                     mCampus.add(campus);
                                     spinnerAdapter.notifyDataSetChanged();
+                                    mBinding.spinnerCampus.setListSelection(0);
+                                    mBinding.spinnerCampus.setText(name);
+
                                     List<LatLng> points = new ArrayList<>();
                                     for (GeoPoint point : geoList) {
                                         points.add(new LatLng(point.getLatitude(), point.getLongitude()));
@@ -700,7 +693,15 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
-        Log.d("Mapboxmap null", "onMapReady");
+        if (action.equals("create")) {
+
+        } else if (action.equals("edit")) {
+            mBinding.toolbarManagePond.setTitle("Chỉnh sửa ao");
+            idItem = getArguments().getString("idItem");
+            setData(idItem);
+        }
+        setDataAreaSpinner();
+
         mapboxMap.setStyle(Style.SATELLITE_STREETS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
@@ -829,19 +830,18 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
                     }
                 });
     }
-    private void setDefaultUI (){
-        mBinding.edtNameArea.setHint("Nhập tên ao");
-        mBinding.edtNameArea.setHintTextColor(getContext().getResources().getColor(R.color.textGray));
-        mBinding.edtNameArea.setBackgroundResource(R.drawable.background_edit_text);
 
-        mBinding.edtAcreage.setHint("Nhập diện tích");
-        mBinding.edtAcreage.setHintTextColor(getContext().getResources().getColor(R.color.textGray));
-        mBinding.edtAcreage.setBackgroundResource(R.drawable.background_edit_text);
-
-        mBinding.edtWorker.setHintTextColor(getContext().getResources().getColor(R.color.textGray));
-        mBinding.edtWorker.setBackgroundResource(R.drawable.background_edit_text);
-        mBinding.spinnerCampus.setBackgroundResource(R.drawable.background_edit_text);
-        mBinding.spinnerArea.setBackgroundResource(R.drawable.background_edit_text);
-        mBinding.layoutMaps.setBackgroundResource(R.drawable.background_edit_text);
+    private void setDefaultUI() {
+//        mBinding.edtNameArea.setHintTextColor(getContext().getResources().getColor(R.color.textGray));
+//        mBinding.edtNameArea.setBackgroundResource(R.drawable.background_edit_text);
+//
+//        mBinding.edtAcreage.setHintTextColor(getContext().getResources().getColor(R.color.textGray));
+//        mBinding.edtAcreage.setBackgroundResource(R.drawable.background_edit_text);
+//
+//        mBinding.edtWorker.setHintTextColor(getContext().getResources().getColor(R.color.textGray));
+//        mBinding.edtWorker.setBackgroundResource(R.drawable.background_edit_text);
+//        mBinding.spinnerCampus.setBackgroundResource(R.drawable.background_edit_text);
+//        mBinding.spinnerArea.setBackgroundResource(R.drawable.background_edit_text);
+//        mBinding.layoutMaps.setBackgroundResource(R.drawable.background_edit_text);
     }
 }

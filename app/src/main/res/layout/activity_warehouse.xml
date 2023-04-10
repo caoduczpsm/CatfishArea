@@ -120,4 +120,40 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/historyWarehouse" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabNewCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_20sdp"
+        android:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/ic_add2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/textLeave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:text="Thêm danh mục"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/fabNewCategory"
+        app:layout_constraintEnd_toStartOf="@id/fabNewCategory"
+        app:layout_constraintTop_toTopOf="@id/fabNewCategory" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_20sdp"
+        android:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/ic_add2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
