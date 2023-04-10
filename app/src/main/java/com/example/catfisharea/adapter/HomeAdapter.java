@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.app.catfisharea.databinding.LayoutItemHomeRecyclerviewBinding;
 import com.example.catfisharea.models.Area;
+import com.example.catfisharea.models.Campus;
 import com.example.catfisharea.models.ItemHome;
 
 import java.util.List;
@@ -58,6 +59,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             if (item.getReginonList() == null || item.getReginonList().isEmpty()) {
                 if (item.getRegionModel() instanceof Area) {
                     mBinding.nameEmpty.setText("Vùng trống");
+                    mBinding.nameEmpty.setVisibility(View.VISIBLE);
+                } else if (item.getRegionModel() instanceof Campus) {
+                    mBinding.nameEmpty.setText("Khu trống");
                     mBinding.nameEmpty.setVisibility(View.VISIBLE);
                 }
             } else {

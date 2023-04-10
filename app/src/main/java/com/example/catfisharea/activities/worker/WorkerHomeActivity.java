@@ -1,9 +1,16 @@
 package com.example.catfisharea.activities.worker;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityWorkerHomeBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
@@ -66,6 +73,36 @@ public class WorkerHomeActivity extends BaseActivity {
         mBinding.imageLogout.setOnClickListener(view -> {
             logOut();
         });
+    }
+
+    private void setUpHomePage() {
+        String pondId = preferenceManager.getString(Constants.KEY_POND_ID);
+        assert pondId != null;
+
+    }
+
+    private void openFoodDialog() {
+        final Dialog dialog = openDialog(R.layout.layout_dialog_options_area);
+        assert dialog != null;
+    }
+
+    private Dialog openDialog(int layout) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(layout);
+        dialog.setCancelable(true);
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return null;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+
+        return dialog;
     }
 
     // Hàm đăng xuất

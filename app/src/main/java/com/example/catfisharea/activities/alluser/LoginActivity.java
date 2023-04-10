@@ -16,6 +16,7 @@ import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.admin.AdminHomeActivity;
 import com.example.catfisharea.activities.director.DirectorHomeActivity;
 import com.example.catfisharea.activities.personal.PersonalUserHomeActivity;
+import com.example.catfisharea.activities.regional_chief.RegionalChiefActivity;
 import com.example.catfisharea.activities.worker.WorkerHomeActivity;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.EncryptHandler;
@@ -58,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             } else if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_ACCOUNTANT)) {
 //                intent = new Intent(getApplicationContext(), AccountantHomeActivity.class);
             } else if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF)) {
-//                intent = new Intent(getApplicationContext(), RegionalChiefHomeActivity.class);
+                intent = new Intent(getApplicationContext(), RegionalChiefActivity.class);
             } else if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR)) {
                 intent = new Intent(getApplicationContext(), DirectorHomeActivity.class);
             } else {
@@ -119,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                             intent = new Intent(getApplicationContext(), AdminHomeActivity.class);
                         } else if (Objects.equals(documentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT), Constants.KEY_REGIONAL_CHIEF)) {
                             preferenceManager.putString(Constants.KEY_AREA_ID, documentSnapshot.getString(Constants.KEY_AREA_ID));
-//                            intent = new Intent(getApplicationContext(), RegionalChiefHomeActivity.class);
+                            intent = new Intent(getApplicationContext(), RegionalChiefActivity.class);
                         } else if (Objects.equals(documentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT), Constants.KEY_DIRECTOR)) {
                             preferenceManager.putString(Constants.KEY_CAMPUS_ID, documentSnapshot.getString(Constants.KEY_CAMPUS_ID));
                             intent = new Intent(getApplicationContext(), DirectorHomeActivity.class);
@@ -127,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
 //                            intent = new Intent(getApplicationContext(), AccountantHomeActivity.class);
                         } else if (Objects.equals(documentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT), Constants.KEY_WORKER)) {
                             preferenceManager.putString(Constants.KEY_POND_ID, documentSnapshot.getString(Constants.KEY_POND_ID));
-//                            intent = new Intent(getApplicationContext(), WorkerHomepageActivity.class);
+                            intent = new Intent(getApplicationContext(), WorkerHomeActivity.class);
                         } else {
                             intent = new Intent(getApplicationContext(), PersonalUserHomeActivity.class);
                         }
