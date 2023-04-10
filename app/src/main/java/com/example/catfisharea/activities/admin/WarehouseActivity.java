@@ -69,7 +69,7 @@ public class WarehouseActivity extends BaseActivity {
     }
 
     private void getDataWarehouse() {
-        String type = preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT)
+        String type = preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT);
         if (type.equals(Constants.KEY_DIRECTOR)) {
             getDataWarehouseForDirector();
         } else if (type.equals(Constants.KEY_REGIONAL_CHIEF)) {

@@ -17,9 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -128,6 +130,7 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
         users = new ArrayList<>();
         usersAdapter = new UsersAdapter(users, this);
         commentAdapter = new CommentAdapter(comments);
+        selectedUser = new ArrayList<>();
         mBinding.commentRecyclerView.setAdapter(commentAdapter);
 
         mBinding.textTitle.setText(taskComment.title);
@@ -468,6 +471,7 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
         textDayOfEnd.setOnClickListener(view -> openDatePicker(Constants.KEY_DAY_END_TASK));
 
         btnSave.setOnClickListener(view -> {
+            selectedUser.clear();
             selectedUser = multipleUserSelectionAdapter.getSelectedUser();
             if(selectedUser.size() == 0){
                 showToast("Chọn ít nhất một trưởng vùng!" + selectedUser.size());
@@ -506,7 +510,6 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
                 task.put(Constants.KEY_RECEIVER_IMAGE, receiverImages);
                 task.put(Constants.KEY_RECEIVER_PHONE, receiverPhones);
                 task.put(Constants.KEY_AMOUNT_RECEIVERS, selectedUser.size() + "");
-                task.put(Constants.KEY_AMOUNT_RECEIVERS_COMPLETED, "0");
                 task.put(Constants.KEY_RECEIVERS_ID_COMPLETED, receiverCompleted);
                 task.put(Constants.KEY_DAY_START_TASK, textDayOfStart.getText().toString());
                 task.put(Constants.KEY_DAY_END_TASK, textDayOfEnd.getText().toString());
@@ -554,9 +557,187 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
         Button btnClose = dialog.findViewById(R.id.btnClose);
         Button btnSave = dialog.findViewById(R.id.btnSave);
 
+        TextView textSelectUser;
+        ImageView imageSelectUser;
+        Spinner spinnerTypeOfTask;
+        EditText edtContent;
+        RecyclerView userRecyclerView;
+
+        textSelectUser = dialog.findViewById(R.id.textSelectUser);
+        imageSelectUser = dialog.findViewById(R.id.imageSelectUser);
+        spinnerTypeOfTask = dialog.findViewById(R.id.spinnerTypeOfTask);
+        userRecyclerView = dialog.findViewById(R.id.userRecyclerView);
+
+        //Adapter
+        multipleUserSelectionAdapter = new MultipleUserSelectionAdapter(users, this);
+        userRecyclerView.setAdapter(multipleUserSelectionAdapter);
+
+        if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF))
+            textSelectUser.setText("Chọn trưởng khu");
+        else textSelectUser.setText("Chọn công nhân");
+
+        List<String> typeOfFixedTask = new ArrayList<>();
+
+        typeOfFixedTask.add(Constants.KEY_FIXED_TASK_FEED_FISH);
+        typeOfFixedTask.add(Constants.KEY_FIXED_TASK_MEASURE_WATER);
+
+        //ArrayAdapter
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), R.layout.custom_layout_spinner, typeOfFixedTask);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTypeOfTask.setAdapter(adapter);
+
+        if (taskComment.typeOfTask != null){
+            int index = typeOfFixedTask.indexOf(taskComment.title);
+            spinnerTypeOfTask.setSelection(index);
+        }
+
+        edtContent = dialog.findViewById(R.id.edtContent);
+        edtContent.setText(taskComment.taskContent);
+
+        if (Constants.KEY_REGIONAL_CHIEF.equals(preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT))){
+            database.collection(Constants.KEY_COLLECTION_USER)
+                    .whereEqualTo(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID))
+                    .whereEqualTo(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_DIRECTOR)
+                    .get()
+                    .addOnCompleteListener(task -> {
+
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            users.clear();
+                            for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+
+                                User user = new User();
+                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                user.id = queryDocumentSnapshot.getId();
+                                if (taskComment.receiverID.contains(user.id)){
+                                    user.isSelected = true;
+                                }
+                                users.add(user);
+                                multipleUserSelectionAdapter.notifyDataSetChanged();
+                            }
+
+                        }
+
+                    });
+        } else {
+            database.collection(Constants.KEY_COLLECTION_USER)
+                    .whereEqualTo(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_WORKER)
+                    .whereEqualTo(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID))
+                    .get()
+                    .addOnCompleteListener(task -> {
+
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            users.clear();
+                            for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+
+                                User user = new User();
+                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                user.id = queryDocumentSnapshot.getId();
+                                if (taskComment.receiverID.contains(user.id)){
+                                    user.isSelected = true;
+                                }
+                                users.add(user);
+                                usersAdapter.notifyDataSetChanged();
+
+                            }
+
+                        }
+
+                    });
+        }
+
+        // Hiển thị hoặc ẩn danh sách trưởng khu
+        textSelectUser.setOnClickListener(view -> {
+            if (userRecyclerView.getVisibility() == View.VISIBLE){
+                userRecyclerView.setVisibility(View.GONE);
+                imageSelectUser.setImageResource(R.drawable.ic_up);
+            } else {
+                userRecyclerView.setVisibility(View.VISIBLE);
+                imageSelectUser.setImageResource(R.drawable.ic_down);
+            }
+        });
+
+        // Hiển thị hoặc ẩn danh sách trưởng khu
+        imageSelectUser.setOnClickListener(view -> {
+            if (userRecyclerView.getVisibility() == View.VISIBLE){
+                userRecyclerView.setVisibility(View.GONE);
+                imageSelectUser.setImageResource(R.drawable.ic_up);
+            } else {
+                userRecyclerView.setVisibility(View.VISIBLE);
+                imageSelectUser.setImageResource(R.drawable.ic_down);
+            }
+        });
+
         btnSave.setOnClickListener(view -> {
-            deleteTask();
-            dialog.dismiss();
+            selectedUser.clear();
+            selectedUser = multipleUserSelectionAdapter.getSelectedUser();
+            if(selectedUser.size() == 0){
+                showToast("Chọn ít nhất một trưởng vùng!");
+            } else if(edtContent.getText().toString().trim().isEmpty()){
+                showToast("Bạn chưa nhập nội dung công việc!");
+            } else{
+                List<String> receiverIds = new ArrayList<>();
+                List<String> receiverNames = new ArrayList<>();
+                List<String> receiverImages = new ArrayList<>();
+                List<String> receiverPhones = new ArrayList<>();
+                List<String> receiverCompleted = new ArrayList<>();
+
+                // Duyệt qua các trưởng vùng mà người dùng chọn để lấy tên và id
+                for (User user : selectedUser) {
+                    receiverIds.add(user.id);
+                    receiverNames.add(user.name);
+                    receiverImages.add(user.image);
+                    receiverPhones.add(user.phone);
+                }
+
+                // Tạo các trường dữ liệu cho bảng task
+                HashMap<String, Object> task = new HashMap<>();
+                task.put(Constants.KEY_CREATOR_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+                task.put(Constants.KEY_CREATOR_NAME, preferenceManager.getString(Constants.KEY_NAME));
+                task.put(Constants.KEY_CREATOR_PHONE, preferenceManager.getString(Constants.KEY_PHONE));
+                task.put(Constants.KEY_CREATOR_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
+                task.put(Constants.KEY_RECEIVER_ID, receiverIds);
+                task.put(Constants.KEY_RECEIVER_NAME, receiverNames);
+                task.put(Constants.KEY_RECEIVER_IMAGE, receiverImages);
+                task.put(Constants.KEY_RECEIVER_PHONE, receiverPhones);
+                task.put(Constants.KEY_AMOUNT_RECEIVERS, selectedUser.size() + "");
+                task.put(Constants.KEY_RECEIVERS_ID_COMPLETED, receiverCompleted);
+                task.put(Constants.KEY_TASK_CONTENT, edtContent.getText().toString());
+                task.put(Constants.KEY_TASK_TITLE, spinnerTypeOfTask.getSelectedItem().toString());
+                task.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
+
+                // Tạo nhiệm vụ lên cơ sở dữ liệu
+                database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                        .document(taskComment.id)
+                        .update(task)
+                        .addOnCompleteListener(task1 -> {
+
+                            // Cập nhật lại tình trạng ban đầu cho các ô dữ liệu
+                            edtContent.setText("");
+                            multipleUserSelectionAdapter.setUserUnSelected(users);
+
+                            // Hiển hoặc ẩn danh sách trưởng khu
+                            if (userRecyclerView.getVisibility() == View.VISIBLE){
+                                userRecyclerView.setVisibility(View.GONE);
+                                imageSelectUser.setImageResource(R.drawable.ic_up);
+                            } else {
+                                userRecyclerView.setVisibility(View.VISIBLE);
+                                imageSelectUser.setImageResource(R.drawable.ic_down);
+                            }
+
+                        }).addOnFailureListener(e -> showToast(e.getMessage()));
+                showToast("Đã cập nhật nhiệm vụ cố định thành công!");
+                dialog.dismiss();
+
+            }
+
         });
 
         btnClose.setOnClickListener(view -> dialog.dismiss());

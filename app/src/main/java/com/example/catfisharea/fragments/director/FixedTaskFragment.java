@@ -102,8 +102,36 @@ public class FixedTaskFragment extends Fragment implements MultipleListener {
                 });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getAllTasksForWorker(){
-
+        tasks.clear();
+        database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                .get()
+                .addOnCompleteListener(task -> {
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                        List<String> receiverId = (ArrayList<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVER_ID);
+                        assert receiverId != null;
+                        if (receiverId.contains(preferenceManager.getString(Constants.KEY_USER_ID))){
+                            Task task1 = new Task();
+                            task1.id = queryDocumentSnapshot.getId();
+                            task1.title = queryDocumentSnapshot.getString(Constants.KEY_TASK_TITLE);
+                            task1.creatorID = queryDocumentSnapshot.getString(Constants.KEY_CREATOR_ID);
+                            task1.creatorName = queryDocumentSnapshot.getString(Constants.KEY_CREATOR_NAME);
+                            task1.creatorPhone = queryDocumentSnapshot.getString(Constants.KEY_CREATOR_PHONE);
+                            task1.creatorImage = queryDocumentSnapshot.getString(Constants.KEY_CREATOR_IMAGE);
+                            task1.receiverID = (ArrayList<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVER_ID);
+                            task1.receiverName = (ArrayList<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVER_NAME);
+                            task1.receiverImage = (ArrayList<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVER_IMAGE);
+                            task1.receiverPhone = (ArrayList<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVER_PHONE);
+                            task1.receiversCompleted = (ArrayList<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVERS_ID_COMPLETED);
+                            task1.taskContent = queryDocumentSnapshot.getString(Constants.KEY_TASK_CONTENT);
+                            task1.status = queryDocumentSnapshot.getString(Constants.KEY_STATUS_TASK);
+                            task1.typeOfTask = Constants.KEY_COLLECTION_FIXED_TASK;
+                            tasks.add(task1);
+                            taskAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
     }
 
     @Override
