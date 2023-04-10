@@ -27,6 +27,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class UnfinishedTaskFragment extends Fragment implements MultipleListener {
 
@@ -492,13 +493,10 @@ public class UnfinishedTaskFragment extends Fragment implements MultipleListener
             }
         }
 
-
     }
 
     public void showToast(String message){
-
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
@@ -514,7 +512,7 @@ public class UnfinishedTaskFragment extends Fragment implements MultipleListener
     @Override
     public void onTaskClicker(Task task) {
         CommentBottomSheetFragment bottomSheetDialog = CommentBottomSheetFragment.newInstance(task);
-        bottomSheetDialog.show(getActivity().getSupportFragmentManager(), bottomSheetDialog.getTag());
+        bottomSheetDialog.show(requireActivity().getSupportFragmentManager(), bottomSheetDialog.getTag());
     }
 
     @Override
