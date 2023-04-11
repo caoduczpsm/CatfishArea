@@ -10,16 +10,18 @@ public class Pond extends RegionModel {
     private int numberWorker = 0;
     private boolean isSelected = false;
     private String idArea;
+    private int numOfFeeding;
 
     public Pond(String id, String name) {
         super(id, name);
     }
 
-    public Pond(String id, String name, GeoPoint geo, String idCampus, String acreage) {
+    public Pond(String id, String name, GeoPoint geo, String idCampus, String acreage, int numOfFeeding) {
         super(id, name);
         this.geo = geo;
         this.idCampus = idCampus;
         this.acreage = acreage;
+        this.numOfFeeding = numOfFeeding;
     }
 
     public String getIdCampus() {
@@ -52,6 +54,14 @@ public class Pond extends RegionModel {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public int getNumOfFeeding() {
+        return numOfFeeding;
+    }
+
+    public void setNumOfFeeding(int numOfFeeding) {
+        this.numOfFeeding = numOfFeeding;
     }
 
     public String getIdArea() {

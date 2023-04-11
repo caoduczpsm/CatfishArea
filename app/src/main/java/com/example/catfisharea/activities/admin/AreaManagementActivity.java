@@ -56,6 +56,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class AreaManagementActivity extends BaseActivity implements OnMapReadyCallback, InfoClicked {
     private ActivityAreaManagementBinding mBinding;
@@ -280,12 +281,13 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                         GeoPoint geo = (GeoPoint) doc.get(Constants.KEY_MAP);
                         String campusId = doc.getString(Constants.KEY_CAMPUS_ID);
                         String acreage = doc.getString(Constants.KEY_ACREAGE);
+                        int numOfFeeding = Integer.parseInt(Objects.requireNonNull(doc.getString(Constants.KEY_NUM_OF_FEEDING)));
 //                        thêm điểm ao trên bản đồ
                         MarkerOptions options = new MarkerOptions();
                         options.setIcon(icon);
                         options.position(new LatLng(geo.getLatitude(), geo.getLongitude()));
                         mapboxMap.addMarker(options);
-                        Pond pond = new Pond(id, name, geo, campusId, acreage);
+                        Pond pond = new Pond(id, name, geo, campusId, acreage, numOfFeeding);
                         mItems.add(pond);
                         database.collection(Constants.KEY_COLLECTION_USER)
                                 .whereEqualTo(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_WORKER)

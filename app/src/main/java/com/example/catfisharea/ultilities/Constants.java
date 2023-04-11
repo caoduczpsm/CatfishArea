@@ -58,6 +58,7 @@ public class Constants {
     public static final String KEY_COLLECTION_CAMPUS = "campus";
     public static final String KEY_COLLECTION_POND = "ponds";
     public static final String KEY_AREA_ID = "areaID";
+    public static final String KEY_NUM_OF_FEEDING = "numOfFeeding";
 
     public static final String KEY_MAP = "geo";
     public static final String KEY_AREA = "area";

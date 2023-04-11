@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class DirectorHomeActivity extends BaseActivity implements CampusListener {
     private ActivityDirectorHomeBinding mBinding;
@@ -105,7 +106,8 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
                         String pondId = pondDocument.getId();
                         String pondName = pondDocument.getString(Constants.KEY_NAME);
                         String acreage = pondDocument.getString(Constants.KEY_ACREAGE);
-                        Pond pond = new Pond(pondId, pondName, null, campusId, acreage);
+                        int numOfFeeding = Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_OF_FEEDING)));
+                        Pond pond = new Pond(pondId, pondName, null, campusId, acreage, numOfFeeding);
                         regionModels.add(pond);
                     }
                     Collections.sort(itemHomes,
