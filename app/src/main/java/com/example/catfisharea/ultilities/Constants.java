@@ -196,7 +196,9 @@ public class Constants {
     public static final String KEY_FINGERLING_SAMPLES = "fingerlingSamples";
     //    Kho
     public static final String KEY_COLLECTION_WAREHOUSE = "warehouses";
+    public static final String KEY_WAREHOUSE_ID = "warehouseID";
     public static final String KEY_DESCRIPTION = "description";
+    public static final String KEY_CATEGORY_OF_WAREHOUSE = "categories";
     //    Danh mục kho
     public static final String KEY_COLLECTION_CATEGORY = "categories";
     public static final String KEY_PRODUCER = "producer";

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.Toast;
 
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityCategoryCreateBinding;
@@ -34,6 +35,9 @@ public class CategoryCreateActivity extends BaseActivity {
 
     private void setListener() {
         checkError();
+
+        mBinding.toolbarCategoryCreate.setNavigationOnClickListener(view -> onBackPressed());
+
         mBinding.saveBtn.setOnClickListener(view -> {
             saveCategory();
         });
@@ -49,7 +53,7 @@ public class CategoryCreateActivity extends BaseActivity {
 
         assert areaID != null;
 
-        if (!name.isEmpty() && !producer.isEmpty() && !unit.isEmpty() && effect.isEmpty()) {
+        if (!name.isEmpty() && !producer.isEmpty() && !unit.isEmpty() && !effect.isEmpty()) {
             Map<String, Object> data = new HashMap<>();
             data.put(Constants.KEY_NAME, name);
             data.put(Constants.KEY_PRODUCER, producer);
@@ -57,7 +61,17 @@ public class CategoryCreateActivity extends BaseActivity {
             data.put(Constants.KEY_EFFECT, effect);
             data.put(Constants.KEY_COMPANY_ID, companyID);
             data.put(Constants.KEY_AREA_ID, areaID);
-            database.collection(Constants.KEY_COLLECTION_CATEGORY).document().set(data);
+            database.collection(Constants.KEY_COLLECTION_CATEGORY).document().set(data).addOnSuccessListener(command -> {
+                mBinding.edtNameCategory.setText("");
+                mBinding.edtUnit.setText("");
+                mBinding.edtNameSupplier.setText("");
+                mBinding.edtEffect.setText("");
+                mBinding.textInputNameCategory.setErrorEnabled(false);
+                mBinding.textInputEffect.setErrorEnabled(false);
+                mBinding.textInputUnit.setErrorEnabled(false);
+                mBinding.textInputNameSupplier.setErrorEnabled(false);
+                Toast.makeText(this, "Tạo thành công", Toast.LENGTH_SHORT).show();
+            });
         }
 
     }

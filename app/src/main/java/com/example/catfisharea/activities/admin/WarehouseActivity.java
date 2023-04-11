@@ -13,6 +13,7 @@ import com.android.app.catfisharea.databinding.ActivityWarehouseBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.WarehouseAdapter;
+import com.example.catfisharea.listeners.WarehouseListener;
 import com.example.catfisharea.models.Warehouse;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
@@ -22,7 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WarehouseActivity extends BaseActivity {
+public class WarehouseActivity extends BaseActivity implements WarehouseListener {
     private ActivityWarehouseBinding mBinding;
     private FirebaseFirestore database;
     private PreferenceManager preferenceManager;
@@ -44,7 +45,7 @@ public class WarehouseActivity extends BaseActivity {
         database = FirebaseFirestore.getInstance();
         preferenceManager = new PreferenceManager(this);
         mWarehouses = new ArrayList<>();
-        warehouseAdapter = new WarehouseAdapter(mWarehouses);
+        warehouseAdapter = new WarehouseAdapter(mWarehouses, this);
         mBinding.recyclerViewWarehouse.setAdapter(warehouseAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         mBinding.recyclerViewWarehouse.addItemDecoration(itemDecoration);
@@ -69,7 +70,7 @@ public class WarehouseActivity extends BaseActivity {
     }
 
     private void getDataWarehouse() {
-        String type = preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT)
+        String type = preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT);
         if (type.equals(Constants.KEY_DIRECTOR)) {
             getDataWarehouseForDirector();
         } else if (type.equals(Constants.KEY_REGIONAL_CHIEF)) {
@@ -129,4 +130,11 @@ public class WarehouseActivity extends BaseActivity {
         mBinding.textLeave.setVisibility(View.GONE);
     }
 
+    @Override
+    public void openWarehouse(Warehouse warehouse) {
+        Intent intent = new Intent(this, WarehouseDetailActivity.class);
+        intent.putExtra(Constants.KEY_WAREHOUSE_ID, warehouse.getId());
+        intent.putExtra(Constants.KEY_AREA_ID, warehouse.getAreaId());
+        startActivity(intent);
+    }
 }

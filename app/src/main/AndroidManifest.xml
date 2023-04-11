@@ -32,6 +32,9 @@
         android:theme="@style/Theme.CatfishArea"
         tools:targetApi="31">
         <activity
+            android:name="com.example.catfisharea.activities.admin.WarehouseDetailActivity"
+            android:exported="false" />
+        <activity
             android:name="com.example.catfisharea.activities.admin.CategoryCreateActivity"
             android:exported="false" />
         <activity

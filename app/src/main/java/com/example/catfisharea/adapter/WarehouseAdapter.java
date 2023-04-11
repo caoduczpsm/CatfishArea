@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.app.catfisharea.databinding.LayoutItemWarehouseBinding;
+import com.example.catfisharea.listeners.WarehouseListener;
 import com.example.catfisharea.models.Warehouse;
 import java.util.List;
 
@@ -13,9 +14,11 @@ import java.util.List;
 public class WarehouseAdapter extends RecyclerView.Adapter<WarehouseAdapter.WarehouseHolder>{
 
     private List<Warehouse> mWarehouses;
+    private WarehouseListener warehouseListener;
 
-    public WarehouseAdapter(List<Warehouse> mWarehouses) {
+    public WarehouseAdapter(List<Warehouse> mWarehouses, WarehouseListener warehouseListener) {
         this.mWarehouses = mWarehouses;
+        this.warehouseListener = warehouseListener;
     }
 
     @NonNull
@@ -46,6 +49,9 @@ public class WarehouseAdapter extends RecyclerView.Adapter<WarehouseAdapter.Ware
 
         public void setData(Warehouse warehouse) {
             mBinding.nameWarehouse.setText(warehouse.getName());
+            mBinding.itemWarehouse.setOnClickListener(view -> {
+                warehouseListener.openWarehouse(warehouse);
+            });
         }
     }
 }

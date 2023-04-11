@@ -47,7 +47,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     class HomeViewHolder extends RecyclerView.ViewHolder {
         private final LayoutItemHomeRecyclerviewBinding mBinding;
-        private ItemHomeAdapter adapter;
+
 
         public HomeViewHolder(LayoutItemHomeRecyclerviewBinding mBinding) {
             super(mBinding.getRoot());
@@ -69,7 +69,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 LinearLayoutManager layoutManager = new LinearLayoutManager(context);
                 layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 mBinding.recyclerviewItemHome.setLayoutManager(layoutManager);
-                adapter = new ItemHomeAdapter(item.getReginonList());
+                ItemHomeAdapter adapter = new ItemHomeAdapter(item.getReginonList());
                 mBinding.recyclerviewItemHome.setAdapter(adapter);
             }
 

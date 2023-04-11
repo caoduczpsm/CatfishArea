@@ -338,30 +338,35 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
         String acreage = mBinding.edtAcreage.getText().toString();
 
         if (name.isEmpty()) {
+            Toast.makeText(getContext(), "Hãy nhập tên ao", Toast.LENGTH_SHORT).show();
 //            mBinding.edtNameArea.setHint("Hãy nhập tên ao");
-//            mBinding.edtNameArea.setHintTextColor(getContext().getResources().getColor(R.color.red));
-//            mBinding.edtNameArea.setBackgroundResource(R.drawable.edit_text_error);
+//
             isFinish = false;
         }
         if (areaSelected == null) {
+            Toast.makeText(getContext(), "Hãy chọn vùng", Toast.LENGTH_SHORT).show();
 //            mBinding.spinnerArea.setBackgroundResource(R.drawable.edit_text_error);
             isFinish = false;
         }
         if (campusSelected == null) {
+            Toast.makeText(getContext(), "Hãy chọn khu", Toast.LENGTH_SHORT).show();
 //            mBinding.spinnerCampus.setBackgroundResource(R.drawable.edit_text_error);
             isFinish = false;
         }
         if (mUsersSelected.size() == 0) {
+            Toast.makeText(getContext(), "Hãy chọn công nhân", Toast.LENGTH_SHORT).show();
 //            mBinding.edtWorker.setBackgroundResource(R.drawable.edit_text_error);
 //            mBinding.edtNameArea.setHint("Hãy chọn công nhân");
 //            mBinding.edtNameArea.setHintTextColor(getContext().getResources().getColor(R.color.red));
             isFinish = false;
         }
         if (marker == null) {
+            Toast.makeText(getContext(), "Hãy vẽ lên bản đồ", Toast.LENGTH_SHORT).show();
 //            mBinding.layoutMaps.setBackgroundResource(R.drawable.edit_text_error);
             isFinish = false;
         }
         if (acreage.isEmpty()) {
+            Toast.makeText(getContext(), "Hãy nhập diện tích", Toast.LENGTH_SHORT).show();
 //            mBinding.edtAcreage.setHint("Hãy nhập diện tích ao");
 //            mBinding.edtAcreage.setHintTextColor(getContext().getResources().getColor(R.color.red));
 //            mBinding.edtAcreage.setBackgroundResource(R.drawable.edit_text_error);
@@ -397,6 +402,7 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
 
                                         Toast.makeText(getContext(), "Thêm ao mới thành công", Toast.LENGTH_SHORT).show();
                                         mBinding.edtNameArea.setText("");
+                                        mBinding.edtAcreage.setText("");
                                         mUsersSelected.clear();
                                         getPonds(campusSelected.getId());
                                     }
@@ -578,9 +584,9 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
                         spinnerAdapter.notifyDataSetChanged();
                     });
 
-            mBinding.spinnerCampus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            mBinding.spinnerCampus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     setDefaultUI();
                     Campus campus = (Campus) parent.getItemAtPosition(position);
                     campusSelected = campus;
@@ -606,11 +612,6 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
                             .zoom(20).build();
                     mapboxMap.setCameraPosition(areaPosition);
                     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(areaPosition), 500);
-
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
 
                 }
             });

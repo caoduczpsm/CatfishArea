@@ -254,9 +254,11 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
             if (!isZoomOut) {
                 mBinding.layoutMaps.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 mBinding.zoomOutBtn.setImageResource(R.drawable.baseline_zoom_in_map_24);
+                mBinding.saveBtnCreate.setVisibility(View.INVISIBLE);
             } else {
                 mBinding.layoutMaps.setLayoutParams(params);
                 mBinding.zoomOutBtn.setImageResource(R.drawable.ic_zoom_out_map);
+                mBinding.saveBtnCreate.setVisibility(View.VISIBLE);
             }
             isZoomOut = !isZoomOut;
         });
