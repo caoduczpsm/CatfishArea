@@ -48,7 +48,11 @@ public class TaskManagerActivity extends BaseActivity implements DatePickerListe
         setContentView(mBinding.getRoot());
         init();
         Animatoo.animateSlideLeft(TaskManagerActivity.this);
-        adapter.addFragment(overviewTaskFragment, "Tổng Quan Nhiệm Vụ");
+        if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF)){
+            adapter.addFragment(overviewTaskFragment, "Tổng Quan");
+        } else {
+            adapter.addFragment(overviewTaskFragment, "Tổng Quan Nhiệm Vụ");
+        }
         adapter.addFragment(completedTaskFragment, "Đã Hoàn Thành");
         adapter.addFragment(unfinishedTaskFragment, "Chưa Hoàn Thành");
         if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR) ||
