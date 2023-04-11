@@ -56,10 +56,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     class HomeViewHolder extends RecyclerView.ViewHolder implements PondListener {
         private final LayoutItemHomeRecyclerviewBinding mBinding;
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 
         public HomeViewHolder(LayoutItemHomeRecyclerviewBinding mBinding) {
             super(mBinding.getRoot());
@@ -82,11 +78,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 LinearLayoutManager layoutManager = new LinearLayoutManager(context);
                 layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 mBinding.recyclerviewItemHome.setLayoutManager(layoutManager);
-<<<<<<< Updated upstream
-                ItemHomeAdapter adapter = new ItemHomeAdapter(item.getReginonList());
-=======
+
                 ItemHomeAdapter adapter = new ItemHomeAdapter(item.getReginonList(), this);
->>>>>>> Stashed changes
                 mBinding.recyclerviewItemHome.setAdapter(adapter);
             }
             mBinding.nameItem.setOnClickListener(view -> campusListener.OnCampusClicker(item.getRegionModel()));

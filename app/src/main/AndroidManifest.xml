@@ -33,17 +33,12 @@
         android:theme="@style/Theme.CatfishArea"
         tools:targetApi="31">
         <activity
-<<<<<<< Updated upstream
-            android:name="com.example.catfisharea.activities.admin.WarehouseDetailActivity"
-            android:exported="false" />
-=======
             android:name="com.example.catfisharea.activities.alluser.PondDetailsActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
->>>>>>> Stashed changes
         <activity
             android:name="com.example.catfisharea.activities.admin.CategoryCreateActivity"
             android:exported="false" />

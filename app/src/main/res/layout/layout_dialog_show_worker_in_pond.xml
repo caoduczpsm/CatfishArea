@@ -14,7 +14,7 @@
         android:id="@+id/textTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Danh sách tài khoản nhận nhiệm vụ này"
+        android:text="Danh sách công nhân đang làm việc tại ao này"
         android:textAlignment="center"
         android:textColor="#009688"
         android:textSize="@dimen/_18sdp"

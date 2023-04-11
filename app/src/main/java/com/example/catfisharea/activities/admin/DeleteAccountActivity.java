@@ -476,7 +476,6 @@ public class DeleteAccountActivity extends BaseActivity implements MultipleListe
                             user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
                             user.id = queryDocumentSnapshot.getId();
                             users.add(user);
-
                         }
                         usersAdapter.notifyDataSetChanged();
                         loading(false);
