@@ -21,6 +21,7 @@ import com.example.catfisharea.activities.director.HumanResourceActivity;
 import com.example.catfisharea.activities.director.RequestManagementActivity;
 import com.example.catfisharea.activities.director.TaskManagerActivity;
 import com.example.catfisharea.adapter.HomeAdapter;
+import com.example.catfisharea.listeners.CampusListener;
 import com.example.catfisharea.models.Campus;
 import com.example.catfisharea.models.ItemHome;
 import com.example.catfisharea.models.Pond;
@@ -37,7 +38,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class RegionalChiefActivity extends BaseActivity {
+public class RegionalChiefActivity extends BaseActivity implements CampusListener {
     private ActivityRegionalChiefBinding mBinding;
     private FirebaseFirestore database;
     private PreferenceManager preferenceManager;
@@ -56,7 +57,7 @@ public class RegionalChiefActivity extends BaseActivity {
 
     private void setListener() {
         itemHomes = new ArrayList<>();
-        homeAdapter = new HomeAdapter(this, itemHomes);
+        homeAdapter = new HomeAdapter(this, itemHomes, this);
         mBinding.recyclerViewRegionalChiefHome.setAdapter(homeAdapter);
         getDataHome();
 
@@ -173,4 +174,8 @@ public class RegionalChiefActivity extends BaseActivity {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void OnCampusClicker(RegionModel regionModel) {
+
+    }
 }

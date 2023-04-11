@@ -23,6 +23,7 @@ import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
 import com.example.catfisharea.activities.alluser.ViewPlanActivity;
 import com.example.catfisharea.adapter.HomeAdapter;
+import com.example.catfisharea.listeners.CampusListener;
 import com.example.catfisharea.models.Area;
 import com.example.catfisharea.models.Campus;
 import com.example.catfisharea.models.ItemHome;
@@ -39,7 +40,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class AdminHomeActivity extends BaseActivity {
+public class AdminHomeActivity extends BaseActivity implements CampusListener {
 
     private ActivityAdminHomeBinding mBinding;
     private HomeAdapter homeAdapter;
@@ -61,7 +62,7 @@ public class AdminHomeActivity extends BaseActivity {
         preferenceManager = new PreferenceManager(this);
 
         itemHomes = new ArrayList<>();
-        homeAdapter = new HomeAdapter(this, itemHomes);
+        homeAdapter = new HomeAdapter(this, itemHomes, this);
         mBinding.recyclerViewAdminHome.setAdapter(homeAdapter);
         getDataHome();
 
@@ -277,4 +278,8 @@ public class AdminHomeActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void OnCampusClicker(RegionModel regionModel) {
+
+    }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="5dp"
@@ -16,13 +17,14 @@
             android:id="@+id/nameItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_chevron_right"
             android:text="Vùng 01"
             android:textColor="@color/black"
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:drawableEndCompat="@drawable/ic_chevron_right"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/nameEmpty"
@@ -34,7 +36,8 @@
             android:textColor="@color/textGray"
             android:textSize="@dimen/_13ssp"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/nameItem" />
+            app:layout_constraintTop_toBottomOf="@id/nameItem"
+            tools:ignore="HardcodedText" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerviewItemHome"

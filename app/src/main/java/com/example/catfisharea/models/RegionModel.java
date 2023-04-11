@@ -1,6 +1,8 @@
 package com.example.catfisharea.models;
 
-public abstract class RegionModel {
+import java.io.Serializable;
+
+public abstract class RegionModel implements Serializable {
     private String id;
     private String name;
     private User manager;

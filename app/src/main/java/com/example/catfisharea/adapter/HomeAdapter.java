@@ -1,7 +1,8 @@
 package com.example.catfisharea.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.app.catfisharea.databinding.LayoutItemHomeRecyclerviewBinding;
+import com.example.catfisharea.activities.alluser.PondDetailsActivity;
+import com.example.catfisharea.listeners.CampusListener;
+import com.example.catfisharea.listeners.PondListener;
 import com.example.catfisharea.models.Area;
 import com.example.catfisharea.models.Campus;
 import com.example.catfisharea.models.ItemHome;
+import com.example.catfisharea.models.RegionModel;
+import com.example.catfisharea.ultilities.Constants;
+import com.example.catfisharea.ultilities.PreferenceManager;
 
 import java.util.List;
 
@@ -21,10 +28,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     private final List<ItemHome> mRegion;
     private final Context context;
+    private final CampusListener campusListener;
 
-    public HomeAdapter(Context context, List<ItemHome> item) {
+    public HomeAdapter(Context context, List<ItemHome> item, CampusListener campusListener) {
         this.mRegion = item;
         this.context = context;
+        this.campusListener = campusListener;
     }
 
     @NonNull
@@ -45,15 +54,19 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         return mRegion.size();
     }
 
-    class HomeViewHolder extends RecyclerView.ViewHolder {
+    class HomeViewHolder extends RecyclerView.ViewHolder implements PondListener {
         private final LayoutItemHomeRecyclerviewBinding mBinding;
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
         public HomeViewHolder(LayoutItemHomeRecyclerviewBinding mBinding) {
             super(mBinding.getRoot());
             this.mBinding = mBinding;
         }
 
+        @SuppressLint("SetTextI18n")
         public void setData(ItemHome item) {
             mBinding.nameItem.setText(item.getRegionModel().getName());
             if (item.getReginonList() == null || item.getReginonList().isEmpty()) {
@@ -69,11 +82,25 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 LinearLayoutManager layoutManager = new LinearLayoutManager(context);
                 layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 mBinding.recyclerviewItemHome.setLayoutManager(layoutManager);
+<<<<<<< Updated upstream
                 ItemHomeAdapter adapter = new ItemHomeAdapter(item.getReginonList());
+=======
+                ItemHomeAdapter adapter = new ItemHomeAdapter(item.getReginonList(), this);
+>>>>>>> Stashed changes
                 mBinding.recyclerviewItemHome.setAdapter(adapter);
             }
+            mBinding.nameItem.setOnClickListener(view -> campusListener.OnCampusClicker(item.getRegionModel()));
+        }
 
-
+        @Override
+        public void OnPondClicker(RegionModel regionModel) {
+            PreferenceManager preferenceManager = new PreferenceManager(context);
+            if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF) ||
+                    preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR)){
+                Intent intent = new Intent(context, PondDetailsActivity.class);
+                intent.putExtra(Constants.KEY_POND, regionModel);
+                context.startActivity(intent);
+            }
         }
     }
 }

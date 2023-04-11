@@ -1,13 +1,9 @@
 package com.example.catfisharea.activities.director;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
-
-import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityDirectorHomeBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
@@ -15,8 +11,10 @@ import com.example.catfisharea.activities.admin.WarehouseActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
+import com.example.catfisharea.activities.alluser.PondDetailsActivity;
 import com.example.catfisharea.activities.alluser.ViewPlanActivity;
 import com.example.catfisharea.adapter.HomeAdapter;
+import com.example.catfisharea.listeners.CampusListener;
 import com.example.catfisharea.models.Campus;
 import com.example.catfisharea.models.ItemHome;
 import com.example.catfisharea.models.Pond;
@@ -27,13 +25,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class DirectorHomeActivity extends BaseActivity {
+public class DirectorHomeActivity extends BaseActivity implements CampusListener {
     private ActivityDirectorHomeBinding mBinding;
     private FirebaseFirestore database;
     private PreferenceManager preferenceManager;
@@ -52,42 +49,30 @@ public class DirectorHomeActivity extends BaseActivity {
 
     private void setListener() {
         itemHomes = new ArrayList<>();
-        homeAdapter = new HomeAdapter(this, itemHomes);
+        homeAdapter = new HomeAdapter(this, itemHomes, this);
         mBinding.recyclerViewDirectorHome.setAdapter(homeAdapter);
         getDataHome();
 
         mBinding.toolbaDirectorHome.setTitle(preferenceManager.getString(Constants.KEY_NAME));
 
-        mBinding.imageConference.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), ConferenceActivity.class));
-        });
+        mBinding.imageConference.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), ConferenceActivity.class)));
 
-        mBinding.imageChat.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), ConversationActivity.class));
-        });
+        mBinding.imageChat.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), ConversationActivity.class)));
 
-        mBinding.imageLogout.setOnClickListener(view -> {
-            logOut();
-        });
+        mBinding.imageLogout.setOnClickListener(view -> logOut());
 
-        mBinding.layoutControlDirectorHome.layoutWarehouse.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), WarehouseActivity.class));
-        });
+        mBinding.layoutControlDirectorHome.layoutWarehouse.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), WarehouseActivity.class)));
 
         mBinding.layoutControlDirectorHome.layoutSeason.setOnClickListener(view -> {
             Intent intent = new Intent(this, ViewPlanActivity.class);
             startActivity(intent);
         });
 
-        mBinding.layoutControlDirectorHome.layoutHR.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), HumanResourceActivity.class));
-        });
+        mBinding.layoutControlDirectorHome.layoutHR.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), HumanResourceActivity.class)));
 
-        mBinding.layoutControlDirectorHome.layoutTask.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), TaskManagerActivity.class));
-        });
+        mBinding.layoutControlDirectorHome.layoutTask.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TaskManagerActivity.class)));
 
-        mBinding.layoutControlDirectorHome.layoutRequest.setOnClickListener(view ->{
+        mBinding.layoutControlDirectorHome.layoutRequest.setOnClickListener(view -> {
             Intent intent = new Intent(this, RequestManagementActivity.class);
             startActivity(intent);
         });
@@ -100,6 +85,7 @@ public class DirectorHomeActivity extends BaseActivity {
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getDataHome() {
         String campusId = preferenceManager.getString(Constants.KEY_CAMPUS_ID);
         assert campusId != null;
@@ -159,5 +145,10 @@ public class DirectorHomeActivity extends BaseActivity {
 
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void OnCampusClicker(RegionModel regionModel) {
+        // show dialog campus detail
     }
 }

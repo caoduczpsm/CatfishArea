@@ -337,6 +337,7 @@ public class AdditionTaskFragment extends Fragment implements MultipleListener {
         if (Constants.KEY_REGIONAL_CHIEF.equals(preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT))){
             database.collection(Constants.KEY_COLLECTION_USER)
                     .whereEqualTo(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID))
+                    .whereEqualTo(Constants.KEY_AREA_ID, preferenceManager.getString(Constants.KEY_AREA_ID))
                     .whereEqualTo(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_DIRECTOR)
                     .get()
                     .addOnCompleteListener(task -> {
@@ -364,6 +365,7 @@ public class AdditionTaskFragment extends Fragment implements MultipleListener {
             database.collection(Constants.KEY_COLLECTION_USER)
                     .whereEqualTo(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_WORKER)
                     .whereEqualTo(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID))
+                    .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
                     .get()
                     .addOnCompleteListener(task -> {
 
