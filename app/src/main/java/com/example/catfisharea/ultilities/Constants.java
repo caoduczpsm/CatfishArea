@@ -211,6 +211,7 @@ public class Constants {
     public static final String KEY_PRODUCER = "producer";
     public static final String KEY_UNIT = "unit";
     public static final String KEY_EFFECT = "effect";
+    public static final String KEY_CATEGORY_FOOD = "Thức ăn";
 
 
     public static HashMap<String, String> remoteMsgHeaders = null;

@@ -32,10 +32,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-
-import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -234,13 +231,48 @@ public class WorkerHomeActivity extends BaseActivity {
                 for (int i = 0; i < amountFed.size(); i++){
                     if (!amountFed.get(i).equals("0")){
                         amountFed.set(i, "0");
-                        HashMap<String, Object> unCompletedTask = new HashMap<>();
-                        unCompletedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
-                        database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
-                                .document(fixedTask.id)
-                                .update(unCompletedTask);
                     }
                 }
+                HashMap<String, Object> unCompletedTask = new HashMap<>();
+                unCompletedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
+                database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                        .document(fixedTask.id)
+                        .update(unCompletedTask);
+                
+                int totalFeedInDate = 0;
+                for (String num : pond.getAmountFeedList()){
+                    totalFeedInDate = totalFeedInDate + Integer.parseInt(num);
+                }
+                int finalTotalFeedInDate = totalFeedInDate;
+                database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                        .whereEqualTo(Constants.KEY_AREA_ID, preferenceManager.getString(Constants.KEY_AREA_ID))
+                        .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
+                        .get()
+                        .addOnCompleteListener(task -> {
+
+                            for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                        .document(queryDocumentSnapshot.getId())
+                                        .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                        .whereEqualTo(Constants.KEY_NAME, Constants.KEY_CATEGORY_FOOD)
+                                        .get()
+                                        .addOnCompleteListener(task1 -> {
+                                            for (QueryDocumentSnapshot queryDocumentSnapshot1 : task1.getResult()){
+                                                int amountFood = Integer.parseInt(Objects.requireNonNull(queryDocumentSnapshot1.getString(Constants.KEY_AMOUNT_OF_ROOM)));
+                                                amountFood = amountFood - finalTotalFeedInDate;
+                                                HashMap<String, Object> updated = new HashMap<>();
+                                                updated.put(Constants.KEY_AMOUNT_OF_ROOM, amountFood + "");
+                                                database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                        .document(queryDocumentSnapshot.getId())
+                                                        .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                        .document(queryDocumentSnapshot1.getId())
+                                                        .update(updated);
+                                            }
+                                        });
+                            }
+
+                        });
+
             }
         }
     }

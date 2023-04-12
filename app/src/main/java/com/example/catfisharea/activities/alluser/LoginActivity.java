@@ -128,6 +128,8 @@ public class LoginActivity extends AppCompatActivity {
 //                            intent = new Intent(getApplicationContext(), AccountantHomeActivity.class);
                         } else if (Objects.equals(documentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT), Constants.KEY_WORKER)) {
                             preferenceManager.putString(Constants.KEY_POND_ID, documentSnapshot.getString(Constants.KEY_POND_ID));
+                            preferenceManager.putString(Constants.KEY_CAMPUS_ID, documentSnapshot.getString(Constants.KEY_CAMPUS_ID));
+                            preferenceManager.putString(Constants.KEY_AREA_ID, documentSnapshot.getString(Constants.KEY_AREA_ID));
                             intent = new Intent(getApplicationContext(), WorkerHomeActivity.class);
                         } else {
                             intent = new Intent(getApplicationContext(), PersonalUserHomeActivity.class);
