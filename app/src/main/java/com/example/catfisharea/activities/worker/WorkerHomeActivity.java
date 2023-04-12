@@ -6,18 +6,16 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityWorkerHomeBinding;
-import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
-import com.example.catfisharea.activities.director.DirectorHomeActivity;
 import com.example.catfisharea.activities.director.RequestManagementActivity;
 import com.example.catfisharea.activities.director.TaskManagerActivity;
 import com.example.catfisharea.ultilities.Constants;
@@ -25,8 +23,10 @@ import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 public class WorkerHomeActivity extends BaseActivity {
@@ -40,20 +40,38 @@ public class WorkerHomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityWorkerHomeBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        preferenceManager = new PreferenceManager(this);
-        database = FirebaseFirestore.getInstance();
 
+        init();
         setListener();
     }
 
-    private void setListener() {
-        mBinding.toolbaWorkerHome.setNavigationOnClickListener(view -> {
-            onBackPressed();
-        });
+    private void init(){
+        preferenceManager = new PreferenceManager(this);
+        database = FirebaseFirestore.getInstance();
 
-        mBinding.layoutControlWorkerHome.layoutTask.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), TaskManagerActivity.class));
-        });
+        database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                .whereEqualTo(Constants.KEY_TASK_TITLE, Constants.KEY_FIXED_TASK_FEED_FISH)
+                .get()
+                .addOnCompleteListener(task -> {
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+
+                        List<String> receiverFeedFishTask = (List<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVER_ID);
+
+                        assert receiverFeedFishTask != null;
+                        if (receiverFeedFishTask.contains(preferenceManager.getString(Constants.KEY_USER_ID))){
+                            mBinding.layoutHome.cardFood.setVisibility(View.VISIBLE);
+                        } else {
+                            mBinding.layoutHome.cardFood.setVisibility(View.GONE);
+                        }
+
+                    }
+                });
+    }
+
+    private void setListener() {
+        mBinding.toolbaWorkerHome.setNavigationOnClickListener(view -> onBackPressed());
+
+        mBinding.layoutControlWorkerHome.layoutTask.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TaskManagerActivity.class)));
 
         mBinding.layoutControlWorkerHome.layoutRequest.setOnClickListener(view -> {
             Intent intent = new Intent(this, RequestManagementActivity.class);
@@ -62,28 +80,17 @@ public class WorkerHomeActivity extends BaseActivity {
 
         mBinding.toolbaWorkerHome.setTitle(preferenceManager.getString(Constants.KEY_NAME));
 
-        mBinding.imageConference.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), ConferenceActivity.class));
-        });
+        mBinding.imageConference.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), ConferenceActivity.class)));
 
-        mBinding.imageChat.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), ConversationActivity.class));
-        });
+        mBinding.imageChat.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), ConversationActivity.class)));
 
-        mBinding.imageLogout.setOnClickListener(view -> {
-            logOut();
-        });
+        mBinding.imageLogout.setOnClickListener(view -> logOut());
     }
 
     private void setUpHomePage() {
         String pondId = preferenceManager.getString(Constants.KEY_POND_ID);
         assert pondId != null;
 
-    }
-
-    private void openFoodDialog() {
-        final Dialog dialog = openDialog(R.layout.layout_dialog_options_area);
-        assert dialog != null;
     }
 
     private Dialog openDialog(int layout) {

@@ -106,8 +106,9 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
                         String pondName = pondDocument.getString(Constants.KEY_NAME);
                         String acreage = pondDocument.getString(Constants.KEY_ACREAGE);
                         List<String> numOfFeedingList = (List<String>) pondDocument.get(Constants.KEY_NUM_OF_FEEDING_LIST);
+                        List<String> amountFedList = (List<String>) pondDocument.get(Constants.KEY_AMOUNT_FED);
                         int numOfFeeding = Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_OF_FEEDING)));
-                        Pond pond = new Pond(pondId, pondName, null, campusId, acreage, numOfFeeding, numOfFeedingList);
+                        Pond pond = new Pond(pondId, pondName, null, campusId, acreage, numOfFeeding, numOfFeedingList, amountFedList);
                         regionModels.add(pond);
                     }
                     Collections.sort(itemHomes,

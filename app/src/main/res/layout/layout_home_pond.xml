@@ -93,7 +93,7 @@
                     android:drawableTint="@color/white"
                     android:gravity="center_vertical"
                     android:paddingStart="@dimen/_20sdp"
-                    android:text="Thức ăn"
+                    android:text="Thức ăn (bao)"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_15ssp"
                     android:textStyle="bold"
@@ -123,11 +123,12 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
-                                android:id="@+id/image1"
+                                android:id="@+id/imageFood1"
                                 android:layout_width="@dimen/_45sdp"
                                 android:layout_height="@dimen/_45sdp"
                                 android:src="@drawable/ic_add"
-                                app:layout_constraintBottom_toTopOf="@id/text1"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toTopOf="@id/textFood1"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -135,16 +136,30 @@
                                 tools:ignore="ContentDescription" />
 
                             <TextView
-                                android:id="@+id/text1"
+                                android:id="@+id/textQuantityFood1"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_25ssp"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@+id/textFood1"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
+                                android:id="@+id/textFood1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
-                                android:text="Lần 1"
+                                android:text="Lần 1: 10"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/image1"
                                 tools:ignore="HardcodedText" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -160,11 +175,12 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
-                                android:id="@+id/image2"
+                                android:id="@+id/imageFood2"
                                 android:layout_width="@dimen/_45sdp"
                                 android:layout_height="@dimen/_45sdp"
                                 android:src="@drawable/ic_add"
-                                app:layout_constraintBottom_toTopOf="@id/text2"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toTopOf="@id/textFood2"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -172,7 +188,22 @@
                                 tools:ignore="ContentDescription" />
 
                             <TextView
-                                android:id="@+id/text2"
+                                android:id="@+id/textQuantityFood2"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_25ssp"
+                                android:text="0"
+                                android:gravity="center"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@+id/textFood2"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
+                                android:id="@+id/textFood2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
@@ -181,7 +212,6 @@
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/image2"
                                 tools:ignore="HardcodedText" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -197,11 +227,12 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
-                                android:id="@+id/image3"
+                                android:id="@+id/imageFood3"
                                 android:layout_width="@dimen/_45sdp"
                                 android:layout_height="@dimen/_45sdp"
                                 android:src="@drawable/ic_add"
-                                app:layout_constraintBottom_toTopOf="@id/text3"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toTopOf="@id/textFood3"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -209,7 +240,22 @@
                                 tools:ignore="ContentDescription" />
 
                             <TextView
-                                android:id="@+id/text3"
+                                android:id="@+id/textQuantityFood3"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_25ssp"
+                                android:text="0"
+                                android:gravity="center"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@+id/textFood3"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
+                                android:id="@+id/textFood3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
@@ -218,7 +264,6 @@
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/image3"
                                 tools:ignore="HardcodedText" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -234,11 +279,12 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
-                                android:id="@+id/image4"
+                                android:id="@+id/imageFood4"
                                 android:layout_width="@dimen/_45sdp"
                                 android:layout_height="@dimen/_45sdp"
                                 android:src="@drawable/ic_add"
-                                app:layout_constraintBottom_toTopOf="@id/text4"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toTopOf="@id/textFood4"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -246,7 +292,22 @@
                                 tools:ignore="ContentDescription" />
 
                             <TextView
-                                android:id="@+id/text4"
+                                android:id="@+id/textQuantityFood4"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_25ssp"
+                                android:text="0"
+                                android:gravity="center"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@+id/textFood4"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
+                                android:id="@+id/textFood4"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
@@ -255,7 +316,6 @@
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/image4"
                                 tools:ignore="HardcodedText" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -271,11 +331,12 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
-                                android:id="@+id/image5"
+                                android:id="@+id/imageFood5"
                                 android:layout_width="@dimen/_45sdp"
                                 android:layout_height="@dimen/_45sdp"
                                 android:src="@drawable/ic_add"
-                                app:layout_constraintBottom_toTopOf="@id/text5"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toTopOf="@id/textFood5"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -283,7 +344,22 @@
                                 tools:ignore="ContentDescription" />
 
                             <TextView
-                                android:id="@+id/text5"
+                                android:id="@+id/textQuantityFood5"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_25ssp"
+                                android:text="0"
+                                android:gravity="center"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@+id/textFood5"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
+                                android:id="@+id/textFood5"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
@@ -292,7 +368,6 @@
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/image5"
                                 tools:ignore="HardcodedText" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -308,11 +383,12 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
-                                android:id="@+id/image6"
+                                android:id="@+id/imageFood6"
                                 android:layout_width="@dimen/_45sdp"
                                 android:layout_height="@dimen/_45sdp"
                                 android:src="@drawable/ic_add"
-                                app:layout_constraintBottom_toTopOf="@id/text6"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toTopOf="@id/textFood6"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -320,7 +396,22 @@
                                 tools:ignore="ContentDescription" />
 
                             <TextView
-                                android:id="@+id/text6"
+                                android:id="@+id/textQuantityFood6"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_25ssp"
+                                android:text="0"
+                                android:gravity="center"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@+id/textFood6"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
+                                android:id="@+id/textFood6"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
@@ -329,7 +420,6 @@
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/image6"
                                 tools:ignore="HardcodedText" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -345,11 +435,12 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
-                                android:id="@+id/image7"
+                                android:id="@+id/imageFood7"
                                 android:layout_width="@dimen/_45sdp"
                                 android:layout_height="@dimen/_45sdp"
                                 android:src="@drawable/ic_add"
-                                app:layout_constraintBottom_toTopOf="@id/text7"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toTopOf="@id/textFood7"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -357,7 +448,22 @@
                                 tools:ignore="ContentDescription" />
 
                             <TextView
-                                android:id="@+id/text7"
+                                android:id="@+id/textQuantityFood7"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_25ssp"
+                                android:text="0"
+                                android:gravity="center"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@+id/textFood7"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
+                                android:id="@+id/textFood7"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
@@ -366,7 +472,6 @@
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/image7"
                                 tools:ignore="HardcodedText" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -382,11 +487,12 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
-                                android:id="@+id/image8"
+                                android:id="@+id/imageFood8"
                                 android:layout_width="@dimen/_45sdp"
                                 android:layout_height="@dimen/_45sdp"
                                 android:src="@drawable/ic_add"
-                                app:layout_constraintBottom_toTopOf="@id/text8"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toTopOf="@id/textFood8"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -394,7 +500,22 @@
                                 tools:ignore="ContentDescription" />
 
                             <TextView
-                                android:id="@+id/text8"
+                                android:id="@+id/textQuantityFood8"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_25ssp"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toTopOf="@+id/textFood8"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
+                                android:id="@+id/textFood8"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
@@ -403,7 +524,6 @@
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/image8"
                                 tools:ignore="HardcodedText" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>

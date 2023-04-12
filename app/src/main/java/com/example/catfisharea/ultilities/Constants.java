@@ -60,6 +60,7 @@ public class Constants {
     public static final String KEY_AREA_ID = "areaID";
     public static final String KEY_NUM_OF_FEEDING = "numOfFeeding";
     public static final String KEY_NUM_OF_FEEDING_LIST = "numOfFeedingList";
+    public static final String KEY_AMOUNT_FED = "amountFed";
     public static final String KEY_NUM_OF_WATERING = "numOfWatering";
     public static final String KEY_NUM_OF_WATERING_LIST = "numOfWateringList";
 

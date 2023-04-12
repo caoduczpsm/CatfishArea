@@ -14,18 +14,28 @@ public class Pond extends RegionModel {
     private String idArea;
     private int numOfFeeding;
     private List<String> numOfFeedingList;
+    private List<String> amountFeedList;
 
     public Pond(String id, String name) {
         super(id, name);
     }
 
-    public Pond(String id, String name, GeoPoint geo, String idCampus, String acreage, int numOfFeeding, List<String> numOfFeedingList) {
+    public Pond(String id, String name, GeoPoint geo, String idCampus, String acreage, int numOfFeeding, List<String> numOfFeedingList, List<String> amountFeedList) {
         super(id, name);
         this.geo = geo;
         this.idCampus = idCampus;
         this.acreage = acreage;
         this.numOfFeeding = numOfFeeding;
         this.numOfFeedingList = numOfFeedingList;
+        this.amountFeedList = amountFeedList;
+    }
+
+    public List<String> getAmountFeedList() {
+        return amountFeedList;
+    }
+
+    public void setAmountFeedList(List<String> amountFeedList) {
+        this.amountFeedList = amountFeedList;
     }
 
     public List<String> getNumOfFeedingList() {
