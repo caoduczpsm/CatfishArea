@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.example.catfisharea.activities.alluser.LoginActivity;
 import com.example.catfisharea.activities.director.RequestManagementActivity;
 import com.example.catfisharea.activities.director.TaskManagerActivity;
 import com.example.catfisharea.models.Pond;
+import com.example.catfisharea.models.Task;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.android.material.textfield.TextInputEditText;
@@ -31,6 +33,9 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +47,7 @@ public class WorkerHomeActivity extends BaseActivity {
     private PreferenceManager preferenceManager;
     private FirebaseFirestore database;
     private Pond pond;
+    private Task fixedTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,9 +212,10 @@ public class WorkerHomeActivity extends BaseActivity {
                     for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
 
                         List<String> receiverFeedFishTask = (List<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVER_ID);
-
                         assert receiverFeedFishTask != null;
                         if (receiverFeedFishTask.contains(preferenceManager.getString(Constants.KEY_USER_ID))){
+                            fixedTask = new Task();
+                            fixedTask.id = queryDocumentSnapshot.getId();
                             binding.layoutHome.cardFood.setVisibility(View.VISIBLE);
                         } else {
                             binding.layoutHome.cardFood.setVisibility(View.GONE);
@@ -216,6 +223,26 @@ public class WorkerHomeActivity extends BaseActivity {
 
                     }
                 });
+
+        if (preferenceManager.getString(Constants.KEY_NOW) == null){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                preferenceManager.putString(Constants.KEY_NOW, String.valueOf(LocalDate.now()));
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (!preferenceManager.getString(Constants.KEY_NOW).equals(String.valueOf(LocalDate.now()))){
+                List<String> amountFed = pond.getAmountFeedList();
+                for (int i = 0; i < amountFed.size(); i++){
+                    if (!amountFed.get(i).equals("0")){
+                        amountFed.set(i, "0");
+                        HashMap<String, Object> unCompletedTask = new HashMap<>();
+                        unCompletedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
+                        database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                                .document(fixedTask.id)
+                                .update(unCompletedTask);
+                    }
+                }
+            }
+        }
     }
 
     private void setListener() {
@@ -312,6 +339,20 @@ public class WorkerHomeActivity extends BaseActivity {
                         .update(updateList)
                         .addOnSuccessListener(unused -> {
                             showToast("Đã cập nhật lượng thức ăn thành công!");
+                            int count = 0;
+                            for (String num : updateFoodFedList){
+                                if (!num.equals("0"))
+                                    count++;
+                            }
+                            HashMap<String, Object> completedTask = new HashMap<>();
+                            if (count == pond.getNumOfFeeding() && pond.getAmountFeedList().equals(pond.getNumOfFeedingList())){
+                                completedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_COMPLETED);
+                            } else {
+                                completedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
+                            }
+                            database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                                    .document(fixedTask.id)
+                                    .update(completedTask);
                             dialog.dismiss();
                         })
                         .addOnFailureListener(runnable -> {

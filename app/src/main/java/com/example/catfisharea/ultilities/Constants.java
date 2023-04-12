@@ -7,6 +7,8 @@ public class Constants {
     public static final String KEY_PREFERENCE_NAME = "catFishAreaPreference";
     public static final String REMOTE_MSG_TYPE = "type";
 
+    public static final String KEY_NOW = "now";
+
     // Các thông tin người dùng
     public static final String KEY_COLLECTION_USER = "users";
     public static final String KEY_IS_SIGNED_IN = "isSignedIn";
