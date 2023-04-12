@@ -77,97 +77,75 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
                     binding.textNumOfWorker.setText(countWorker + " người");
                 });
 
-        if (pond.getNumOfFeeding() == 1){
+        setVisibleFood(pond.getNumOfFeeding(), pond.getNumOfFeedingList().get(0), pond.getNumOfFeedingList().get(1),
+                pond.getNumOfFeedingList().get(2), pond.getNumOfFeedingList().get(3), pond.getNumOfFeedingList().get(4),
+                pond.getNumOfFeedingList().get(5), pond.getNumOfFeedingList().get(6), pond.getNumOfFeedingList().get(7));
+
+    }
+
+    private void setListeners() {
+        binding.layoutShowWorker.setOnClickListener(view -> openShowWorkerDialog());
+
+        binding.layoutSettingFeed.setOnClickListener(view -> openSettingNumOfFeedingDialog());
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setVisibleFood(int numOfFeed, String st_1, String st_2, String st_3, String st_4, String st_5, String st_6, String st_7, String st_8){
+        if (numOfFeed == 1){
             binding.layoutHome.food1.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood1.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood1.setText(pond.getAmountFeedList().get(0));
-            binding.layoutHome.textFood1.setText("Lần 1: " + pond.getNumOfFeedingList().get(0));
-        } else if (pond.getNumOfFeeding() == 2){
+            binding.layoutHome.food2.setVisibility(View.GONE);
+            binding.layoutHome.food3.setVisibility(View.GONE);
+            binding.layoutHome.food4.setVisibility(View.GONE);
+            binding.layoutHome.food5.setVisibility(View.GONE);
+            binding.layoutHome.food6.setVisibility(View.GONE);
+            binding.layoutHome.food7.setVisibility(View.GONE);
+            binding.layoutHome.food8.setVisibility(View.GONE);
+        } else if (numOfFeed == 2){
             binding.layoutHome.food1.setVisibility(View.VISIBLE);
             binding.layoutHome.food2.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood1.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood2.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood1.setText(pond.getAmountFeedList().get(0));
-            binding.layoutHome.textQuantityFood2.setText(pond.getAmountFeedList().get(1));
-            binding.layoutHome.textFood1.setText("Lần 1: " + pond.getNumOfFeedingList().get(0));
-            binding.layoutHome.textFood2.setText("Lần 2: " + pond.getNumOfFeedingList().get(1));
-        } else if (pond.getNumOfFeeding() == 3){
+            binding.layoutHome.food3.setVisibility(View.GONE);
+            binding.layoutHome.food4.setVisibility(View.GONE);
+            binding.layoutHome.food5.setVisibility(View.GONE);
+            binding.layoutHome.food6.setVisibility(View.GONE);
+            binding.layoutHome.food7.setVisibility(View.GONE);
+            binding.layoutHome.food8.setVisibility(View.GONE);
+        } else if (numOfFeed == 3){
             binding.layoutHome.food1.setVisibility(View.VISIBLE);
             binding.layoutHome.food2.setVisibility(View.VISIBLE);
             binding.layoutHome.food3.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood1.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood2.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood3.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood1.setText(pond.getAmountFeedList().get(0));
-            binding.layoutHome.textQuantityFood2.setText(pond.getAmountFeedList().get(1));
-            binding.layoutHome.textQuantityFood3.setText(pond.getAmountFeedList().get(2));
-            binding.layoutHome.textFood1.setText("Lần 1: " + pond.getNumOfFeedingList().get(0));
-            binding.layoutHome.textFood2.setText("Lần 2: " + pond.getNumOfFeedingList().get(1));
-            binding.layoutHome.textFood3.setText("Lần 3: " + pond.getNumOfFeedingList().get(2));
-        } else if (pond.getNumOfFeeding() == 4){
+            binding.layoutHome.food4.setVisibility(View.GONE);
+            binding.layoutHome.food5.setVisibility(View.GONE);
+            binding.layoutHome.food6.setVisibility(View.GONE);
+            binding.layoutHome.food7.setVisibility(View.GONE);
+            binding.layoutHome.food8.setVisibility(View.GONE);
+        } else if (numOfFeed == 4){
             binding.layoutHome.food1.setVisibility(View.VISIBLE);
             binding.layoutHome.food2.setVisibility(View.VISIBLE);
             binding.layoutHome.food3.setVisibility(View.VISIBLE);
             binding.layoutHome.food4.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood1.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood2.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood3.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood4.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood1.setText(pond.getAmountFeedList().get(0));
-            binding.layoutHome.textQuantityFood2.setText(pond.getAmountFeedList().get(1));
-            binding.layoutHome.textQuantityFood3.setText(pond.getAmountFeedList().get(2));
-            binding.layoutHome.textQuantityFood4.setText(pond.getAmountFeedList().get(3));
-            binding.layoutHome.textFood1.setText("Lần 1: " + pond.getNumOfFeedingList().get(0));
-            binding.layoutHome.textFood2.setText("Lần 2: " + pond.getNumOfFeedingList().get(1));
-            binding.layoutHome.textFood3.setText("Lần 3: " + pond.getNumOfFeedingList().get(2));
-            binding.layoutHome.textFood4.setText("Lần 4: " + pond.getNumOfFeedingList().get(3));
-        } else if (pond.getNumOfFeeding() == 5){
+            binding.layoutHome.food5.setVisibility(View.GONE);
+            binding.layoutHome.food6.setVisibility(View.GONE);
+            binding.layoutHome.food7.setVisibility(View.GONE);
+            binding.layoutHome.food8.setVisibility(View.GONE);
+        } else if (numOfFeed == 5){
             binding.layoutHome.food1.setVisibility(View.VISIBLE);
             binding.layoutHome.food2.setVisibility(View.VISIBLE);
             binding.layoutHome.food3.setVisibility(View.VISIBLE);
             binding.layoutHome.food4.setVisibility(View.VISIBLE);
             binding.layoutHome.food5.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood1.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood2.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood3.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood4.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood5.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood1.setText(pond.getAmountFeedList().get(0));
-            binding.layoutHome.textQuantityFood2.setText(pond.getAmountFeedList().get(1));
-            binding.layoutHome.textQuantityFood3.setText(pond.getAmountFeedList().get(2));
-            binding.layoutHome.textQuantityFood4.setText(pond.getAmountFeedList().get(3));
-            binding.layoutHome.textQuantityFood5.setText(pond.getAmountFeedList().get(4));
-            binding.layoutHome.textFood1.setText("Lần 1: " + pond.getNumOfFeedingList().get(0));
-            binding.layoutHome.textFood2.setText("Lần 2: " + pond.getNumOfFeedingList().get(1));
-            binding.layoutHome.textFood3.setText("Lần 3: " + pond.getNumOfFeedingList().get(2));
-            binding.layoutHome.textFood4.setText("Lần 4: " + pond.getNumOfFeedingList().get(3));
-            binding.layoutHome.textFood5.setText("Lần 5: " + pond.getNumOfFeedingList().get(4));
-        } else if (pond.getNumOfFeeding() == 6){
+            binding.layoutHome.food6.setVisibility(View.GONE);
+            binding.layoutHome.food7.setVisibility(View.GONE);
+            binding.layoutHome.food8.setVisibility(View.GONE);
+        } else if (numOfFeed == 6){
             binding.layoutHome.food1.setVisibility(View.VISIBLE);
             binding.layoutHome.food2.setVisibility(View.VISIBLE);
             binding.layoutHome.food3.setVisibility(View.VISIBLE);
             binding.layoutHome.food4.setVisibility(View.VISIBLE);
             binding.layoutHome.food5.setVisibility(View.VISIBLE);
             binding.layoutHome.food6.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood1.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood2.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood3.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood4.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood5.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood6.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood1.setText(pond.getAmountFeedList().get(0));
-            binding.layoutHome.textQuantityFood2.setText(pond.getAmountFeedList().get(1));
-            binding.layoutHome.textQuantityFood3.setText(pond.getAmountFeedList().get(2));
-            binding.layoutHome.textQuantityFood4.setText(pond.getAmountFeedList().get(3));
-            binding.layoutHome.textQuantityFood5.setText(pond.getAmountFeedList().get(4));
-            binding.layoutHome.textQuantityFood6.setText(pond.getAmountFeedList().get(5));
-            binding.layoutHome.textFood1.setText("Lần 1: " + pond.getNumOfFeedingList().get(0));
-            binding.layoutHome.textFood2.setText("Lần 2: " + pond.getNumOfFeedingList().get(1));
-            binding.layoutHome.textFood3.setText("Lần 3: " + pond.getNumOfFeedingList().get(2));
-            binding.layoutHome.textFood4.setText("Lần 4: " + pond.getNumOfFeedingList().get(3));
-            binding.layoutHome.textFood5.setText("Lần 5: " + pond.getNumOfFeedingList().get(4));
-            binding.layoutHome.textFood6.setText("Lần 6: " + pond.getNumOfFeedingList().get(5));
-        } else if (pond.getNumOfFeeding() == 7){
+            binding.layoutHome.food7.setVisibility(View.GONE);
+            binding.layoutHome.food8.setVisibility(View.GONE);
+        } else if (numOfFeed == 7){
             binding.layoutHome.food1.setVisibility(View.VISIBLE);
             binding.layoutHome.food2.setVisibility(View.VISIBLE);
             binding.layoutHome.food3.setVisibility(View.VISIBLE);
@@ -175,28 +153,8 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
             binding.layoutHome.food5.setVisibility(View.VISIBLE);
             binding.layoutHome.food6.setVisibility(View.VISIBLE);
             binding.layoutHome.food7.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood1.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood2.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood3.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood4.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood5.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood6.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood7.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood1.setText(pond.getAmountFeedList().get(0));
-            binding.layoutHome.textQuantityFood2.setText(pond.getAmountFeedList().get(1));
-            binding.layoutHome.textQuantityFood3.setText(pond.getAmountFeedList().get(2));
-            binding.layoutHome.textQuantityFood4.setText(pond.getAmountFeedList().get(3));
-            binding.layoutHome.textQuantityFood5.setText(pond.getAmountFeedList().get(4));
-            binding.layoutHome.textQuantityFood6.setText(pond.getAmountFeedList().get(5));
-            binding.layoutHome.textQuantityFood7.setText(pond.getAmountFeedList().get(6));
-            binding.layoutHome.textFood1.setText("Lần 1: " + pond.getNumOfFeedingList().get(0));
-            binding.layoutHome.textFood2.setText("Lần 2: " + pond.getNumOfFeedingList().get(1));
-            binding.layoutHome.textFood3.setText("Lần 3: " + pond.getNumOfFeedingList().get(2));
-            binding.layoutHome.textFood4.setText("Lần 4: " + pond.getNumOfFeedingList().get(3));
-            binding.layoutHome.textFood5.setText("Lần 5: " + pond.getNumOfFeedingList().get(4));
-            binding.layoutHome.textFood6.setText("Lần 6: " + pond.getNumOfFeedingList().get(5));
-            binding.layoutHome.textFood7.setText("Lần 7: " + pond.getNumOfFeedingList().get(6));
-        } else if (pond.getNumOfFeeding() == 8){
+            binding.layoutHome.food8.setVisibility(View.GONE);
+        } else if (numOfFeed == 8){
             binding.layoutHome.food1.setVisibility(View.VISIBLE);
             binding.layoutHome.food2.setVisibility(View.VISIBLE);
             binding.layoutHome.food3.setVisibility(View.VISIBLE);
@@ -205,38 +163,30 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
             binding.layoutHome.food6.setVisibility(View.VISIBLE);
             binding.layoutHome.food7.setVisibility(View.VISIBLE);
             binding.layoutHome.food8.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood1.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood2.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood3.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood4.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood5.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood6.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood7.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood8.setVisibility(View.VISIBLE);
-            binding.layoutHome.textQuantityFood1.setText(pond.getAmountFeedList().get(0));
-            binding.layoutHome.textQuantityFood2.setText(pond.getAmountFeedList().get(1));
-            binding.layoutHome.textQuantityFood3.setText(pond.getAmountFeedList().get(2));
-            binding.layoutHome.textQuantityFood4.setText(pond.getAmountFeedList().get(3));
-            binding.layoutHome.textQuantityFood5.setText(pond.getAmountFeedList().get(4));
-            binding.layoutHome.textQuantityFood6.setText(pond.getAmountFeedList().get(5));
-            binding.layoutHome.textQuantityFood8.setText(pond.getAmountFeedList().get(7));
-            binding.layoutHome.textFood1.setText("Lần 1: " + pond.getNumOfFeedingList().get(0));
-            binding.layoutHome.textFood2.setText("Lần 2: " + pond.getNumOfFeedingList().get(1));
-            binding.layoutHome.textFood3.setText("Lần 3: " + pond.getNumOfFeedingList().get(2));
-            binding.layoutHome.textFood4.setText("Lần 4: " + pond.getNumOfFeedingList().get(3));
-            binding.layoutHome.textFood5.setText("Lần 5: " + pond.getNumOfFeedingList().get(4));
-            binding.layoutHome.textFood6.setText("Lần 6: " + pond.getNumOfFeedingList().get(5));
-            binding.layoutHome.textFood7.setText("Lần 7: " + pond.getNumOfFeedingList().get(6));
-            binding.layoutHome.textFood8.setText("Lần 8: " + pond.getNumOfFeedingList().get(7));
         }
-
-
-    }
-
-    private void setListeners() {
-        binding.layoutShowWorker.setOnClickListener(view -> openShowWorkerDialog());
-
-        binding.layoutSettingFeed.setOnClickListener(view -> openSettingNumOfFeedingDialog());
+        binding.layoutHome.textQuantityFood1.setVisibility(View.VISIBLE);
+        binding.layoutHome.textQuantityFood2.setVisibility(View.VISIBLE);
+        binding.layoutHome.textQuantityFood3.setVisibility(View.VISIBLE);
+        binding.layoutHome.textQuantityFood4.setVisibility(View.VISIBLE);
+        binding.layoutHome.textQuantityFood5.setVisibility(View.VISIBLE);
+        binding.layoutHome.textQuantityFood6.setVisibility(View.VISIBLE);
+        binding.layoutHome.textQuantityFood7.setVisibility(View.VISIBLE);
+        binding.layoutHome.textQuantityFood8.setVisibility(View.VISIBLE);
+        binding.layoutHome.textQuantityFood1.setText(pond.getAmountFeedList().get(0));
+        binding.layoutHome.textQuantityFood2.setText(pond.getAmountFeedList().get(1));
+        binding.layoutHome.textQuantityFood3.setText(pond.getAmountFeedList().get(2));
+        binding.layoutHome.textQuantityFood4.setText(pond.getAmountFeedList().get(3));
+        binding.layoutHome.textQuantityFood5.setText(pond.getAmountFeedList().get(4));
+        binding.layoutHome.textQuantityFood6.setText(pond.getAmountFeedList().get(5));
+        binding.layoutHome.textQuantityFood8.setText(pond.getAmountFeedList().get(7));
+        binding.layoutHome.textFood1.setText("Lần 1: " + st_1);
+        binding.layoutHome.textFood2.setText("Lần 2: " + st_2);
+        binding.layoutHome.textFood3.setText("Lần 3: " + st_3);
+        binding.layoutHome.textFood4.setText("Lần 4: " + st_4);
+        binding.layoutHome.textFood5.setText("Lần 5: " + st_5);
+        binding.layoutHome.textFood6.setText("Lần 6: " + st_6);
+        binding.layoutHome.textFood7.setText("Lần 7: " + st_7);
+        binding.layoutHome.textFood8.setText("Lần 8: " + st_8);
     }
 
     @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
@@ -595,6 +545,9 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
                         .update(update)
                         .addOnSuccessListener(unused -> {
                             showToast("Cập nhật số lần cho ăn trong ngày thành công!");
+                            setVisibleFood(numOfFeeding, numOfFeedingList.get(0), numOfFeedingList.get(1),
+                                    numOfFeedingList.get(2), numOfFeedingList.get(3), numOfFeedingList.get(4),
+                                    numOfFeedingList.get(5), numOfFeedingList.get(6), numOfFeedingList.get(7));
                             dialog.dismiss();
                         })
                         .addOnFailureListener(e -> {
