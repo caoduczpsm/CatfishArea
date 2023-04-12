@@ -64,7 +64,7 @@
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:ignore="HardcodedText,TouchTargetSizeCheck" />
+                    tools:ignore="HardcodedText,TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
@@ -117,6 +117,7 @@
                             android:id="@+id/food1"
                             android:layout_width="@dimen/_80sdp"
                             android:layout_height="@dimen/_70sdp"
+                            android:visibility="gone"
                             android:background="@drawable/background_food"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -153,6 +154,7 @@
                             android:layout_width="@dimen/_80sdp"
                             android:layout_height="@dimen/_70sdp"
                             android:layout_marginStart="@dimen/_10sdp"
+                            android:visibility="gone"
                             android:background="@drawable/background_food"
                             app:layout_constraintStart_toEndOf="@id/food1"
                             app:layout_constraintTop_toTopOf="parent">
@@ -189,6 +191,7 @@
                             android:layout_width="@dimen/_80sdp"
                             android:layout_height="@dimen/_70sdp"
                             android:layout_marginStart="@dimen/_10sdp"
+                            android:visibility="gone"
                             android:background="@drawable/background_food"
                             app:layout_constraintStart_toEndOf="@id/food2"
                             app:layout_constraintTop_toTopOf="parent">
@@ -755,16 +758,16 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/settingHealthBtn"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_25sdp"
+                    android:layout_height="48dp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:background="@drawable/background_edit_text"
                     android:text="Thêm"
                     android:textAllCaps="false"
-                    android:textColor="@color/black"
+                    android:textColor="#757575"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText,TextContrastCheck,TouchTargetSizeCheck" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 

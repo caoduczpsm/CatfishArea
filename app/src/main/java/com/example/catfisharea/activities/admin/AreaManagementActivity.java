@@ -271,7 +271,6 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
         drawCampus();
         IconFactory iconFactory = IconFactory.getInstance(this);
         Icon icon = iconFactory.fromResource(R.drawable.ic_pond_marker);
-        List<Integer> numOfFeedingList = new ArrayList<>();
         mItems.clear();
         database.collection(Constants.KEY_COLLECTION_POND)
                 .whereEqualTo(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID))
@@ -282,14 +281,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                         GeoPoint geo = (GeoPoint) doc.get(Constants.KEY_MAP);
                         String campusId = doc.getString(Constants.KEY_CAMPUS_ID);
                         String acreage = doc.getString(Constants.KEY_ACREAGE);
-                        numOfFeedingList.add(Integer.parseInt(Objects.requireNonNull(doc.getString(Constants.KEY_NUM_1ST))));
-                        numOfFeedingList.add(Integer.parseInt(Objects.requireNonNull(doc.getString(Constants.KEY_NUM_2ST))));
-                        numOfFeedingList.add(Integer.parseInt(Objects.requireNonNull(doc.getString(Constants.KEY_NUM_3ST))));
-                        numOfFeedingList.add(Integer.parseInt(Objects.requireNonNull(doc.getString(Constants.KEY_NUM_4ST))));
-                        numOfFeedingList.add(Integer.parseInt(Objects.requireNonNull(doc.getString(Constants.KEY_NUM_5ST))));
-                        numOfFeedingList.add(Integer.parseInt(Objects.requireNonNull(doc.getString(Constants.KEY_NUM_6ST))));
-                        numOfFeedingList.add(Integer.parseInt(Objects.requireNonNull(doc.getString(Constants.KEY_NUM_7ST))));
-                        numOfFeedingList.add(Integer.parseInt(Objects.requireNonNull(doc.getString(Constants.KEY_NUM_8ST))));
+                        List<String> numOfFeedingList = (List<String>) doc.get(Constants.KEY_NUM_OF_FEEDING_LIST);
                         int numOfFeeding = Integer.parseInt(Objects.requireNonNull(doc.getString(Constants.KEY_NUM_OF_FEEDING)));
 //                        thêm điểm ao trên bản đồ
                         MarkerOptions options = new MarkerOptions();

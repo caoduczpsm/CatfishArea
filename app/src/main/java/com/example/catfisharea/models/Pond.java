@@ -13,92 +13,27 @@ public class Pond extends RegionModel {
     private boolean isSelected = false;
     private String idArea;
     private int numOfFeeding;
-
-    public int getSt1Feeding() {
-        return st1Feeding;
-    }
-
-    private int st1Feeding, st2Feeding, st3Feeding, st4Feeding, st5Feeding, st6Feeding, st7Feeding, st8Feeding;
+    private List<String> numOfFeedingList;
 
     public Pond(String id, String name) {
         super(id, name);
     }
 
-    public Pond(String id, String name, GeoPoint geo, String idCampus, String acreage, int numOfFeeding, List<Integer> numOfFeedingList) {
+    public Pond(String id, String name, GeoPoint geo, String idCampus, String acreage, int numOfFeeding, List<String> numOfFeedingList) {
         super(id, name);
         this.geo = geo;
         this.idCampus = idCampus;
         this.acreage = acreage;
         this.numOfFeeding = numOfFeeding;
-        this.st1Feeding = numOfFeedingList.get(0);
-        this.st2Feeding = numOfFeedingList.get(1);
-        this.st3Feeding = numOfFeedingList.get(2);
-        this.st4Feeding = numOfFeedingList.get(3);
-        this.st5Feeding = numOfFeedingList.get(4);
-        this.st6Feeding = numOfFeedingList.get(5);
-        this.st7Feeding = numOfFeedingList.get(6);
-        this.st8Feeding = numOfFeedingList.get(7);
-
+        this.numOfFeedingList = numOfFeedingList;
     }
 
-    public void setSt1Feeding(int st1Feeding) {
-        this.st1Feeding = st1Feeding;
+    public List<String> getNumOfFeedingList() {
+        return numOfFeedingList;
     }
 
-    public int getSt2Feeding() {
-        return st2Feeding;
-    }
-
-    public void setSt2Feeding(int st2Feeding) {
-        this.st2Feeding = st2Feeding;
-    }
-
-    public int getSt3Feeding() {
-        return st3Feeding;
-    }
-
-    public void setSt3Feeding(int st3Feeding) {
-        this.st3Feeding = st3Feeding;
-    }
-
-    public int getSt4Feeding() {
-        return st4Feeding;
-    }
-
-    public void setSt4Feeding(int st4Feeding) {
-        this.st4Feeding = st4Feeding;
-    }
-
-    public int getSt5Feeding() {
-        return st5Feeding;
-    }
-
-    public void setSt5Feeding(int st5Feeding) {
-        this.st5Feeding = st5Feeding;
-    }
-
-    public int getSt6Feeding() {
-        return st6Feeding;
-    }
-
-    public void setSt6Feeding(int st6Feeding) {
-        this.st6Feeding = st6Feeding;
-    }
-
-    public int getSt7Feeding() {
-        return st7Feeding;
-    }
-
-    public void setSt7Feeding(int st7Feeding) {
-        this.st7Feeding = st7Feeding;
-    }
-
-    public int getSt8Feeding() {
-        return st8Feeding;
-    }
-
-    public void setSt8Feeding(int st8Feeding) {
-        this.st8Feeding = st8Feeding;
+    public void setNumOfFeedingList(List<String> numOfFeedingList) {
+        this.numOfFeedingList = numOfFeedingList;
     }
 
     public String getIdCampus() {

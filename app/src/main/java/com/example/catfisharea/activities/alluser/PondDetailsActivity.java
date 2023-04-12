@@ -77,6 +77,8 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
                     binding.textNumOfWorker.setText(countWorker + " người");
                 });
 
+
+
     }
 
     private void setListeners() {
@@ -128,31 +130,31 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
         if (pond.getNumOfFeeding() == 1) {
             spinnerNumOfFeed.setSelection(1);
             textOne.setVisibility(View.VISIBLE);
-            edtOne.setText(pond.getSt1Feeding() + "");
+            edtOne.setText(pond.getNumOfFeedingList().get(0) + "");
         } else if (pond.getNumOfFeeding() == 2) {
             spinnerNumOfFeed.setSelection(2);
             textOne.setVisibility(View.VISIBLE);
             textTwo.setVisibility(View.VISIBLE);
-            edtOne.setText(pond.getSt1Feeding() + "");
-            edtTwo.setText(pond.getSt2Feeding() + "");
+            edtOne.setText(pond.getNumOfFeedingList().get(0) + "");
+            edtTwo.setText(pond.getNumOfFeedingList().get(1) + "");
         } else if (pond.getNumOfFeeding() == 3) {
             spinnerNumOfFeed.setSelection(3);
             textOne.setVisibility(View.VISIBLE);
             textTwo.setVisibility(View.VISIBLE);
             textThree.setVisibility(View.VISIBLE);
-            edtOne.setText(pond.getSt1Feeding() + "");
-            edtTwo.setText(pond.getSt2Feeding() + "");
-            edtThree.setText(pond.getSt3Feeding() + "");
+            edtOne.setText(pond.getNumOfFeedingList().get(0) + "");
+            edtTwo.setText(pond.getNumOfFeedingList().get(1) + "");
+            edtThree.setText(pond.getNumOfFeedingList().get(2) + "");
         } else if (pond.getNumOfFeeding() == 4) {
             spinnerNumOfFeed.setSelection(4);
             textOne.setVisibility(View.VISIBLE);
             textTwo.setVisibility(View.VISIBLE);
             textThree.setVisibility(View.VISIBLE);
             textFour.setVisibility(View.VISIBLE);
-            edtOne.setText(pond.getSt1Feeding() + "");
-            edtTwo.setText(pond.getSt2Feeding() + "");
-            edtThree.setText(pond.getSt3Feeding() + "");
-            edtFour.setText(pond.getSt4Feeding() + "");
+            edtOne.setText(pond.getNumOfFeedingList().get(0) + "");
+            edtTwo.setText(pond.getNumOfFeedingList().get(1) + "");
+            edtThree.setText(pond.getNumOfFeedingList().get(2) + "");
+            edtFour.setText(pond.getNumOfFeedingList().get(3) + "");
         } else if (pond.getNumOfFeeding() == 5) {
             spinnerNumOfFeed.setSelection(5);
             textOne.setVisibility(View.VISIBLE);
@@ -160,11 +162,11 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
             textThree.setVisibility(View.VISIBLE);
             textFour.setVisibility(View.VISIBLE);
             textFive.setVisibility(View.VISIBLE);
-            edtOne.setText(pond.getSt1Feeding() + "");
-            edtTwo.setText(pond.getSt2Feeding() + "");
-            edtThree.setText(pond.getSt3Feeding() + "");
-            edtFour.setText(pond.getSt4Feeding() + "");
-            edtFive.setText(pond.getSt5Feeding() + "");
+            edtOne.setText(pond.getNumOfFeedingList().get(0) + "");
+            edtTwo.setText(pond.getNumOfFeedingList().get(1) + "");
+            edtThree.setText(pond.getNumOfFeedingList().get(2) + "");
+            edtFour.setText(pond.getNumOfFeedingList().get(3) + "");
+            edtFive.setText(pond.getNumOfFeedingList().get(4) + "");
         } else if (pond.getNumOfFeeding() == 6) {
             spinnerNumOfFeed.setSelection(6);
             textOne.setVisibility(View.VISIBLE);
@@ -173,12 +175,12 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
             textFour.setVisibility(View.VISIBLE);
             textFive.setVisibility(View.VISIBLE);
             textSix.setVisibility(View.VISIBLE);
-            edtOne.setText(pond.getSt1Feeding() + "");
-            edtTwo.setText(pond.getSt2Feeding() + "");
-            edtThree.setText(pond.getSt3Feeding() + "");
-            edtFour.setText(pond.getSt4Feeding() + "");
-            edtFive.setText(pond.getSt5Feeding() + "");
-            edtSix.setText(pond.getSt6Feeding() + "");
+            edtOne.setText(pond.getNumOfFeedingList().get(0) + "");
+            edtTwo.setText(pond.getNumOfFeedingList().get(1) + "");
+            edtThree.setText(pond.getNumOfFeedingList().get(2) + "");
+            edtFour.setText(pond.getNumOfFeedingList().get(3) + "");
+            edtFive.setText(pond.getNumOfFeedingList().get(4) + "");
+            edtSix.setText(pond.getNumOfFeedingList().get(5) + "");
         } else if (pond.getNumOfFeeding() == 7) {
             spinnerNumOfFeed.setSelection(7);
             textOne.setVisibility(View.VISIBLE);
@@ -188,13 +190,13 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
             textFive.setVisibility(View.VISIBLE);
             textSix.setVisibility(View.VISIBLE);
             textSeven.setVisibility(View.VISIBLE);
-            edtOne.setText(pond.getSt1Feeding() + "");
-            edtTwo.setText(pond.getSt2Feeding() + "");
-            edtThree.setText(pond.getSt3Feeding() + "");
-            edtFour.setText(pond.getSt4Feeding() + "");
-            edtFive.setText(pond.getSt5Feeding() + "");
-            edtSix.setText(pond.getSt6Feeding() + "");
-            edtSeven.setText(pond.getSt7Feeding() + "");
+            edtOne.setText(pond.getNumOfFeedingList().get(0) + "");
+            edtTwo.setText(pond.getNumOfFeedingList().get(1) + "");
+            edtThree.setText(pond.getNumOfFeedingList().get(2) + "");
+            edtFour.setText(pond.getNumOfFeedingList().get(3) + "");
+            edtFive.setText(pond.getNumOfFeedingList().get(4) + "");
+            edtSix.setText(pond.getNumOfFeedingList().get(5) + "");
+            edtSeven.setText(pond.getNumOfFeedingList().get(6) + "");
         } else if (pond.getNumOfFeeding() == 8) {
             spinnerNumOfFeed.setSelection(8);
             textOne.setVisibility(View.VISIBLE);
@@ -205,14 +207,14 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
             textSix.setVisibility(View.VISIBLE);
             textSeven.setVisibility(View.VISIBLE);
             textEight.setVisibility(View.VISIBLE);
-            edtOne.setText(pond.getSt1Feeding() + "");
-            edtTwo.setText(pond.getSt2Feeding() + "");
-            edtThree.setText(pond.getSt3Feeding() + "");
-            edtFour.setText(pond.getSt4Feeding() + "");
-            edtFive.setText(pond.getSt5Feeding() + "");
-            edtSix.setText(pond.getSt6Feeding() + "");
-            edtSeven.setText(pond.getSt7Feeding() + "");
-            edtEight.setText(pond.getSt8Feeding() + "");
+            edtOne.setText(pond.getNumOfFeedingList().get(0) + "");
+            edtTwo.setText(pond.getNumOfFeedingList().get(1) + "");
+            edtThree.setText(pond.getNumOfFeedingList().get(2) + "");
+            edtFour.setText(pond.getNumOfFeedingList().get(3) + "");
+            edtFive.setText(pond.getNumOfFeedingList().get(4) + "");
+            edtSix.setText(pond.getNumOfFeedingList().get(5) + "");
+            edtSeven.setText(pond.getNumOfFeedingList().get(6) + "");
+            edtEight.setText(pond.getNumOfFeedingList().get(7) + "");
         } else {
             spinnerNumOfFeed.setSelection(0);
         }
@@ -312,8 +314,8 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
 
         btnSave.setOnClickListener(view -> {
 
-            int st_1 = 0,st_2 = 0, st_3 = 0, st_4 = 0, st_5=0, st_6 = 0, st_7 =0, st_8 = 0;
             boolean isValidData = true;
+            List<String> numOfFeedingList = new ArrayList<>();
 
             int numOfFeeding;
             if (spinnerNumOfFeed.getSelectedItem().equals("0")){
@@ -321,84 +323,112 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
             } else if (spinnerNumOfFeed.getSelectedItem().equals("1")){
                 numOfFeeding = 1;
                 if (!Objects.requireNonNull(Objects.requireNonNull(edtOne.getText())).toString().equals("")){
-                    st_1 = Integer.parseInt(Objects.requireNonNull(edtOne.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtOne.getText()).toString());
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
                 } else {
                     isValidData = false;
                 }
             } else if (spinnerNumOfFeed.getSelectedItem().equals("2")){
                 numOfFeeding = 2;
                 if (!Objects.requireNonNull(Objects.requireNonNull(edtOne.getText())).toString().equals("")){
-                    st_1 = Integer.parseInt(Objects.requireNonNull(edtOne.getText()).toString());
-                    st_2 = Integer.parseInt(Objects.requireNonNull(edtTwo.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtOne.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtTwo.getText()).toString());
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
                 } else {
                     isValidData = false;
                 }
             } else if (spinnerNumOfFeed.getSelectedItem().equals("3")){
                 numOfFeeding = 3;
                 if (!Objects.requireNonNull(Objects.requireNonNull(edtOne.getText())).toString().equals("")){
-                    st_1 = Integer.parseInt(Objects.requireNonNull(edtOne.getText()).toString());
-                    st_2 = Integer.parseInt(Objects.requireNonNull(edtTwo.getText()).toString());
-                    st_3 = Integer.parseInt(Objects.requireNonNull(edtThree.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtOne.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtTwo.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtThree.getText()).toString());
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
                 } else {
                     isValidData = false;
                 }
             } else if (spinnerNumOfFeed.getSelectedItem().equals("4")){
                 numOfFeeding = 4;
                 if (!Objects.requireNonNull(Objects.requireNonNull(edtOne.getText())).toString().equals("")){
-                    st_1 = Integer.parseInt(Objects.requireNonNull(edtOne.getText()).toString());
-                    st_2 = Integer.parseInt(Objects.requireNonNull(edtTwo.getText()).toString());
-                    st_3 = Integer.parseInt(Objects.requireNonNull(edtThree.getText()).toString());
-                    st_4 = Integer.parseInt(Objects.requireNonNull(edtFour.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtOne.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtTwo.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtThree.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtFour.getText()).toString());
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
                 } else {
                     isValidData = false;
                 }
             } else if (spinnerNumOfFeed.getSelectedItem().equals("5")){
                 numOfFeeding = 5;
                 if (!Objects.requireNonNull(Objects.requireNonNull(edtOne.getText())).toString().equals("")){
-                    st_1 = Integer.parseInt(Objects.requireNonNull(edtOne.getText()).toString());
-                    st_2 = Integer.parseInt(Objects.requireNonNull(edtTwo.getText()).toString());
-                    st_3 = Integer.parseInt(Objects.requireNonNull(edtThree.getText()).toString());
-                    st_4 = Integer.parseInt(Objects.requireNonNull(edtFour.getText()).toString());
-                    st_5 = Integer.parseInt(Objects.requireNonNull(edtFive.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtOne.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtTwo.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtThree.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtFour.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtFive.getText()).toString());
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
                 } else {
                     isValidData = false;
                 }
             } else if (spinnerNumOfFeed.getSelectedItem().equals("6")){
                 numOfFeeding = 6;
                 if (!Objects.requireNonNull(Objects.requireNonNull(edtOne.getText())).toString().equals("")){
-                    st_1 = Integer.parseInt(Objects.requireNonNull(edtOne.getText()).toString());
-                    st_2 = Integer.parseInt(Objects.requireNonNull(edtTwo.getText()).toString());
-                    st_3 = Integer.parseInt(Objects.requireNonNull(edtThree.getText()).toString());
-                    st_4 = Integer.parseInt(Objects.requireNonNull(edtFour.getText()).toString());
-                    st_5 = Integer.parseInt(Objects.requireNonNull(edtFive.getText()).toString());
-                    st_6 = Integer.parseInt(Objects.requireNonNull(edtSix.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtOne.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtTwo.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtThree.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtFour.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtFive.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtSix.getText()).toString());
+                    numOfFeedingList.add(0 + "");
+                    numOfFeedingList.add(0 + "");
                 } else {
                     isValidData = false;
                 }
             } else if (spinnerNumOfFeed.getSelectedItem().equals("7")){
                 numOfFeeding = 7;
                 if (!Objects.requireNonNull(Objects.requireNonNull(edtOne.getText())).toString().equals("")){
-                    st_1 = Integer.parseInt(Objects.requireNonNull(edtOne.getText()).toString());
-                    st_2 = Integer.parseInt(Objects.requireNonNull(edtTwo.getText()).toString());
-                    st_3 = Integer.parseInt(Objects.requireNonNull(edtThree.getText()).toString());
-                    st_4 = Integer.parseInt(Objects.requireNonNull(edtFour.getText()).toString());
-                    st_5 = Integer.parseInt(Objects.requireNonNull(edtFive.getText()).toString());
-                    st_6 = Integer.parseInt(Objects.requireNonNull(edtSix.getText()).toString());
-                    st_7 = Integer.parseInt(Objects.requireNonNull(edtSeven.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtOne.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtTwo.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtThree.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtFour.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtFive.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtSix.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtSeven.getText()).toString());
+                    numOfFeedingList.add(0 + "");
                 } else {
                     isValidData = false;
                 }
             } else {
                 numOfFeeding = 8;
                 if (!Objects.requireNonNull(Objects.requireNonNull(edtOne.getText())).toString().equals("")){
-                    st_1 = Integer.parseInt(Objects.requireNonNull(edtOne.getText()).toString());
-                    st_2 = Integer.parseInt(Objects.requireNonNull(edtTwo.getText()).toString());
-                    st_3 = Integer.parseInt(Objects.requireNonNull(edtThree.getText()).toString());
-                    st_4 = Integer.parseInt(Objects.requireNonNull(edtFour.getText()).toString());
-                    st_5 = Integer.parseInt(Objects.requireNonNull(edtFive.getText()).toString());
-                    st_6 = Integer.parseInt(Objects.requireNonNull(edtSix.getText()).toString());
-                    st_7 = Integer.parseInt(Objects.requireNonNull(edtSeven.getText()).toString());
-                    st_8 = Integer.parseInt(Objects.requireNonNull(edtEight.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtOne.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtTwo.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtThree.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtFour.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtFive.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtSix.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtSeven.getText()).toString());
+                    numOfFeedingList.add(Objects.requireNonNull(edtEight.getText()).toString());
                 } else {
                     isValidData = false;
                 }
@@ -406,15 +436,7 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
             if (isValidData) {
                 HashMap<String, Object> update = new HashMap<>();
                 update.put(Constants.KEY_NUM_OF_FEEDING, numOfFeeding + "");
-                update.put(Constants.KEY_NUM_1ST, st_1 + "");
-                update.put(Constants.KEY_NUM_2ST, st_2 + "");
-                update.put(Constants.KEY_NUM_3ST, st_3 + "");
-                update.put(Constants.KEY_NUM_4ST, st_4 + "");
-                update.put(Constants.KEY_NUM_5ST, st_5 + "");
-                update.put(Constants.KEY_NUM_6ST, st_6 + "");
-                update.put(Constants.KEY_NUM_7ST, st_7 + "");
-                update.put(Constants.KEY_NUM_8ST, st_8 + "");
-
+                update.put(Constants.KEY_NUM_OF_FEEDING_LIST, numOfFeedingList);
 
                 database.collection(Constants.KEY_COLLECTION_POND)
                         .document(pond.getId())

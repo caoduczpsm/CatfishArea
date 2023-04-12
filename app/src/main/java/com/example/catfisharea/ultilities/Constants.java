@@ -59,14 +59,9 @@ public class Constants {
     public static final String KEY_COLLECTION_POND = "ponds";
     public static final String KEY_AREA_ID = "areaID";
     public static final String KEY_NUM_OF_FEEDING = "numOfFeeding";
-    public static final String KEY_NUM_1ST = "1stForFeeding";
-    public static final String KEY_NUM_2ST = "2stForFeeding";
-    public static final String KEY_NUM_3ST = "3stForFeeding";
-    public static final String KEY_NUM_4ST = "4stForFeeding";
-    public static final String KEY_NUM_5ST = "5stForFeeding";
-    public static final String KEY_NUM_6ST = "6stForFeeding";
-    public static final String KEY_NUM_7ST = "7stForFeeding";
-    public static final String KEY_NUM_8ST = "8stForFeeding";
+    public static final String KEY_NUM_OF_FEEDING_LIST = "numOfFeedingList";
+    public static final String KEY_NUM_OF_WATERING = "numOfWatering";
+    public static final String KEY_NUM_OF_WATERING_LIST = "numOfWateringList";
 
     public static final String KEY_MAP = "geo";
     public static final String KEY_AREA = "area";
