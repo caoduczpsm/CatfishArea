@@ -11,7 +11,6 @@ import com.example.catfisharea.activities.admin.WarehouseActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
-import com.example.catfisharea.activities.alluser.PondDetailsActivity;
 import com.example.catfisharea.activities.alluser.ViewPlanActivity;
 import com.example.catfisharea.adapter.HomeAdapter;
 import com.example.catfisharea.listeners.CampusListener;
@@ -99,6 +98,7 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
                     itemHomes.add(itemHome);
                     homeAdapter.notifyDataSetChanged();
                 });
+        List<Integer> numOfFeedingList = new ArrayList<>();
         database.collection(Constants.KEY_COLLECTION_POND).whereEqualTo(Constants.KEY_CAMPUS_ID, campusId)
                 .get().addOnSuccessListener(pondQuery -> {
                     List<RegionModel> regionModels = new ArrayList<>();
@@ -106,8 +106,16 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
                         String pondId = pondDocument.getId();
                         String pondName = pondDocument.getString(Constants.KEY_NAME);
                         String acreage = pondDocument.getString(Constants.KEY_ACREAGE);
+                        numOfFeedingList.add(Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_1ST))));
+                        numOfFeedingList.add(Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_2ST))));
+                        numOfFeedingList.add(Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_3ST))));
+                        numOfFeedingList.add(Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_4ST))));
+                        numOfFeedingList.add(Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_5ST))));
+                        numOfFeedingList.add(Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_6ST))));
+                        numOfFeedingList.add(Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_7ST))));
+                        numOfFeedingList.add(Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_8ST))));
                         int numOfFeeding = Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_OF_FEEDING)));
-                        Pond pond = new Pond(pondId, pondName, null, campusId, acreage, numOfFeeding);
+                        Pond pond = new Pond(pondId, pondName, null, campusId, acreage, numOfFeeding, numOfFeedingList);
                         regionModels.add(pond);
                     }
                     Collections.sort(itemHomes,
