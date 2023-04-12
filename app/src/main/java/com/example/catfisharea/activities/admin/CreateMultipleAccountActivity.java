@@ -4,6 +4,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.os.Build.VERSION.SDK_INT;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,13 +16,16 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.Toast;
 import com.android.app.catfisharea.databinding.ActivityCreateMultipleAccountBinding;
-import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.ultilities.Constants;
+import com.example.catfisharea.ultilities.EncryptHandler;
 import com.example.catfisharea.ultilities.ExcelHandler;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -102,6 +106,7 @@ public class CreateMultipleAccountActivity extends BaseActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -158,39 +163,44 @@ public class CreateMultipleAccountActivity extends BaseActivity {
             } else {
                 loading(true);
                 for (List<String> row : resultData){
-                    HashMap<String, Object> newAccount = new HashMap<>();
-                    newAccount.put(Constants.KEY_NAME, row.get(0));
-                    newAccount.put(Constants.KEY_PHONE, row.get(1));
-                    newAccount.put(Constants.KEY_PERSONAL_ID, row.get(2));
-                    newAccount.put(Constants.KEY_DATEOFBIRTH, row.get(3));
-                    newAccount.put(Constants.KEY_ADDRESS, row.get(4));
-                    newAccount.put(Constants.KEY_PASSWORD, row.get(5));
-                    switch (row.get(6)) {
-                        case "Trưởng vùng":
-                        case "Trưởng Vùng":
-                            newAccount.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_REGIONAL_CHIEF);
-                            break;
-                        case "Trưởng khu":
-                        case "Trưởng Khu":
-                            newAccount.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_DIRECTOR);
-                            break;
-                        case "Công nhân":
-                        case "Trưởng Công":
-                            newAccount.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_WORKER);
-                            break;
-                        case "Kế toán":
-                        case "Kế Toán":
-                            newAccount.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_ACCOUNTANT);
-                            break;
-                        case "Admin":
-                        case "admin":
-                            newAccount.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_ADMIN);
-                            break;
+                    try {
+                        String encryptPassword = EncryptHandler.encryptPassword(row.get(5));
+                        HashMap<String, Object> newAccount = new HashMap<>();
+                        newAccount.put(Constants.KEY_NAME, row.get(0));
+                        newAccount.put(Constants.KEY_PHONE, row.get(1));
+                        newAccount.put(Constants.KEY_PERSONAL_ID, row.get(2));
+                        newAccount.put(Constants.KEY_DATEOFBIRTH, row.get(3));
+                        newAccount.put(Constants.KEY_ADDRESS, row.get(4));
+                        newAccount.put(Constants.KEY_PASSWORD, encryptPassword);
+                        switch (row.get(6)) {
+                            case "Trưởng vùng":
+                            case "Trưởng Vùng":
+                                newAccount.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_REGIONAL_CHIEF);
+                                break;
+                            case "Trưởng khu":
+                            case "Trưởng Khu":
+                                newAccount.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_DIRECTOR);
+                                break;
+                            case "Công nhân":
+                            case "Trưởng Công":
+                                newAccount.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_WORKER);
+                                break;
+                            case "Kế toán":
+                            case "Kế Toán":
+                                newAccount.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_ACCOUNTANT);
+                                break;
+                            case "Admin":
+                            case "admin":
+                                newAccount.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_ADMIN);
+                                break;
+                        }
+                        availableUserPhoneList.add(row.get(1));
+                        newAccount.put(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID));
+                        database.collection(Constants.KEY_COLLECTION_USER)
+                                .add(newAccount);
+                    } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+                        e.printStackTrace();
                     }
-                    availableUserPhoneList.add(row.get(1));
-                    newAccount.put(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID));
-                    database.collection(Constants.KEY_COLLECTION_USER)
-                            .add(newAccount);
                 }
                 loading(false);
                 showToast("Tạo các tài khoản thành công!");

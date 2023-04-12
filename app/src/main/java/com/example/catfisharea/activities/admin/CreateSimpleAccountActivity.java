@@ -2,7 +2,7 @@ package com.example.catfisharea.activities.admin;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.RequiresApi;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -17,19 +18,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
-
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityCreateSimpleAccountBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.ultilities.Constants;
+import com.example.catfisharea.ultilities.EncryptHandler;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -44,6 +46,7 @@ public class CreateSimpleAccountActivity extends BaseActivity {
     private String typeAccount;
     private ArrayList<String> listTypeAccount;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,10 +84,9 @@ public class CreateSimpleAccountActivity extends BaseActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setListeners(){
-        mBinding.toolbarSimpleAccount.setNavigationOnClickListener(view -> {
-            onBackPressed();
-        });
+        mBinding.toolbarSimpleAccount.setNavigationOnClickListener(view -> onBackPressed());
         // Chọn hình ảnh
         mBinding.layoutImage.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -118,86 +120,93 @@ public class CreateSimpleAccountActivity extends BaseActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void regisAccount() {
 
-        // Tạo các trường dữ liệu cho tài khoản mới
-        HashMap<String, Object> user = new HashMap<>();
-        user.put(Constants.KEY_PHONE, mBinding.edtPhone.getText().toString());
-        user.put(Constants.KEY_PASSWORD, mBinding.edtPassword.getText().toString());
-        user.put(Constants.KEY_IMAGE,encodedImage);
-        user.put(Constants.KEY_NAME, mBinding.edtName.getText().toString());
-        user.put(Constants.KEY_PERSONAL_ID, mBinding.edtPersonalID.getText().toString());
-        user.put(Constants.KEY_DATEOFBIRTH, mBinding.textDateOfBirth.getText().toString());
-        user.put(Constants.KEY_ADDRESS, mBinding.edtAddress.getText().toString());
-        user.put(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID));
+        try {
+            String encryptPassword = EncryptHandler.encryptPassword(Objects.requireNonNull(mBinding.edtPassword.getText()).toString());
 
-        if (typeAccount.equals(listTypeAccount.get(0))){
-            user.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_ADMIN);
-        } else if (typeAccount.equals(listTypeAccount.get(1))){
-            user.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_ACCOUNTANT);
-        } else if (typeAccount.equals(listTypeAccount.get(2))){
-            user.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_REGIONAL_CHIEF);
-        } else if (typeAccount.equals(listTypeAccount.get(3))){
-            user.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_DIRECTOR);
-        } else {
-            user.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_WORKER);
+            // Tạo các trường dữ liệu cho tài khoản mới
+            HashMap<String, Object> user = new HashMap<>();
+            user.put(Constants.KEY_PHONE, Objects.requireNonNull(mBinding.edtPhone.getText()).toString());
+            user.put(Constants.KEY_PASSWORD, encryptPassword);
+            user.put(Constants.KEY_IMAGE,encodedImage);
+            user.put(Constants.KEY_NAME, Objects.requireNonNull(mBinding.edtName.getText()).toString());
+            user.put(Constants.KEY_PERSONAL_ID, Objects.requireNonNull(mBinding.edtPersonalID.getText()).toString());
+            user.put(Constants.KEY_DATEOFBIRTH, Objects.requireNonNull(mBinding.textDateOfBirth.getText()).toString());
+            user.put(Constants.KEY_ADDRESS, Objects.requireNonNull(mBinding.edtAddress.getText()).toString());
+            user.put(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID));
+
+            if (typeAccount.equals(listTypeAccount.get(0))){
+                user.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_ADMIN);
+            } else if (typeAccount.equals(listTypeAccount.get(1))){
+                user.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_ACCOUNTANT);
+            } else if (typeAccount.equals(listTypeAccount.get(2))){
+                user.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_REGIONAL_CHIEF);
+            } else if (typeAccount.equals(listTypeAccount.get(3))){
+                user.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_DIRECTOR);
+            } else {
+                user.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_WORKER);
+            }
+
+            // Giả lập trạng thái loading và ẩn nút đăng kí
+            loading(true);
+            database.collection(Constants.KEY_COLLECTION_USER)
+                    .add(user)
+                    .addOnSuccessListener(task ->{
+                        loading(false);
+                        database.collection(Constants.KEY_COLLECTION_COMPANY)
+                                .document(preferenceManager.getString(Constants.KEY_COMPANY_ID))
+                                .get()
+                                .addOnCompleteListener(task1 -> {
+
+                                    DocumentSnapshot documentSnapshot = task1.getResult();
+
+                                    // Lấy số tài khoản công ty hiện tại cộng thêm một tài khoản vừa tạo
+                                    int currentTotalAccount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_TOTAL_ACCOUNT))) + 1;
+
+                                    // Tạo các trưởng dữ liệu cần cập nhật
+                                    HashMap<String, Object> company = new HashMap<>();
+                                    company.put(Constants.KEY_COMPANY_TOTAL_ACCOUNT, currentTotalAccount + "");
+
+                                    int currentTypeAmount;
+                                    if (typeAccount.equals(listTypeAccount.get(0))){
+                                        currentTypeAmount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_ADMIN))) + 1;
+                                        company.put(Constants.KEY_COMPANY_AMOUNT_ADMIN, currentTypeAmount + "");
+                                    } else if (typeAccount.equals(listTypeAccount.get(1))){
+                                        currentTypeAmount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT))) + 1;
+                                        company.put(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT, currentTypeAmount + "");
+                                    } else if (typeAccount.equals(listTypeAccount.get(2))){
+                                        currentTypeAmount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF))) + 1;
+                                        company.put(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF, currentTypeAmount + "");
+                                    } else if (typeAccount.equals(listTypeAccount.get(3))){
+                                        currentTypeAmount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_DIRECTOR))) + 1;
+                                        company.put(Constants.KEY_COMPANY_AMOUNT_DIRECTOR, currentTypeAmount + "");
+                                    } else {
+                                        currentTypeAmount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_WORKER))) + 1;
+                                        company.put(Constants.KEY_COMPANY_AMOUNT_WORKER, currentTypeAmount + "");
+                                    }
+
+                                    database.collection(Constants.KEY_COLLECTION_COMPANY)
+                                            .document(preferenceManager.getString(Constants.KEY_COMPANY_ID))
+                                            .update(company)
+                                            .addOnSuccessListener(task2 -> {
+                                                showToast("Tạo tài khoản thành công");
+                                                mBinding.edtPhone.setText("");
+                                                mBinding.edtPassword.setText("");
+                                                mBinding.edtName.setText("");
+                                                mBinding.edtPersonalID.setText("");
+                                                mBinding.textDateOfBirth.setText("");
+                                                mBinding.edtAddress.setText("");
+                                            });
+
+
+                                });
+
+                    }).addOnFailureListener(e -> showToast("Lỗi trong quá trench tạo tài khoản!"));
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+            e.printStackTrace();
         }
-
-        // Giả lập trạng thái loading và ẩn nút đăng kí
-        loading(true);
-        database.collection(Constants.KEY_COLLECTION_USER)
-                .add(user)
-                .addOnSuccessListener(task ->{
-                    loading(false);
-                    database.collection(Constants.KEY_COLLECTION_COMPANY)
-                            .document(preferenceManager.getString(Constants.KEY_COMPANY_ID))
-                            .get()
-                            .addOnCompleteListener(task1 -> {
-
-                                DocumentSnapshot documentSnapshot = task1.getResult();
-
-                                // Lấy số tài khoản công ty hiện tại cộng thêm một tài khoản vừa tạo
-                                int currentTotalAccount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_TOTAL_ACCOUNT))) + 1;
-
-                                // Tạo các trưởng dữ liệu cần cập nhật
-                                HashMap<String, Object> company = new HashMap<>();
-                                company.put(Constants.KEY_COMPANY_TOTAL_ACCOUNT, currentTotalAccount + "");
-
-                                int currentTypeAmount;
-                                if (typeAccount.equals(listTypeAccount.get(0))){
-                                    currentTypeAmount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_ADMIN))) + 1;
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ADMIN, currentTypeAmount + "");
-                                } else if (typeAccount.equals(listTypeAccount.get(1))){
-                                    currentTypeAmount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT))) + 1;
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT, currentTypeAmount + "");
-                                } else if (typeAccount.equals(listTypeAccount.get(2))){
-                                    currentTypeAmount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF))) + 1;
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF, currentTypeAmount + "");
-                                } else if (typeAccount.equals(listTypeAccount.get(3))){
-                                    currentTypeAmount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_DIRECTOR))) + 1;
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_DIRECTOR, currentTypeAmount + "");
-                                } else {
-                                    currentTypeAmount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_WORKER))) + 1;
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_WORKER, currentTypeAmount + "");
-                                }
-
-                                database.collection(Constants.KEY_COLLECTION_COMPANY)
-                                        .document(preferenceManager.getString(Constants.KEY_COMPANY_ID))
-                                        .update(company)
-                                        .addOnSuccessListener(task2 -> {
-                                            showToast("Tạo tài khoản thành công");
-                                            mBinding.edtPhone.setText("");
-                                            mBinding.edtPassword.setText("");
-                                            mBinding.edtName.setText("");
-                                            mBinding.edtPersonalID.setText("");
-                                            mBinding.textDateOfBirth.setText("");
-                                            mBinding.edtAddress.setText("");
-                                        });
-
-
-                            });
-
-                }).addOnFailureListener(e -> showToast("Lỗi trong quá trench tạo tài khoản!"));
 
 
     }
@@ -256,22 +265,22 @@ public class CreateSimpleAccountActivity extends BaseActivity {
         if(encodedImage == null){
             showToast("Hãy chọn hình ảnh!");
             return false;
-        } else if(mBinding.edtPhone.getText().toString().trim().isEmpty()){
+        } else if(Objects.requireNonNull(mBinding.edtPhone.getText()).toString().trim().isEmpty()){
             showToast("Hãy nhập số điện thoại!");
             return false;
-        } else if(mBinding.edtPassword.getText().toString().trim().isEmpty()){
+        } else if(Objects.requireNonNull(mBinding.edtPassword.getText()).toString().trim().isEmpty()){
             showToast("Hãy nhập mật khẩu!");
             return false;
-        } else if(mBinding.edtName.getText().toString().trim().isEmpty()){
+        } else if(Objects.requireNonNull(mBinding.edtName.getText()).toString().trim().isEmpty()){
             showToast("Hãy nhập họ và tên!");
             return false;
-        } else if(mBinding.edtPersonalID.getText().toString().trim().isEmpty()){
+        } else if(Objects.requireNonNull(mBinding.edtPersonalID.getText()).toString().trim().isEmpty()){
             showToast("Hãy nhập CMND/CCCD");
             return false;
-        } else if(mBinding.textDateOfBirth.getText().toString().trim().isEmpty()){
+        } else if(Objects.requireNonNull(mBinding.textDateOfBirth.getText()).toString().trim().isEmpty()){
             showToast("Hãy chọn ngày tháng năm sinh!");
             return false;
-        } else if(mBinding.edtAddress.getText().toString().trim().isEmpty()){
+        } else if(Objects.requireNonNull(mBinding.edtAddress.getText()).toString().trim().isEmpty()){
             showToast("Hãy nhập địa chỉ!");
             return false;
         } else{
