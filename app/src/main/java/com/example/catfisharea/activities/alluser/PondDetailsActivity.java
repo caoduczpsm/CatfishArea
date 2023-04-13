@@ -108,6 +108,56 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
             if (parameter.equals(Constants.KEY_SPECIFICATION_NH3)){
                 binding.layoutHome.environment6.setVisibility(View.VISIBLE);
             }
+
+        }
+
+        HashMap<String, Object> parameters = pond.getParameters();
+        if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_PH), "0")){
+            binding.layoutHome.textQuantityEnvironment1.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageEnvironment1.setVisibility(View.GONE);
+        } else {
+            binding.layoutHome.textQuantityEnvironment1.setVisibility(View.GONE);
+            binding.layoutHome.imageEnvironment1.setVisibility(View.VISIBLE);
+        }
+
+        if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_SALINITY), "0")){
+            binding.layoutHome.textQuantityEnvironment2.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageEnvironment2.setVisibility(View.GONE);
+        } else {
+            binding.layoutHome.textQuantityEnvironment2.setVisibility(View.GONE);
+            binding.layoutHome.imageEnvironment2.setVisibility(View.VISIBLE);
+        }
+
+        if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_ALKALINITY), "0")){
+            binding.layoutHome.textQuantityEnvironment3.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageEnvironment3.setVisibility(View.GONE);
+        } else {
+            binding.layoutHome.textQuantityEnvironment3.setVisibility(View.GONE);
+            binding.layoutHome.imageEnvironment3.setVisibility(View.VISIBLE);
+        }
+
+        if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_TEMPERATE), "0")){
+            binding.layoutHome.textQuantityEnvironment4.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageEnvironment4.setVisibility(View.GONE);
+        } else {
+            binding.layoutHome.textQuantityEnvironment4.setVisibility(View.GONE);
+            binding.layoutHome.imageEnvironment4.setVisibility(View.VISIBLE);
+        }
+
+        if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_H2S), "0")){
+            binding.layoutHome.textQuantityEnvironment5.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageEnvironment5.setVisibility(View.GONE);
+        } else {
+            binding.layoutHome.textQuantityEnvironment5.setVisibility(View.GONE);
+            binding.layoutHome.imageEnvironment5.setVisibility(View.VISIBLE);
+        }
+
+        if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_NH3), "0")){
+            binding.layoutHome.textQuantityEnvironment6.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageEnvironment6.setVisibility(View.GONE);
+        } else {
+            binding.layoutHome.textQuantityEnvironment6.setVisibility(View.GONE);
+            binding.layoutHome.imageEnvironment6.setVisibility(View.VISIBLE);
         }
 
     }
@@ -644,31 +694,49 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
             if (checkboxPH.isChecked()){
                 binding.layoutHome.environment1.setVisibility(View.VISIBLE);
                 spec.set(0, Constants.KEY_SPECIFICATION_PH);
+            } else {
+                binding.layoutHome.environment1.setVisibility(View.GONE);
+                spec.set(0, "0");
             }
 
             if (checkboxSalinity.isChecked()){
                 binding.layoutHome.environment2.setVisibility(View.VISIBLE);
                 spec.set(1, Constants.KEY_SPECIFICATION_SALINITY);
+            } else {
+                binding.layoutHome.environment2.setVisibility(View.GONE);
+                spec.set(1, "0");
             }
 
             if (checkboxAlkalinity.isChecked()){
                 binding.layoutHome.environment3.setVisibility(View.VISIBLE);
                 spec.set(2, Constants.KEY_SPECIFICATION_ALKALINITY);
+            } else {
+                binding.layoutHome.environment3.setVisibility(View.GONE);
+                spec.set(2, "0");
             }
 
             if (checkboxTemperate.isChecked()){
                 binding.layoutHome.environment4.setVisibility(View.VISIBLE);
                 spec.set(3, Constants.KEY_SPECIFICATION_TEMPERATE);
+            } else {
+                binding.layoutHome.environment4.setVisibility(View.GONE);
+                spec.set(3, "0");
             }
 
             if (checkboxH2S.isChecked()){
                 binding.layoutHome.environment5.setVisibility(View.VISIBLE);
                 spec.set(4, Constants.KEY_SPECIFICATION_H2S);
+            } else {
+                binding.layoutHome.environment5.setVisibility(View.GONE);
+                spec.set(4, "0");
             }
 
             if (checkboxNH3.isChecked()){
                 binding.layoutHome.environment6.setVisibility(View.VISIBLE);
                 spec.set(5, Constants.KEY_SPECIFICATION_NH3);
+            } else {
+                binding.layoutHome.environment6.setVisibility(View.GONE);
+                spec.set(5, "0");
             }
 
             HashMap<String, Object> updatedList = new HashMap<>();

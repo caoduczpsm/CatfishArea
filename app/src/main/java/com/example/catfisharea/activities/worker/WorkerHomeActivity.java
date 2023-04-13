@@ -223,6 +223,25 @@ public class WorkerHomeActivity extends BaseActivity {
                     }
                 });
 
+        database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                .whereEqualTo(Constants.KEY_TASK_TITLE, Constants.KEY_FIXED_TASK_MEASURE_WATER)
+                .get()
+                .addOnCompleteListener(task -> {
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+
+                        List<String> receiverFeedFishTask = (List<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVER_ID);
+                        assert receiverFeedFishTask != null;
+                        if (receiverFeedFishTask.contains(preferenceManager.getString(Constants.KEY_USER_ID))){
+                            fixedTask = new Task();
+                            fixedTask.id = queryDocumentSnapshot.getId();
+                            binding.layoutHome.cardEnvironment.setVisibility(View.VISIBLE);
+                        } else {
+                            binding.layoutHome.cardEnvironment.setVisibility(View.GONE);
+                        }
+
+                    }
+                });
+
         if (preferenceManager.getString(Constants.KEY_NOW) == null){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 preferenceManager.putString(Constants.KEY_NOW, String.valueOf(LocalDate.now()));
