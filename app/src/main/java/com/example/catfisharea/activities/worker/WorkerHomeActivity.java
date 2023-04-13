@@ -33,6 +33,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -44,7 +45,7 @@ public class WorkerHomeActivity extends BaseActivity {
     private PreferenceManager preferenceManager;
     private FirebaseFirestore database;
     private Pond pond;
-    private Task fixedTask;
+    private Task feedTask, measureTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,6 +203,87 @@ public class WorkerHomeActivity extends BaseActivity {
                         binding.layoutHome.textQuantityFood8.setVisibility(View.VISIBLE);
                         binding.layoutHome.imageFood8.setVisibility(View.GONE);
                     }
+
+                    List<String> specificationsToMeasureList = pond.getSpecificationsToMeasureList();
+                    if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_PH)) {
+                        binding.layoutHome.environment1.setVisibility(View.VISIBLE);
+                    }
+
+                    if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_SALINITY)) {
+                        binding.layoutHome.environment2.setVisibility(View.VISIBLE);
+                    }
+
+                    if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_ALKALINITY)) {
+                        binding.layoutHome.environment3.setVisibility(View.VISIBLE);
+                    }
+
+                    if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_TEMPERATE)) {
+                        binding.layoutHome.environment4.setVisibility(View.VISIBLE);
+                    }
+
+                    if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_H2S)) {
+                        binding.layoutHome.environment5.setVisibility(View.VISIBLE);
+                    }
+
+                    if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_NH3)) {
+                        binding.layoutHome.environment6.setVisibility(View.VISIBLE);
+                    }
+
+                    HashMap<String, Object> parameters = pond.getParameters();
+                    if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_PH), "0")){
+                        binding.layoutHome.textQuantityEnvironment1.setVisibility(View.VISIBLE);
+                        binding.layoutHome.imageEnvironment1.setVisibility(View.GONE);
+                        binding.layoutHome.textQuantityEnvironment1.setText(parameters.get(Constants.KEY_SPECIFICATION_PH) + "");
+                    } else {
+                        binding.layoutHome.textQuantityEnvironment1.setVisibility(View.GONE);
+                        binding.layoutHome.imageEnvironment1.setVisibility(View.VISIBLE);
+                    }
+
+                    if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_SALINITY), "0")){
+                        binding.layoutHome.textQuantityEnvironment2.setVisibility(View.VISIBLE);
+                        binding.layoutHome.imageEnvironment2.setVisibility(View.GONE);
+                        binding.layoutHome.textQuantityEnvironment2.setText(parameters.get(Constants.KEY_SPECIFICATION_SALINITY) + "");
+                    } else {
+                        binding.layoutHome.textQuantityEnvironment2.setVisibility(View.GONE);
+                        binding.layoutHome.imageEnvironment2.setVisibility(View.VISIBLE);
+                    }
+
+                    if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_ALKALINITY), "0")){
+                        binding.layoutHome.textQuantityEnvironment3.setVisibility(View.VISIBLE);
+                        binding.layoutHome.imageEnvironment3.setVisibility(View.GONE);
+                        binding.layoutHome.textQuantityEnvironment3.setText(parameters.get(Constants.KEY_SPECIFICATION_ALKALINITY) + "");
+                    } else {
+                        binding.layoutHome.textQuantityEnvironment3.setVisibility(View.GONE);
+                        binding.layoutHome.imageEnvironment3.setVisibility(View.VISIBLE);
+                    }
+
+                    if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_TEMPERATE), "0")){
+                        binding.layoutHome.textQuantityEnvironment4.setVisibility(View.VISIBLE);
+                        binding.layoutHome.imageEnvironment4.setVisibility(View.GONE);
+                        binding.layoutHome.textQuantityEnvironment4.setText(parameters.get(Constants.KEY_SPECIFICATION_TEMPERATE) + "");
+                    } else {
+                        binding.layoutHome.textQuantityEnvironment4.setVisibility(View.GONE);
+                        binding.layoutHome.imageEnvironment4.setVisibility(View.VISIBLE);
+                    }
+
+                    if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_H2S), "0")){
+                        binding.layoutHome.textQuantityEnvironment5.setVisibility(View.VISIBLE);
+                        binding.layoutHome.imageEnvironment5.setVisibility(View.GONE);
+                        binding.layoutHome.textQuantityEnvironment5.setText(parameters.get(Constants.KEY_SPECIFICATION_H2S) + "");
+                    } else {
+                        binding.layoutHome.textQuantityEnvironment5.setVisibility(View.GONE);
+                        binding.layoutHome.imageEnvironment5.setVisibility(View.VISIBLE);
+                    }
+
+                    if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_NH3), "0")){
+                        binding.layoutHome.textQuantityEnvironment6.setVisibility(View.VISIBLE);
+                        binding.layoutHome.imageEnvironment6.setVisibility(View.GONE);
+                        binding.layoutHome.textQuantityEnvironment6.setText(parameters.get(Constants.KEY_SPECIFICATION_NH3) + "");
+                    } else {
+                        binding.layoutHome.textQuantityEnvironment6.setVisibility(View.GONE);
+                        binding.layoutHome.imageEnvironment6.setVisibility(View.VISIBLE);
+                    }
+
                 });
 
         database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
@@ -213,8 +295,8 @@ public class WorkerHomeActivity extends BaseActivity {
                         List<String> receiverFeedFishTask = (List<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVER_ID);
                         assert receiverFeedFishTask != null;
                         if (receiverFeedFishTask.contains(preferenceManager.getString(Constants.KEY_USER_ID))){
-                            fixedTask = new Task();
-                            fixedTask.id = queryDocumentSnapshot.getId();
+                            feedTask = new Task();
+                            feedTask.id = queryDocumentSnapshot.getId();
                             binding.layoutHome.cardFood.setVisibility(View.VISIBLE);
                         } else {
                             binding.layoutHome.cardFood.setVisibility(View.GONE);
@@ -232,8 +314,27 @@ public class WorkerHomeActivity extends BaseActivity {
                         List<String> receiverFeedFishTask = (List<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVER_ID);
                         assert receiverFeedFishTask != null;
                         if (receiverFeedFishTask.contains(preferenceManager.getString(Constants.KEY_USER_ID))){
-                            fixedTask = new Task();
-                            fixedTask.id = queryDocumentSnapshot.getId();
+                            measureTask = new Task();
+                            measureTask.id = queryDocumentSnapshot.getId();
+                            binding.layoutHome.cardFood.setVisibility(View.VISIBLE);
+                        } else {
+                            binding.layoutHome.cardFood.setVisibility(View.GONE);
+                        }
+
+                    }
+                });
+
+        database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                .whereEqualTo(Constants.KEY_TASK_TITLE, Constants.KEY_FIXED_TASK_MEASURE_WATER)
+                .get()
+                .addOnCompleteListener(task -> {
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+
+                        List<String> receiverFeedFishTask = (List<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVER_ID);
+                        assert receiverFeedFishTask != null;
+                        if (receiverFeedFishTask.contains(preferenceManager.getString(Constants.KEY_USER_ID))){
+                            feedTask = new Task();
+                            feedTask.id = queryDocumentSnapshot.getId();
                             binding.layoutHome.cardEnvironment.setVisibility(View.VISIBLE);
                         } else {
                             binding.layoutHome.cardEnvironment.setVisibility(View.GONE);
@@ -257,7 +358,11 @@ public class WorkerHomeActivity extends BaseActivity {
                 HashMap<String, Object> unCompletedTask = new HashMap<>();
                 unCompletedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
                 database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
-                        .document(fixedTask.id)
+                        .document(feedTask.id)
+                        .update(unCompletedTask);
+
+                database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                        .document(measureTask.id)
                         .update(unCompletedTask);
                 
                 int totalFeedInDate = 0;
@@ -332,6 +437,18 @@ public class WorkerHomeActivity extends BaseActivity {
 
         binding.layoutHome.food8.setOnClickListener(view -> setFeedDialog(8));
 
+        binding.layoutHome.environment1.setOnClickListener(view ->setMeasureWaterDialog(1));
+
+        binding.layoutHome.environment2.setOnClickListener(view ->setMeasureWaterDialog(2));
+
+        binding.layoutHome.environment3.setOnClickListener(view ->setMeasureWaterDialog(3));
+
+        binding.layoutHome.environment4.setOnClickListener(view ->setMeasureWaterDialog(4));
+
+        binding.layoutHome.environment5.setOnClickListener(view ->setMeasureWaterDialog(5));
+
+        binding.layoutHome.environment6.setOnClickListener(view ->setMeasureWaterDialog(6));
+
     }
 
     private void setFeedDialog(int numOfFeed){
@@ -404,7 +521,7 @@ public class WorkerHomeActivity extends BaseActivity {
                                 completedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
                             }
                             database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
-                                    .document(fixedTask.id)
+                                    .document(feedTask.id)
                                     .update(completedTask);
                             dialog.dismiss();
                         })
@@ -412,6 +529,118 @@ public class WorkerHomeActivity extends BaseActivity {
                             showToast("Cập nhật lượng thức ăn thất bại!");
                             dialog.dismiss();
                         });
+            } else {
+                showToast("Vui lòng nhập số lượng thức ăn!");
+            }
+
+        });
+
+        btnClose.setOnClickListener(view -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    private void setMeasureWaterDialog(int numOfFeed){
+        Dialog dialog = openDialog(R.layout.layout_dialog_set_measure_water);
+        assert dialog != null;
+
+        Button btnSave, btnClose;
+
+        btnSave = dialog.findViewById(R.id.btnSave);
+        btnClose = dialog.findViewById(R.id.btnClose);
+        TextInputEditText edtWater = dialog.findViewById(R.id.edtWater);
+
+        btnSave.setOnClickListener(view -> {
+
+            HashMap<String, Object> parameters = pond.getParameters();
+            String parameter = Objects.requireNonNull(edtWater.getText()).toString();
+
+            if (numOfFeed == 1) {
+                binding.layoutHome.imageEnvironment1.setVisibility(View.GONE);
+                binding.layoutHome.textQuantityEnvironment1.setVisibility(View.VISIBLE);
+                binding.layoutHome.textQuantityEnvironment1.setText(parameter);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    parameters.replace(Constants.KEY_SPECIFICATION_PH, parameter);
+                }
+            } else if (numOfFeed == 2) {
+                binding.layoutHome.imageEnvironment2.setVisibility(View.GONE);
+                binding.layoutHome.textQuantityEnvironment2.setVisibility(View.VISIBLE);
+                binding.layoutHome.textQuantityEnvironment2.setText(parameter);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    parameters.replace(Constants.KEY_SPECIFICATION_SALINITY, parameter);
+                }
+            } else if (numOfFeed == 3) {
+                binding.layoutHome.imageEnvironment3.setVisibility(View.GONE);
+                binding.layoutHome.textQuantityEnvironment3.setVisibility(View.VISIBLE);
+                binding.layoutHome.textQuantityEnvironment3.setText(parameter);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    parameters.replace(Constants.KEY_SPECIFICATION_ALKALINITY, parameter);
+                }
+            } else if (numOfFeed == 4) {
+                binding.layoutHome.imageEnvironment4.setVisibility(View.GONE);
+                binding.layoutHome.textQuantityEnvironment4.setVisibility(View.VISIBLE);
+                binding.layoutHome.textQuantityEnvironment4.setText(parameter);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    parameters.replace(Constants.KEY_SPECIFICATION_TEMPERATE, parameter);
+                }
+            } else if (numOfFeed == 5) {
+                binding.layoutHome.imageEnvironment5.setVisibility(View.GONE);
+                binding.layoutHome.textQuantityEnvironment5.setVisibility(View.VISIBLE);
+                binding.layoutHome.textQuantityEnvironment5.setText(parameter);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    parameters.replace(Constants.KEY_SPECIFICATION_H2S, parameter);
+                }
+            } else if (numOfFeed == 6) {
+                binding.layoutHome.imageEnvironment6.setVisibility(View.GONE);
+                binding.layoutHome.textQuantityEnvironment6.setVisibility(View.VISIBLE);
+                binding.layoutHome.textQuantityEnvironment6.setText(parameter);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    parameters.replace(Constants.KEY_SPECIFICATION_NH3, parameter);
+                }
+            }
+
+            if (!parameter.equals("")){
+
+                HashMap<String, Object> updatedParameter = new HashMap<>();
+                updatedParameter.put(Constants.KEY_SPECIFICATIONS_MEASURED, parameters);
+                pond.setParameters(parameters);
+
+                database.collection(Constants.KEY_COLLECTION_POND)
+                        .document(pond.getId())
+                        .update(updatedParameter)
+                        .addOnCompleteListener(task -> {
+
+                            int countParameterMeasure = 0;
+                            List<String> specificationsToMeasureList = pond.getSpecificationsToMeasureList();
+
+                            for (String spec : specificationsToMeasureList) {
+                                if (!spec.equals("0")){
+                                    countParameterMeasure++;
+                                }
+                            }
+
+                            int countParameter;
+                            HashMap<String, Object> parametersMeasured = pond.getParameters();
+                            countParameter = Collections.frequency (parametersMeasured.values(), "0");
+
+                            HashMap<String, Object> completedTask = new HashMap<>();
+                            if ((6 - countParameter) == countParameterMeasure){
+                                completedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_COMPLETED);
+                            } else {
+                                completedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
+                            }
+
+                            database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                                    .document(measureTask.id)
+                                    .update(completedTask);
+
+                            showToast("Đã cập nhật thông số thành công!");
+                            dialog.dismiss();
+                        })
+                        .addOnFailureListener(runnable -> showToast("Cập nhật thông số thất bại!"));
+
+
+
             } else {
                 showToast("Vui lòng nhập số lượng thức ăn!");
             }

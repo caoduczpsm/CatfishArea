@@ -627,8 +627,8 @@
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
+                                android:layout_marginBottom="@dimen/_2sdp"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/imageEnvironment1"
                                 tools:ignore="HardcodedText" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -681,7 +681,6 @@
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/imageEnvironment2"
                                 tools:ignore="HardcodedText" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -733,8 +732,8 @@
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
+                                android:layout_marginBottom="@dimen/_2sdp"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/imageEnvironment3"
                                 tools:ignore="HardcodedText" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -786,8 +785,8 @@
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
+                                android:layout_marginBottom="@dimen/_2sdp"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/imageEnvironment4"
                                 tools:ignore="HardcodedText" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -839,8 +838,8 @@
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
+                                android:layout_marginBottom="@dimen/_2sdp"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/imageEnvironment5"
                                 tools:ignore="HardcodedText" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -892,8 +891,8 @@
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
+                                android:layout_marginBottom="@dimen/_2sdp"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/imageEnvironment6"
                                 tools:ignore="HardcodedText" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
