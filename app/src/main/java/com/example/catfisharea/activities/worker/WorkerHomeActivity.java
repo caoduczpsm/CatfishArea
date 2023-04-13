@@ -71,8 +71,10 @@ public class WorkerHomeActivity extends BaseActivity {
                     String acreage = pondDocument.getString(Constants.KEY_ACREAGE);
                     List<String> numOfFeedingList = (List<String>) pondDocument.get(Constants.KEY_NUM_OF_FEEDING_LIST);
                     List<String> amountFedList = (List<String>) pondDocument.get(Constants.KEY_AMOUNT_FED);
+                    List<String> specificationsToMeasureList = (List<String>) pondDocument.get(Constants.KEY_SPECIFICATIONS_TO_MEASURE);
+                    HashMap<String, Object> parameters = (HashMap<String, Object>) pondDocument.get(Constants.KEY_SPECIFICATIONS_MEASURED);
                     int numOfFeeding = Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_OF_FEEDING)));
-                    pond = new Pond(pondId, pondName, null, null, acreage, numOfFeeding, numOfFeedingList, amountFedList);
+                    pond = new Pond(pondId, pondName, null, null, acreage, numOfFeeding, numOfFeedingList, amountFedList, specificationsToMeasureList, parameters);
                 })
                 .addOnSuccessListener(runnable -> {
                     if (pond.getNumOfFeeding() == 1){

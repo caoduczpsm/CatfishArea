@@ -2,6 +2,7 @@ package com.example.catfisharea.models;
 
 import com.google.firebase.firestore.GeoPoint;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Pond extends RegionModel {
@@ -15,12 +16,15 @@ public class Pond extends RegionModel {
     private int numOfFeeding;
     private List<String> numOfFeedingList;
     private List<String> amountFeedList;
+    private List<String> specificationsToMeasureList;
+    private HashMap<String, Object> parameters;
 
     public Pond(String id, String name) {
         super(id, name);
     }
 
-    public Pond(String id, String name, GeoPoint geo, String idCampus, String acreage, int numOfFeeding, List<String> numOfFeedingList, List<String> amountFeedList) {
+    public Pond(String id, String name, GeoPoint geo, String idCampus, String acreage, int numOfFeeding,
+                List<String> numOfFeedingList, List<String> amountFeedList, List<String> specificationsToMeasureList, HashMap<String, Object> parameters) {
         super(id, name);
         this.geo = geo;
         this.idCampus = idCampus;
@@ -28,6 +32,24 @@ public class Pond extends RegionModel {
         this.numOfFeeding = numOfFeeding;
         this.numOfFeedingList = numOfFeedingList;
         this.amountFeedList = amountFeedList;
+        this.specificationsToMeasureList = specificationsToMeasureList;
+        this.parameters = parameters;
+    }
+
+    public List<String> getSpecificationsToMeasureList() {
+        return specificationsToMeasureList;
+    }
+
+    public void setSpecificationsToMeasureList(List<String> specificationsToMeasureList) {
+        this.specificationsToMeasureList = specificationsToMeasureList;
+    }
+
+    public HashMap<String, Object> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(HashMap<String, Object> parameters) {
+        this.parameters = parameters;
     }
 
     public List<String> getAmountFeedList() {
@@ -114,7 +136,6 @@ public class Pond extends RegionModel {
         ;
         float s2 = (float) ((longt - d2 - m2 / 60.00) * 3600);
         s2 = (float) (Math.ceil(s2 * 100) / 100);
-        String result = "[" + d1 + "°" + m1 + "'" + s1 + "\"N, " + d2 + "°" + m2 + "'" + s2 + "\"E]";
-        return result;
+        return "[" + d1 + "°" + m1 + "'" + s1 + "\"N, " + d2 + "°" + m2 + "'" + s2 + "\"E]";
     }
 }

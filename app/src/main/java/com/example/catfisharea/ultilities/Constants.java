@@ -63,8 +63,14 @@ public class Constants {
     public static final String KEY_NUM_OF_FEEDING = "numOfFeeding";
     public static final String KEY_NUM_OF_FEEDING_LIST = "numOfFeedingList";
     public static final String KEY_AMOUNT_FED = "amountFed";
-    public static final String KEY_NUM_OF_WATERING = "numOfWatering";
-    public static final String KEY_NUM_OF_WATERING_LIST = "numOfWateringList";
+    public static final String KEY_SPECIFICATIONS_TO_MEASURE = "specificationsToMeasure";
+    public static final String KEY_SPECIFICATIONS_MEASURED = "measuredParameters";
+    public static final String KEY_SPECIFICATION_PH = "pH";
+    public static final String KEY_SPECIFICATION_SALINITY = "salinity";
+    public static final String KEY_SPECIFICATION_ALKALINITY = "alkalinity";
+    public static final String KEY_SPECIFICATION_TEMPERATE = "temperate";
+    public static final String KEY_SPECIFICATION_H2S = "h2S";
+    public static final String KEY_SPECIFICATION_NH3 = "nH3";
 
     public static final String KEY_MAP = "geo";
     public static final String KEY_AREA = "area";

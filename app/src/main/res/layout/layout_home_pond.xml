@@ -576,6 +576,7 @@
                     app:layout_constraintTop_toBottomOf="@id/titleEnvironment">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/water1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:padding="@dimen/_10sdp">
@@ -584,6 +585,7 @@
                             android:id="@+id/environment1"
                             android:layout_width="@dimen/_80sdp"
                             android:layout_height="@dimen/_70sdp"
+                            android:visibility="gone"
                             android:background="@drawable/background_food"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -593,6 +595,7 @@
                                 android:layout_width="@dimen/_45sdp"
                                 android:layout_height="@dimen/_45sdp"
                                 android:src="@drawable/ic_add"
+                                android:visibility="gone"
                                 app:layout_constraintBottom_toTopOf="@id/textEnvironment1"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -601,11 +604,26 @@
                                 tools:ignore="ContentDescription" />
 
                             <TextView
+                                android:id="@+id/textQuantityEnvironment1"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_25ssp"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@+id/textEnvironment1"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
                                 android:id="@+id/textEnvironment1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
-                                android:text="PH sáng"
+                                android:text="pH"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
@@ -620,6 +638,7 @@
                             android:layout_width="@dimen/_80sdp"
                             android:layout_height="@dimen/_70sdp"
                             android:layout_marginStart="@dimen/_10sdp"
+                            android:visibility="gone"
                             android:background="@drawable/background_food"
                             app:layout_constraintStart_toEndOf="@id/environment1"
                             app:layout_constraintTop_toTopOf="parent">
@@ -629,6 +648,7 @@
                                 android:layout_width="@dimen/_45sdp"
                                 android:layout_height="@dimen/_45sdp"
                                 android:src="@drawable/ic_add"
+                                android:visibility="gone"
                                 app:layout_constraintBottom_toTopOf="@id/textEnvironment2"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -637,11 +657,26 @@
                                 tools:ignore="ContentDescription" />
 
                             <TextView
+                                android:id="@+id/textQuantityEnvironment2"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_25ssp"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@+id/textEnvironment2"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
                                 android:id="@+id/textEnvironment2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
-                                android:text="PH chiều"
+                                android:text="Độ mặn"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
@@ -656,6 +691,7 @@
                             android:layout_width="@dimen/_80sdp"
                             android:layout_height="@dimen/_70sdp"
                             android:layout_marginStart="@dimen/_10sdp"
+                            android:visibility="gone"
                             android:background="@drawable/background_food"
                             app:layout_constraintStart_toEndOf="@id/environment2"
                             app:layout_constraintTop_toTopOf="parent">
@@ -665,6 +701,7 @@
                                 android:layout_width="@dimen/_45sdp"
                                 android:layout_height="@dimen/_45sdp"
                                 android:src="@drawable/ic_add"
+                                android:visibility="gone"
                                 app:layout_constraintBottom_toTopOf="@id/textEnvironment3"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -673,11 +710,26 @@
                                 tools:ignore="ContentDescription" />
 
                             <TextView
+                                android:id="@+id/textQuantityEnvironment3"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_25ssp"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@+id/textEnvironment3"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
                                 android:id="@+id/textEnvironment3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
-                                android:text="Độ mặn"
+                                android:text="Độ kiềm"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
@@ -692,6 +744,7 @@
                             android:layout_width="@dimen/_80sdp"
                             android:layout_height="@dimen/_70sdp"
                             android:layout_marginStart="@dimen/_10sdp"
+                            android:visibility="gone"
                             android:background="@drawable/background_food"
                             app:layout_constraintStart_toEndOf="@id/environment3"
                             app:layout_constraintTop_toTopOf="parent">
@@ -701,6 +754,7 @@
                                 android:layout_width="@dimen/_45sdp"
                                 android:layout_height="@dimen/_45sdp"
                                 android:src="@drawable/ic_add"
+                                android:visibility="gone"
                                 app:layout_constraintBottom_toTopOf="@id/textEnvironment4"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -709,11 +763,26 @@
                                 tools:ignore="ContentDescription" />
 
                             <TextView
+                                android:id="@+id/textQuantityEnvironment4"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_25ssp"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@+id/textEnvironment4"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
                                 android:id="@+id/textEnvironment4"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
-                                android:text="Độ kiềm"
+                                android:text="Nhiệt độ"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
@@ -728,6 +797,7 @@
                             android:layout_width="@dimen/_80sdp"
                             android:layout_height="@dimen/_70sdp"
                             android:layout_marginStart="@dimen/_10sdp"
+                            android:visibility="gone"
                             android:background="@drawable/background_food"
                             app:layout_constraintStart_toEndOf="@id/environment4"
                             app:layout_constraintTop_toTopOf="parent">
@@ -737,6 +807,7 @@
                                 android:layout_width="@dimen/_45sdp"
                                 android:layout_height="@dimen/_45sdp"
                                 android:src="@drawable/ic_add"
+                                android:visibility="gone"
                                 app:layout_constraintBottom_toTopOf="@id/textEnvironment5"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -745,11 +816,26 @@
                                 tools:ignore="ContentDescription" />
 
                             <TextView
+                                android:id="@+id/textQuantityEnvironment5"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_25ssp"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@+id/textEnvironment5"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
                                 android:id="@+id/textEnvironment5"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
-                                android:text="Nhiệt độ"
+                                android:text="H2S"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
@@ -759,7 +845,61 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/environment6"
+                            android:layout_width="@dimen/_80sdp"
+                            android:layout_height="@dimen/_70sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:visibility="gone"
+                            android:background="@drawable/background_food"
+                            app:layout_constraintStart_toEndOf="@id/environment5"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/imageEnvironment6"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:src="@drawable/ic_add"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toTopOf="@id/textEnvironment6"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:tint="@color/colorPrimary"
+                                tools:ignore="ContentDescription" />
+
+                            <TextView
+                                android:id="@+id/textQuantityEnvironment6"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_25ssp"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@+id/textEnvironment6"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
+                                android:id="@+id/textEnvironment6"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:text="NH3"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_13ssp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/imageEnvironment6"
+                                tools:ignore="HardcodedText" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </HorizontalScrollView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -836,7 +976,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/textWeight"
-                            tools:ignore="HardcodedText" />
+                            tools:ignore="HardcodedText,TooManyViews" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -887,7 +1027,7 @@
                     android:textColor="#757575"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:ignore="HardcodedText,TextContrastCheck,TouchTargetSizeCheck" />
+                    tools:ignore="HardcodedText,TextContrastCheck,TooManyViews,TouchTargetSizeCheck" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 

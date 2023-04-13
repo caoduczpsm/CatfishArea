@@ -283,13 +283,15 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                         String acreage = doc.getString(Constants.KEY_ACREAGE);
                         List<String> numOfFeedingList = (List<String>) doc.get(Constants.KEY_NUM_OF_FEEDING_LIST);
                         List<String> amountFedList = (List<String>) doc.get(Constants.KEY_AMOUNT_FED);
+                        List<String> specificationsToMeasureList = (List<String>) doc.get(Constants.KEY_SPECIFICATIONS_TO_MEASURE);
+                        HashMap<String, Object> parameters = (HashMap<String, Object>) doc.get(Constants.KEY_SPECIFICATIONS_MEASURED);
                         int numOfFeeding = Integer.parseInt(Objects.requireNonNull(doc.getString(Constants.KEY_NUM_OF_FEEDING)));
 //                        thêm điểm ao trên bản đồ
                         MarkerOptions options = new MarkerOptions();
                         options.setIcon(icon);
                         options.position(new LatLng(geo.getLatitude(), geo.getLongitude()));
                         mapboxMap.addMarker(options);
-                        Pond pond = new Pond(id, name, geo, campusId, acreage, numOfFeeding, numOfFeedingList, amountFedList);
+                        Pond pond = new Pond(id, name, geo, campusId, acreage, numOfFeeding, numOfFeedingList, amountFedList, specificationsToMeasureList, parameters);
                         mItems.add(pond);
                         database.collection(Constants.KEY_COLLECTION_USER)
                                 .whereEqualTo(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_WORKER)

@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -81,12 +82,42 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
                 pond.getNumOfFeedingList().get(2), pond.getNumOfFeedingList().get(3), pond.getNumOfFeedingList().get(4),
                 pond.getNumOfFeedingList().get(5), pond.getNumOfFeedingList().get(6), pond.getNumOfFeedingList().get(7));
 
+
+        List<String> specificationsToMeasureList = pond.getSpecificationsToMeasureList();
+        for (String parameter : specificationsToMeasureList){
+            if (parameter.equals(Constants.KEY_SPECIFICATION_PH)){
+                binding.layoutHome.environment1.setVisibility(View.VISIBLE);
+            }
+
+            if (parameter.equals(Constants.KEY_SPECIFICATION_SALINITY)){
+                binding.layoutHome.environment2.setVisibility(View.VISIBLE);
+            }
+
+            if (parameter.equals(Constants.KEY_SPECIFICATION_ALKALINITY)){
+                binding.layoutHome.environment3.setVisibility(View.VISIBLE);
+            }
+
+            if (parameter.equals(Constants.KEY_SPECIFICATION_TEMPERATE)){
+                binding.layoutHome.environment4.setVisibility(View.VISIBLE);
+            }
+
+            if (parameter.equals(Constants.KEY_SPECIFICATION_H2S)){
+                binding.layoutHome.environment5.setVisibility(View.VISIBLE);
+            }
+
+            if (parameter.equals(Constants.KEY_SPECIFICATION_NH3)){
+                binding.layoutHome.environment6.setVisibility(View.VISIBLE);
+            }
+        }
+
     }
 
     private void setListeners() {
         binding.layoutShowWorker.setOnClickListener(view -> openShowWorkerDialog());
 
         binding.layoutSettingFeed.setOnClickListener(view -> openSettingNumOfFeedingDialog());
+
+        binding.layoutSettingWater.setOnClickListener(view -> openSettingNumOfWateringDialog());
     }
 
     @SuppressLint("SetTextI18n")
@@ -178,6 +209,7 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
         binding.layoutHome.textQuantityFood4.setText(pond.getAmountFeedList().get(3));
         binding.layoutHome.textQuantityFood5.setText(pond.getAmountFeedList().get(4));
         binding.layoutHome.textQuantityFood6.setText(pond.getAmountFeedList().get(5));
+        binding.layoutHome.textQuantityFood7.setText(pond.getAmountFeedList().get(6));
         binding.layoutHome.textQuantityFood8.setText(pond.getAmountFeedList().get(7));
         binding.layoutHome.textFood1.setText("Lần 1: " + st_1);
         binding.layoutHome.textFood2.setText("Lần 2: " + st_2);
@@ -557,6 +589,99 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
             } else {
                 showToast("Vui lòng nhập đầy đủ thông tin!");
             }
+
+        });
+
+        btnClose.setOnClickListener(view -> dialog.dismiss());
+        dialog.show();
+    }
+
+    @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
+    private void openSettingNumOfWateringDialog(){
+        Dialog dialog = openDialog(R.layout.layout_dialog_setting_num_of_watering);
+        assert dialog != null;
+
+        Button btnClose, btnSave;
+        CheckBox checkboxPH, checkboxSalinity, checkboxAlkalinity, checkboxTemperate, checkboxH2S, checkboxNH3;
+
+        btnClose = dialog.findViewById(R.id.btnClose);
+        btnSave = dialog.findViewById(R.id.btnSave);
+
+        checkboxPH = dialog.findViewById(R.id.checkboxPH);
+        checkboxSalinity = dialog.findViewById(R.id.checkboxSalinity);
+        checkboxAlkalinity = dialog.findViewById(R.id.checkboxAlkalinity);
+        checkboxTemperate = dialog.findViewById(R.id.checkboxTemperate);
+        checkboxH2S = dialog.findViewById(R.id.checkboxH2S);
+        checkboxNH3 = dialog.findViewById(R.id.checkboxNH3);
+
+        List<String> spec = pond.getSpecificationsToMeasureList();
+
+        if (spec.contains(Constants.KEY_SPECIFICATION_PH)){
+            checkboxPH.setChecked(true);
+        }
+
+        if (spec.contains(Constants.KEY_SPECIFICATION_SALINITY)){
+            checkboxSalinity.setChecked(true);
+        }
+
+        if (spec.contains(Constants.KEY_SPECIFICATION_ALKALINITY)){
+            checkboxAlkalinity.setChecked(true);
+        }
+
+        if (spec.contains(Constants.KEY_SPECIFICATION_TEMPERATE)){
+            checkboxTemperate.setChecked(true);
+        }
+
+        if (spec.contains(Constants.KEY_SPECIFICATION_H2S)){
+            checkboxH2S.setChecked(true);
+        }
+
+        if (spec.contains(Constants.KEY_SPECIFICATION_NH3)){
+            checkboxNH3.setChecked(true);
+        }
+
+        btnSave.setOnClickListener(view -> {
+            if (checkboxPH.isChecked()){
+                binding.layoutHome.environment1.setVisibility(View.VISIBLE);
+                spec.set(0, Constants.KEY_SPECIFICATION_PH);
+            }
+
+            if (checkboxSalinity.isChecked()){
+                binding.layoutHome.environment2.setVisibility(View.VISIBLE);
+                spec.set(1, Constants.KEY_SPECIFICATION_SALINITY);
+            }
+
+            if (checkboxAlkalinity.isChecked()){
+                binding.layoutHome.environment3.setVisibility(View.VISIBLE);
+                spec.set(2, Constants.KEY_SPECIFICATION_ALKALINITY);
+            }
+
+            if (checkboxTemperate.isChecked()){
+                binding.layoutHome.environment4.setVisibility(View.VISIBLE);
+                spec.set(3, Constants.KEY_SPECIFICATION_TEMPERATE);
+            }
+
+            if (checkboxH2S.isChecked()){
+                binding.layoutHome.environment5.setVisibility(View.VISIBLE);
+                spec.set(4, Constants.KEY_SPECIFICATION_H2S);
+            }
+
+            if (checkboxNH3.isChecked()){
+                binding.layoutHome.environment6.setVisibility(View.VISIBLE);
+                spec.set(5, Constants.KEY_SPECIFICATION_NH3);
+            }
+
+            HashMap<String, Object> updatedList = new HashMap<>();
+            updatedList.put(Constants.KEY_SPECIFICATIONS_TO_MEASURE, spec);
+
+            database.collection(Constants.KEY_COLLECTION_POND)
+                    .document(pond.getId())
+                    .update(updatedList)
+                    .addOnSuccessListener(unused -> {
+                        showToast("Đã cập nhật các thông số cần đo thành công!");
+                        dialog.dismiss();
+                    })
+                    .addOnFailureListener(runnable -> showToast("Cập nhật các thông số cần đo thất bại!"));
 
         });
 
