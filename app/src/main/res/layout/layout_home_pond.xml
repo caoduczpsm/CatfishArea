@@ -680,6 +680,7 @@
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_13ssp"
                                 android:textStyle="bold"
+                                android:layout_marginBottom="@dimen/_2sdp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 tools:ignore="HardcodedText" />
 

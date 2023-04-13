@@ -62,230 +62,6 @@ public class WorkerHomeActivity extends BaseActivity {
         preferenceManager = new PreferenceManager(this);
         database = FirebaseFirestore.getInstance();
 
-        database.collection(Constants.KEY_COLLECTION_POND)
-                .document(preferenceManager.getString(Constants.KEY_POND_ID))
-                .get()
-                .addOnCompleteListener(task -> {
-                    DocumentSnapshot pondDocument = task.getResult();
-                    String pondId = pondDocument.getId();
-                    String pondName = pondDocument.getString(Constants.KEY_NAME);
-                    String acreage = pondDocument.getString(Constants.KEY_ACREAGE);
-                    List<String> numOfFeedingList = (List<String>) pondDocument.get(Constants.KEY_NUM_OF_FEEDING_LIST);
-                    List<String> amountFedList = (List<String>) pondDocument.get(Constants.KEY_AMOUNT_FED);
-                    List<String> specificationsToMeasureList = (List<String>) pondDocument.get(Constants.KEY_SPECIFICATIONS_TO_MEASURE);
-                    HashMap<String, Object> parameters = (HashMap<String, Object>) pondDocument.get(Constants.KEY_SPECIFICATIONS_MEASURED);
-                    int numOfFeeding = Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_OF_FEEDING)));
-                    pond = new Pond(pondId, pondName, null, null, acreage, numOfFeeding, numOfFeedingList, amountFedList, specificationsToMeasureList, parameters);
-                })
-                .addOnSuccessListener(runnable -> {
-                    if (pond.getNumOfFeeding() == 1){
-                        binding.layoutHome.food1.setVisibility(View.VISIBLE);
-                    } else if (pond.getNumOfFeeding() == 2){
-                        binding.layoutHome.food1.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food2.setVisibility(View.VISIBLE);
-                    } else if (pond.getNumOfFeeding() == 3){
-                        binding.layoutHome.food1.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food2.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food3.setVisibility(View.VISIBLE);
-                    } else if (pond.getNumOfFeeding() == 4){
-                        binding.layoutHome.food1.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food2.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food3.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food4.setVisibility(View.VISIBLE);
-                    } else if (pond.getNumOfFeeding() == 5){
-                        binding.layoutHome.food1.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food2.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food3.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food4.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food5.setVisibility(View.VISIBLE);
-                    } else if (pond.getNumOfFeeding() == 6){
-                        binding.layoutHome.food1.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food2.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food3.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food4.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food5.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food6.setVisibility(View.VISIBLE);
-                    } else if (pond.getNumOfFeeding() == 7){
-                        binding.layoutHome.food1.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food2.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food3.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food4.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food5.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food6.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food7.setVisibility(View.VISIBLE);
-                    } else if (pond.getNumOfFeeding() == 8){
-                        binding.layoutHome.food1.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food2.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food3.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food4.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food5.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food6.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food7.setVisibility(View.VISIBLE);
-                        binding.layoutHome.food8.setVisibility(View.VISIBLE);
-                    }
-
-                    binding.layoutHome.textQuantityFood1.setText(pond.getAmountFeedList().get(0));
-                    binding.layoutHome.textQuantityFood2.setText(pond.getAmountFeedList().get(1));
-                    binding.layoutHome.textQuantityFood3.setText(pond.getAmountFeedList().get(2));
-                    binding.layoutHome.textQuantityFood4.setText(pond.getAmountFeedList().get(3));
-                    binding.layoutHome.textQuantityFood5.setText(pond.getAmountFeedList().get(4));
-                    binding.layoutHome.textQuantityFood6.setText(pond.getAmountFeedList().get(5));
-                    binding.layoutHome.textQuantityFood8.setText(pond.getAmountFeedList().get(7));
-                    binding.layoutHome.textFood1.setText("Lần 1: " + pond.getNumOfFeedingList().get(0));
-                    binding.layoutHome.textFood2.setText("Lần 2: " + pond.getNumOfFeedingList().get(1));
-                    binding.layoutHome.textFood3.setText("Lần 3: " + pond.getNumOfFeedingList().get(2));
-                    binding.layoutHome.textFood4.setText("Lần 4: " + pond.getNumOfFeedingList().get(3));
-                    binding.layoutHome.textFood5.setText("Lần 5: " + pond.getNumOfFeedingList().get(4));
-                    binding.layoutHome.textFood6.setText("Lần 6: " + pond.getNumOfFeedingList().get(5));
-                    binding.layoutHome.textFood7.setText("Lần 7: " + pond.getNumOfFeedingList().get(6));
-                    binding.layoutHome.textFood8.setText("Lần 8: " + pond.getNumOfFeedingList().get(7));
-
-                    if (pond.getAmountFeedList().get(0).equals("0")){
-                        binding.layoutHome.textQuantityFood1.setVisibility(View.GONE);
-                        binding.layoutHome.imageFood1.setVisibility(View.VISIBLE);
-                    } else {
-                        binding.layoutHome.textQuantityFood1.setVisibility(View.VISIBLE);
-                        binding.layoutHome.imageFood1.setVisibility(View.GONE);
-                    }
-
-                    if (pond.getAmountFeedList().get(1).equals("0")){
-                        binding.layoutHome.textQuantityFood2.setVisibility(View.GONE);
-                        binding.layoutHome.imageFood2.setVisibility(View.VISIBLE);
-                    } else {
-                        binding.layoutHome.textQuantityFood2.setVisibility(View.VISIBLE);
-                        binding.layoutHome.imageFood2.setVisibility(View.GONE);
-                    }
-
-                    if (pond.getAmountFeedList().get(2).equals("0")){
-                        binding.layoutHome.textQuantityFood3.setVisibility(View.GONE);
-                        binding.layoutHome.imageFood3.setVisibility(View.VISIBLE);
-                    } else {
-                        binding.layoutHome.textQuantityFood3.setVisibility(View.VISIBLE);
-                        binding.layoutHome.imageFood3.setVisibility(View.GONE);
-                    }
-
-                    if (pond.getAmountFeedList().get(3).equals("0")){
-                        binding.layoutHome.textQuantityFood4.setVisibility(View.GONE);
-                        binding.layoutHome.imageFood4.setVisibility(View.VISIBLE);
-                    } else {
-                        binding.layoutHome.textQuantityFood4.setVisibility(View.VISIBLE);
-                        binding.layoutHome.imageFood4.setVisibility(View.GONE);
-                    }
-
-                    if (pond.getAmountFeedList().get(4).equals("0")){
-                        binding.layoutHome.textQuantityFood5.setVisibility(View.GONE);
-                        binding.layoutHome.imageFood5.setVisibility(View.VISIBLE);
-                    } else {
-                        binding.layoutHome.textQuantityFood5.setVisibility(View.VISIBLE);
-                        binding.layoutHome.imageFood5.setVisibility(View.GONE);
-                    }
-
-                    if (pond.getAmountFeedList().get(5).equals("0")){
-                        binding.layoutHome.textQuantityFood6.setVisibility(View.GONE);
-                        binding.layoutHome.imageFood6.setVisibility(View.VISIBLE);
-                    } else {
-                        binding.layoutHome.textQuantityFood6.setVisibility(View.VISIBLE);
-                        binding.layoutHome.imageFood6.setVisibility(View.GONE);
-                    }
-
-                    if (pond.getAmountFeedList().get(6).equals("0")){
-                        binding.layoutHome.textQuantityFood7.setVisibility(View.GONE);
-                        binding.layoutHome.imageFood7.setVisibility(View.VISIBLE);
-                    } else {
-                        binding.layoutHome.textQuantityFood7.setVisibility(View.VISIBLE);
-                        binding.layoutHome.imageFood7.setVisibility(View.GONE);
-                    }
-
-                    if (pond.getAmountFeedList().get(7).equals("0")){
-                        binding.layoutHome.textQuantityFood8.setVisibility(View.GONE);
-                        binding.layoutHome.imageFood8.setVisibility(View.VISIBLE);
-                    } else {
-                        binding.layoutHome.textQuantityFood8.setVisibility(View.VISIBLE);
-                        binding.layoutHome.imageFood8.setVisibility(View.GONE);
-                    }
-
-                    List<String> specificationsToMeasureList = pond.getSpecificationsToMeasureList();
-                    if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_PH)) {
-                        binding.layoutHome.environment1.setVisibility(View.VISIBLE);
-                    }
-
-                    if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_SALINITY)) {
-                        binding.layoutHome.environment2.setVisibility(View.VISIBLE);
-                    }
-
-                    if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_ALKALINITY)) {
-                        binding.layoutHome.environment3.setVisibility(View.VISIBLE);
-                    }
-
-                    if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_TEMPERATE)) {
-                        binding.layoutHome.environment4.setVisibility(View.VISIBLE);
-                    }
-
-                    if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_H2S)) {
-                        binding.layoutHome.environment5.setVisibility(View.VISIBLE);
-                    }
-
-                    if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_NH3)) {
-                        binding.layoutHome.environment6.setVisibility(View.VISIBLE);
-                    }
-
-                    HashMap<String, Object> parameters = pond.getParameters();
-                    if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_PH), "0")){
-                        binding.layoutHome.textQuantityEnvironment1.setVisibility(View.VISIBLE);
-                        binding.layoutHome.imageEnvironment1.setVisibility(View.GONE);
-                        binding.layoutHome.textQuantityEnvironment1.setText(parameters.get(Constants.KEY_SPECIFICATION_PH) + "");
-                    } else {
-                        binding.layoutHome.textQuantityEnvironment1.setVisibility(View.GONE);
-                        binding.layoutHome.imageEnvironment1.setVisibility(View.VISIBLE);
-                    }
-
-                    if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_SALINITY), "0")){
-                        binding.layoutHome.textQuantityEnvironment2.setVisibility(View.VISIBLE);
-                        binding.layoutHome.imageEnvironment2.setVisibility(View.GONE);
-                        binding.layoutHome.textQuantityEnvironment2.setText(parameters.get(Constants.KEY_SPECIFICATION_SALINITY) + "");
-                    } else {
-                        binding.layoutHome.textQuantityEnvironment2.setVisibility(View.GONE);
-                        binding.layoutHome.imageEnvironment2.setVisibility(View.VISIBLE);
-                    }
-
-                    if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_ALKALINITY), "0")){
-                        binding.layoutHome.textQuantityEnvironment3.setVisibility(View.VISIBLE);
-                        binding.layoutHome.imageEnvironment3.setVisibility(View.GONE);
-                        binding.layoutHome.textQuantityEnvironment3.setText(parameters.get(Constants.KEY_SPECIFICATION_ALKALINITY) + "");
-                    } else {
-                        binding.layoutHome.textQuantityEnvironment3.setVisibility(View.GONE);
-                        binding.layoutHome.imageEnvironment3.setVisibility(View.VISIBLE);
-                    }
-
-                    if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_TEMPERATE), "0")){
-                        binding.layoutHome.textQuantityEnvironment4.setVisibility(View.VISIBLE);
-                        binding.layoutHome.imageEnvironment4.setVisibility(View.GONE);
-                        binding.layoutHome.textQuantityEnvironment4.setText(parameters.get(Constants.KEY_SPECIFICATION_TEMPERATE) + "");
-                    } else {
-                        binding.layoutHome.textQuantityEnvironment4.setVisibility(View.GONE);
-                        binding.layoutHome.imageEnvironment4.setVisibility(View.VISIBLE);
-                    }
-
-                    if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_H2S), "0")){
-                        binding.layoutHome.textQuantityEnvironment5.setVisibility(View.VISIBLE);
-                        binding.layoutHome.imageEnvironment5.setVisibility(View.GONE);
-                        binding.layoutHome.textQuantityEnvironment5.setText(parameters.get(Constants.KEY_SPECIFICATION_H2S) + "");
-                    } else {
-                        binding.layoutHome.textQuantityEnvironment5.setVisibility(View.GONE);
-                        binding.layoutHome.imageEnvironment5.setVisibility(View.VISIBLE);
-                    }
-
-                    if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_NH3), "0")){
-                        binding.layoutHome.textQuantityEnvironment6.setVisibility(View.VISIBLE);
-                        binding.layoutHome.imageEnvironment6.setVisibility(View.GONE);
-                        binding.layoutHome.textQuantityEnvironment6.setText(parameters.get(Constants.KEY_SPECIFICATION_NH3) + "");
-                    } else {
-                        binding.layoutHome.textQuantityEnvironment6.setVisibility(View.GONE);
-                        binding.layoutHome.imageEnvironment6.setVisibility(View.VISIBLE);
-                    }
-
-                });
-
         database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
                 .whereEqualTo(Constants.KEY_TASK_TITLE, Constants.KEY_FIXED_TASK_FEED_FISH)
                 .get()
@@ -303,7 +79,7 @@ public class WorkerHomeActivity extends BaseActivity {
                         }
 
                     }
-                });
+                }).addOnSuccessListener(runnable -> getPondData());
 
         database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
                 .whereEqualTo(Constants.KEY_TASK_TITLE, Constants.KEY_FIXED_TASK_MEASURE_WATER)
@@ -322,85 +98,8 @@ public class WorkerHomeActivity extends BaseActivity {
                         }
 
                     }
-                });
-
-        database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
-                .whereEqualTo(Constants.KEY_TASK_TITLE, Constants.KEY_FIXED_TASK_MEASURE_WATER)
-                .get()
-                .addOnCompleteListener(task -> {
-                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-
-                        List<String> receiverFeedFishTask = (List<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVER_ID);
-                        assert receiverFeedFishTask != null;
-                        if (receiverFeedFishTask.contains(preferenceManager.getString(Constants.KEY_USER_ID))){
-                            feedTask = new Task();
-                            feedTask.id = queryDocumentSnapshot.getId();
-                            binding.layoutHome.cardEnvironment.setVisibility(View.VISIBLE);
-                        } else {
-                            binding.layoutHome.cardEnvironment.setVisibility(View.GONE);
-                        }
-
-                    }
-                });
-
-        if (preferenceManager.getString(Constants.KEY_NOW) == null){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                preferenceManager.putString(Constants.KEY_NOW, String.valueOf(LocalDate.now()));
-            }
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (!preferenceManager.getString(Constants.KEY_NOW).equals(String.valueOf(LocalDate.now()))){
-                List<String> amountFed = pond.getAmountFeedList();
-                for (int i = 0; i < amountFed.size(); i++){
-                    if (!amountFed.get(i).equals("0")){
-                        amountFed.set(i, "0");
-                    }
-                }
-                HashMap<String, Object> unCompletedTask = new HashMap<>();
-                unCompletedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
-                database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
-                        .document(feedTask.id)
-                        .update(unCompletedTask);
-
-                database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
-                        .document(measureTask.id)
-                        .update(unCompletedTask);
-                
-                int totalFeedInDate = 0;
-                for (String num : pond.getAmountFeedList()){
-                    totalFeedInDate = totalFeedInDate + Integer.parseInt(num);
-                }
-                int finalTotalFeedInDate = totalFeedInDate;
-                database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                        .whereEqualTo(Constants.KEY_AREA_ID, preferenceManager.getString(Constants.KEY_AREA_ID))
-                        .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
-                        .get()
-                        .addOnCompleteListener(task -> {
-
-                            for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-                                database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                        .document(queryDocumentSnapshot.getId())
-                                        .collection(Constants.KEY_COLLECTION_CATEGORY)
-                                        .whereEqualTo(Constants.KEY_NAME, Constants.KEY_CATEGORY_FOOD)
-                                        .get()
-                                        .addOnCompleteListener(task1 -> {
-                                            for (QueryDocumentSnapshot queryDocumentSnapshot1 : task1.getResult()){
-                                                int amountFood = Integer.parseInt(Objects.requireNonNull(queryDocumentSnapshot1.getString(Constants.KEY_AMOUNT_OF_ROOM)));
-                                                amountFood = amountFood - finalTotalFeedInDate;
-                                                HashMap<String, Object> updated = new HashMap<>();
-                                                updated.put(Constants.KEY_AMOUNT_OF_ROOM, amountFood + "");
-                                                database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                                        .document(queryDocumentSnapshot.getId())
-                                                        .collection(Constants.KEY_COLLECTION_CATEGORY)
-                                                        .document(queryDocumentSnapshot1.getId())
-                                                        .update(updated);
-                                            }
-                                        });
-                            }
-
-                        });
-
-            }
-        }
+                })
+                .addOnSuccessListener(runnable -> getPondData());
     }
 
     private void setListener() {
@@ -449,6 +148,313 @@ public class WorkerHomeActivity extends BaseActivity {
 
         binding.layoutHome.environment6.setOnClickListener(view ->setMeasureWaterDialog(6));
 
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void getPondData() {
+        database.collection(Constants.KEY_COLLECTION_POND)
+                .document(preferenceManager.getString(Constants.KEY_POND_ID))
+                .get()
+                .addOnCompleteListener(task -> {
+                    DocumentSnapshot pondDocument = task.getResult();
+                    String pondId = pondDocument.getId();
+                    String pondName = pondDocument.getString(Constants.KEY_NAME);
+                    String acreage = pondDocument.getString(Constants.KEY_ACREAGE);
+                    List<String> numOfFeedingList = (List<String>) pondDocument.get(Constants.KEY_NUM_OF_FEEDING_LIST);
+                    List<String> amountFedList = (List<String>) pondDocument.get(Constants.KEY_AMOUNT_FED);
+                    List<String> specificationsToMeasureList = (List<String>) pondDocument.get(Constants.KEY_SPECIFICATIONS_TO_MEASURE);
+                    HashMap<String, Object> parameters = (HashMap<String, Object>) pondDocument.get(Constants.KEY_SPECIFICATIONS_MEASURED);
+                    int numOfFeeding = Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_OF_FEEDING)));
+                    pond = new Pond(pondId, pondName, null, null, acreage, numOfFeeding, numOfFeedingList, amountFedList, specificationsToMeasureList, parameters);
+                })
+                .addOnSuccessListener(runnable -> {
+
+                    setVisibleData();
+
+                    if (preferenceManager.getString(Constants.KEY_NOW) == null){
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            preferenceManager.putString(Constants.KEY_NOW, String.valueOf(LocalDate.now()));
+                        }
+                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        if (!preferenceManager.getString(Constants.KEY_NOW).equals(String.valueOf(LocalDate.now()))){
+                            List<String> amountFed = pond.getAmountFeedList();
+                            for (int i = 0; i < amountFed.size(); i++){
+                                if (!amountFed.get(i).equals("0")){
+                                    amountFed.set(i, "0");
+                                }
+                            }
+                            HashMap<String, Object> updateMeasuredParameters = pond.getParameters();
+                            updateMeasuredParameters.replaceAll ((key, value) -> "0");
+
+                            HashMap<String, Object> updateAmountFed = new HashMap<>();
+                            updateAmountFed.put(Constants.KEY_AMOUNT_FED, amountFed);
+                            updateAmountFed.put(Constants.KEY_SPECIFICATIONS_MEASURED, updateMeasuredParameters);
+                            database.collection(Constants.KEY_COLLECTION_POND)
+                                    .document(pond.getId())
+                                    .update(updateAmountFed);
+
+
+                            HashMap<String, Object> unCompletedTask = new HashMap<>();
+                            unCompletedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
+                            database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                                    .document(feedTask.id)
+                                    .update(unCompletedTask)
+                                    .addOnSuccessListener(runnable1 -> setVisibleData());
+
+                            database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                                    .document(measureTask.id)
+                                    .update(unCompletedTask)
+                                    .addOnSuccessListener(runnable1 -> setVisibleData());
+
+                            int totalFeedInDate = 0;
+                            for (String num : pond.getAmountFeedList()){
+                                totalFeedInDate = totalFeedInDate + Integer.parseInt(num);
+                            }
+                            int finalTotalFeedInDate = totalFeedInDate;
+                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                    .whereEqualTo(Constants.KEY_AREA_ID, preferenceManager.getString(Constants.KEY_AREA_ID))
+                                    .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
+                                    .get()
+                                    .addOnCompleteListener(task -> {
+
+                                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                    .document(queryDocumentSnapshot.getId())
+                                                    .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                    .whereEqualTo(Constants.KEY_NAME, Constants.KEY_CATEGORY_FOOD)
+                                                    .get()
+                                                    .addOnCompleteListener(task1 -> {
+                                                        for (QueryDocumentSnapshot queryDocumentSnapshot1 : task1.getResult()){
+                                                            int amountFood = Integer.parseInt(Objects.requireNonNull(queryDocumentSnapshot1.getString(Constants.KEY_AMOUNT_OF_ROOM)));
+                                                            amountFood = amountFood - finalTotalFeedInDate;
+                                                            HashMap<String, Object> updated = new HashMap<>();
+                                                            updated.put(Constants.KEY_AMOUNT_OF_ROOM, amountFood + "");
+                                                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                                    .document(queryDocumentSnapshot.getId())
+                                                                    .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                                    .document(queryDocumentSnapshot1.getId())
+                                                                    .update(updated);
+                                                        }
+                                                    });
+                                        }
+
+                                    });
+
+
+                            preferenceManager.putString(Constants.KEY_NOW, String.valueOf(LocalDate.now()));
+                        }
+                    }
+
+                });
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setVisibleData(){
+        if (pond.getNumOfFeeding() == 1){
+            binding.layoutHome.food1.setVisibility(View.VISIBLE);
+        } else if (pond.getNumOfFeeding() == 2){
+            binding.layoutHome.food1.setVisibility(View.VISIBLE);
+            binding.layoutHome.food2.setVisibility(View.VISIBLE);
+        } else if (pond.getNumOfFeeding() == 3){
+            binding.layoutHome.food1.setVisibility(View.VISIBLE);
+            binding.layoutHome.food2.setVisibility(View.VISIBLE);
+            binding.layoutHome.food3.setVisibility(View.VISIBLE);
+        } else if (pond.getNumOfFeeding() == 4){
+            binding.layoutHome.food1.setVisibility(View.VISIBLE);
+            binding.layoutHome.food2.setVisibility(View.VISIBLE);
+            binding.layoutHome.food3.setVisibility(View.VISIBLE);
+            binding.layoutHome.food4.setVisibility(View.VISIBLE);
+        } else if (pond.getNumOfFeeding() == 5){
+            binding.layoutHome.food1.setVisibility(View.VISIBLE);
+            binding.layoutHome.food2.setVisibility(View.VISIBLE);
+            binding.layoutHome.food3.setVisibility(View.VISIBLE);
+            binding.layoutHome.food4.setVisibility(View.VISIBLE);
+            binding.layoutHome.food5.setVisibility(View.VISIBLE);
+        } else if (pond.getNumOfFeeding() == 6){
+            binding.layoutHome.food1.setVisibility(View.VISIBLE);
+            binding.layoutHome.food2.setVisibility(View.VISIBLE);
+            binding.layoutHome.food3.setVisibility(View.VISIBLE);
+            binding.layoutHome.food4.setVisibility(View.VISIBLE);
+            binding.layoutHome.food5.setVisibility(View.VISIBLE);
+            binding.layoutHome.food6.setVisibility(View.VISIBLE);
+        } else if (pond.getNumOfFeeding() == 7){
+            binding.layoutHome.food1.setVisibility(View.VISIBLE);
+            binding.layoutHome.food2.setVisibility(View.VISIBLE);
+            binding.layoutHome.food3.setVisibility(View.VISIBLE);
+            binding.layoutHome.food4.setVisibility(View.VISIBLE);
+            binding.layoutHome.food5.setVisibility(View.VISIBLE);
+            binding.layoutHome.food6.setVisibility(View.VISIBLE);
+            binding.layoutHome.food7.setVisibility(View.VISIBLE);
+        } else if (pond.getNumOfFeeding() == 8){
+            binding.layoutHome.food1.setVisibility(View.VISIBLE);
+            binding.layoutHome.food2.setVisibility(View.VISIBLE);
+            binding.layoutHome.food3.setVisibility(View.VISIBLE);
+            binding.layoutHome.food4.setVisibility(View.VISIBLE);
+            binding.layoutHome.food5.setVisibility(View.VISIBLE);
+            binding.layoutHome.food6.setVisibility(View.VISIBLE);
+            binding.layoutHome.food7.setVisibility(View.VISIBLE);
+            binding.layoutHome.food8.setVisibility(View.VISIBLE);
+        }
+
+        binding.layoutHome.textQuantityFood1.setText(pond.getAmountFeedList().get(0));
+        binding.layoutHome.textQuantityFood2.setText(pond.getAmountFeedList().get(1));
+        binding.layoutHome.textQuantityFood3.setText(pond.getAmountFeedList().get(2));
+        binding.layoutHome.textQuantityFood4.setText(pond.getAmountFeedList().get(3));
+        binding.layoutHome.textQuantityFood5.setText(pond.getAmountFeedList().get(4));
+        binding.layoutHome.textQuantityFood6.setText(pond.getAmountFeedList().get(5));
+        binding.layoutHome.textQuantityFood8.setText(pond.getAmountFeedList().get(7));
+        binding.layoutHome.textFood1.setText("Lần 1: " + pond.getNumOfFeedingList().get(0));
+        binding.layoutHome.textFood2.setText("Lần 2: " + pond.getNumOfFeedingList().get(1));
+        binding.layoutHome.textFood3.setText("Lần 3: " + pond.getNumOfFeedingList().get(2));
+        binding.layoutHome.textFood4.setText("Lần 4: " + pond.getNumOfFeedingList().get(3));
+        binding.layoutHome.textFood5.setText("Lần 5: " + pond.getNumOfFeedingList().get(4));
+        binding.layoutHome.textFood6.setText("Lần 6: " + pond.getNumOfFeedingList().get(5));
+        binding.layoutHome.textFood7.setText("Lần 7: " + pond.getNumOfFeedingList().get(6));
+        binding.layoutHome.textFood8.setText("Lần 8: " + pond.getNumOfFeedingList().get(7));
+
+        if (pond.getAmountFeedList().get(0).equals("0")){
+            binding.layoutHome.textQuantityFood1.setVisibility(View.GONE);
+            binding.layoutHome.imageFood1.setVisibility(View.VISIBLE);
+        } else {
+            binding.layoutHome.textQuantityFood1.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageFood1.setVisibility(View.GONE);
+        }
+
+        if (pond.getAmountFeedList().get(1).equals("0")){
+            binding.layoutHome.textQuantityFood2.setVisibility(View.GONE);
+            binding.layoutHome.imageFood2.setVisibility(View.VISIBLE);
+        } else {
+            binding.layoutHome.textQuantityFood2.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageFood2.setVisibility(View.GONE);
+        }
+
+        if (pond.getAmountFeedList().get(2).equals("0")){
+            binding.layoutHome.textQuantityFood3.setVisibility(View.GONE);
+            binding.layoutHome.imageFood3.setVisibility(View.VISIBLE);
+        } else {
+            binding.layoutHome.textQuantityFood3.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageFood3.setVisibility(View.GONE);
+        }
+
+        if (pond.getAmountFeedList().get(3).equals("0")){
+            binding.layoutHome.textQuantityFood4.setVisibility(View.GONE);
+            binding.layoutHome.imageFood4.setVisibility(View.VISIBLE);
+        } else {
+            binding.layoutHome.textQuantityFood4.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageFood4.setVisibility(View.GONE);
+        }
+
+        if (pond.getAmountFeedList().get(4).equals("0")){
+            binding.layoutHome.textQuantityFood5.setVisibility(View.GONE);
+            binding.layoutHome.imageFood5.setVisibility(View.VISIBLE);
+        } else {
+            binding.layoutHome.textQuantityFood5.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageFood5.setVisibility(View.GONE);
+        }
+
+        if (pond.getAmountFeedList().get(5).equals("0")){
+            binding.layoutHome.textQuantityFood6.setVisibility(View.GONE);
+            binding.layoutHome.imageFood6.setVisibility(View.VISIBLE);
+        } else {
+            binding.layoutHome.textQuantityFood6.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageFood6.setVisibility(View.GONE);
+        }
+
+        if (pond.getAmountFeedList().get(6).equals("0")){
+            binding.layoutHome.textQuantityFood7.setVisibility(View.GONE);
+            binding.layoutHome.imageFood7.setVisibility(View.VISIBLE);
+        } else {
+            binding.layoutHome.textQuantityFood7.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageFood7.setVisibility(View.GONE);
+        }
+
+        if (pond.getAmountFeedList().get(7).equals("0")){
+            binding.layoutHome.textQuantityFood8.setVisibility(View.GONE);
+            binding.layoutHome.imageFood8.setVisibility(View.VISIBLE);
+        } else {
+            binding.layoutHome.textQuantityFood8.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageFood8.setVisibility(View.GONE);
+        }
+
+        List<String> specificationsToMeasureList = pond.getSpecificationsToMeasureList();
+        if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_PH)) {
+            binding.layoutHome.environment1.setVisibility(View.VISIBLE);
+        }
+
+        if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_SALINITY)) {
+            binding.layoutHome.environment2.setVisibility(View.VISIBLE);
+        }
+
+        if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_ALKALINITY)) {
+            binding.layoutHome.environment3.setVisibility(View.VISIBLE);
+        }
+
+        if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_TEMPERATE)) {
+            binding.layoutHome.environment4.setVisibility(View.VISIBLE);
+        }
+
+        if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_H2S)) {
+            binding.layoutHome.environment5.setVisibility(View.VISIBLE);
+        }
+
+        if (specificationsToMeasureList.contains(Constants.KEY_SPECIFICATION_NH3)) {
+            binding.layoutHome.environment6.setVisibility(View.VISIBLE);
+        }
+
+        HashMap<String, Object> parameters = pond.getParameters();
+        if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_PH), "0")){
+            binding.layoutHome.textQuantityEnvironment1.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageEnvironment1.setVisibility(View.GONE);
+            binding.layoutHome.textQuantityEnvironment1.setText(parameters.get(Constants.KEY_SPECIFICATION_PH) + "");
+        } else {
+            binding.layoutHome.textQuantityEnvironment1.setVisibility(View.GONE);
+            binding.layoutHome.imageEnvironment1.setVisibility(View.VISIBLE);
+        }
+
+        if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_SALINITY), "0")){
+            binding.layoutHome.textQuantityEnvironment2.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageEnvironment2.setVisibility(View.GONE);
+            binding.layoutHome.textQuantityEnvironment2.setText(parameters.get(Constants.KEY_SPECIFICATION_SALINITY) + "");
+        } else {
+            binding.layoutHome.textQuantityEnvironment2.setVisibility(View.GONE);
+            binding.layoutHome.imageEnvironment2.setVisibility(View.VISIBLE);
+        }
+
+        if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_ALKALINITY), "0")){
+            binding.layoutHome.textQuantityEnvironment3.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageEnvironment3.setVisibility(View.GONE);
+            binding.layoutHome.textQuantityEnvironment3.setText(parameters.get(Constants.KEY_SPECIFICATION_ALKALINITY) + "");
+        } else {
+            binding.layoutHome.textQuantityEnvironment3.setVisibility(View.GONE);
+            binding.layoutHome.imageEnvironment3.setVisibility(View.VISIBLE);
+        }
+
+        if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_TEMPERATE), "0")){
+            binding.layoutHome.textQuantityEnvironment4.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageEnvironment4.setVisibility(View.GONE);
+            binding.layoutHome.textQuantityEnvironment4.setText(parameters.get(Constants.KEY_SPECIFICATION_TEMPERATE) + "");
+        } else {
+            binding.layoutHome.textQuantityEnvironment4.setVisibility(View.GONE);
+            binding.layoutHome.imageEnvironment4.setVisibility(View.VISIBLE);
+        }
+
+        if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_H2S), "0")){
+            binding.layoutHome.textQuantityEnvironment5.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageEnvironment5.setVisibility(View.GONE);
+            binding.layoutHome.textQuantityEnvironment5.setText(parameters.get(Constants.KEY_SPECIFICATION_H2S) + "");
+        } else {
+            binding.layoutHome.textQuantityEnvironment5.setVisibility(View.GONE);
+            binding.layoutHome.imageEnvironment5.setVisibility(View.VISIBLE);
+        }
+
+        if (!Objects.equals(parameters.get(Constants.KEY_SPECIFICATION_NH3), "0")){
+            binding.layoutHome.textQuantityEnvironment6.setVisibility(View.VISIBLE);
+            binding.layoutHome.imageEnvironment6.setVisibility(View.GONE);
+            binding.layoutHome.textQuantityEnvironment6.setText(parameters.get(Constants.KEY_SPECIFICATION_NH3) + "");
+        } else {
+            binding.layoutHome.textQuantityEnvironment6.setVisibility(View.GONE);
+            binding.layoutHome.imageEnvironment6.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setFeedDialog(int numOfFeed){
