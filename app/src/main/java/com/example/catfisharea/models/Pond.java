@@ -36,6 +36,18 @@ public class Pond extends RegionModel {
         this.parameters = parameters;
     }
 
+    public Pond(Pond pond) {
+        super(pond.getId(), pond.getName());
+        this.geo = pond.getGeo();
+        this.idCampus = pond.getIdCampus();
+        this.acreage = pond.getAcreage();
+        this.numOfFeeding = pond.getNumOfFeeding();
+        this.numOfFeedingList = pond.getNumOfFeedingList();
+        this.amountFeedList = pond.getAmountFeedList();
+        this.specificationsToMeasureList = pond.getSpecificationsToMeasureList();
+        this.parameters = pond.getParameters();
+    }
+
     public List<String> getSpecificationsToMeasureList() {
         return specificationsToMeasureList;
     }

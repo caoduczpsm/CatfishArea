@@ -191,6 +191,104 @@ public class WorkerHomeActivity extends BaseActivity {
                             updateAmountFed.put(Constants.KEY_SPECIFICATIONS_MEASURED, updateMeasuredParameters);
                             database.collection(Constants.KEY_COLLECTION_POND)
                                     .document(pond.getId())
+                                    .update(updateAmountFed)
+                                    .addOnSuccessListener(runnable1 -> getPondDataAfterUpdate())
+                                    .addOnCompleteListener(task -> {
+                                        HashMap<String, Object> unCompletedTask = new HashMap<>();
+                                        unCompletedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
+                                        database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                                                .document(feedTask.id)
+                                                .update(unCompletedTask)
+                                                .addOnSuccessListener(runnable1 -> setVisibleData());
+
+                                        database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                                                .document(measureTask.id)
+                                                .update(unCompletedTask)
+                                                .addOnSuccessListener(runnable1 -> setVisibleData());
+
+                                        int totalFeedInDate = 0;
+                                        for (String num : pond.getAmountFeedList()){
+                                            totalFeedInDate = totalFeedInDate + Integer.parseInt(num);
+                                        }
+                                        int finalTotalFeedInDate = totalFeedInDate;
+                                        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                .whereEqualTo(Constants.KEY_AREA_ID, preferenceManager.getString(Constants.KEY_AREA_ID))
+                                                .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
+                                                .get()
+                                                .addOnCompleteListener(task1 -> {
+
+                                                    for (QueryDocumentSnapshot queryDocumentSnapshot : task1.getResult()){
+                                                        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                                .document(queryDocumentSnapshot.getId())
+                                                                .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                                .whereEqualTo(Constants.KEY_NAME, Constants.KEY_CATEGORY_FOOD)
+                                                                .get()
+                                                                .addOnCompleteListener(task2 -> {
+                                                                    for (QueryDocumentSnapshot queryDocumentSnapshot1 : task2.getResult()){
+                                                                        int amountFood = Integer.parseInt(Objects.requireNonNull(queryDocumentSnapshot1.getString(Constants.KEY_AMOUNT_OF_ROOM)));
+                                                                        amountFood = amountFood - finalTotalFeedInDate;
+                                                                        HashMap<String, Object> updated = new HashMap<>();
+                                                                        updated.put(Constants.KEY_AMOUNT_OF_ROOM, amountFood + "");
+                                                                        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                                                .document(queryDocumentSnapshot.getId())
+                                                                                .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                                                .document(queryDocumentSnapshot1.getId())
+                                                                                .update(updated);
+                                                                    }
+                                                                });
+                                                    }
+
+                                                });
+                                        preferenceManager.putString(Constants.KEY_NOW, String.valueOf(LocalDate.now()));
+                                    });
+
+                        }
+                    }
+
+                });
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void getPondDataAfterUpdate() {
+        database.collection(Constants.KEY_COLLECTION_POND)
+                .document(preferenceManager.getString(Constants.KEY_POND_ID))
+                .get()
+                .addOnCompleteListener(task -> {
+                    DocumentSnapshot pondDocument = task.getResult();
+                    String pondId = pondDocument.getId();
+                    String pondName = pondDocument.getString(Constants.KEY_NAME);
+                    String acreage = pondDocument.getString(Constants.KEY_ACREAGE);
+                    List<String> numOfFeedingList = (List<String>) pondDocument.get(Constants.KEY_NUM_OF_FEEDING_LIST);
+                    List<String> amountFedList = (List<String>) pondDocument.get(Constants.KEY_AMOUNT_FED);
+                    List<String> specificationsToMeasureList = (List<String>) pondDocument.get(Constants.KEY_SPECIFICATIONS_TO_MEASURE);
+                    HashMap<String, Object> parameters = (HashMap<String, Object>) pondDocument.get(Constants.KEY_SPECIFICATIONS_MEASURED);
+                    int numOfFeeding = Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_OF_FEEDING)));
+                    pond = new Pond(new Pond(pondId, pondName, null, null, acreage, numOfFeeding, numOfFeedingList, amountFedList, specificationsToMeasureList, parameters));
+                })
+                .addOnSuccessListener(runnable -> {
+
+                    setVisibleData();
+
+                    if (preferenceManager.getString(Constants.KEY_NOW) == null){
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            preferenceManager.putString(Constants.KEY_NOW, String.valueOf(LocalDate.now()));
+                        }
+                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        if (!preferenceManager.getString(Constants.KEY_NOW).equals(String.valueOf(LocalDate.now()))){
+                            List<String> amountFed = pond.getAmountFeedList();
+                            for (int i = 0; i < amountFed.size(); i++){
+                                if (!amountFed.get(i).equals("0")){
+                                    amountFed.set(i, "0");
+                                }
+                            }
+                            HashMap<String, Object> updateMeasuredParameters = pond.getParameters();
+                            updateMeasuredParameters.replaceAll ((key, value) -> "0");
+
+                            HashMap<String, Object> updateAmountFed = new HashMap<>();
+                            updateAmountFed.put(Constants.KEY_AMOUNT_FED, amountFed);
+                            updateAmountFed.put(Constants.KEY_SPECIFICATIONS_MEASURED, updateMeasuredParameters);
+                            database.collection(Constants.KEY_COLLECTION_POND)
+                                    .document(pond.getId())
                                     .update(updateAmountFed);
 
 
