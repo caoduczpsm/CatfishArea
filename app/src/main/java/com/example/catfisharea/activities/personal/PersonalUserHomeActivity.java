@@ -7,11 +7,15 @@ import com.android.app.catfisharea.databinding.ActivityPersonalUserHomeBinding;
 
 
 public class PersonalUserHomeActivity extends AppCompatActivity {
-    private ActivityPersonalUserHomeBinding mBinding;
+    private ActivityPersonalUserHomeBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = ActivityPersonalUserHomeBinding.inflate(getLayoutInflater());
-        setContentView(mBinding.getRoot());
+        binding = ActivityPersonalUserHomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+    }
+
+    private void init(){
+
     }
 }

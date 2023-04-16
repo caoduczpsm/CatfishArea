@@ -45,7 +45,8 @@
             app:endIconMode="custom"
             app:endIconTint="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtDateStart"
@@ -55,7 +56,8 @@
                 android:focusable="false"
                 android:gravity="center_vertical"
                 android:inputType="number"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                tools:ignore="Deprecated,TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -70,17 +72,19 @@
             android:focusable="false"
             app:endIconTint="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputDateStart">
+            app:layout_constraintTop_toBottomOf="@id/textInputDateStart"
+            tools:ignore="HardcodedText">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:focusable="false"
-                android:editable="false"
                 android:id="@+id/edtDateEnd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:editable="false"
+                android:focusable="false"
                 android:gravity="center_vertical"
                 android:inputType="number"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                tools:ignore="Deprecated,TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -91,7 +95,8 @@
             android:layout_marginTop="@dimen/_8sdp"
             android:hint="Lý do"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputDateEnd">
+            app:layout_constraintTop_toBottomOf="@id/textInputDateEnd"
+            tools:ignore="HardcodedText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtReason"
@@ -99,7 +104,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:inputType="text"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -110,7 +116,8 @@
             android:layout_marginTop="@dimen/_8sdp"
             android:hint="Ghi chú"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputReason">
+            app:layout_constraintTop_toBottomOf="@id/textInputReason"
+            tools:ignore="HardcodedText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtNote"
@@ -118,7 +125,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:inputType="text"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -139,7 +147,8 @@
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
 
             <ImageView
                 android:id="@+id/imageReason"
@@ -150,7 +159,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textImage"
-                app:tint="@color/textGray" />
+                app:tint="@color/textGray"
+                tools:ignore="ContentDescription" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -165,7 +175,8 @@
             android:textSize="@dimen/_13ssp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="HardcodedText,TouchTargetSizeCheck,TextContrastCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

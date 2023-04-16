@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context="com.example.catfisharea.activities.director.RequestManagementActivity">
+    android:background="@color/backgroundPrimary"
+    tools:context="com.example.catfisharea.activities.director.TreatmentRegimenActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/monthYearLayout"
@@ -23,7 +23,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_back_activity"
-            app:title="Xem yêu cầu">
+            android:background="@color/white"
+            app:title="Bệnh cá">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
@@ -77,8 +78,8 @@
         android:id="@+id/datePicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@id/monthYearLayout" />
-
 
     <TextView
         android:id="@+id/noData"
@@ -90,10 +91,11 @@
         android:textColor="@color/black"
         android:textSize="@dimen/_16ssp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/datePicker" />
+        app:layout_constraintTop_toBottomOf="@id/datePicker"
+        tools:ignore="HardcodedText" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewRequest"
+        android:id="@+id/treatmentRegimenRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="@dimen/_8sdp"
@@ -102,7 +104,7 @@
         app:layout_constraintTop_toBottomOf="@id/datePicker" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabnewLeaveRequest"
+        android:id="@+id/fabNewTreatmentRegimen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_20sdp"
@@ -111,57 +113,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/white"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/textLeave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:text="Nghĩ phép"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_13ssp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/fabnewLeaveRequest"
-        app:layout_constraintEnd_toStartOf="@id/fabnewLeaveRequest"
-        app:layout_constraintTop_toTopOf="@id/fabnewLeaveRequest" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabnewImportRequest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_20sdp"
-        android:backgroundTint="@color/colorPrimary"
-        android:src="@drawable/ic_add2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/white" />
-
-    <TextView
-        android:id="@+id/textImport"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:text="Nhập hàng"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_13ssp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/fabnewImportRequest"
-        app:layout_constraintEnd_toStartOf="@id/fabnewImportRequest"
-        app:layout_constraintTop_toTopOf="@id/fabnewImportRequest" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabnewRequest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_20sdp"
-        android:backgroundTint="@color/colorPrimary"
-        android:src="@drawable/ic_add2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/white"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

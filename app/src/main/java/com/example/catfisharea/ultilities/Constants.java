@@ -112,6 +112,18 @@ public class Constants {
     public static final String KEY_FIXED_TASK_MEASURE_WATER = "Đo chất lượng nước";
     public static final String KEY_TYPE_OF_TASK = "typeOfTask";
 
+    // Báo cáo cá bệnh (công nhân)
+    public static final String KEY_COLLECTION_REPORT_FISH = "reportFishes";
+    public static final String KEY_REPORT_FISH_IMAGE = "image";
+    public static final String KEY_REPORT_FISH_GUESS = "guess";
+    public static final String KEY_REPORT_FISH_DATE = "date";
+    public static final String KEY_REPORTER_NAME = "reporterName";
+    public static final String KEY_REPORTER_IMAGE = "reporterImage";
+    public static final String KEY_REPORTER_TYPE_ACCOUNT = "reporterPosition";
+    public static final String KEY_REPORTER_PHONE = "reporterPhone";
+    public static final String KEY_REPORTER_ID = "reporterId";
+
+
     // Các trường dữ liệu bình luận nhiệm vụ
     public static final String KEY_COLLECTION_COMMENT_TASK = "commentTasks";
     public static final String KEY_COMMENT_ID = "commentID";

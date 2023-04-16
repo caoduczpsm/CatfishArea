@@ -3,19 +3,29 @@ package com.example.catfisharea.activities.worker;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityWorkerHomeBinding;
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
@@ -32,6 +42,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
@@ -46,6 +60,8 @@ public class WorkerHomeActivity extends BaseActivity {
     private FirebaseFirestore database;
     private Pond pond;
     private Task feedTask, measureTask;
+    private ImageView imageReason;
+    private String encodedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +163,8 @@ public class WorkerHomeActivity extends BaseActivity {
         binding.layoutHome.environment5.setOnClickListener(view ->setMeasureWaterDialog(5));
 
         binding.layoutHome.environment6.setOnClickListener(view ->setMeasureWaterDialog(6));
+
+        binding.layoutControlWorkerHome.cardReportFish.setOnClickListener(view -> openReportFishSickDialog());
 
     }
 
@@ -754,6 +772,85 @@ public class WorkerHomeActivity extends BaseActivity {
         btnClose.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
+    }
+
+    private void openReportFishSickDialog(){
+        final Dialog dialog = openDialog(R.layout.layout_dialog_report_fish);
+        assert dialog != null;
+
+        Button btnCreate, btnClose;
+        TextInputEditText edtGuess;
+
+        btnClose = dialog.findViewById(R.id.btnClose);
+        btnCreate = dialog.findViewById(R.id.btnCreate);
+        imageReason = dialog.findViewById(R.id.imageReason);
+        edtGuess = dialog.findViewById(R.id.edtGuess);
+
+        imageReason.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            Animatoo.animateSlideLeft(this);
+            intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+            pickImage.launch(intent);
+        });
+
+        btnCreate.setOnClickListener(view -> {
+
+            HashMap<String, Object> report = new HashMap<>();
+            report.put(Constants.KEY_REPORT_FISH_IMAGE, encodedImage);
+            report.put(Constants.KEY_REPORT_FISH_GUESS, Objects.requireNonNull(edtGuess.getText()).toString());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                report.put(Constants.KEY_REPORT_FISH_DATE, Objects.requireNonNull(LocalDate.now().toString()));
+            }
+            report.put(Constants.KEY_REPORTER_NAME, preferenceManager.getString(Constants.KEY_NAME));
+            report.put(Constants.KEY_REPORTER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
+            report.put(Constants.KEY_REPORTER_PHONE, preferenceManager.getString(Constants.KEY_PHONE));
+            report.put(Constants.KEY_REPORTER_TYPE_ACCOUNT, preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT));
+            report.put(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID));
+            report.put(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID));
+            report.put(Constants.KEY_REPORTER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+
+            database.collection(Constants.KEY_COLLECTION_REPORT_FISH)
+                    .add(report)
+                    .addOnSuccessListener(runnable -> {
+                        showToast("Tạo báo cáo thành công!");
+                        dialog.dismiss();
+                    })
+                    .addOnFailureListener(runnable -> showToast("Tạo báo cáo thất bại!"));
+
+        });
+
+        btnClose.setOnClickListener(view -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK){
+                    if(result.getData() != null){
+                        Uri imageUri = result.getData().getData();
+                        try {
+                            InputStream inputStream = this.getContentResolver().openInputStream(imageUri);
+                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            imageReason.setImageBitmap(bitmap);
+                            encodedImage = encodeImage(bitmap);
+                        }catch (FileNotFoundException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+    );
+
+    private String encodeImage(Bitmap bitmap){
+        int previewWidth = 150;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 
     private Dialog openDialog(int layout) {

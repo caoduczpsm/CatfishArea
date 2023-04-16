@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.app.catfisharea.R;
@@ -60,6 +61,8 @@ public class RegionalChiefActivity extends BaseActivity implements CampusListene
         homeAdapter = new HomeAdapter(this, itemHomes, this);
         mBinding.recyclerViewRegionalChiefHome.setAdapter(homeAdapter);
         getDataHome();
+
+        mBinding.layoutControlRegionalChiefHome.layoutChart.setVisibility(View.GONE);
 
         mBinding.toolbaRegionalChiefHome.setTitle(preferenceManager.getString(Constants.KEY_NAME));
 

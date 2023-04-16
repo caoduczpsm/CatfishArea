@@ -77,6 +77,8 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
             startActivity(intent);
         });
 
+        mBinding.layoutControlDirectorHome.layoutChart.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TreatmentRegimenActivity.class)));
+
     }
 
     private void initActivity() {
