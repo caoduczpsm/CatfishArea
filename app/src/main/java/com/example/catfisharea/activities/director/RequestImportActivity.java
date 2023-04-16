@@ -1,23 +1,17 @@
 package com.example.catfisharea.activities.director;
 
-import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityRequestImportBinding;
@@ -28,7 +22,6 @@ import com.example.catfisharea.listeners.MaterialsListener;
 import com.example.catfisharea.models.Materials;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -38,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class RequestImportActivity extends BaseActivity implements MaterialsListener {
     private ActivityRequestImportBinding mBinding;
@@ -62,22 +56,15 @@ public class RequestImportActivity extends BaseActivity implements MaterialsList
         adapter = new RequestImportItem(this, materialsList, this);
         mBinding.recyclerViewImport.setAdapter(adapter);
 
-        mBinding.toolbarRequestImport.setNavigationOnClickListener(view -> {
-            onBackPressed();
-        });
+        mBinding.toolbarRequestImport.setNavigationOnClickListener(view -> onBackPressed());
 
-        mBinding.newItem.setOnClickListener(view -> {
-            openDialog();
-        });
-        mBinding.sendReportBtn.setOnClickListener(view -> {
-            sendRequest();
-        });
+        mBinding.newItem.setOnClickListener(view -> openDialog());
+        mBinding.sendReportBtn.setOnClickListener(view -> sendRequest());
 
     }
 
     private void sendRequest() {
-//        materialsList = adapter.getMaterials();
-//        adapter.notifyDataSetChanged();
+
         String name = mBinding.toolbarRequestImport.getTitle().toString();
         DateTime dateTime = DateTime.now();
         String dateCreated = dateTime.getDayOfMonth() + "/" + dateTime.getMonthOfYear() + "/" + dateTime.getYear();
@@ -103,18 +90,14 @@ public class RequestImportActivity extends BaseActivity implements MaterialsList
                     .get().addOnSuccessListener(documentSnapshot -> {
                         String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
                         value.put(Constants.KEY_RECEIVER_ID, areaId);
-                        database.collection(Constants.KEY_COLLECTION_REQUEST).document().set(value).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                finish();
-                            }
-                        });
+                        database.collection(Constants.KEY_COLLECTION_REQUEST).document().set(value).addOnSuccessListener(unused -> finish());
                     });
         }
 
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void openDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -143,29 +126,21 @@ public class RequestImportActivity extends BaseActivity implements MaterialsList
         arrayItem.add("Thuốc");
         arrayItem.add("Thiết bị");
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, arrayItem);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, arrayItem);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
-        String item;
-        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                materials.setName(arrayItem.get(position));
-                Log.d("nhaphang", arrayItem.get(position));
-            }
-        });
+        spinner.setOnItemClickListener((parent, view, position, id) -> materials.setName(arrayItem.get(position)));
 
         btn.setOnClickListener(view -> {
             int amount = 0;
-            if (!editText.getText().toString().isEmpty()) {
+            if (!Objects.requireNonNull(editText.getText()).toString().isEmpty()) {
                 amount = Integer.parseInt(editText.getText().toString().trim());
             }
-            materials.setDecription(note.getText().toString().trim());
+            materials.setDecription(Objects.requireNonNull(note.getText()).toString().trim());
 
             if (amount > 0) {
                 materials.setAmount(amount);
             }
-            Log.d("nhaphang", materials.getName());
             if (!materials.getName().isEmpty() && amount > 0) {
                 materialsList.add(materials);
                 adapter.notifyDataSetChanged();
@@ -176,6 +151,7 @@ public class RequestImportActivity extends BaseActivity implements MaterialsList
         dialog.show();
     }
 
+    @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
     private void openDialog(Materials mtr) {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -204,7 +180,7 @@ public class RequestImportActivity extends BaseActivity implements MaterialsList
         arrayItem.add("Thuốc");
         arrayItem.add("Thiết bị");
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, arrayItem);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, arrayItem);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
         spinner.setSelection(arrayAdapter.getPosition(mtr.getName()));
@@ -213,20 +189,14 @@ public class RequestImportActivity extends BaseActivity implements MaterialsList
             note.setText(mtr.getDecription());
         }
 
-        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                materials.setName(arrayItem.get(position));
-                Log.d("nhaphang", arrayItem.get(position));
-            }
-        });
+        spinner.setOnItemClickListener((parent, view, position, id) -> materials.setName(arrayItem.get(position)));
 
         btn.setOnClickListener(view -> {
             int amount = 0;
-            if (!editText.getText().toString().isEmpty()) {
+            if (!Objects.requireNonNull(editText.getText()).toString().isEmpty()) {
                 amount = Integer.parseInt(editText.getText().toString().trim());
             }
-            materials.setDecription(note.getText().toString().trim());
+            materials.setDecription(Objects.requireNonNull(note.getText()).toString().trim());
 
             if (amount > 0) {
                 materials.setAmount(amount);
@@ -242,6 +212,7 @@ public class RequestImportActivity extends BaseActivity implements MaterialsList
         dialog.show();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void delete(Materials mtr) {
         materialsList.remove(mtr);

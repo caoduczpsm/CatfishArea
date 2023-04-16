@@ -5,5 +5,5 @@ import com.example.catfisharea.models.RegionModel;
 public interface CampusListener {
 
     void OnCampusClicker(RegionModel regionModel);
-
+    void OnPondClicker(RegionModel regionModel);
 }

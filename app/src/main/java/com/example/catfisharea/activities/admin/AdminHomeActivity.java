@@ -282,4 +282,9 @@ public class AdminHomeActivity extends BaseActivity implements CampusListener {
     public void OnCampusClicker(RegionModel regionModel) {
 
     }
+
+    @Override
+    public void OnPondClicker(RegionModel regionModel) {
+
+    }
 }

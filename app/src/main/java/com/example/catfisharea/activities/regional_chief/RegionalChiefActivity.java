@@ -1,14 +1,10 @@
 package com.example.catfisharea.activities.regional_chief;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
-import com.android.app.catfisharea.R;
-import com.android.app.catfisharea.databinding.ActivityDirectorHomeBinding;
 import com.android.app.catfisharea.databinding.ActivityRegionalChiefBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
@@ -17,12 +13,12 @@ import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
 import com.example.catfisharea.activities.alluser.ViewPlanActivity;
-import com.example.catfisharea.activities.director.DirectorHomeActivity;
 import com.example.catfisharea.activities.director.HumanResourceActivity;
 import com.example.catfisharea.activities.director.RequestManagementActivity;
 import com.example.catfisharea.activities.director.TaskManagerActivity;
 import com.example.catfisharea.adapter.HomeAdapter;
 import com.example.catfisharea.listeners.CampusListener;
+import com.example.catfisharea.listeners.PondListener;
 import com.example.catfisharea.models.Campus;
 import com.example.catfisharea.models.ItemHome;
 import com.example.catfisharea.models.Pond;
@@ -33,13 +29,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
-public class RegionalChiefActivity extends BaseActivity implements CampusListener {
+public class RegionalChiefActivity extends BaseActivity implements CampusListener, PondListener {
     private ActivityRegionalChiefBinding mBinding;
     private FirebaseFirestore database;
     private PreferenceManager preferenceManager;
@@ -66,34 +62,22 @@ public class RegionalChiefActivity extends BaseActivity implements CampusListene
 
         mBinding.toolbaRegionalChiefHome.setTitle(preferenceManager.getString(Constants.KEY_NAME));
 
-        mBinding.imageConference.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), ConferenceActivity.class));
-        });
+        mBinding.imageConference.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), ConferenceActivity.class)));
 
-        mBinding.imageChat.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), ConversationActivity.class));
-        });
+        mBinding.imageChat.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), ConversationActivity.class)));
 
-        mBinding.imageLogout.setOnClickListener(view -> {
-            logOut();
-        });
+        mBinding.imageLogout.setOnClickListener(view -> logOut());
 
-        mBinding.layoutControlRegionalChiefHome.layoutWarehouse.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), WarehouseActivity.class));
-        });
+        mBinding.layoutControlRegionalChiefHome.layoutWarehouse.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), WarehouseActivity.class)));
 
         mBinding.layoutControlRegionalChiefHome.layoutSeason.setOnClickListener(view -> {
             Intent intent = new Intent(this, ViewPlanActivity.class);
             startActivity(intent);
         });
 
-        mBinding.layoutControlRegionalChiefHome.layoutHR.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), HumanResourceActivity.class));
-        });
+        mBinding.layoutControlRegionalChiefHome.layoutHR.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), HumanResourceActivity.class)));
 
-        mBinding.layoutControlRegionalChiefHome.layoutTask.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), TaskManagerActivity.class));
-        });
+        mBinding.layoutControlRegionalChiefHome.layoutTask.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TaskManagerActivity.class)));
 
         mBinding.layoutControlRegionalChiefHome.layoutRequest.setOnClickListener(view -> {
             Intent intent = new Intent(this, RequestManagementActivity.class);
@@ -108,6 +92,7 @@ public class RegionalChiefActivity extends BaseActivity implements CampusListene
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getDataHome() {
         String areaId = preferenceManager.getString(Constants.KEY_AREA_ID);
         assert areaId != null;
@@ -128,7 +113,13 @@ public class RegionalChiefActivity extends BaseActivity implements CampusListene
                                     for (DocumentSnapshot pondDoc : pondQuery.getDocuments()) {
                                         String pondId = pondDoc.getId();
                                         String pondName = pondDoc.getString(Constants.KEY_NAME);
-                                        Pond pond = new Pond(pondId, pondName);
+                                        String acreage = pondDoc.getString(Constants.KEY_ACREAGE);
+                                        List<String> numOfFeedingList = (List<String>) pondDoc.get(Constants.KEY_NUM_OF_FEEDING_LIST);
+                                        List<String> amountFedList = (List<String>) pondDoc.get(Constants.KEY_AMOUNT_FED);
+                                        List<String> specificationsToMeasureList = (List<String>) pondDoc.get(Constants.KEY_SPECIFICATIONS_TO_MEASURE);
+                                        HashMap<String, Object> parameters = (HashMap<String, Object>) pondDoc.get(Constants.KEY_SPECIFICATIONS_MEASURED);
+                                        int numOfFeeding = Integer.parseInt(Objects.requireNonNull(pondDoc.getString(Constants.KEY_NUM_OF_FEEDING)));
+                                        Pond pond = new Pond(pondId, pondName, null, campusId, acreage, numOfFeeding, numOfFeedingList, amountFedList, specificationsToMeasureList, parameters);
                                         regionModels.add(pond);
                                     }
 
@@ -179,6 +170,11 @@ public class RegionalChiefActivity extends BaseActivity implements CampusListene
 
     @Override
     public void OnCampusClicker(RegionModel regionModel) {
+
+    }
+
+    @Override
+    public void OnPondClicker(RegionModel regionModel) {
 
     }
 }

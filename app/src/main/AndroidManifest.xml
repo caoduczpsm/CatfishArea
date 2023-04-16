@@ -34,7 +34,14 @@
         android:theme="@style/Theme.CatfishArea"
         tools:targetApi="31">
         <activity
-            android:name="com.example.catfisharea.activities.director.TreatmentRegimenActivity"
+            android:name="com.example.catfisharea.activities.director.TreatmentProtocolActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.example.catfisharea.activities.director.ReportFishActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

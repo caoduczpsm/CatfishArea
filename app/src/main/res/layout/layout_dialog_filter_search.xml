@@ -26,14 +26,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutOneAccount"
         android:layout_width="0dp"
-        android:layout_height="@dimen/_270sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/border_fun_background"
         android:backgroundTint="#B3F0D3"
         android:padding="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textTitle"
-        app:layout_constraintWidth_percent="0.48"
+        app:layout_constraintWidth_percent="0.95"
         tools:ignore="UnusedAttribute">
 
         <TextView
@@ -53,77 +54,77 @@
 
         <CheckBox
             android:id="@+id/cbAllAccount"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:buttonTint="@color/colorPrimary"
             android:text="Tất Cả"
             android:textColor="@color/black"
             android:textSize="@dimen/_14sdp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintWidth_percent="0.48"
             tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
 
         <CheckBox
             android:id="@+id/cbAdmin"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Admin"
-            android:textSize="@dimen/_14sdp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
             android:buttonTint="@color/colorPrimary"
+            android:text="Admin"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cbAllAccount"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintWidth_percent="0.48"
             tools:ignore="HardcodedText" />
 
         <CheckBox
             android:id="@+id/cbAccountant"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimary"
             android:text="Kế Toán"
             android:textColor="@color/black"
             android:textSize="@dimen/_14sdp"
             android:textStyle="bold"
-            android:buttonTint="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.48"
             app:layout_constraintTop_toBottomOf="@+id/cbAdmin"
             tools:ignore="HardcodedText" />
 
         <CheckBox
             android:id="@+id/cbRegionalChief"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimary"
             android:text="Trưởng Vùng"
             android:textColor="@color/black"
             android:textSize="@dimen/_14sdp"
             android:textStyle="bold"
-            android:buttonTint="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cbAccountant"
+            app:layout_constraintTop_toBottomOf="@+id/cbAdmin"
+            app:layout_constraintWidth_percent="0.48"
             tools:ignore="HardcodedText" />
 
         <CheckBox
             android:id="@+id/cbDirector"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimary"
             android:text="Trưởng Khu"
             android:textColor="@color/black"
             android:textSize="@dimen/_14sdp"
             android:textStyle="bold"
-            android:buttonTint="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.48"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cbRegionalChief"
             tools:ignore="HardcodedText" />
 
         <CheckBox
             android:id="@+id/cbWorker"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:buttonTint="@color/colorPrimary"
             android:text="Công Nhân"
@@ -131,96 +132,9 @@
             android:textSize="@dimen/_14sdp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cbDirector"
+            app:layout_constraintTop_toBottomOf="@+id/cbRegionalChief"
+            app:layout_constraintWidth_percent="0.48"
             tools:ignore="HardcodedText,TouchTargetSizeCheck" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutALotAccount"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_270sdp"
-        android:background="@drawable/border_fun_background"
-        android:backgroundTint="#EFF0B3"
-        android:padding="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textTitle"
-        app:layout_constraintWidth_percent="0.48"
-        tools:ignore="UnusedAttribute">
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Theo Khu Nuôi Công Ty"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_14sdp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.45"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="HardcodedText" />
-
-        <CheckBox
-            android:id="@+id/cbAllArea"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tất Cả"
-            android:textSize="@dimen/_14sdp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:buttonTint="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView1"
-            tools:ignore="HardcodedText" />
-
-        <CheckBox
-            android:id="@+id/cbArea"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Khu"
-            android:textSize="@dimen/_14sdp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:buttonTint="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cbAllArea"
-            tools:ignore="HardcodedText" />
-
-        <CheckBox
-            android:id="@+id/cbCampus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Vùng"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_14sdp"
-            android:textStyle="bold"
-            android:buttonTint="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cbArea"
-            tools:ignore="HardcodedText" />
-
-        <CheckBox
-            android:id="@+id/cbPond"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ao"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_14sdp"
-            android:textStyle="bold"
-            android:buttonTint="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cbCampus"
-            tools:ignore="HardcodedText" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

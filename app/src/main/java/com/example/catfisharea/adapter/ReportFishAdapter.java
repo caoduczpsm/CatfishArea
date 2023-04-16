@@ -130,22 +130,6 @@ public class ReportFishAdapter extends RecyclerView.Adapter<ReportFishAdapter.Mu
                 }
             });
 
-            mBinding.viewBackground.setOnLongClickListener(view -> {
-                if (reportFish.isSelected){
-                    mBinding.viewBackground.setBackgroundResource(R.drawable.user_selection_background);
-                    mBinding.imageSelected.setVisibility(View.GONE);
-                    reportFish.isSelected = false;
-                    if (getSelectedTask().size() == 0){
-                        multipleListener.onReportClicker(reportFish);
-                    }
-                } else {
-                    mBinding.viewBackground.setBackgroundResource(R.drawable.background_user_selected);
-                    mBinding.imageSelected.setVisibility(View.VISIBLE);
-                    reportFish.isSelected = true;
-                    multipleListener.onReportClicker(reportFish);
-                }
-                return true;
-            });
         }
 
     }

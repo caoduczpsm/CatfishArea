@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundPrimary"
-    tools:context="com.example.catfisharea.activities.director.TreatmentRegimenActivity">
+    tools:context="com.example.catfisharea.activities.director.ReportFishActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/monthYearLayout"

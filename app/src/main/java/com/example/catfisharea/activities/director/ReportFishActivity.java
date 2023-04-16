@@ -13,24 +13,30 @@ import android.util.Base64;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityTreatmentRegimenBinding;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.alluser.ChatActivity;
 import com.example.catfisharea.adapter.ReportFishAdapter;
 import com.example.catfisharea.listeners.MultipleReportFishListener;
+import com.example.catfisharea.models.Medicine;
 import com.example.catfisharea.models.ReportFish;
 import com.example.catfisharea.models.User;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.github.jhonnyx2012.horizontalpicker.DatePickerListener;
 import com.github.jhonnyx2012.horizontalpicker.HorizontalPicker;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -38,12 +44,13 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class TreatmentRegimenActivity extends BaseActivity implements DatePickerListener, MultipleReportFishListener {
+public class ReportFishActivity extends BaseActivity implements DatePickerListener, MultipleReportFishListener {
 
     ActivityTreatmentRegimenBinding mBinding;
     private Calendar myCal;
@@ -53,6 +60,7 @@ public class TreatmentRegimenActivity extends BaseActivity implements DatePicker
     private List<ReportFish> reportFishList;
     String daySelected, monthSelected, yearSelected;
     String finalDateSelected;
+    private ReportFish finalReportFish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,6 +199,8 @@ public class TreatmentRegimenActivity extends BaseActivity implements DatePicker
         Dialog dialog = openDialog(R.layout.layout_detail_report_fish);
         assert dialog != null;
 
+        finalReportFish = new ReportFish(reportFish);
+
         Button btnCreate, btnClose;
         ConstraintLayout layoutUserReport;
         CircleImageView imageProfile;
@@ -251,10 +261,144 @@ public class TreatmentRegimenActivity extends BaseActivity implements DatePicker
                     finish();
                 }));
 
-        btnCreate.setOnClickListener(view -> {});
+        btnCreate.setOnClickListener(view -> {
+            openTreatmentProtocolDialog();
+            dialog.dismiss();
+        });
 
         btnClose.setOnClickListener(view -> dialog.dismiss());
 
+        dialog.show();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void openTreatmentProtocolDialog(){
+        final Dialog dialog = openDialog(R.layout.layout_create_treatment_protocol_dialog);
+        assert dialog != null;
+
+        AutoCompleteTextView nameItem = dialog.findViewById(R.id.nameItem);
+        Button btnCreate, btnClose;
+        TextView textDateReport, textNamePond;
+        TextInputEditText edtNote;
+        CheckBox cbWater, cbFood, cbMud;
+        MultiAutoCompleteTextView edtMedicine;
+
+        btnClose = dialog.findViewById(R.id.btnClose);
+        btnCreate = dialog.findViewById(R.id.btnCreate);
+        textDateReport = dialog.findViewById(R.id.textDateReport);
+        textNamePond = dialog.findViewById(R.id.textNamePond);
+        edtMedicine = dialog.findViewById(R.id.edtMedicine);
+        edtNote = dialog.findViewById(R.id.edtNote);
+        cbWater = dialog.findViewById(R.id.cbWater);
+        cbFood = dialog.findViewById(R.id.cbFood);
+        cbMud = dialog.findViewById(R.id.cbMud);
+
+        database.collection(Constants.KEY_COLLECTION_POND)
+                .document(finalReportFish.pondId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    textNamePond.setText(documentSnapshot.getString(Constants.KEY_NAME));
+                });
+
+        textDateReport.setText(finalReportFish.date.substring(8, 10) + "/" + finalReportFish.date.substring(5, 7) +
+                "/" + finalReportFish.date.substring(0, 4));
+
+        ArrayList<String> arrayItem = new ArrayList<>();
+        arrayItem.add("Xuất huyết, phù đầu");
+        arrayItem.add("Gan thận mũ");
+        arrayItem.add("Trắng gan, trắng man");
+        arrayItem.add("Vàng da");
+        arrayItem.add("Bống hơi");
+        arrayItem.add("Nội ngoại kí sinh trùng");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, arrayItem);
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        nameItem.setAdapter(adapter);
+        nameItem.showDropDown();
+
+        ArrayList<String> medicineList = new ArrayList<>();
+
+        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
+                .get()
+                .addOnCompleteListener(task -> {
+                   for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                       database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                               .document(queryDocumentSnapshot.getId())
+                               .collection(Constants.KEY_COLLECTION_CATEGORY)
+                               .whereEqualTo(Constants.KEY_CATEGORY_TYPE, Constants.KEY_CATEGORY_TYPE_MEDICINE)
+                               .get()
+                               .addOnCompleteListener(task1 -> {
+                                   for (QueryDocumentSnapshot queryDocumentSnapshot1 : task1.getResult()){
+                                       Medicine medicine = new Medicine();
+                                       medicine.id = queryDocumentSnapshot1.getId();
+                                       medicine.amount = queryDocumentSnapshot1.getString(Constants.KEY_AMOUNT_OF_ROOM);
+                                       medicine.effect = queryDocumentSnapshot1.getString(Constants.KEY_EFFECT);
+                                       medicine.producer = queryDocumentSnapshot1.getString(Constants.KEY_PRODUCER);
+                                       medicine.type = queryDocumentSnapshot1.getString(Constants.KEY_CATEGORY_TYPE);
+                                       medicine.name = queryDocumentSnapshot1.getString(Constants.KEY_NAME);
+                                       medicine.unit = queryDocumentSnapshot1.getString(Constants.KEY_UNIT);
+                                       medicineList.add(medicine.name);
+                                   }
+                               });
+                   }
+                });
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, medicineList);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        edtMedicine.setAdapter(arrayAdapter);
+        edtMedicine.showDropDown();
+        edtMedicine.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
+        btnCreate.setOnClickListener(view -> {
+
+            if (nameItem.getText().toString().equals("") ||
+                    edtMedicine.getText().toString().equals("") ||
+                    Objects.requireNonNull(edtNote.getText()).toString().equals("")) {
+                showToast("Vui lòng nhập đầy đủ thông tin!");
+            } else {
+                HashMap<String, Object> treatment = new HashMap<>();
+                treatment.put(Constants.KEY_TREATMENT_DATE, LocalDate.now().toString());
+                treatment.put(Constants.KEY_TREATMENT_POND_ID, finalReportFish.pondId);
+                treatment.put(Constants.KEY_TREATMENT_SICK_NAME, nameItem.getText().toString());
+                treatment.put(Constants.KEY_TREATMENT_CREATOR_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+                treatment.put(Constants.KEY_TREATMENT_CREATOR_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
+                treatment.put(Constants.KEY_CREATOR_NAME, preferenceManager.getString(Constants.KEY_NAME));
+                treatment.put(Constants.KEY_CREATOR_PHONE, preferenceManager.getString(Constants.KEY_PHONE));
+                treatment.put(Constants.KEY_TREATMENT_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID));
+                treatment.put(Constants.KEY_TREATMENT_MEDICINE, edtMedicine.getText().toString());
+                treatment.put(Constants.KEY_TREATMENT_NOTE, edtNote.getText().toString());
+                treatment.put(Constants.KEY_TREATMENT_STATUS, Constants.KEY_TREATMENT_PENDING);
+
+                if (cbFood.isChecked()){
+                    treatment.put(Constants.KEY_TREATMENT_NO_FOOD, Constants.KEY_TREATMENT_NO_FOOD);
+                }
+
+                if (cbMud.isChecked()){
+                    treatment.put(Constants.KEY_TREATMENT_SUCK_MUD, Constants.KEY_TREATMENT_SUCK_MUD);
+                }
+
+                if (cbWater.isChecked()){
+                    treatment.put(Constants.KEY_TREATMENT_REPLACE_WATER, Constants.KEY_TREATMENT_REPLACE_WATER);
+                }
+
+                database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                        .add(treatment)
+                        .addOnSuccessListener(runnable -> {
+                            showToast("Tạo phát đồ thành công");
+                            dialog.dismiss();
+                        })
+                        .addOnFailureListener(runnable -> dialog.dismiss());
+
+            }
+
+
+        });
+
+        btnClose.setOnClickListener(view -> dialog.dismiss());
         dialog.show();
     }
 
@@ -283,6 +427,10 @@ public class TreatmentRegimenActivity extends BaseActivity implements DatePicker
         window.setAttributes(windowAttributes);
 
         return dialog;
+    }
+
+    private void showToast(String message){
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -433,8 +433,7 @@ public class PermissionEditActivity extends BaseActivity implements MultipleList
         Button btnApply = dialog.findViewById(R.id.btnApply);
 
         //CheckBox
-        CheckBox cbAllAccount, cbAdmin, cbAccountant, cbRegionalChief, cbDirector, cbWorker,
-                cbAllArea, cbArea, cbCampus, cbPond;
+        CheckBox cbAllAccount, cbAdmin, cbAccountant, cbRegionalChief, cbDirector, cbWorker;
 
         cbAllAccount = dialog.findViewById(R.id.cbAllAccount);
         cbAdmin = dialog.findViewById(R.id.cbAdmin);
@@ -442,10 +441,6 @@ public class PermissionEditActivity extends BaseActivity implements MultipleList
         cbRegionalChief = dialog.findViewById(R.id.cbRegionalChief);
         cbDirector = dialog.findViewById(R.id.cbDirector);
         cbWorker = dialog.findViewById(R.id.cbWorker);
-        cbAllArea = dialog.findViewById(R.id.cbAllArea);
-        cbArea = dialog.findViewById(R.id.cbArea);
-        cbCampus = dialog.findViewById(R.id.cbCampus);
-        cbPond = dialog.findViewById(R.id.cbPond);
 
         cbAdmin.setOnClickListener(view -> {
             if (cbAccountant.isChecked() && cbRegionalChief.isChecked() &&
@@ -512,39 +507,6 @@ public class PermissionEditActivity extends BaseActivity implements MultipleList
             }
         });
 
-        cbArea.setOnClickListener(view -> {
-            if (cbCampus.isChecked() && cbPond.isChecked()){
-                cbAllArea.setChecked(true);
-                cbAllArea.setText("Bỏ Chọn");
-            }
-            if (!cbArea.isChecked() || !cbCampus.isChecked() || !cbPond.isChecked()){
-                cbAllArea.setChecked(false);
-                cbAllArea.setText("Tất Cả");
-            }
-        });
-
-        cbCampus.setOnClickListener(view -> {
-            if (cbArea.isChecked() && cbPond.isChecked()){
-                cbAllArea.setChecked(true);
-                cbAllArea.setText("Bỏ Chọn");
-            }
-            if (!cbArea.isChecked() || !cbCampus.isChecked() || !cbPond.isChecked()){
-                cbAllArea.setChecked(false);
-                cbAllArea.setText("Tất Cả");
-            }
-        });
-
-        cbPond.setOnClickListener(view -> {
-            if (cbArea.isChecked() && cbCampus.isChecked()){
-                cbAllArea.setChecked(true);
-                cbAllArea.setText("Bỏ Chọn");
-            }
-            if (!cbArea.isChecked() || !cbCampus.isChecked() || !cbPond.isChecked()){
-                cbAllArea.setChecked(false);
-                cbAllArea.setText("Tất Cả");
-            }
-        });
-
         // Chọn tất cả loại tài khoản
         cbAllAccount.setOnClickListener(view -> {
             if (cbAllAccount.getText().toString().equals("Tất Cả")){
@@ -565,26 +527,10 @@ public class PermissionEditActivity extends BaseActivity implements MultipleList
 
         });
 
-        // Chọn tất cả các vùng
-        cbAllArea.setOnClickListener(view -> {
-            if (cbAllArea.getText().toString().equals("Tất Cả")){
-                cbArea.setChecked(true);
-                cbCampus.setChecked(true);
-                cbPond.setChecked(true);
-                cbAllArea.setText("Bỏ Chọn");
-            } else {
-                cbArea.setChecked(false);
-                cbCampus.setChecked(false);
-                cbPond.setChecked(false);
-                cbAllArea.setText("Tất Cả");
-            }
-
-        });
-
         // Bấm áp dụng
         btnApply.setOnClickListener(view -> {
             // Nếu checkbox tất cả tài khoản hoặc tất cả vùng được chọn thì hiển thị ra tất cả người dùng
-            if (cbAllAccount.isChecked() || cbAllArea.isChecked()){
+            if (cbAllAccount.isChecked()){
                 users.clear();
                 getUsers();
                 dialog.dismiss();
