@@ -140,6 +140,69 @@
             app:layout_constraintTop_toBottomOf="@id/nameItem"
             tools:ignore="HardcodedText,LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutDropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/edtMedicine">
+
+
+            <TextView
+                android:id="@+id/textQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_3sdp"
+                android:text="Số lượng"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:id="@+id/imageDropdown"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:src="@drawable/ic_up"
+                app:layout_constraintBottom_toBottomOf="@+id/textQuantity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textQuantity"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutQuantityMedicine"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/layoutDropdown">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/medicineRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textNote"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -149,13 +212,13 @@
             android:hint="Ghi chú"
             android:gravity="start"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edtMedicine"
+            app:layout_constraintTop_toBottomOf="@id/layoutQuantityMedicine"
             tools:ignore="HardcodedText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtNote"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_100sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:gravity="start"
                 android:paddingStart="37dp"
                 android:inputType="textCapSentences"
@@ -167,16 +230,16 @@
             android:id="@+id/cbWater"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
             android:buttonTint="@color/colorPrimary"
             android:text="Thay Nước"
             android:textColor="@color/black"
             android:textSize="@dimen/_14sdp"
             android:textStyle="bold"
-            android:layout_marginTop="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textNote"
             app:layout_constraintWidth_percent="0.33"
-            tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
+            tools:ignore="HardcodedText,DuplicateSpeakableTextCheck,TouchTargetSizeCheck" />
 
         <CheckBox
             android:id="@+id/cbFood"
@@ -192,7 +255,7 @@
             app:layout_constraintStart_toEndOf="@+id/cbWater"
             app:layout_constraintTop_toBottomOf="@id/textNote"
             app:layout_constraintWidth_percent="0.33"
-            tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
+            tools:ignore="HardcodedText,DuplicateSpeakableTextCheck,TouchTargetSizeCheck" />
 
         <CheckBox
             android:id="@+id/cbMud"
@@ -207,7 +270,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textNote"
             app:layout_constraintWidth_percent="0.33"
-            tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
+            tools:ignore="HardcodedText,DuplicateSpeakableTextCheck,TouchTargetSizeCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -215,6 +278,7 @@
         android:id="@+id/btnCreate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_12sdp"
         android:background="@drawable/border_fun_background"
         android:backgroundTint="@color/colorPrimary"
@@ -222,17 +286,17 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutDetails"
         app:layout_constraintWidth_percent="0.48"
-        tools:ignore="HardcodedText,UnusedAttribute" />
+        tools:ignore="HardcodedText,UnusedAttribute,TouchTargetSizeCheck" />
 
     <Button
         android:id="@+id/btnClose"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_12sdp"
         android:background="@drawable/border_fun_background"
         android:backgroundTint="@color/colorPrimary"
@@ -240,12 +304,11 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutDetails"
         app:layout_constraintWidth_percent="0.48"
-        tools:ignore="HardcodedText,UnusedAttribute" />
+        tools:ignore="HardcodedText,UnusedAttribute,TouchTargetSizeCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

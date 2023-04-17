@@ -122,6 +122,9 @@ public class Constants {
     public static final String KEY_REPORTER_TYPE_ACCOUNT = "reporterPosition";
     public static final String KEY_REPORTER_PHONE = "reporterPhone";
     public static final String KEY_REPORTER_ID = "reporterId";
+    public static final String KEY_REPORT_STATUS = "status";
+    public static final String KEY_REPORT_PENDING = "pending";
+    public static final String KEY_REPORT_COMPLETED = "completed";
 
 
     // Các trường dữ liệu bình luận nhiệm vụ

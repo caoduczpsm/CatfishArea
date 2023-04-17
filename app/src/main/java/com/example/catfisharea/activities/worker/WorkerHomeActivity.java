@@ -808,6 +808,7 @@ public class WorkerHomeActivity extends BaseActivity {
             report.put(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID));
             report.put(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID));
             report.put(Constants.KEY_REPORTER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+            report.put(Constants.KEY_REPORT_STATUS, Constants.KEY_REPORT_PENDING);
 
             database.collection(Constants.KEY_COLLECTION_REPORT_FISH)
                     .add(report)

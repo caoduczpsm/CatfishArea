@@ -11,22 +11,28 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.Gravity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityTreatmentRegimenBinding;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.alluser.ChatActivity;
+import com.example.catfisharea.adapter.MedicineAdapter;
+import com.example.catfisharea.adapter.MedicineAutoCompleteAdapter;
 import com.example.catfisharea.adapter.ReportFishAdapter;
 import com.example.catfisharea.listeners.MultipleReportFishListener;
 import com.example.catfisharea.models.Medicine;
@@ -84,7 +90,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
         database = FirebaseFirestore.getInstance();
 
         reportFishList = new ArrayList<>();
-        adapter = new ReportFishAdapter(reportFishList,this);
+        adapter = new ReportFishAdapter(reportFishList,this, this);
         mBinding.treatmentRegimenRecyclerView.setAdapter(adapter);
         finalDateSelected = LocalDate.now().toString();
     }
@@ -150,6 +156,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
                         String dateOfReport = queryDocumentSnapshot.getString(Constants.KEY_REPORT_FISH_DATE);
                         if (Objects.equals(dateOfReport, finalDateSelected)){
                             ReportFish reportFish = new ReportFish();
+                            reportFish.id = queryDocumentSnapshot.getId();
                             reportFish.guess = queryDocumentSnapshot.getString(Constants.KEY_REPORT_FISH_GUESS);
                             reportFish.image = queryDocumentSnapshot.getString(Constants.KEY_REPORT_FISH_IMAGE);
                             reportFish.date = queryDocumentSnapshot.getString(Constants.KEY_REPORT_FISH_DATE);
@@ -159,6 +166,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
                             reportFish.reporterId = queryDocumentSnapshot.getString(Constants.KEY_REPORTER_ID);
                             reportFish.reporterPosition = queryDocumentSnapshot.getString(Constants.KEY_REPORTER_TYPE_ACCOUNT);
                             reportFish.pondId = queryDocumentSnapshot.getString(Constants.KEY_POND_ID);
+                            reportFish.status = queryDocumentSnapshot.getString(Constants.KEY_REPORT_STATUS);
                             reportFishList.add(reportFish);
                             adapter.notifyDataSetChanged();
                         }
@@ -262,8 +270,12 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
                 }));
 
         btnCreate.setOnClickListener(view -> {
-            openTreatmentProtocolDialog();
-            dialog.dismiss();
+            if (finalReportFish.status.equals(Constants.KEY_REPORT_PENDING)) {
+                openTreatmentProtocolDialog();
+                dialog.dismiss();
+            } else {
+                showToast("Bạn đã tạo phát đồ điều trị cho báo cáo này!");
+            }
         });
 
         btnClose.setOnClickListener(view -> dialog.dismiss());
@@ -271,7 +283,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
         dialog.show();
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
     private void openTreatmentProtocolDialog(){
         final Dialog dialog = openDialog(R.layout.layout_create_treatment_protocol_dialog);
         assert dialog != null;
@@ -282,6 +294,9 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
         TextInputEditText edtNote;
         CheckBox cbWater, cbFood, cbMud;
         MultiAutoCompleteTextView edtMedicine;
+        RecyclerView medicineRecyclerView;
+        ConstraintLayout layoutQuantity, layoutDropdown;
+        ImageView imageDropdown;
 
         btnClose = dialog.findViewById(R.id.btnClose);
         btnCreate = dialog.findViewById(R.id.btnCreate);
@@ -292,6 +307,10 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
         cbWater = dialog.findViewById(R.id.cbWater);
         cbFood = dialog.findViewById(R.id.cbFood);
         cbMud = dialog.findViewById(R.id.cbMud);
+        medicineRecyclerView = dialog.findViewById(R.id.medicineRecyclerView);
+        layoutQuantity = dialog.findViewById(R.id.layoutQuantityMedicine);
+        layoutDropdown = dialog.findViewById(R.id.layoutDropdown);
+        imageDropdown = dialog.findViewById(R.id.imageDropdown);
 
         database.collection(Constants.KEY_COLLECTION_POND)
                 .document(finalReportFish.pondId)
@@ -318,7 +337,11 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
         nameItem.setAdapter(adapter);
         nameItem.showDropDown();
 
-        ArrayList<String> medicineList = new ArrayList<>();
+        ArrayList<Medicine> medicineItemList = new ArrayList<>();
+
+        List<Medicine> medicinesSelected = new ArrayList<>();
+        MedicineAdapter medicineAdapter = new MedicineAdapter(this, medicinesSelected);
+        medicineRecyclerView.setAdapter(medicineAdapter);
 
         database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
                 .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
@@ -340,58 +363,108 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
                                        medicine.type = queryDocumentSnapshot1.getString(Constants.KEY_CATEGORY_TYPE);
                                        medicine.name = queryDocumentSnapshot1.getString(Constants.KEY_NAME);
                                        medicine.unit = queryDocumentSnapshot1.getString(Constants.KEY_UNIT);
-                                       medicineList.add(medicine.name);
+                                       medicineItemList.add(medicine);
+                                       medicineAdapter.notifyDataSetChanged();
                                    }
                                });
                    }
                 });
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, medicineList);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        edtMedicine.setAdapter(arrayAdapter);
+        edtMedicine.setOnItemClickListener((adapterView, view, i, l) -> {
+            if (!medicinesSelected.contains(medicineItemList.get(i))){
+                medicinesSelected.add(medicineItemList.get(i));
+            }
+            medicineAdapter.notifyDataSetChanged();
+            layoutDropdown.setVisibility(View.VISIBLE);
+        });
+        
+        layoutDropdown.setOnClickListener(view -> {
+            if (medicineRecyclerView.getVisibility() == View.GONE){
+                medicineRecyclerView.setVisibility(View.VISIBLE);
+                layoutQuantity.setVisibility(View.VISIBLE);
+                imageDropdown.setImageResource(R.drawable.ic_down);
+            } else {
+                medicineRecyclerView.setVisibility(View.GONE);
+                layoutQuantity.setVisibility(View.GONE);
+                imageDropdown.setImageResource(R.drawable.ic_up);
+            }
+        });
+
+        MedicineAutoCompleteAdapter medicineAutoCompleteAdapter = new MedicineAutoCompleteAdapter(this,
+                R.layout.item_container_medicine_autocomplete, medicineItemList);
+        edtMedicine.setAdapter(medicineAutoCompleteAdapter);
         edtMedicine.showDropDown();
         edtMedicine.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
         btnCreate.setOnClickListener(view -> {
 
             if (nameItem.getText().toString().equals("") ||
-                    edtMedicine.getText().toString().equals("") ||
-                    Objects.requireNonNull(edtNote.getText()).toString().equals("")) {
+                    edtMedicine.getText().toString().equals("")) {
                 showToast("Vui lòng nhập đầy đủ thông tin!");
             } else {
-                HashMap<String, Object> treatment = new HashMap<>();
-                treatment.put(Constants.KEY_TREATMENT_DATE, LocalDate.now().toString());
-                treatment.put(Constants.KEY_TREATMENT_POND_ID, finalReportFish.pondId);
-                treatment.put(Constants.KEY_TREATMENT_SICK_NAME, nameItem.getText().toString());
-                treatment.put(Constants.KEY_TREATMENT_CREATOR_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-                treatment.put(Constants.KEY_TREATMENT_CREATOR_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
-                treatment.put(Constants.KEY_CREATOR_NAME, preferenceManager.getString(Constants.KEY_NAME));
-                treatment.put(Constants.KEY_CREATOR_PHONE, preferenceManager.getString(Constants.KEY_PHONE));
-                treatment.put(Constants.KEY_TREATMENT_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID));
-                treatment.put(Constants.KEY_TREATMENT_MEDICINE, edtMedicine.getText().toString());
-                treatment.put(Constants.KEY_TREATMENT_NOTE, edtNote.getText().toString());
-                treatment.put(Constants.KEY_TREATMENT_STATUS, Constants.KEY_TREATMENT_PENDING);
-
-                if (cbFood.isChecked()){
-                    treatment.put(Constants.KEY_TREATMENT_NO_FOOD, Constants.KEY_TREATMENT_NO_FOOD);
+                boolean isValidationData = true;
+                for (int i=0;i<medicineAdapter.getItemCount();i++) {
+                    MedicineAdapter.MedicineViewHolder viewHolder= (MedicineAdapter.MedicineViewHolder) medicineRecyclerView.findViewHolderForAdapterPosition(i);
+                    assert viewHolder != null;
+                    EditText edtQuantity = viewHolder.itemView.findViewById(R.id.edtQuantity);
+                    if (edtQuantity.getText().toString().equals("")){
+                        isValidationData = false;
+                        break;
+                    }
                 }
 
-                if (cbMud.isChecked()){
-                    treatment.put(Constants.KEY_TREATMENT_SUCK_MUD, Constants.KEY_TREATMENT_SUCK_MUD);
-                }
+                if (!isValidationData){
+                    showToast("Vui lòng nhập số lượng thuốc cần dùng!");
+                } else {
+                    HashMap<String, Object> treatment = new HashMap<>();
+                    treatment.put(Constants.KEY_TREATMENT_DATE, LocalDate.now().toString());
+                    treatment.put(Constants.KEY_TREATMENT_POND_ID, finalReportFish.pondId);
+                    treatment.put(Constants.KEY_TREATMENT_SICK_NAME, nameItem.getText().toString());
+                    treatment.put(Constants.KEY_TREATMENT_CREATOR_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+                    treatment.put(Constants.KEY_TREATMENT_CREATOR_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
+                    treatment.put(Constants.KEY_CREATOR_NAME, preferenceManager.getString(Constants.KEY_NAME));
+                    treatment.put(Constants.KEY_CREATOR_PHONE, preferenceManager.getString(Constants.KEY_PHONE));
+                    treatment.put(Constants.KEY_TREATMENT_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID));
+                    treatment.put(Constants.KEY_TREATMENT_NOTE, Objects.requireNonNull(edtNote.getText()).toString());
+                    treatment.put(Constants.KEY_TREATMENT_STATUS, Constants.KEY_TREATMENT_PENDING);
 
-                if (cbWater.isChecked()){
-                    treatment.put(Constants.KEY_TREATMENT_REPLACE_WATER, Constants.KEY_TREATMENT_REPLACE_WATER);
-                }
+                    HashMap<String, Object> medicineUsed = new HashMap<>();
+                    for (int i=0;i<medicineAdapter.getItemCount();i++) {
+                        MedicineAdapter.MedicineViewHolder viewHolder= (MedicineAdapter.MedicineViewHolder) medicineRecyclerView.findViewHolderForAdapterPosition(i);
+                        assert viewHolder != null;
+                        EditText edtQuantity = viewHolder.itemView.findViewById(R.id.edtQuantity);
+                        medicineUsed.put(medicinesSelected.get(i).id, edtQuantity.getText().toString());
+                    }
+                    treatment.put(Constants.KEY_TREATMENT_MEDICINE, medicineUsed);
 
-                database.collection(Constants.KEY_COLLECTION_TREATMENT)
-                        .add(treatment)
-                        .addOnSuccessListener(runnable -> {
-                            showToast("Tạo phát đồ thành công");
-                            dialog.dismiss();
-                        })
-                        .addOnFailureListener(runnable -> dialog.dismiss());
+                    if (cbFood.isChecked()){
+                        treatment.put(Constants.KEY_TREATMENT_NO_FOOD, Constants.KEY_TREATMENT_NO_FOOD);
+                    }
+
+                    if (cbMud.isChecked()){
+                        treatment.put(Constants.KEY_TREATMENT_SUCK_MUD, Constants.KEY_TREATMENT_SUCK_MUD);
+                    }
+
+                    if (cbWater.isChecked()){
+                        treatment.put(Constants.KEY_TREATMENT_REPLACE_WATER, Constants.KEY_TREATMENT_REPLACE_WATER);
+                    }
+
+                    database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                            .add(treatment)
+                            .addOnSuccessListener(runnable -> {
+                                showToast("Tạo phát đồ thành công");
+                                dialog.dismiss();
+                                HashMap<String, Object> updateReport = new HashMap<>();
+                                updateReport.put(Constants.KEY_REPORT_STATUS, Constants.KEY_REPORT_COMPLETED);
+                                database.collection(Constants.KEY_COLLECTION_REPORT_FISH)
+                                        .document(finalReportFish.id)
+                                        .update(updateReport);
+                                getReportFish();
+                                finalReportFish.status = Constants.KEY_REPORT_COMPLETED;
+                                adapter.notifyDataSetChanged();
+                            })
+                            .addOnFailureListener(runnable -> dialog.dismiss());
+                }
 
             }
 
