@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.android.app.catfisharea.R;
@@ -105,6 +106,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                         String name = documentSnapshot.getString(Constants.KEY_NAME);
                         String id = documentSnapshot.getId();
                         String campusId = documentSnapshot.getString(Constants.KEY_CAMPUS_ID);
+                        Log.d("Warehouse", name);
                         String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
                         String acreage = documentSnapshot.getString(Constants.KEY_ACREAGE);
                         String description = documentSnapshot.getString(Constants.KEY_DESCRIPTION);

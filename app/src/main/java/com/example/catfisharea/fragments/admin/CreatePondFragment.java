@@ -68,6 +68,7 @@ import com.mapbox.mapboxsdk.maps.Projection;
 import com.mapbox.mapboxsdk.maps.Style;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -385,6 +386,19 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
                                 GeoPoint geo = new GeoPoint(latitude, longitude);
                                 value.put(Constants.KEY_MAP, geo);
                                 value.put(Constants.KEY_ACREAGE, acreage);
+                                HashMap<String, Object> parameters = new HashMap<>();
+                                parameters.put(Constants.KEY_SPECIFICATION_PH, "0");
+                                parameters.put(Constants.KEY_SPECIFICATION_SALINITY, "0");
+                                parameters.put(Constants.KEY_SPECIFICATION_ALKALINITY, "0");
+                                parameters.put(Constants.KEY_SPECIFICATION_TEMPERATE, "0");
+                                parameters.put(Constants.KEY_SPECIFICATION_H2S, "0");
+                                parameters.put(Constants.KEY_SPECIFICATION_NH3, "0");
+
+                                value.put(Constants.KEY_SPECIFICATIONS_MEASURED, parameters);
+                                value.put(Constants.KEY_NUM_OF_FEEDING_LIST, Arrays.asList("0", "0", "0", "0", "0", "0", "0", "0"));
+                                value.put(Constants.KEY_AMOUNT_FED, Arrays.asList("0", "0", "0", "0", "0", "0", "0", "0"));
+                                value.put(Constants.KEY_SPECIFICATIONS_TO_MEASURE, Arrays.asList("0", "0", "0", "0", "0"));
+
                                 DocumentReference doc = database.collection(Constants.KEY_COLLECTION_POND).document();
                                 doc.set(value).addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {

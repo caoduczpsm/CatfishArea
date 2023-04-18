@@ -61,10 +61,20 @@ public class RequestManagementActivity extends BaseActivity implements DatePicke
 
     @SuppressLint("NewApi")
     private void init() {
+
         database = FirebaseFirestore.getInstance();
         preferenceManager = new PreferenceManager(this);
         setDataRecycler();
         setDatePicker();
+        String typeAccount = preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT);
+        if (typeAccount.equals(Constants.KEY_REGIONAL_CHIEF)) {
+            mBinding.fabnewRequest.setVisibility(View.GONE);
+            mBinding.fabnewLeaveRequest.setVisibility(View.GONE);
+            mBinding.fabnewImportRequest.setVisibility(View.GONE);
+        } else if (typeAccount.equals(Constants.KEY_WORKER)){
+            mBinding.fabnewImportRequest.setVisibility(View.GONE);
+        }
+
         mBinding.monthHistory.setOnClickListener(v ->
                 openDatePicker()
         );
@@ -248,7 +258,10 @@ public class RequestManagementActivity extends BaseActivity implements DatePicke
         mBinding.fabnewLeaveRequest.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
         mBinding.fabnewImportRequest.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
         mBinding.textLeave.setVisibility(View.VISIBLE);
-        mBinding.textImport.setVisibility(View.VISIBLE);
+        if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR)) {
+            mBinding.textImport.setVisibility(View.VISIBLE);
+        }
+
         mBinding.textLeave.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
         mBinding.textImport.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
     }

@@ -1,6 +1,7 @@
 package com.example.catfisharea.activities.admin;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -12,6 +13,7 @@ import com.example.catfisharea.adapter.WarehouseDetailAdapter;
 import com.example.catfisharea.models.Category;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -47,28 +49,39 @@ public class WarehouseDetailActivity extends BaseActivity {
         mBinding.recyclerViewWarehouseDetail.addItemDecoration(itemDecoration);
 
         mBinding.toolbarWarehouseDetail.setNavigationOnClickListener(view -> onBackPressed());
+        mBinding.createWarehouse.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ImportWarehouseActivity.class);
+            intent.putExtra(Constants.KEY_WAREHOUSE_ID, warehouseID);
+            intent.putExtra(Constants.KEY_AREA_ID, areaID);
+            startActivity(intent);
+        });
         getData();
+
+
     }
 
     @SuppressLint("NewApi")
     private void getData() {
         database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
                 .document(warehouseID).get().addOnSuccessListener(warehouseDoc -> {
-                    Map<String, Integer> categoryMap = (Map<String, Integer>) warehouseDoc.get(Constants.KEY_CATEGORY_OF_WAREHOUSE);
-                    categoryMap.forEach((key, value) -> {
-                        database.collection(Constants.KEY_CATEGORY_OF_WAREHOUSE).document(key)
-                                .get().addOnSuccessListener(categoryDoc -> {
-                                    String name = categoryDoc.getString(Constants.KEY_NAME);
-                                    String producer = categoryDoc.getString(Constants.KEY_PRODUCER);
-                                    String unit = categoryDoc.getString(Constants.KEY_UNIT);
-                                    Category category = new Category(categoryDoc.getId(), name);
-                                    category.setAmount(value.intValue());
-                                    category.setUnit(unit);
-                                    category.setProducer(producer);
-                                    mCategories.add(category);
-                                    adapter.notifyDataSetChanged();
-                                });
-                    });
+                    String name = warehouseDoc.getString(Constants.KEY_NAME);
+                    mBinding.toolbarWarehouseDetail.setTitle(name);
+                });
+        database.collection(Constants.KEY_COLLECTION_WAREHOUSE).document(warehouseID)
+                .collection(Constants.KEY_CATEGORY_OF_WAREHOUSE)
+                .get().addOnSuccessListener(warehouseQuery -> {
+                    for (DocumentSnapshot doc: warehouseQuery) {
+                        String name = doc.getString(Constants.KEY_NAME);
+                        String producer = doc.getString(Constants.KEY_PRODUCER);
+                        String amount = doc.getString(Constants.KEY_AMOUNT);
+                        String unit = doc.getString(Constants.KEY_UNIT);
+                        Category category = new Category(doc.getId(), name);
+                        category.setProducer(producer);
+                        category.setAmount(Integer.parseInt(amount));
+                        category.setUnit(unit);
+                        mCategories.add(category);
+                    }
+                    adapter.notifyDataSetChanged();
                 });
     }
 

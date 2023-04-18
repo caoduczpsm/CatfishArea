@@ -48,7 +48,7 @@ public class WarehouseDetailAdapter extends RecyclerView.Adapter<WarehouseDetail
         public void setData(Category category) {
             mBinding.nameCatagory.setText(category.getName());
             mBinding.nameProducer.setText(category.getProducer());
-            mBinding.amountCatagory.setText(category.getAmount());
+            mBinding.amountCatagory.setText(category.getAmount()+ " " + category.getUnit());
         }
     }
 }

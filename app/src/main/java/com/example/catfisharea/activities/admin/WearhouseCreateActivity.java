@@ -142,16 +142,10 @@ public class WearhouseCreateActivity extends BaseActivity {
             mBinding.textInputCampus.setVisibility(View.GONE);
         }
 
-        mBinding.spinnerCampus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @SuppressLint("NewApi")
+        mBinding.spinnerCampus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 campus = (Campus) parent.getItemAtPosition(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }

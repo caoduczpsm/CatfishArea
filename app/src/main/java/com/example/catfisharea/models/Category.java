@@ -7,10 +7,14 @@ public class Category {
     private float price = 0;
     private String unit;
     private String producer;
+    private String effect;
 
     public Category(String id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Category() {
     }
 
     public String getId() {
@@ -59,5 +63,13 @@ public class Category {
 
     public void setProducer(String producer) {
         this.producer = producer;
+    }
+
+    public String getEffect() {
+        return effect;
+    }
+
+    public void setEffect(String effect) {
+        this.effect = effect;
     }
 }
