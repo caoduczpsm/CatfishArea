@@ -65,6 +65,8 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
 
             binding.textMedicineName.setText(medicine.name);
 
+            binding.textProducer.setText(medicine.producer);
+
             database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
                     .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
                     .get()

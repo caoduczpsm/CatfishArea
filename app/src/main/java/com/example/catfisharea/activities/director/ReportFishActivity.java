@@ -418,6 +418,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
                 } else {
                     HashMap<String, Object> treatment = new HashMap<>();
                     treatment.put(Constants.KEY_TREATMENT_DATE, LocalDate.now().toString());
+                    treatment.put(Constants.KEY_AREA_ID, preferenceManager.getString(Constants.KEY_AREA_ID));
                     treatment.put(Constants.KEY_TREATMENT_POND_ID, finalReportFish.pondId);
                     treatment.put(Constants.KEY_TREATMENT_SICK_NAME, nameItem.getText().toString());
                     treatment.put(Constants.KEY_TREATMENT_CREATOR_ID, preferenceManager.getString(Constants.KEY_USER_ID));

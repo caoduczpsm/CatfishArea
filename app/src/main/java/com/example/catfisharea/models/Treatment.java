@@ -1,5 +1,9 @@
 package com.example.catfisharea.models;
 
+import java.util.HashMap;
+
 public class Treatment {
-    String id, pondId, campusId, creatorId, creatorImage, creatorName, creatorPhone, medicines, replaceWater, noFood, suckMud, date, note, sickName;
+   public String id, pondId, campusId, creatorId, creatorImage, creatorName,
+           creatorPhone, replaceWater, noFood, suckMud, date, note, sickName, status;
+   public HashMap<String, Object> medicines;
 }

@@ -12,6 +12,7 @@ import com.example.catfisharea.activities.admin.WarehouseActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
+import com.example.catfisharea.activities.alluser.TreatmentActivity;
 import com.example.catfisharea.activities.alluser.ViewPlanActivity;
 import com.example.catfisharea.activities.director.HumanResourceActivity;
 import com.example.catfisharea.activities.director.RequestManagementActivity;
@@ -58,7 +59,7 @@ public class RegionalChiefActivity extends BaseActivity implements CampusListene
         mBinding.recyclerViewRegionalChiefHome.setAdapter(homeAdapter);
         getDataHome();
 
-        mBinding.layoutControlRegionalChiefHome.layoutChart.setVisibility(View.GONE);
+        mBinding.layoutControlRegionalChiefHome.layoutChart.setVisibility(View.VISIBLE);
 
         mBinding.toolbaRegionalChiefHome.setTitle(preferenceManager.getString(Constants.KEY_NAME));
 
@@ -83,6 +84,8 @@ public class RegionalChiefActivity extends BaseActivity implements CampusListene
             Intent intent = new Intent(this, RequestManagementActivity.class);
             startActivity(intent);
         });
+
+        mBinding.layoutControlRegionalChiefHome.layoutChart.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TreatmentActivity.class)));
 
     }
 

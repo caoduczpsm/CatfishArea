@@ -30,6 +30,21 @@
         tools:ignore="HardcodedText" />
 
     <TextView
+        android:id="@+id/textProducer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingBottom="@dimen/_5sdp"
+        android:text="ABC"
+        android:textColor="#757575"
+        android:textSize="@dimen/_14sdp"
+        android:lines="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textMedicineName"
+        tools:ignore="HardcodedText,TextContrastCheck" />
+
+    <TextView
         android:id="@+id/textQuantityInWarehouse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,7 +56,7 @@
         android:textSize="@dimen/_14sdp"
         android:lines="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textMedicineName"
+        app:layout_constraintTop_toBottomOf="@id/textProducer"
         tools:ignore="HardcodedText,TextContrastCheck" />
 
 

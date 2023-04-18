@@ -4,9 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:elevation="@dimen/_10sdp"
+    android:background="@drawable/user_selection_background"
+    android:elevation="@dimen/_2sdp"
+    android:layout_marginTop="@dimen/_5sdp"
     android:layout_marginBottom="@dimen/_5sdp"
-    android:padding="@dimen/_10sdp"
+    android:paddingStart="@dimen/_5sdp"
     android:id="@+id/layoutUserSelection"
     tools:ignore="RtlSymmetry,UnusedAttribute">
 
@@ -32,15 +34,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:lines="1"
         android:maxLines="1"
-        android:paddingTop="@dimen/_2sdp"
         android:text="ABC"
-        android:textColor="@color/textGray"
-        android:textSize="@dimen/_12ssp"
-        android:textStyle="bold"
+        android:textColor="#757575"
+        android:textSize="@dimen/_14sdp"
+        android:lines="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textMedicineName"
-        tools:ignore="HardcodedText" />
+        app:layout_constraintTop_toBottomOf="@id/textMedicineName"
+        tools:ignore="HardcodedText,TextContrastCheck"/>
+
+    <TextView
+        android:id="@+id/textQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingBottom="@dimen/_5sdp"
+        android:text="123"
+        android:textColor="#757575"
+        android:textSize="@dimen/_14sdp"
+        android:lines="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textProducer"
+        tools:ignore="HardcodedText,TextContrastCheck"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

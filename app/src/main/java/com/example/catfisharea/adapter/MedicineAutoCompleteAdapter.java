@@ -51,8 +51,10 @@ public class MedicineAutoCompleteAdapter extends BaseAdapter implements Filterab
         convertView = inflater.inflate(myLayout, null);
 
         TextView textName = convertView.findViewById(R.id.textMedicineName);
+        TextView textProducer = convertView.findViewById(R.id.textProducer);
 
         textName.setText(mList.get(position).name);
+        textProducer.setText(mList.get(position).producer);
 
         return convertView;
     }
