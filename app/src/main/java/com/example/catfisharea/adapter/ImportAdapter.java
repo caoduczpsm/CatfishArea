@@ -81,6 +81,8 @@ public class ImportAdapter extends RecyclerView.Adapter<ImportAdapter.ImportHold
                     category.setId(mCategories.get(position).getId());
                     category.setName(mCategories.get(position).getName());
                     category.setUnit(mCategories.get(position).getUnit());
+                    category.setEffect(mCategories.get(position).getEffect());
+                    category.setProducer(mCategories.get(position).getProducer());
                 }
             });
 
@@ -101,7 +103,6 @@ public class ImportAdapter extends RecyclerView.Adapter<ImportAdapter.ImportHold
                         category.setAmount(Integer.parseInt(mBinding.edtAmount.getText().toString()));
                         listener.changeMoney(result);
                     }
-
 
                 }
             });

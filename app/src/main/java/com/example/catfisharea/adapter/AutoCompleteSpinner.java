@@ -52,7 +52,7 @@ public class AutoCompleteSpinner extends BaseAdapter implements Filterable {
 
         TextView nameArea = convertView.findViewById(R.id.nameArea);
         //TextView nameManager = convertView.findViewById(R.id.nameManager);
-        nameArea.setText(mList.get(position).getName());
+        nameArea.setText(mList.get(position).getName() + " - " + mList.get(position).getProducer());
 
         return convertView;
     }
@@ -94,7 +94,7 @@ public class AutoCompleteSpinner extends BaseAdapter implements Filterable {
 
         @Override
         public CharSequence convertResultToString(Object resultValue) {
-            return ((Category) resultValue).getName();
+            return (((Category) resultValue).getName() + " - " + ((Category) resultValue).getProducer());
         }
     };
 

@@ -96,6 +96,10 @@
         <activity
             android:name="com.example.catfisharea.activities.admin.WarehouseActivity"
             android:exported="false" />
+        <activity android:name="com.example.catfisharea.activities.admin.ImportWarehouseActivity"
+            android:exported="false"/>
+        <activity android:name="com.example.catfisharea.activities.admin.WarehouseDetailActivity"
+            android:exported="false"/>
         <activity
             android:name="com.example.catfisharea.activities.admin.ManagementAreaActivity"
             android:exported="false" />

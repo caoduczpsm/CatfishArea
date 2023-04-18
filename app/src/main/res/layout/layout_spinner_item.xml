@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/nameArea"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/_30sdp"
         android:gravity="center_vertical"
         android:padding="@dimen/_5sdp"

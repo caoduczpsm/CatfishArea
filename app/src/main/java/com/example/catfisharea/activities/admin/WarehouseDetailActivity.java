@@ -55,13 +55,17 @@ public class WarehouseDetailActivity extends BaseActivity {
             intent.putExtra(Constants.KEY_AREA_ID, areaID);
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         getData();
-
-
     }
 
     @SuppressLint("NewApi")
     private void getData() {
+        mCategories.clear();
         database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
                 .document(warehouseID).get().addOnSuccessListener(warehouseDoc -> {
                     String name = warehouseDoc.getString(Constants.KEY_NAME);

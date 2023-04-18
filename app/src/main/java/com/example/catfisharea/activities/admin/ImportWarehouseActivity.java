@@ -16,6 +16,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityImportWarehouseBinding;
@@ -104,16 +105,35 @@ public class ImportWarehouseActivity extends AppCompatActivity implements Import
                 data.put(Constants.KEY_NAME, item.getName());
                 data.put(Constants.KEY_UNIT, item.getUnit());
                 data.put(Constants.KEY_EFFECT, item.getEffect());
-                data.put(Constants.KEY_PRODUCER, item.getPrice());
-                if (documentSnapshot.exists()) {
-                    data.put(Constants.KEY_AMOUNT, item.getAmount() + Integer.parseInt(documentSnapshot.getString(Constants.KEY_AMOUNT)));
-                    documentReference.update(data);
+                data.put(Constants.KEY_PRODUCER, item.getProducer());
+                HashMap<String, Object> detail;
+                if (documentSnapshot.get(Constants.KEY_DETAIL) != null) {
+                    detail = (HashMap<String, Object>) documentSnapshot.get(Constants.KEY_DETAIL);
+                    if (detail.containsKey(String.valueOf(item.getPrice()))) {
+                        detail.put(String.valueOf(item.getPrice()), item.getAmount() + Integer.parseInt(detail.get(String.valueOf(item.getPrice())).toString()));
+                    } else {
+                        detail.put(String.valueOf(item.getPrice()), item.getAmount());
+                    }
                 } else {
-                    data.put(Constants.KEY_AMOUNT, item.getAmount());
-                    documentReference.set(data);
+                    detail = new HashMap<>();
+                    detail.put(String.valueOf(item.getPrice()), item.getAmount());
+                }
+
+                data.put(Constants.KEY_DETAIL, detail);
+                if (documentSnapshot.exists()) {
+                    data.put(Constants.KEY_AMOUNT, String.valueOf(item.getAmount() + Integer.parseInt(documentSnapshot.getString(Constants.KEY_AMOUNT))) );
+                    documentReference.update(data).addOnSuccessListener(command -> {
+                        Toast.makeText(this, "Nhập hàng thành công", Toast.LENGTH_SHORT).show();
+                        finish();
+                    });
+                } else {
+                    data.put(Constants.KEY_AMOUNT, String.valueOf(item.getAmount()));
+                    documentReference.set(data).addOnSuccessListener(command -> {
+                        Toast.makeText(this, "Nhập hàng thành công", Toast.LENGTH_SHORT).show();
+                        finish();
+                    });
                 }
             });
-
 
         }
     }

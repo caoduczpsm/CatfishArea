@@ -94,7 +94,7 @@
             app:layout_constraintBottom_toTopOf="@id/saveBtn"
             android:layout_marginTop="@dimen/_8sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:layout_marginEnd="@dimen/_8sdp"/>
+            android:layout_marginBottom="@dimen/_8sdp"/>
 
         <Button
             android:enabled="false"
