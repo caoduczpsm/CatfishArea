@@ -1,10 +1,15 @@
 package com.example.catfisharea.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ItemContainerReportFishBinding;
@@ -19,44 +24,15 @@ import java.util.List;
 
 public class ReportFishAdapter extends RecyclerView.Adapter<ReportFishAdapter.MultipleTaskSelectionViewHolder> {
 
-    private List<ReportFish> reportFishList;
+    private final List<ReportFish> reportFishList;
     private final MultipleReportFishListener multipleListener;
     private ItemContainerReportFishBinding itemContainerReportFishBinding;
+    private final Context context;
 
-    public ReportFishAdapter(List<ReportFish> reportFishList, MultipleReportFishListener multipleListener) {
+    public ReportFishAdapter(List<ReportFish> reportFishList, MultipleReportFishListener multipleListener, Context context) {
         this.reportFishList = reportFishList;
         this.multipleListener = multipleListener;
-    }
-
-    // Đánh dấu chọn tất cả tài khoản
-    @SuppressLint("NotifyDataSetChanged")
-    public void setAllSelected(List<ReportFish> reportFishList){
-        this.reportFishList = reportFishList;
-        for (ReportFish reportFish : reportFishList)
-            if (!reportFish.isSelected)
-                reportFish.isSelected = true;
-        notifyDataSetChanged();
-    }
-
-    // Bỏ chọn tất cả tài khoản
-    @SuppressLint("NotifyDataSetChanged")
-    public void setAllUnSelected(List<ReportFish> reportFishList){
-        this.reportFishList = reportFishList;
-        for (ReportFish reportFish : reportFishList)
-            if (reportFish.isSelected)
-                reportFish.isSelected = false;
-        notifyDataSetChanged();
-    }
-
-    // Bỏ chọn một số tài khoản khi đã thực thi xong yêu cầu và thay đổi quyền tài khoản sau khi người dùng bấm thay đổi
-    @SuppressLint("NotifyDataSetChanged")
-    public void setTaskUnSelected(List<ReportFish> reportFishList){
-        for (ReportFish reportFish : reportFishList){
-            if (reportFish.isSelected)
-                reportFish.isSelected = false;
-        }
-        this.reportFishList = reportFishList;
-        notifyDataSetChanged();
+        this.context = context;
     }
 
     @NonNull
@@ -110,6 +86,17 @@ public class ReportFishAdapter extends RecyclerView.Adapter<ReportFishAdapter.Mu
                 mBinding.imageSelected.setVisibility(View.GONE);
             }
 
+            if (reportFish.status.equals(Constants.KEY_REPORT_PENDING)){
+                mBinding.textStatus.setText("Chờ xử lý");
+                mBinding.textStatus.setTextColor(Color.parseColor("#ffa96b"));
+                mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#fff4ec"));
+            } else {
+                mBinding.textStatus.setText("Chờ duyệt");
+                mBinding.textStatus.setTextColor(Color.parseColor("#51b155"));
+                mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#dff8ee"));
+                setDrawableTint(Color.parseColor("#51b155"));
+            }
+
             mBinding.textDateReport.setText(reportFish.date.substring(8, 10) + "/" + reportFish.date.substring(5, 7) +
                     "/" + reportFish.date.substring(0, 4));
             if (reportFish.guess == null || reportFish.guess.equals("")){
@@ -130,22 +117,14 @@ public class ReportFishAdapter extends RecyclerView.Adapter<ReportFishAdapter.Mu
                 }
             });
 
-            mBinding.viewBackground.setOnLongClickListener(view -> {
-                if (reportFish.isSelected){
-                    mBinding.viewBackground.setBackgroundResource(R.drawable.user_selection_background);
-                    mBinding.imageSelected.setVisibility(View.GONE);
-                    reportFish.isSelected = false;
-                    if (getSelectedTask().size() == 0){
-                        multipleListener.onReportClicker(reportFish);
-                    }
-                } else {
-                    mBinding.viewBackground.setBackgroundResource(R.drawable.background_user_selected);
-                    mBinding.imageSelected.setVisibility(View.VISIBLE);
-                    reportFish.isSelected = true;
-                    multipleListener.onReportClicker(reportFish);
-                }
-                return true;
-            });
+        }
+
+        private void setDrawableTint(int color) {
+            @SuppressLint("UseCompatLoadingForDrawables") Drawable drawable = context.getResources().getDrawable(R.drawable.ic_access_time);
+            drawable = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTint(drawable, color);
+            DrawableCompat.setTintMode(drawable, PorterDuff.Mode.SRC_IN);
+            mBinding.textStatus.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         }
 
     }

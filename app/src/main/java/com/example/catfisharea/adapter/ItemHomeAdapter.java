@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.app.catfisharea.databinding.LayoutItemRecyclerViewItemHomeBinding;
 import com.example.catfisharea.listeners.PondListener;
-import com.example.catfisharea.models.Pond;
 import com.example.catfisharea.models.RegionModel;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
 public class ItemHomeAdapter extends RecyclerView.Adapter<ItemHomeAdapter.ItemHomeViewHolder> {
 
     private final List<RegionModel> mRegion;
-    private static PondListener pondListener;
+    private final PondListener pondListener;
 
     public ItemHomeAdapter(List<RegionModel> mRegion, PondListener pondListener) {
         this.mRegion = mRegion;
@@ -45,7 +44,7 @@ public class ItemHomeAdapter extends RecyclerView.Adapter<ItemHomeAdapter.ItemHo
         return mRegion.size();
     }
 
-    static class ItemHomeViewHolder extends RecyclerView.ViewHolder {
+    class ItemHomeViewHolder extends RecyclerView.ViewHolder {
         private final LayoutItemRecyclerViewItemHomeBinding mBinding;
 
         public ItemHomeViewHolder(LayoutItemRecyclerViewItemHomeBinding mBinding) {

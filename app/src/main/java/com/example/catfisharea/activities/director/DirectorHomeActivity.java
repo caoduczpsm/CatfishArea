@@ -3,6 +3,7 @@ package com.example.catfisharea.activities.director;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 import com.android.app.catfisharea.databinding.ActivityDirectorHomeBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
@@ -11,9 +12,12 @@ import com.example.catfisharea.activities.admin.WarehouseActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
+import com.example.catfisharea.activities.alluser.PondDetailsActivity;
+import com.example.catfisharea.activities.alluser.TreatmentActivity;
 import com.example.catfisharea.activities.alluser.ViewPlanActivity;
 import com.example.catfisharea.adapter.HomeAdapter;
 import com.example.catfisharea.listeners.CampusListener;
+import com.example.catfisharea.listeners.PondListener;
 import com.example.catfisharea.models.Campus;
 import com.example.catfisharea.models.ItemHome;
 import com.example.catfisharea.models.Pond;
@@ -30,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class DirectorHomeActivity extends BaseActivity implements CampusListener {
+public class DirectorHomeActivity extends BaseActivity implements CampusListener, PondListener {
     private ActivityDirectorHomeBinding mBinding;
     private FirebaseFirestore database;
     private PreferenceManager preferenceManager;
@@ -77,7 +81,11 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
             startActivity(intent);
         });
 
-        mBinding.layoutControlDirectorHome.layoutChart.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TreatmentRegimenActivity.class)));
+        mBinding.layoutControlDirectorHome.layoutReportFish.setVisibility(View.VISIBLE);
+
+        mBinding.layoutControlDirectorHome.layoutReportFish.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), ReportFishActivity.class)));
+
+        mBinding.layoutControlDirectorHome.layoutChart.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TreatmentActivity.class)));
 
     }
 
@@ -157,5 +165,10 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
     @Override
     public void OnCampusClicker(RegionModel regionModel) {
         // show dialog campus detail
+    }
+
+    @Override
+    public void OnPondClicker(RegionModel regionModel) {
+
     }
 }

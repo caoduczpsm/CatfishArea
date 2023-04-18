@@ -39,6 +39,30 @@
             tools:ignore="HardcodedText" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardStatus"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="0dp"
+            app:cardBackgroundColor="#fff4ec"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textNamePond"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textNamePond">
+
+            <TextView
+                android:id="@+id/textStatus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:gravity="center"
+                android:text="Chờ xử lý"
+                android:textColor="#ffa96b"
+                android:textSize="@dimen/_11ssp"
+                tools:ignore="HardcodedText,TextContrastCheck"
+                app:drawableLeftCompat="@drawable/ic_access_time" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/imageLeave"
             app:cardCornerRadius="1000dp"

@@ -2,14 +2,11 @@ package com.example.catfisharea.activities.alluser;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -240,8 +237,7 @@ public class CreateGroupActivity extends BaseActivity implements UserListener, M
         Button btnApply = dialog.findViewById(R.id.btnApply);
 
         //CheckBox
-        CheckBox cbAllAccount, cbAdmin, cbAccountant, cbRegionalChief, cbDirector, cbWorker,
-                cbAllArea, cbArea, cbCampus, cbPond;
+        CheckBox cbAllAccount, cbAdmin, cbAccountant, cbRegionalChief, cbDirector, cbWorker;
 
         cbAllAccount = dialog.findViewById(R.id.cbAllAccount);
         cbAdmin = dialog.findViewById(R.id.cbAdmin);
@@ -249,10 +245,6 @@ public class CreateGroupActivity extends BaseActivity implements UserListener, M
         cbRegionalChief = dialog.findViewById(R.id.cbRegionalChief);
         cbDirector = dialog.findViewById(R.id.cbDirector);
         cbWorker = dialog.findViewById(R.id.cbWorker);
-        cbAllArea = dialog.findViewById(R.id.cbAllArea);
-        cbArea = dialog.findViewById(R.id.cbArea);
-        cbCampus = dialog.findViewById(R.id.cbCampus);
-        cbPond = dialog.findViewById(R.id.cbPond);
 
         // Chọn tất cả loại tài khoản
         cbAllAccount.setOnClickListener(view -> {
@@ -274,26 +266,10 @@ public class CreateGroupActivity extends BaseActivity implements UserListener, M
 
         });
 
-        // Chọn tất cả các vùng
-        cbAllArea.setOnClickListener(view -> {
-            if (cbAllArea.getText().toString().equals("Tất Cả")){
-                cbArea.setChecked(true);
-                cbCampus.setChecked(true);
-                cbPond.setChecked(true);
-                cbAllArea.setText("Bỏ Chọn");
-            } else {
-                cbArea.setChecked(false);
-                cbCampus.setChecked(false);
-                cbPond.setChecked(false);
-                cbAllArea.setText("Tất Cả");
-            }
-
-        });
-
         // Bấm áp dụng
         btnApply.setOnClickListener(view -> {
             // Nếu checkbox tất cả tài khoản hoặc tất cả vùng được chọn thì hiển thị ra tất cả người dùng
-            if (cbAllAccount.isChecked() || cbAllArea.isChecked()){
+            if (cbAllAccount.isChecked()){
                 users.clear();
                 getUsers();
                 dialog.dismiss();

@@ -1,12 +1,10 @@
 package com.example.catfisharea.activities.alluser;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,7 +17,6 @@ import android.widget.Toast;
 
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityInviteBinding;
-import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.MultipleUserSelectionAdapter;
 import com.example.catfisharea.listeners.MultipleListener;
@@ -43,6 +40,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import retrofit2.Call;
@@ -78,10 +76,9 @@ public class InviteActivity extends BaseActivity implements MultipleListener {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void setListener() {
-        mBinding.toolbarInvite.setOnClickListener(view -> {
-            onBackPressed();
-        });
+        mBinding.toolbarInvite.setOnClickListener(view -> onBackPressed());
 
         mBinding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -160,7 +157,7 @@ public class InviteActivity extends BaseActivity implements MultipleListener {
 
             sendRemoteMessage(body.toString(), Constants.REMOTE_MSG_INVITATION);
 
-        } catch (Exception exception) {
+        } catch (Exception ignored) {
 
         }
     }
@@ -170,9 +167,9 @@ public class InviteActivity extends BaseActivity implements MultipleListener {
                 Constants.getRemoteMsgHeaders(), remoteMessageBody
         ).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.isSuccessful()) {
-                    if (type.equals(Constants.REMOTE_MSG_INVITATION)) {
+                    if (Objects.equals(type, Constants.REMOTE_MSG_INVITATION)) {
                         Toast.makeText(InviteActivity.this, "Invitation sent successfully", Toast.LENGTH_SHORT).show();
                     }
                 } else {
@@ -182,7 +179,7 @@ public class InviteActivity extends BaseActivity implements MultipleListener {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
 
             }
         });
@@ -198,8 +195,7 @@ public class InviteActivity extends BaseActivity implements MultipleListener {
         Button btnApply = dialog.findViewById(R.id.btnApply);
 
         //CheckBox
-        CheckBox cbAllAccount, cbAdmin, cbAccountant, cbRegionalChief, cbDirector, cbWorker,
-                cbAllArea, cbArea, cbCampus, cbPond;
+        CheckBox cbAllAccount, cbAdmin, cbAccountant, cbRegionalChief, cbDirector, cbWorker;
 
         cbAllAccount = dialog.findViewById(R.id.cbAllAccount);
         cbAdmin = dialog.findViewById(R.id.cbAdmin);
@@ -207,10 +203,6 @@ public class InviteActivity extends BaseActivity implements MultipleListener {
         cbRegionalChief = dialog.findViewById(R.id.cbRegionalChief);
         cbDirector = dialog.findViewById(R.id.cbDirector);
         cbWorker = dialog.findViewById(R.id.cbWorker);
-        cbAllArea = dialog.findViewById(R.id.cbAllArea);
-        cbArea = dialog.findViewById(R.id.cbArea);
-        cbCampus = dialog.findViewById(R.id.cbCampus);
-        cbPond = dialog.findViewById(R.id.cbPond);
 
         cbAdmin.setOnClickListener(view -> {
             if (cbAccountant.isChecked() && cbRegionalChief.isChecked() &&
@@ -277,39 +269,6 @@ public class InviteActivity extends BaseActivity implements MultipleListener {
             }
         });
 
-        cbArea.setOnClickListener(view -> {
-            if (cbCampus.isChecked() && cbPond.isChecked()) {
-                cbAllArea.setChecked(true);
-                cbAllArea.setText("Bỏ Chọn");
-            }
-            if (!cbArea.isChecked() || !cbCampus.isChecked() || !cbPond.isChecked()) {
-                cbAllArea.setChecked(false);
-                cbAllArea.setText("Tất Cả");
-            }
-        });
-
-        cbCampus.setOnClickListener(view -> {
-            if (cbArea.isChecked() && cbPond.isChecked()) {
-                cbAllArea.setChecked(true);
-                cbAllArea.setText("Bỏ Chọn");
-            }
-            if (!cbArea.isChecked() || !cbCampus.isChecked() || !cbPond.isChecked()) {
-                cbAllArea.setChecked(false);
-                cbAllArea.setText("Tất Cả");
-            }
-        });
-
-        cbPond.setOnClickListener(view -> {
-            if (cbArea.isChecked() && cbCampus.isChecked()) {
-                cbAllArea.setChecked(true);
-                cbAllArea.setText("Bỏ Chọn");
-            }
-            if (!cbArea.isChecked() || !cbCampus.isChecked() || !cbPond.isChecked()) {
-                cbAllArea.setChecked(false);
-                cbAllArea.setText("Tất Cả");
-            }
-        });
-
         // Chọn tất cả loại tài khoản
         cbAllAccount.setOnClickListener(view -> {
             if (cbAllAccount.getText().toString().equals("Tất Cả")) {
@@ -330,26 +289,10 @@ public class InviteActivity extends BaseActivity implements MultipleListener {
 
         });
 
-        // Chọn tất cả các vùng
-        cbAllArea.setOnClickListener(view -> {
-            if (cbAllArea.getText().toString().equals("Tất Cả")) {
-                cbArea.setChecked(true);
-                cbCampus.setChecked(true);
-                cbPond.setChecked(true);
-                cbAllArea.setText("Bỏ Chọn");
-            } else {
-                cbArea.setChecked(false);
-                cbCampus.setChecked(false);
-                cbPond.setChecked(false);
-                cbAllArea.setText("Tất Cả");
-            }
-
-        });
-
         // Bấm áp dụng
         btnApply.setOnClickListener(view -> {
             // Nếu checkbox tất cả tài khoản hoặc tất cả vùng được chọn thì hiển thị ra tất cả người dùng
-            if (cbAllAccount.isChecked() || cbAllArea.isChecked()) {
+            if (cbAllAccount.isChecked()) {
                 users.clear();
                 getUsers();
                 dialog.dismiss();

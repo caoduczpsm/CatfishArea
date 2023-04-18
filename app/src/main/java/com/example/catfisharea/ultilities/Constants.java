@@ -122,6 +122,9 @@ public class Constants {
     public static final String KEY_REPORTER_TYPE_ACCOUNT = "reporterPosition";
     public static final String KEY_REPORTER_PHONE = "reporterPhone";
     public static final String KEY_REPORTER_ID = "reporterId";
+    public static final String KEY_REPORT_STATUS = "status";
+    public static final String KEY_REPORT_PENDING = "pending";
+    public static final String KEY_REPORT_COMPLETED = "completed";
 
 
     // Các trường dữ liệu bình luận nhiệm vụ
@@ -231,6 +234,29 @@ public class Constants {
     public static final String KEY_EFFECT = "effect";
     public static final String KEY_CATEGORY_FOOD = "Thức ăn";
     public static final String KEY_AMOUNT = "amount";
+    public static final String KEY_CATEGORY_TYPE = "type";
+    public static final String KEY_CATEGORY_TYPE_MEDICINE = "medicine";
+    public static final String KEY_CATEGORY_TYPE_FOOD = "food";
+
+    // Phát đồ điều trị
+    public static final String KEY_COLLECTION_TREATMENT = "treatments";
+    public static final String KEY_TREATMENT_POND_ID = "pondId";
+    public static final String KEY_TREATMENT_CREATOR_ID = "creatorId";
+    public static final String KEY_TREATMENT_CREATOR_IMAGE = "creatorImage";
+    public static final String KEY_TREATMENT_CREATOR_NAME = "creatorName";
+    public static final String KEY_TREATMENT_CREATOR_PHONE = "creatorPhone";
+    public static final String KEY_TREATMENT_CAMPUS_ID = "campusId";
+    public static final String KEY_TREATMENT_MEDICINE = "medicines";
+    public static final String KEY_TREATMENT_SICK_NAME = "sickName";
+    public static final String KEY_TREATMENT_REPLACE_WATER = "Thay nước";
+    public static final String KEY_TREATMENT_NO_FOOD = "Cắt mồi";
+    public static final String KEY_TREATMENT_SUCK_MUD = "Hút bùn";
+    public static final String KEY_TREATMENT_DATE = "date";
+    public static final String KEY_TREATMENT_NOTE = "note";
+    public static final String KEY_TREATMENT_STATUS = "status";
+    public static final String KEY_TREATMENT_ACCEPT = "accept";
+    public static final String KEY_TREATMENT_PENDING = "pending";
+    public static final String KEY_TREATMENT_REJECT = "reject";
 
 
     public static HashMap<String, String> remoteMsgHeaders = null;

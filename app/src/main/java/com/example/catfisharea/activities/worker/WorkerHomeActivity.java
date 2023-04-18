@@ -195,6 +195,40 @@ public class WorkerHomeActivity extends BaseActivity {
                         }
                     } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         if (!preferenceManager.getString(Constants.KEY_NOW).equals(String.valueOf(LocalDate.now()))){
+
+                            int totalFeedInDate = 0;
+                            for (String num : pond.getAmountFeedList()){
+                                totalFeedInDate = totalFeedInDate + Integer.parseInt(num);
+                            }
+                            int finalTotalFeedInDate = totalFeedInDate;
+                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                    .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
+                                    .get()
+                                    .addOnCompleteListener(task1 -> {
+
+                                        for (QueryDocumentSnapshot queryDocumentSnapshot : task1.getResult()){
+                                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                    .document(queryDocumentSnapshot.getId())
+                                                    .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                    .whereEqualTo(Constants.KEY_CATEGORY_TYPE, Constants.KEY_CATEGORY_TYPE_FOOD)
+                                                    .get()
+                                                    .addOnCompleteListener(task2 -> {
+                                                        for (QueryDocumentSnapshot queryDocumentSnapshot1 : task2.getResult()){
+                                                            int amountFood = Integer.parseInt(Objects.requireNonNull(queryDocumentSnapshot1.getString(Constants.KEY_AMOUNT_OF_ROOM)));
+                                                            amountFood = amountFood - finalTotalFeedInDate;
+                                                            HashMap<String, Object> updated = new HashMap<>();
+                                                            updated.put(Constants.KEY_AMOUNT_OF_ROOM, amountFood + "");
+                                                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                                    .document(queryDocumentSnapshot.getId())
+                                                                    .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                                    .document(queryDocumentSnapshot1.getId())
+                                                                    .update(updated);
+                                                        }
+                                                    });
+                                        }
+
+                                    });
+
                             List<String> amountFed = pond.getAmountFeedList();
                             for (int i = 0; i < amountFed.size(); i++){
                                 if (!amountFed.get(i).equals("0")){
@@ -224,39 +258,7 @@ public class WorkerHomeActivity extends BaseActivity {
                                                 .update(unCompletedTask)
                                                 .addOnSuccessListener(runnable1 -> setVisibleData());
 
-                                        int totalFeedInDate = 0;
-                                        for (String num : pond.getAmountFeedList()){
-                                            totalFeedInDate = totalFeedInDate + Integer.parseInt(num);
-                                        }
-                                        int finalTotalFeedInDate = totalFeedInDate;
-                                        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                                .whereEqualTo(Constants.KEY_AREA_ID, preferenceManager.getString(Constants.KEY_AREA_ID))
-                                                .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
-                                                .get()
-                                                .addOnCompleteListener(task1 -> {
 
-                                                    for (QueryDocumentSnapshot queryDocumentSnapshot : task1.getResult()){
-                                                        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                                                .document(queryDocumentSnapshot.getId())
-                                                                .collection(Constants.KEY_COLLECTION_CATEGORY)
-                                                                .whereEqualTo(Constants.KEY_NAME, Constants.KEY_CATEGORY_FOOD)
-                                                                .get()
-                                                                .addOnCompleteListener(task2 -> {
-                                                                    for (QueryDocumentSnapshot queryDocumentSnapshot1 : task2.getResult()){
-                                                                        int amountFood = Integer.parseInt(Objects.requireNonNull(queryDocumentSnapshot1.getString(Constants.KEY_AMOUNT_OF_ROOM)));
-                                                                        amountFood = amountFood - finalTotalFeedInDate;
-                                                                        HashMap<String, Object> updated = new HashMap<>();
-                                                                        updated.put(Constants.KEY_AMOUNT_OF_ROOM, amountFood + "");
-                                                                        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                                                                .document(queryDocumentSnapshot.getId())
-                                                                                .collection(Constants.KEY_COLLECTION_CATEGORY)
-                                                                                .document(queryDocumentSnapshot1.getId())
-                                                                                .update(updated);
-                                                                    }
-                                                                });
-                                                    }
-
-                                                });
                                         preferenceManager.putString(Constants.KEY_NOW, String.valueOf(LocalDate.now()));
                                     });
 
@@ -286,13 +288,46 @@ public class WorkerHomeActivity extends BaseActivity {
                 .addOnSuccessListener(runnable -> {
 
                     setVisibleData();
-
                     if (preferenceManager.getString(Constants.KEY_NOW) == null){
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             preferenceManager.putString(Constants.KEY_NOW, String.valueOf(LocalDate.now()));
                         }
                     } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         if (!preferenceManager.getString(Constants.KEY_NOW).equals(String.valueOf(LocalDate.now()))){
+
+                            int totalFeedInDate = 0;
+                            for (String num : pond.getAmountFeedList()){
+                                totalFeedInDate = totalFeedInDate + Integer.parseInt(num);
+                            }
+                            int finalTotalFeedInDate = totalFeedInDate;
+                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                    .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
+                                    .get()
+                                    .addOnCompleteListener(task -> {
+
+                                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                    .document(queryDocumentSnapshot.getId())
+                                                    .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                    .whereEqualTo(Constants.KEY_CATEGORY_TYPE, Constants.KEY_CATEGORY_TYPE_FOOD)
+                                                    .get()
+                                                    .addOnCompleteListener(task1 -> {
+                                                        for (QueryDocumentSnapshot queryDocumentSnapshot1 : task1.getResult()){
+                                                            int amountFood = Integer.parseInt(Objects.requireNonNull(queryDocumentSnapshot1.getString(Constants.KEY_AMOUNT_OF_ROOM)));
+                                                            amountFood = amountFood - finalTotalFeedInDate;
+                                                            HashMap<String, Object> updated = new HashMap<>();
+                                                            updated.put(Constants.KEY_AMOUNT_OF_ROOM, amountFood + "");
+                                                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                                    .document(queryDocumentSnapshot.getId())
+                                                                    .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                                    .document(queryDocumentSnapshot1.getId())
+                                                                    .update(updated);
+                                                        }
+                                                    });
+                                        }
+
+                                    });
+
                             List<String> amountFed = pond.getAmountFeedList();
                             for (int i = 0; i < amountFed.size(); i++){
                                 if (!amountFed.get(i).equals("0")){
@@ -321,41 +356,6 @@ public class WorkerHomeActivity extends BaseActivity {
                                     .document(measureTask.id)
                                     .update(unCompletedTask)
                                     .addOnSuccessListener(runnable1 -> setVisibleData());
-
-                            int totalFeedInDate = 0;
-                            for (String num : pond.getAmountFeedList()){
-                                totalFeedInDate = totalFeedInDate + Integer.parseInt(num);
-                            }
-                            int finalTotalFeedInDate = totalFeedInDate;
-                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                    .whereEqualTo(Constants.KEY_AREA_ID, preferenceManager.getString(Constants.KEY_AREA_ID))
-                                    .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
-                                    .get()
-                                    .addOnCompleteListener(task -> {
-
-                                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-                                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                                    .document(queryDocumentSnapshot.getId())
-                                                    .collection(Constants.KEY_COLLECTION_CATEGORY)
-                                                    .whereEqualTo(Constants.KEY_NAME, Constants.KEY_CATEGORY_FOOD)
-                                                    .get()
-                                                    .addOnCompleteListener(task1 -> {
-                                                        for (QueryDocumentSnapshot queryDocumentSnapshot1 : task1.getResult()){
-                                                            int amountFood = Integer.parseInt(Objects.requireNonNull(queryDocumentSnapshot1.getString(Constants.KEY_AMOUNT_OF_ROOM)));
-                                                            amountFood = amountFood - finalTotalFeedInDate;
-                                                            HashMap<String, Object> updated = new HashMap<>();
-                                                            updated.put(Constants.KEY_AMOUNT_OF_ROOM, amountFood + "");
-                                                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                                                    .document(queryDocumentSnapshot.getId())
-                                                                    .collection(Constants.KEY_COLLECTION_CATEGORY)
-                                                                    .document(queryDocumentSnapshot1.getId())
-                                                                    .update(updated);
-                                                        }
-                                                    });
-                                        }
-
-                                    });
-
 
                             preferenceManager.putString(Constants.KEY_NOW, String.valueOf(LocalDate.now()));
                         }
@@ -808,6 +808,7 @@ public class WorkerHomeActivity extends BaseActivity {
             report.put(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID));
             report.put(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID));
             report.put(Constants.KEY_REPORTER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+            report.put(Constants.KEY_REPORT_STATUS, Constants.KEY_REPORT_PENDING);
 
             database.collection(Constants.KEY_COLLECTION_REPORT_FISH)
                     .add(report)
