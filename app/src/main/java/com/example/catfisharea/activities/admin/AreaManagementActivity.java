@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,6 +18,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.airbnb.lottie.L;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityAreaManagementBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
@@ -300,12 +302,13 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                                         pond.setNumberWorker(count.size());
                                     adapter.notifyDataSetChanged();
                                 });
-
                     }
+                    clickPond(((Pond) mItems.get(0)).getLatLng());
                 });
     }
 
     //    Lấy dữ liệu khu leen recyclerview
+    @SuppressLint("NewApi")
     private void getCampusData() {
         drawArea();
         database.collection(Constants.KEY_COLLECTION_CAMPUS)
@@ -364,6 +367,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                         });
                         adapter.notifyDataSetChanged();
                     }
+                    clickItem(((Campus) mItems.get(0)).getPolygonCenterPoint(), ((Campus) mItems.get(0)).getListLatLng());
                 });
     }
 
@@ -418,6 +422,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
     }
 
     //    lấy dữ liệu vùng lên recyclerview
+    @SuppressLint("NewApi")
     private void getAreaData() {
         loading(true);
 //        Lấy vùng có id công ty của user
@@ -481,6 +486,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                         });
                         adapter.notifyDataSetChanged();
                     }
+                    clickItem(((Area) mItems.get(0)).getPolygonCenterPoint(), ((Area) mItems.get(0)).getListLatLng());
                 });
     }
 
@@ -579,5 +585,22 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
     public void clickEditItem(Object item) {
         Intent intent = new Intent(this, ManagementAreaActivity.class);
         startActivity(intent);
+    }
+
+    @SuppressLint("NewApi")
+    @Override
+    public void clickPond(LatLng point) {
+        mapboxMap.getPolygons().forEach(it -> {
+            if (it.getPoints().contains(point)) {
+                it.setFillColor(Color.argb(0, 20, 137, 238));
+            } else {
+                it.setFillColor(Color.argb(0, 255, 80, 80));
+            }
+        });
+        CameraPosition areaPosition = new CameraPosition.Builder()
+                .target(point)
+                .zoom(zoom).build();
+        mapboxMap.setCameraPosition(areaPosition);
+        mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(areaPosition), 500);
     }
 }

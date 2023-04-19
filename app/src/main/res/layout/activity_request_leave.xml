@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back_activity"
-        app:title="Yêu cầu nghĩ phép"
+        app:title="Yêu cầu nghỉ phép"
         app:titleTextColor="@color/black" />
 
     <View

@@ -248,6 +248,7 @@ public class InfoAreaAdapter extends RecyclerView.Adapter<InfoAreaAdapter.InfoHo
                 });
             } else {
                 mBinding.layoutItem.setOnClickListener(v -> {
+                    infoClicked.clickPond(pond.getLatLng());
                     int visible = mBinding.infoLayout.getVisibility();
                     if (visible == View.VISIBLE) {
                         mBinding.infoLayout.setVisibility(View.GONE);

@@ -32,7 +32,6 @@ public class DetailPlanActivity extends BaseActivity {
         database = FirebaseFirestore.getInstance();
         mBinding.toolbarViewPlan.setNavigationOnClickListener(view -> onBackPressed());
         mBinding.toolbarViewPlan.setTitle("Vụ nuôi " + pond.getName());
-        
 
     }
 

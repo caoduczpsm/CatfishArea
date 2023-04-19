@@ -1,6 +1,8 @@
 package com.example.catfisharea.models;
 
+import com.airbnb.lottie.L;
 import com.google.firebase.firestore.GeoPoint;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import java.util.HashMap;
 import java.util.List;
@@ -134,6 +136,10 @@ public class Pond extends RegionModel {
 
     public void setAcreage(String acreage) {
         this.acreage = acreage;
+    }
+
+    public LatLng getLatLng() {
+        return new LatLng(geo.getLatitude(), geo.getLongitude());
     }
 
     public String getDMStoDec() {

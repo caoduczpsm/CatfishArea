@@ -29,7 +29,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/createWarehouse"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/_100sdp"
         android:layout_height="@dimen/_100sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         android:layout_marginStart="@dimen/_10sdp"
@@ -37,7 +37,7 @@
         app:cardUseCompatPadding="true"
         app:cardElevation="5dp"
         android:translationZ="10dp"
-        app:layout_constraintEnd_toStartOf="@id/historyWarehouse"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarWarehouse">
 
@@ -59,7 +59,7 @@
                 android:id="@+id/textAdd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tạo mới"
+                android:text="Tạo kho mới"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp"
@@ -69,46 +69,46 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/historyWarehouse"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_100sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:layout_marginStart="@dimen/_5sdp"
-        app:cardUseCompatPadding="true"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/createWarehouse"
-        app:layout_constraintTop_toBottomOf="@id/toolbarWarehouse">
+<!--    <com.google.android.material.card.MaterialCardView-->
+<!--        android:id="@+id/historyWarehouse"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="@dimen/_100sdp"-->
+<!--        android:layout_marginEnd="@dimen/_10sdp"-->
+<!--        android:layout_marginStart="@dimen/_5sdp"-->
+<!--        app:cardUseCompatPadding="true"-->
+<!--        app:cardCornerRadius="8dp"-->
+<!--        app:cardElevation="5dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@id/createWarehouse"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/toolbarWarehouse">-->
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
 
-            <ImageView
-                android:id="@+id/imageHistory"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:src="@drawable/ic_history"
-                app:layout_constraintBottom_toTopOf="@id/textHistory"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+<!--            <ImageView-->
+<!--                android:id="@+id/imageHistory"-->
+<!--                android:layout_width="@dimen/_40sdp"-->
+<!--                android:layout_height="@dimen/_40sdp"-->
+<!--                android:src="@drawable/ic_history"-->
+<!--                app:layout_constraintBottom_toTopOf="@id/textHistory"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
-            <TextView
-                android:id="@+id/textHistory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Lịch sử"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12ssp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageHistory" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+<!--            <TextView-->
+<!--                android:id="@+id/textHistory"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Lịch sử"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="@dimen/_12ssp"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/imageHistory" />-->
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+<!--    </com.google.android.material.card.MaterialCardView>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewWarehouse"

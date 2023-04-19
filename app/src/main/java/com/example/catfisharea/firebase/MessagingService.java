@@ -6,6 +6,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -25,15 +27,15 @@ public class MessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
-
     }
 
     @SuppressLint({"UnspecifiedImmutableFlag", "MissingPermission"})
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-
+        Log.d("Calltest",  "onMessageReceived");
         String type = remoteMessage.getData().get(Constants.REMOTE_MSG_TYPE);
+        Log.d("Calltest",  type);
         if (type != null) {
             if (type.equals(Constants.REMOTE_MSG_INVITATION)) {
                 Intent intent = new Intent(getApplicationContext(), IncomingConferenceActivity.class);
@@ -57,6 +59,7 @@ public class MessagingService extends FirebaseMessagingService {
                         Constants.REMOTE_MSG_MEETING_ROOM,
                         remoteMessage.getData().get(Constants.REMOTE_MSG_MEETING_ROOM)
                 );
+                Log.d("Calltest",  remoteMessage.getData().get(Constants.REMOTE_MSG_MEETING_ROOM).toString());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }

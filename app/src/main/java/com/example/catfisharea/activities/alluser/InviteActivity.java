@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
@@ -115,6 +116,7 @@ public class InviteActivity extends BaseActivity implements MultipleListener {
             List<User> mUsers = usersAdapter.getSelectedUser();
             if (mUsers != null && mUsers.size() > 0) {
                 for (User user : mUsers) {
+                    Log.d("Calltest", user.name);
                     initiateConference(user.token);
                 }
                 try {
@@ -140,7 +142,7 @@ public class InviteActivity extends BaseActivity implements MultipleListener {
         try {
             JSONArray tokens = new JSONArray();
             tokens.put(receiverToken);
-
+            Log.d("Calltest", receiverToken);
             JSONObject body = new JSONObject();
             JSONObject data = new JSONObject();
 
