@@ -21,14 +21,18 @@ import android.widget.Toast;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityImportWarehouseBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.ImportAdapter;
 import com.example.catfisharea.listeners.ImportWarehouseListener;
 import com.example.catfisharea.models.Category;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ServerTimestamp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -37,11 +41,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ImportWarehouseActivity extends AppCompatActivity implements ImportWarehouseListener {
+public class ImportWarehouseActivity extends BaseActivity implements ImportWarehouseListener {
     private ActivityImportWarehouseBinding mBinding;
     private String encodedImage;
     private Calendar myCal;
@@ -69,6 +74,7 @@ public class ImportWarehouseActivity extends AppCompatActivity implements Import
         database = FirebaseFirestore.getInstance();
         preferenceManager = new PreferenceManager(this);
         myCal = Calendar.getInstance();
+        mBinding.toolbarWarehouseDetail.setOnClickListener(view -> onBackPressed());
         mBinding.edtDate.setText(myCal.get(Calendar.DAY_OF_MONTH) + "/"
                 + myCal.get(Calendar.MONTH) + 1 + "/" + myCal.get(Calendar.YEAR));
         mBinding.imageImport.setOnClickListener(view -> {
@@ -95,6 +101,7 @@ public class ImportWarehouseActivity extends AppCompatActivity implements Import
 
     private void saveCategory() {
         List<Category> result = adapter.getResult();
+        saveHistory(result);
         for (Category item : result) {
             DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
                     .document(warehouseID).collection(Constants.KEY_CATEGORY_OF_WAREHOUSE)
@@ -123,19 +130,42 @@ public class ImportWarehouseActivity extends AppCompatActivity implements Import
                 if (documentSnapshot.exists()) {
                     data.put(Constants.KEY_AMOUNT, String.valueOf(item.getAmount() + Integer.parseInt(documentSnapshot.getString(Constants.KEY_AMOUNT))) );
                     documentReference.update(data).addOnSuccessListener(command -> {
+
                         Toast.makeText(this, "Nhập hàng thành công", Toast.LENGTH_SHORT).show();
-                        finish();
+                        onBackPressed();
                     });
                 } else {
                     data.put(Constants.KEY_AMOUNT, String.valueOf(item.getAmount()));
                     documentReference.set(data).addOnSuccessListener(command -> {
                         Toast.makeText(this, "Nhập hàng thành công", Toast.LENGTH_SHORT).show();
-                        finish();
+                        onBackPressed();
                     });
                 }
             });
-
         }
+    }
+
+    private void saveHistory(List<Category> result) {
+        Map<String, Object> data = new HashMap<>();
+
+        Timestamp timestamp = new Timestamp(myCal.getTime());
+        data.put(Constants.KEY_TIMESTAMP, timestamp);
+        data.put(Constants.KEY_WAREHOUSE_ID, warehouseID);
+        data.put(Constants.KEY_AREA_ID, areaID);
+        data.put(Constants.KEY_TOTAL_MONEY, mBinding.edtMoney.getText().toString());
+
+        List<Map<String, Object>> product = new ArrayList<>();
+
+        for (Category item: result) {
+            Map<String, Object> productitem = new HashMap<>();
+            productitem.put(Constants.KEY_NAME, item.getName() + " - " + item.getProducer());
+            productitem.put(Constants.KEY_AMOUNT, item.getAmount());
+            productitem.put(Constants.KEY_UNIT, item.getUnit());
+            product.add(productitem);
+        }
+        data.put(Constants.KEY_MATERIALSLIST, product);
+
+        database.collection(Constants.KEY_COLLECTION_WAREHOUSE_HISTORY).document().set(data);
     }
 
     private void setDataRecyclerView() {

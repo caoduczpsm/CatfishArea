@@ -12,6 +12,7 @@ import com.example.catfisharea.activities.admin.WarehouseActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
+import com.example.catfisharea.activities.alluser.PondDetailsActivity;
 import com.example.catfisharea.activities.alluser.TreatmentActivity;
 import com.example.catfisharea.activities.alluser.ViewPlanActivity;
 import com.example.catfisharea.activities.director.HumanResourceActivity;
@@ -36,7 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class RegionalChiefActivity extends BaseActivity implements CampusListener, PondListener {
+public class RegionalChiefActivity extends BaseActivity implements CampusListener{
     private ActivityRegionalChiefBinding mBinding;
     private FirebaseFirestore database;
     private PreferenceManager preferenceManager;
@@ -173,11 +174,40 @@ public class RegionalChiefActivity extends BaseActivity implements CampusListene
 
     @Override
     public void OnCampusClicker(RegionModel regionModel) {
-
+        if (homeAdapter.isShowed()) {
+            homeAdapter.setShowed(false);
+            homeAdapter.notifyDataSetChanged();
+        } else {
+            List<RegionModel> regionModels = new ArrayList<>();
+            database.collection(Constants.KEY_COLLECTION_POND)
+                    .whereEqualTo(Constants.KEY_CAMPUS_ID, regionModel.getId())
+                    .get().addOnSuccessListener(pondQuery -> {
+                        for (DocumentSnapshot pondDocument: pondQuery) {
+                            String pondId = pondDocument.getId();
+                            String pondName = pondDocument.getString(Constants.KEY_NAME);
+                            String acreage = pondDocument.getString(Constants.KEY_ACREAGE);
+                            List<String> numOfFeedingList = (List<String>) pondDocument.get(Constants.KEY_NUM_OF_FEEDING_LIST);
+                            List<String> amountFedList = (List<String>) pondDocument.get(Constants.KEY_AMOUNT_FED);
+                            List<String> specificationsToMeasureList = (List<String>) pondDocument.get(Constants.KEY_SPECIFICATIONS_TO_MEASURE);
+                            HashMap<String, Object> parameters = (HashMap<String, Object>) pondDocument.get(Constants.KEY_SPECIFICATIONS_MEASURED);
+                            int numOfFeeding = Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_OF_FEEDING)));
+                            Pond pond = new Pond(pondId, pondName, null, regionModel.getId(), acreage, numOfFeeding, numOfFeedingList, amountFedList, specificationsToMeasureList, parameters);
+                            regionModels.add(pond);
+                        }
+                        homeAdapter.setRegionModels(regionModels);
+                        homeAdapter.setShowed(true);
+                        homeAdapter.notifyDataSetChanged();
+                    });
+        }
     }
 
     @Override
     public void OnPondClicker(RegionModel regionModel) {
-
+        if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF) ||
+                preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR)){
+            Intent intent = new Intent(this, PondDetailsActivity.class);
+            intent.putExtra(Constants.KEY_POND, regionModel);
+            startActivity(intent);
+        }
     }
 }

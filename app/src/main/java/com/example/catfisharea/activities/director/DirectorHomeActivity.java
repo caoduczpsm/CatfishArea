@@ -17,7 +17,6 @@ import com.example.catfisharea.activities.alluser.TreatmentActivity;
 import com.example.catfisharea.activities.alluser.ViewPlanActivity;
 import com.example.catfisharea.adapter.HomeAdapter;
 import com.example.catfisharea.listeners.CampusListener;
-import com.example.catfisharea.listeners.PondListener;
 import com.example.catfisharea.models.Campus;
 import com.example.catfisharea.models.ItemHome;
 import com.example.catfisharea.models.Pond;
@@ -34,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class DirectorHomeActivity extends BaseActivity implements CampusListener, PondListener {
+public class DirectorHomeActivity extends BaseActivity implements CampusListener{
     private ActivityDirectorHomeBinding mBinding;
     private FirebaseFirestore database;
     private PreferenceManager preferenceManager;
@@ -169,6 +168,11 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
 
     @Override
     public void OnPondClicker(RegionModel regionModel) {
-
+        if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF) ||
+                preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR)){
+            Intent intent = new Intent(this, PondDetailsActivity.class);
+            intent.putExtra(Constants.KEY_POND, regionModel);
+            startActivity(intent);
+        }
     }
 }

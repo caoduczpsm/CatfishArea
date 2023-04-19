@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.app.catfisharea.databinding.LayoutItemHomeRecyclerviewBinding;
 import com.example.catfisharea.activities.alluser.PondDetailsActivity;
 import com.example.catfisharea.listeners.CampusListener;
-import com.example.catfisharea.listeners.PondListener;
 import com.example.catfisharea.models.Area;
 import com.example.catfisharea.models.Campus;
 import com.example.catfisharea.models.ItemHome;
@@ -22,6 +21,7 @@ import com.example.catfisharea.models.RegionModel;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
@@ -29,6 +29,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     private final List<ItemHome> mRegion;
     private final Context context;
     private final CampusListener campusListener;
+    private boolean isShowed = false;
+    private List<RegionModel> regionModels = new ArrayList<>();
 
     public HomeAdapter(Context context, List<ItemHome> item, CampusListener campusListener) {
         this.mRegion = item;
@@ -54,7 +56,19 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         return mRegion.size();
     }
 
-    class HomeViewHolder extends RecyclerView.ViewHolder implements PondListener {
+    public void setShowed(boolean showed) {
+        isShowed = showed;
+    }
+
+    public boolean isShowed() {
+        return isShowed;
+    }
+
+    public void setRegionModels(List<RegionModel> regionModels) {
+        this.regionModels = regionModels;
+    }
+
+    class HomeViewHolder extends RecyclerView.ViewHolder{
         private final LayoutItemHomeRecyclerviewBinding mBinding;
 
         public HomeViewHolder(LayoutItemHomeRecyclerviewBinding mBinding) {
@@ -79,21 +93,25 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 mBinding.recyclerviewItemHome.setLayoutManager(layoutManager);
 
-                ItemHomeAdapter adapter = new ItemHomeAdapter(item.getReginonList(), this);
+                ItemHomeAdapter adapter = new ItemHomeAdapter(item.getReginonList(), campusListener);
                 mBinding.recyclerviewItemHome.setAdapter(adapter);
-            }
-            mBinding.nameItem.setOnClickListener(view -> campusListener.OnCampusClicker(item.getRegionModel()));
-        }
 
-        @Override
-        public void OnPondClicker(RegionModel regionModel) {
-            PreferenceManager preferenceManager = new PreferenceManager(context);
-            if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF) ||
-                    preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR)){
-                Intent intent = new Intent(context, PondDetailsActivity.class);
-                intent.putExtra(Constants.KEY_POND, regionModel);
-                context.startActivity(intent);
+                if (isShowed) {
+                    if (regionModels.isEmpty()) {
+                        mBinding.campusEmpty.setVisibility(View.VISIBLE);
+                    } else {
+                        mBinding.campusEmpty.setVisibility(View.GONE);
+                        ItemHomeAdapter adapter1 = new ItemHomeAdapter(regionModels, campusListener);
+                        mBinding.recyclerviewItem.setAdapter(adapter1);
+                        mBinding.recyclerviewItem.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    mBinding.campusEmpty.setVisibility(View.GONE);
+                    mBinding.recyclerviewItem.setVisibility(View.GONE);
+                }
             }
+
+            mBinding.nameItem.setOnClickListener(view -> campusListener.OnCampusClicker(item.getRegionModel()));
         }
     }
 }

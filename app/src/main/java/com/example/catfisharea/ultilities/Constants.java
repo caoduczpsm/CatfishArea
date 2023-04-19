@@ -228,6 +228,8 @@ public class Constants {
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_CATEGORY_OF_WAREHOUSE = "categories";
     public static final String KEY_DETAIL = "detail";
+    public static final String KEY_COLLECTION_WAREHOUSE_HISTORY = "warehouseshistory";
+    public static final String KEY_TOTAL_MONEY = "total";
     //    Danh mục kho
     public static final String KEY_COLLECTION_CATEGORY = "categories";
     public static final String KEY_PRODUCER = "producer";

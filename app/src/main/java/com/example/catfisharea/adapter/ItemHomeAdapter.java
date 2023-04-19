@@ -6,7 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.app.catfisharea.databinding.LayoutItemRecyclerViewItemHomeBinding;
+import com.example.catfisharea.listeners.CampusListener;
 import com.example.catfisharea.listeners.PondListener;
+import com.example.catfisharea.models.Campus;
+import com.example.catfisharea.models.Pond;
 import com.example.catfisharea.models.RegionModel;
 
 import java.util.List;
@@ -14,11 +17,11 @@ import java.util.List;
 public class ItemHomeAdapter extends RecyclerView.Adapter<ItemHomeAdapter.ItemHomeViewHolder> {
 
     private final List<RegionModel> mRegion;
-    private final PondListener pondListener;
+    private CampusListener campusListener;
 
-    public ItemHomeAdapter(List<RegionModel> mRegion, PondListener pondListener) {
+    public ItemHomeAdapter(List<RegionModel> mRegion, CampusListener campusListener) {
         this.mRegion = mRegion;
-        this.pondListener = pondListener;
+        this.campusListener = campusListener;
     }
 
     @NonNull
@@ -54,7 +57,12 @@ public class ItemHomeAdapter extends RecyclerView.Adapter<ItemHomeAdapter.ItemHo
 
         public void setData(RegionModel regionModel) {
             mBinding.nameItem.setText(regionModel.getName());
-            mBinding.layoutItem.setOnClickListener(view -> pondListener.OnPondClicker(regionModel));
+            if (regionModel instanceof Pond) {
+                mBinding.layoutItem.setOnClickListener(view -> campusListener.OnPondClicker(regionModel));
+            } else if (regionModel instanceof Campus) {
+                mBinding.layoutItem.setOnClickListener(view -> campusListener.OnCampusClicker(regionModel));
+            }
+
         }
     }
 }

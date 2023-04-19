@@ -55,6 +55,13 @@ public class WarehouseDetailActivity extends BaseActivity {
             intent.putExtra(Constants.KEY_AREA_ID, areaID);
             startActivity(intent);
         });
+
+        mBinding.historyWarehouse.setOnClickListener(view -> {
+            Intent intent = new Intent(this, WarehouseHistoryActivity.class);
+            intent.putExtra(Constants.KEY_WAREHOUSE_ID, warehouseID);
+            intent.putExtra(Constants.KEY_AREA_ID, areaID);
+            startActivity(intent);
+        });
     }
 
     @Override

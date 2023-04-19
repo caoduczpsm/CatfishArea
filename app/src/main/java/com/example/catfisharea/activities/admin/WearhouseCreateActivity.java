@@ -55,7 +55,7 @@ public class WearhouseCreateActivity extends BaseActivity {
         mBinding.toolbarWarehouseCreate.setNavigationOnClickListener(view -> {
             onBackPressed();
         });
-
+        getDataSpinner();
         mBinding.edtNameWarehouse.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -155,7 +155,7 @@ public class WearhouseCreateActivity extends BaseActivity {
         String acreage = mBinding.edtAceage.getText().toString();
         String description = mBinding.edtDescription.getText().toString();
 
-        if (!name.isEmpty() && !acreage.isEmpty() && preferenceManager.getString(Constants.KEY_CAMPUS_ID) != null) {
+        if (!name.isEmpty() && !acreage.isEmpty()) {
             if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_ADMIN)
                     || preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF)) {
                 if (campus != null) {
@@ -164,6 +164,7 @@ public class WearhouseCreateActivity extends BaseActivity {
                     data.put(Constants.KEY_ACREAGE, acreage);
                     data.put(Constants.KEY_DESCRIPTION, description);
                     data.put(Constants.KEY_CAMPUS_ID, campus.getId());
+                    data.put(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID));
                     database.collection(Constants.KEY_CAMPUS).document(campus.getId()).get()
                             .addOnSuccessListener(documentSnapshot -> {
                                 String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
@@ -174,19 +175,23 @@ public class WearhouseCreateActivity extends BaseActivity {
                             });
                 }
             } else {
-                Map<String, Object> data = new HashMap<>();
-                data.put(Constants.KEY_NAME, name);
-                data.put(Constants.KEY_ACREAGE, acreage);
-                data.put(Constants.KEY_DESCRIPTION, description);
-                data.put(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID));
-                database.collection(Constants.KEY_CAMPUS).document(preferenceManager.getString(Constants.KEY_CAMPUS_ID)).get()
-                        .addOnSuccessListener(documentSnapshot -> {
-                            String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
-                            data.put(Constants.KEY_AREA_ID, areaId);
-                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE).document().set(data).addOnSuccessListener(task -> {
-                                onBackPressed();
+                if (preferenceManager.getString(Constants.KEY_CAMPUS_ID) != null) {
+                    Map<String, Object> data = new HashMap<>();
+                    data.put(Constants.KEY_NAME, name);
+                    data.put(Constants.KEY_ACREAGE, acreage);
+                    data.put(Constants.KEY_DESCRIPTION, description);
+                    data.put(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID));
+                    data.put(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID));
+                    database.collection(Constants.KEY_CAMPUS).document(preferenceManager.getString(Constants.KEY_CAMPUS_ID)).get()
+                            .addOnSuccessListener(documentSnapshot -> {
+                                String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
+                                data.put(Constants.KEY_AREA_ID, areaId);
+                                database.collection(Constants.KEY_COLLECTION_WAREHOUSE).document().set(data).addOnSuccessListener(task -> {
+                                    onBackPressed();
+                                });
                             });
-                        });
+                }
+
             }
 
         }

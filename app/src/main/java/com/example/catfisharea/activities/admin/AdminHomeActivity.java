@@ -20,13 +20,16 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
+import com.example.catfisharea.activities.alluser.DetailPlanActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
+import com.example.catfisharea.activities.alluser.PondDetailsActivity;
 import com.example.catfisharea.activities.alluser.ViewPlanActivity;
 import com.example.catfisharea.adapter.HomeAdapter;
 import com.example.catfisharea.listeners.CampusListener;
 import com.example.catfisharea.models.Area;
 import com.example.catfisharea.models.Campus;
 import com.example.catfisharea.models.ItemHome;
+import com.example.catfisharea.models.Pond;
 import com.example.catfisharea.models.RegionModel;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
@@ -39,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class AdminHomeActivity extends BaseActivity implements CampusListener {
 
@@ -280,11 +284,37 @@ public class AdminHomeActivity extends BaseActivity implements CampusListener {
 
     @Override
     public void OnCampusClicker(RegionModel regionModel) {
-
+        if (homeAdapter.isShowed()) {
+            homeAdapter.setShowed(false);
+            homeAdapter.notifyDataSetChanged();
+        } else {
+            List<RegionModel> regionModels = new ArrayList<>();
+            database.collection(Constants.KEY_COLLECTION_POND)
+                    .whereEqualTo(Constants.KEY_CAMPUS_ID, regionModel.getId())
+                    .get().addOnSuccessListener(pondQuery -> {
+                        for (DocumentSnapshot pondDocument: pondQuery) {
+                            String pondId = pondDocument.getId();
+                            String pondName = pondDocument.getString(Constants.KEY_NAME);
+                            String acreage = pondDocument.getString(Constants.KEY_ACREAGE);
+                            List<String> numOfFeedingList = (List<String>) pondDocument.get(Constants.KEY_NUM_OF_FEEDING_LIST);
+                            List<String> amountFedList = (List<String>) pondDocument.get(Constants.KEY_AMOUNT_FED);
+                            List<String> specificationsToMeasureList = (List<String>) pondDocument.get(Constants.KEY_SPECIFICATIONS_TO_MEASURE);
+                            HashMap<String, Object> parameters = (HashMap<String, Object>) pondDocument.get(Constants.KEY_SPECIFICATIONS_MEASURED);
+                            int numOfFeeding = Integer.parseInt(Objects.requireNonNull(pondDocument.getString(Constants.KEY_NUM_OF_FEEDING)));
+                            Pond pond = new Pond(pondId, pondName, null, regionModel.getId(), acreage, numOfFeeding, numOfFeedingList, amountFedList, specificationsToMeasureList, parameters);
+                            regionModels.add(pond);
+                        }
+                        homeAdapter.setRegionModels(regionModels);
+                        homeAdapter.setShowed(true);
+                        homeAdapter.notifyDataSetChanged();
+                    });
+        }
     }
 
     @Override
     public void OnPondClicker(RegionModel regionModel) {
-
+        Intent intent = new Intent(this, PondDetailsActivity.class);
+        intent.putExtra(Constants.KEY_POND, regionModel);
+        startActivity(intent);
     }
 }

@@ -68,6 +68,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
             Intent intent = new Intent(this, CategoryCreateActivity.class);
             startActivity(intent);
         });
+
     }
 
     private void getDataWarehouse() {
@@ -76,6 +77,8 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
             getDataWarehouseForDirector();
         } else if (type.equals(Constants.KEY_REGIONAL_CHIEF)) {
             getDataWarehouseForRegional();
+        } else if (type.equals(Constants.KEY_ADMIN)) {
+            getDataWarehouseForAdmin();
         }
     }
 
@@ -106,7 +109,27 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                         String name = documentSnapshot.getString(Constants.KEY_NAME);
                         String id = documentSnapshot.getId();
                         String campusId = documentSnapshot.getString(Constants.KEY_CAMPUS_ID);
-                        Log.d("Warehouse", name);
+
+                        String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
+                        String acreage = documentSnapshot.getString(Constants.KEY_ACREAGE);
+                        String description = documentSnapshot.getString(Constants.KEY_DESCRIPTION);
+
+                        Warehouse warehouse = new Warehouse(id, name, areaId, campusId, acreage, description);
+                        mWarehouses.add(warehouse);
+                    }
+                    warehouseAdapter.notifyDataSetChanged();
+                });
+    }
+
+    private void getDataWarehouseForAdmin() {
+        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                .whereEqualTo(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID))
+                .get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                        String name = documentSnapshot.getString(Constants.KEY_NAME);
+                        String id = documentSnapshot.getId();
+                        String campusId = documentSnapshot.getString(Constants.KEY_CAMPUS_ID);
+
                         String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
                         String acreage = documentSnapshot.getString(Constants.KEY_ACREAGE);
                         String description = documentSnapshot.getString(Constants.KEY_DESCRIPTION);
