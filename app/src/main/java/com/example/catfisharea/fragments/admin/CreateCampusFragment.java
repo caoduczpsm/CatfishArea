@@ -231,19 +231,25 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
             @Override
             public void onClick(View v) {
                 if (!Is_MAP_Moveable) {
+                    mBinding.freeHandBtn.setImageResource(R.drawable.baseline_done_24);
                     if (action.equals("edit")) {
                         mapboxMap.getPolygons().forEach(it -> {
                             if (it.getPoints().contains(arraylistoflatlng.get(0))) {
                                 mapboxMap.removePolygon(it);
                             }
                         });
-                        mapboxMap.getPolylines().forEach(it -> {
-                            if (it.getPoints().contains(arraylistoflatlng.get(0))) {
-                                mapboxMap.removePolyline(it);
-                                arraylistoflatlng.clear();
-                            }
-                        });
+                        if (mapboxMap.getPolylines().size() > 0) {
+                            mapboxMap.getPolylines().forEach(it -> {
+                                if (it.getPoints().contains(arraylistoflatlng.get(0))) {
+                                    mapboxMap.removePolyline(it);
+                                    arraylistoflatlng.clear();
+                                }
+                            });
+                        }
                     }
+                } else {
+                    mBinding.freeHandBtn.setImageResource(R.drawable.baseline_draw_24);
+
                 }
                 Is_MAP_Moveable = !Is_MAP_Moveable;
             }
@@ -290,9 +296,12 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
 
                             polylineList.add(line);
 //                        line.setJointType(JointType.ROUND);
-                            if (!TurfJoins.inside(Point.fromLngLat(latitude, longitude),
-                                    com.mapbox.geojson.Polygon.fromLngLats(boundingBoxList))) {
-                                fillColor = Color.argb(100, 255, 80, 80);
+                            Log.d("boundingBoxList", boundingBoxList.size() + "");
+                            if (boundingBoxList.size() > 0) {
+                                if (!TurfJoins.inside(Point.fromLngLat(latitude, longitude),
+                                        com.mapbox.geojson.Polygon.fromLngLats(boundingBoxList))) {
+                                    fillColor = Color.argb(100, 255, 80, 80);
+                                }
                             }
                             break;
                         case MotionEvent.ACTION_UP:
@@ -328,9 +337,11 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
             if (!isZoomOut) {
                 mBinding.layoutMaps.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 mBinding.zoomOutBtn.setImageResource(R.drawable.baseline_zoom_in_map_24);
+                mBinding.saveBtnCreate.setVisibility(View.GONE);
             } else {
                 mBinding.layoutMaps.setLayoutParams(params);
                 mBinding.zoomOutBtn.setImageResource(R.drawable.ic_zoom_out_map);
+                mBinding.saveBtnCreate.setVisibility(View.VISIBLE);
             }
             isZoomOut = !isZoomOut;
         });
@@ -443,7 +454,12 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                                 return (o1.getName().compareToIgnoreCase(o2.getName()));
                             }
                         });
+                        if (mArae.size() > 0) {
+                            mBinding.spinnerArea.setListSelection(0);
+                            mBinding.spinnerArea.setText(mArae.get(0).getName());
+                        }
                         spinnerAdapter.notifyDataSetChanged();
+
                     });
 
             mBinding.spinnerArea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -509,6 +525,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
 
                 }
             });
+
         } else {
             database.collection(Constants.KEY_COLLECTION_CAMPUS).document(idItem)
                     .get().addOnSuccessListener(documentSnap -> {
@@ -526,6 +543,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                                 });
                     });
         }
+
 
     }
 
@@ -782,6 +800,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                     boundingBoxList.add(boundingBox);
                 });
         database.collection(Constants.KEY_COLLECTION_USER)
+                .whereEqualTo(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_DIRECTOR)
                 .whereEqualTo(Constants.KEY_CAMPUS_ID, idCampus).get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {

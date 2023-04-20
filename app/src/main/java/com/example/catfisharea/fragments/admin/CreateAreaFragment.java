@@ -37,6 +37,7 @@ import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.mapbox.android.core.permissions.PermissionsListener;
@@ -177,7 +178,14 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
             mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 500);
         });
 
-        mBinding.freeHandBtn.setOnClickListener(v -> Is_MAP_Moveable = !Is_MAP_Moveable);
+        mBinding.freeHandBtn.setOnClickListener(v -> {
+            Is_MAP_Moveable = !Is_MAP_Moveable;
+            if (Is_MAP_Moveable) {
+                mBinding.freeHandBtn.setImageResource(R.drawable.baseline_done_24);
+            } else {
+                mBinding.freeHandBtn.setImageResource(R.drawable.baseline_draw_24);
+            }
+        });
 
         arraylistoflatlng = new ArrayList<>();
         polylineList = new ArrayList<>();
@@ -347,7 +355,7 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
                                         HashMap<String, Object> areaId = new HashMap<>();
                                         areaId.put(Constants.KEY_AREA_ID, doc.getId());
                                         database.collection(Constants.KEY_COLLECTION_USER).document(mUserEdit.id)
-                                                .update(Constants.KEY_AREA_ID, "");
+                                                .update(Constants.KEY_AREA_ID, FieldValue.delete());
                                         database.collection(Constants.KEY_COLLECTION_USER).document(magager.id)
                                                 .update(areaId).addOnSuccessListener(task1 -> {
                                                     Toast.makeText(getContext(), "Thêm vùng mới thành công", Toast.LENGTH_SHORT).show();
@@ -586,6 +594,7 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
                     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(areaPosition), 500);
                 });
         database.collection(Constants.KEY_COLLECTION_USER)
+                .whereEqualTo(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_REGIONAL_CHIEF)
                 .whereEqualTo(Constants.KEY_AREA_ID, idArea).get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {

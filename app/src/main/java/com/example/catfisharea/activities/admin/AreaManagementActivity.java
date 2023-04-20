@@ -133,10 +133,6 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
         });
 
         mBinding.doneBtn.setOnClickListener(view -> {
-            adapter.setDeleted(false);
-            mBinding.newBtn.setVisibility(View.VISIBLE);
-            mBinding.deleteBtn.setVisibility(View.VISIBLE);
-            mBinding.doneBtn.setVisibility(View.GONE);
             deleteItem();
         });
     }
@@ -146,12 +142,16 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
 
         if (typeActivity.equals(Constants.KEY_AREA)) {
             List<Area> mAreas = adapter.getAreasSeleted();
-            if (mAreas != null) {
+            if (mAreas != null && mAreas.size() > 0) {
                 alertDialog.setTitle("Lưu ý");
                 alertDialog.setMessage("Khi xóa vùng sẽ xóa tất cả khu và ao trong vùng. Bạn có chắc chắn muốn xóa?");
                 alertDialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        adapter.setDeleted(false);
+                        mBinding.newBtn.setVisibility(View.VISIBLE);
+                        mBinding.deleteBtn.setVisibility(View.VISIBLE);
+                        mBinding.doneBtn.setVisibility(View.GONE);
                         for (Area area : mAreas) {
                             deleteArea(area.getId());
                             mItems.remove(area);
@@ -167,38 +167,64 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                     }
                 });
                 alertDialog.show();
+            } else {
+                adapter.setDeleted(false);
+                mBinding.newBtn.setVisibility(View.VISIBLE);
+                mBinding.deleteBtn.setVisibility(View.VISIBLE);
+                mBinding.doneBtn.setVisibility(View.GONE);
             }
         } else if (typeActivity.equals(Constants.KEY_CAMPUS)) {
             List<Campus> mCampues = adapter.getCampuesSeleted();
-            alertDialog.setTitle("Lưu ý");
-            alertDialog.setMessage("Khi xóa khu sẽ xóa tất cả ao trong khu. Bạn có chắc chắn muốn xóa?");
-            alertDialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    for (Campus campus : mCampues) {
-                        deleteCampus(campus.getId());
-                        mItems.remove(campus);
+            if (mCampues != null && mCampues.size() > 0) {
+                alertDialog.setTitle("Lưu ý");
+                alertDialog.setMessage("Khi xóa khu sẽ xóa tất cả ao trong khu. Bạn có chắc chắn muốn xóa?");
+                alertDialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapter.setDeleted(false);
+                        mBinding.newBtn.setVisibility(View.VISIBLE);
+                        mBinding.deleteBtn.setVisibility(View.VISIBLE);
+                        mBinding.doneBtn.setVisibility(View.GONE);
+                        for (Campus campus : mCampues) {
+                            deleteCampus(campus.getId());
+                            mItems.remove(campus);
+                        }
+                        adapter.notifyDataSetChanged();
+                        drawCampus();
                     }
-                    adapter.notifyDataSetChanged();
-                    drawCampus();
-                }
-            });
+                });
 
-            alertDialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+                alertDialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                }
-            });
-            alertDialog.show();
+                    }
+                });
+                alertDialog.show();
+            } else {
+                adapter.setDeleted(false);
+                mBinding.newBtn.setVisibility(View.VISIBLE);
+                mBinding.deleteBtn.setVisibility(View.VISIBLE);
+                mBinding.doneBtn.setVisibility(View.GONE);
+            }
+
         } else {
             List<Pond> mPonds = adapter.getPondsSeleted();
-            if (mPonds != null) {
+            if (mPonds != null && mPonds.size() > 0) {
+                adapter.setDeleted(false);
+                mBinding.newBtn.setVisibility(View.VISIBLE);
+                mBinding.deleteBtn.setVisibility(View.VISIBLE);
+                mBinding.doneBtn.setVisibility(View.GONE);
                 for (Pond pond : mPonds) {
                     deletePond(pond.getId());
                     mItems.remove(pond);
                 }
                 adapter.notifyDataSetChanged();
+            } else {
+                adapter.setDeleted(false);
+                mBinding.newBtn.setVisibility(View.VISIBLE);
+                mBinding.deleteBtn.setVisibility(View.VISIBLE);
+                mBinding.doneBtn.setVisibility(View.GONE);
             }
 
         }

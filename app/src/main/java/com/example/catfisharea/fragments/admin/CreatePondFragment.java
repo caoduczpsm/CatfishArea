@@ -170,6 +170,11 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
             @Override
             public void onClick(View v) {
                 Is_MAP_Moveable = !Is_MAP_Moveable;
+                if (Is_MAP_Moveable) {
+                    mBinding.freeHandBtn.setImageResource(R.drawable.baseline_done_24);
+                } else {
+                    mBinding.freeHandBtn.setImageResource(R.drawable.baseline_draw_24);
+                }
             }
         });
 
