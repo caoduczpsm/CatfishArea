@@ -263,6 +263,16 @@ public class Constants {
     public static final String KEY_TREATMENT_REJECT = "reject";
     public static final String KEY_TREATMENT_COMPLETED = "completed";
 
+    // Nhật ký
+    public static final String KEY_COLLECTION_DIARY = "diaries";
+    public static final String KEY_DIARY_POND_ID = "pondId";
+    public static final String KEY_DIARY_COLLECTION_FEEDS = "feeds";
+    public static final String KEY_DIARY_FEEDS_DATE = "date";
+    public static final String KEY_DIARY_FEEDS_POND_ID = "pondId";
+    public static final String KEY_DIARY_COLLECTION_WATER = "water";
+    public static final String KEY_DIARY_WATER_DATE = "date";
+    public static final String KEY_DIARY_WATER_POND_ID = "pondId";
+
 
     public static HashMap<String, String> remoteMsgHeaders = null;
 
