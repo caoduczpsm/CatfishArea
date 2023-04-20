@@ -188,7 +188,7 @@ public class WorkerHomeActivity extends BaseActivity {
                 .addOnSuccessListener(runnable -> {
 
                     setVisibleData();
-                    preferenceManager.putString(Constants.KEY_NOW, "abc");
+
                     if (preferenceManager.getString(Constants.KEY_NOW) == null){
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             preferenceManager.putString(Constants.KEY_NOW, String.valueOf(LocalDate.now()));
