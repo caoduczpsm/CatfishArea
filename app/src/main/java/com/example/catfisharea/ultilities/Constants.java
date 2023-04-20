@@ -110,6 +110,7 @@ public class Constants {
     public static final String KEY_DIRECTOR_ALLOCATION_TASK = "allocationTasks";
     public static final String KEY_FIXED_TASK_FEED_FISH = "Cho cá ăn";
     public static final String KEY_FIXED_TASK_MEASURE_WATER = "Đo chất lượng nước";
+    public static final String KEY_FIXED_TASK_TREATMENT = "Trị bệnh";
     public static final String KEY_TYPE_OF_TASK = "typeOfTask";
 
     // Báo cáo cá bệnh (công nhân)
@@ -260,6 +261,7 @@ public class Constants {
     public static final String KEY_TREATMENT_ACCEPT = "accept";
     public static final String KEY_TREATMENT_PENDING = "pending";
     public static final String KEY_TREATMENT_REJECT = "reject";
+    public static final String KEY_TREATMENT_COMPLETED = "completed";
 
 
     public static HashMap<String, String> remoteMsgHeaders = null;

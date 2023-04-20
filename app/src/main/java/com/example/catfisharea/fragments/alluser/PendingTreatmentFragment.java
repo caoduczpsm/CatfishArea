@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.android.app.catfisharea.databinding.FragmentTreatmentAcceptedBinding;
 import com.example.catfisharea.adapter.TreatmentRequestAdapter;
+import com.example.catfisharea.listeners.TreatmentListener;
 import com.example.catfisharea.models.Treatment;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
@@ -24,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class PendingTreatmentFragment extends Fragment {
+public class PendingTreatmentFragment extends Fragment implements TreatmentListener {
 
     private FragmentTreatmentAcceptedBinding mBinding;
     private FirebaseFirestore database;
@@ -60,7 +61,7 @@ public class PendingTreatmentFragment extends Fragment {
         treatments = new ArrayList<>();
 
         //Adapter
-        treatmentRequestAdapter = new TreatmentRequestAdapter(getContext(), treatments);
+        treatmentRequestAdapter = new TreatmentRequestAdapter(getContext(), treatments, this);
         mBinding.requestRecyclerView.setAdapter(treatmentRequestAdapter);
 
         if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF))
@@ -204,5 +205,10 @@ public class PendingTreatmentFragment extends Fragment {
             mBinding.requestRecyclerView.setVisibility(View.VISIBLE);
             mBinding.textMessage.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onSelectWorker(Treatment treatment) {
+
     }
 }

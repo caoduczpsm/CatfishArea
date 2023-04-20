@@ -1,19 +1,33 @@
 package com.example.catfisharea.fragments.alluser;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.FragmentTreatmentAcceptedBinding;
+import com.example.catfisharea.adapter.MultipleUserSelectionAdapter;
 import com.example.catfisharea.adapter.TreatmentRequestAdapter;
+import com.example.catfisharea.listeners.MultipleListener;
+import com.example.catfisharea.listeners.TreatmentListener;
+import com.example.catfisharea.models.Task;
 import com.example.catfisharea.models.Treatment;
+import com.example.catfisharea.models.User;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,7 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class TreatmentAcceptedFragment extends Fragment {
+public class TreatmentAcceptedFragment extends Fragment implements TreatmentListener, MultipleListener {
 
     private FragmentTreatmentAcceptedBinding mBinding;
     private FirebaseFirestore database;
@@ -60,7 +74,7 @@ public class TreatmentAcceptedFragment extends Fragment {
         treatments = new ArrayList<>();
 
         //Adapter
-        treatmentRequestAdapter = new TreatmentRequestAdapter(getContext(), treatments);
+        treatmentRequestAdapter = new TreatmentRequestAdapter(getContext(), treatments, this);
         mBinding.requestRecyclerView.setAdapter(treatmentRequestAdapter);
 
         if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF))
@@ -192,6 +206,87 @@ public class TreatmentAcceptedFragment extends Fragment {
                 });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    private void openSelectWorkerDialog(Treatment treatment){
+        Dialog dialog = openDialog(R.layout.layout_dialog_select_worker_for_treatment);
+        assert dialog != null;
+
+        Button btnClose, btnSelect;
+        RecyclerView userRecyclerView;
+
+        btnClose = dialog.findViewById(R.id.btnClose);
+        btnSelect = dialog.findViewById(R.id.btnSelect);
+        userRecyclerView = dialog.findViewById(R.id.userRecyclerView);
+
+        List<User> users = new ArrayList<>();
+        MultipleUserSelectionAdapter adapter = new MultipleUserSelectionAdapter(users, this);
+        userRecyclerView.setAdapter(adapter);
+
+        database.collection(Constants.KEY_COLLECTION_USER)
+                .whereEqualTo(Constants.KEY_POND_ID, treatment.pondId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                        User user = new User();
+                        user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                        user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                        user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                        user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                        user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                        user.id = queryDocumentSnapshot.getId();
+                        users.add(user);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
+        btnSelect.setOnClickListener(view -> {
+            List<User> selectedUser = adapter.getSelectedUser();
+            if (selectedUser.size() == 0) {
+                showToast("Vui lòng chọn ít nhất một công nhân!");
+            } else {
+                List<String> receiverIds = new ArrayList<>();
+                List<String> receiverNames = new ArrayList<>();
+                List<String> receiverImages = new ArrayList<>();
+                List<String> receiverPhones = new ArrayList<>();
+                List<String> receiverCompleted = new ArrayList<>();
+
+                // Duyệt qua các trưởng vùng mà người dùng chọn để lấy tên và id
+                for (User user : selectedUser) {
+                    receiverIds.add(user.id);
+                    receiverNames.add(user.name);
+                    receiverImages.add(user.image);
+                    receiverPhones.add(user.phone);
+                }
+
+
+
+            }
+        });
+
+        btnClose.setOnClickListener(view -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    private Dialog openDialog(int layout) {
+        final Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(layout);
+        dialog.setCancelable(true);
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return null;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+
+        return dialog;
+    }
+
     private void showToast(String message){
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }
@@ -204,5 +299,30 @@ public class TreatmentAcceptedFragment extends Fragment {
             mBinding.requestRecyclerView.setVisibility(View.VISIBLE);
             mBinding.textMessage.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onSelectWorker(Treatment treatment) {
+        openSelectWorkerDialog(treatment);
+    }
+
+    @Override
+    public void onMultipleUserSelection(Boolean isSelected) {
+
+    }
+
+    @Override
+    public void onChangeTeamLeadClicker(User user) {
+
+    }
+
+    @Override
+    public void onTaskClicker(Task task) {
+
+    }
+
+    @Override
+    public void onTaskSelectedClicker(Boolean isSelected, Boolean isMultipleSelection) {
+
     }
 }

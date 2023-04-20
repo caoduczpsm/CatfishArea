@@ -47,6 +47,28 @@
                 tools:ignore="HardcodedText,TextContrastCheck" />
         </androidx.cardview.widget.CardView>
 
+        <ImageView
+            android:id="@+id/imageEdit"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/ic_edit"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/textNamePond"
+            app:layout_constraintEnd_toStartOf="@+id/cardStatus"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/imageDelete"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:src="@drawable/baseline_delete_forever_24"
+            app:layout_constraintBottom_toBottomOf="@+id/textNamePond"
+            app:layout_constraintEnd_toStartOf="@+id/imageEdit"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
         <TextView
             android:id="@+id/textGuess"
             android:layout_width="match_parent"
@@ -221,6 +243,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"
+            android:padding="@dimen/_2sdp"
             android:background="@drawable/background_border"
             android:backgroundTint="#8FD5F4"
             android:elevation="@dimen/_2sdp"
@@ -228,86 +251,44 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <View
-                android:id="@+id/viewBackground"
+            <TextView
+                android:padding="@dimen/_3sdp"
+                android:id="@+id/textContactReporter"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/viewSupporter"
-                android:layout_width="1dp"
-                android:layout_height="1dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageProfile"
-                app:layout_constraintStart_toEndOf="@+id/imageProfile"
-                app:layout_constraintTop_toTopOf="@+id/imageProfile" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imageProfile"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_margin="@dimen/_5sdp"
-                android:background="@drawable/background_image"
-                android:scaleType="centerCrop"
-                android:src="@drawable/profile"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ImageContrastCheck" />
-
-            <TextView
-                android:id="@+id/textName"
-                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginEnd="@dimen/_8sdp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:paddingTop="@dimen/_2sdp"
-                android:text="User name"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_18ssp"
+                android:text="Liên hệ người tạo"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="@dimen/_14ssp"
+                android:textColor="@color/black"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageProfile"
+                tools:ignore="HardcodedText" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutTask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:padding="@dimen/_2sdp"
+            android:background="@drawable/background_border"
+            android:backgroundTint="#8FD5F4"
+            android:elevation="@dimen/_2sdp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/layoutUserReport"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:padding="@dimen/_3sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phân công"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="HardcodedText,TextContrastCheck" />
-
-            <TextView
-                android:id="@+id/textPhone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginEnd="@dimen/_8sdp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="012345678"
-                android:textColor="#757575"
                 android:textSize="@dimen/_14ssp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/viewSupporter"
-                app:layout_constraintTop_toBottomOf="@+id/textName"
-                tools:ignore="HardcodedText,TextContrastCheck" />
-
-            <TextView
-                android:id="@+id/textPosition"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginEnd="@dimen/_8sdp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:paddingBottom="@dimen/_5sdp"
-                android:text="Trưởng Khu"
-                android:textColor="#757575"
-                android:textSize="@dimen/_14ssp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/viewSupporter"
-                app:layout_constraintTop_toBottomOf="@id/textPhone"
-                tools:ignore="HardcodedText,TextContrastCheck" />
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -323,7 +304,7 @@
             android:textSize="@dimen/_14ssp"
             app:layout_constraintEnd_toStartOf="@id/btnAccept"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layoutUserReport"
+            app:layout_constraintTop_toBottomOf="@id/layoutTask"
             tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -339,6 +320,22 @@
             android:textSize="@dimen/_14ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnReject"
+            app:layout_constraintTop_toTopOf="@id/btnReject"
+            tools:ignore="HardcodedText,TouchTargetSizeCheck" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnComplete"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_35sdp"
+            android:background="@drawable/background_edit_text"
+            android:backgroundTint="#34aa44"
+            android:text="Hoàn thành"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/btnReject"
             tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 

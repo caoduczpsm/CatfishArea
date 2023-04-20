@@ -84,6 +84,7 @@ public class TreatmentActivity extends BaseActivity implements DatePickerListene
         mBinding.monthHistory.setOnClickListener(v ->
                 openDatePicker()
         );
+        mBinding.toolbarManageArea.setOnClickListener(view -> onBackPressed());
     }
 
     @SuppressLint("NewApi")
@@ -151,6 +152,7 @@ public class TreatmentActivity extends BaseActivity implements DatePickerListene
 
         treatmentAcceptedFragment.getRequest();
         pendingTreatmentFragment.getRequest();
+        treatmentRejectedFragment.getRequest();
 
     }
 

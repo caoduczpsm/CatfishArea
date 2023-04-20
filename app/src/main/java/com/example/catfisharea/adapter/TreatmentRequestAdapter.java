@@ -1,18 +1,24 @@
 package com.example.catfisharea.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Base64;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +27,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ItemContainerTreatmentRequestBinding;
 import com.example.catfisharea.activities.alluser.ChatActivity;
+import com.example.catfisharea.listeners.MultipleListener;
+import com.example.catfisharea.listeners.TreatmentListener;
 import com.example.catfisharea.models.Medicine;
 import com.example.catfisharea.models.Treatment;
 import com.example.catfisharea.models.User;
@@ -38,11 +46,13 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
 
     private final List<Treatment> treatments;
     private final Context context;
+    private final TreatmentListener treatmentListener;
     private ItemContainerTreatmentRequestBinding treatmentRequestBinding;
 
-    public TreatmentRequestAdapter(Context context, List<Treatment> treatments) {
+    public TreatmentRequestAdapter(Context context, List<Treatment> treatments, TreatmentListener treatmentListener) {
         this.treatments = treatments;
         this.context = context;
+        this.treatmentListener = treatmentListener;
     }
 
     @NonNull
@@ -83,6 +93,7 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
             if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR)){
                 mBinding.btnAccept.setVisibility(View.GONE);
                 mBinding.btnReject.setVisibility(View.GONE);
+                mBinding.btnComplete.setVisibility(View.VISIBLE);
             }
 
             database.collection(Constants.KEY_COLLECTION_CAMPUS)
@@ -98,7 +109,8 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
                     .get()
                     .addOnCompleteListener(task -> {
                         DocumentSnapshot documentSnapshot = task.getResult();
-                        mBinding.textNamePond.setText(mBinding.textNamePond.getText() + documentSnapshot.getString(Constants.KEY_NAME));
+                        String name = mBinding.textNamePond.getText() +  documentSnapshot.getString(Constants.KEY_NAME);
+                        mBinding.textNamePond.setText(name);
                     });
 
             mBinding.textDate.setText(treatment.date.substring(8, 10) + "/" + treatment.date.substring(5, 7) +
@@ -122,11 +134,7 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
                     mBinding.textSuckMud.setVisibility(View.VISIBLE);
                 }
             }
-
-            mBinding.imageProfile.setImageBitmap(getUserImage(treatment.creatorImage));
             mBinding.textGuess.setText(treatment.sickName);
-            mBinding.textName.setText(treatment.creatorName);
-            mBinding.textPhone.setText(treatment.creatorPhone);
 
             if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF)){
                 mBinding.layoutUserReport.setVisibility(View.VISIBLE);
@@ -157,6 +165,8 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
                     mBinding.textStatus.setText("Chờ xử lý");
                     mBinding.textStatus.setTextColor(Color.parseColor("#ffa96b"));
                     mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#fff4ec"));
+                    mBinding.imageEdit.setVisibility(View.VISIBLE);
+                    mBinding.imageDelete.setVisibility(View.VISIBLE);
                     break;
                 case Constants.KEY_TREATMENT_ACCEPT:
                     mBinding.textStatus.setText("Chấp nhận");
@@ -165,11 +175,17 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
                     setDrawableTint(Color.parseColor("#51b155"));
                     mBinding.btnAccept.setVisibility(View.GONE);
                     mBinding.btnReject.setVisibility(View.GONE);
+                    mBinding.imageEdit.setVisibility(View.GONE);
+                    mBinding.imageDelete.setVisibility(View.GONE);
+                    if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR))
+                        mBinding.layoutTask.setVisibility(View.VISIBLE);
                     break;
                 case Constants.KEY_TREATMENT_REJECT:
                     mBinding.textStatus.setText("Từ chối");
                     mBinding.textStatus.setTextColor(Color.parseColor("#ed444f"));
                     mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#fcdfe1"));
+                    mBinding.imageEdit.setVisibility(View.VISIBLE);
+                    mBinding.imageDelete.setVisibility(View.VISIBLE);
                     setDrawableTint(Color.parseColor("#ed444f"));
                     mBinding.btnAccept.setVisibility(View.GONE);
                     mBinding.btnReject.setVisibility(View.GONE);
@@ -237,6 +253,24 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
                             notifyDataSetChanged();
                         })
                         .addOnFailureListener(runnable -> showToast("Từ chối thất bại! Vui lòng thử lại sau!"));
+            });
+
+            mBinding.layoutTask.setOnClickListener(view -> treatmentListener.onSelectWorker(treatment));
+
+            mBinding.btnComplete.setOnClickListener(view -> {
+
+                HashMap<String, Object> completed = new HashMap<>();
+                completed.put(Constants.KEY_TREATMENT_STATUS, Constants.KEY_TREATMENT_COMPLETED);
+
+                database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                        .document(treatment.id)
+                        .update(completed)
+                        .addOnSuccessListener(unused -> {
+                            showToast("Đã hoàn thành điều trị!");
+                            treatments.remove(treatment);
+                            notifyDataSetChanged();
+                        })
+                        .addOnFailureListener(runnable -> showToast("Hoàn thành điều trị thất bại!"));
             });
 
         }
