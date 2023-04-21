@@ -19,11 +19,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityWorkerHomeBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
@@ -46,7 +44,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -56,7 +53,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-
 
 public class WorkerHomeActivity extends BaseActivity {
 
@@ -163,6 +159,21 @@ public class WorkerHomeActivity extends BaseActivity {
                                 treatment.medicines = (HashMap<String, Object>) documentSnapshot.get(Constants.KEY_TREATMENT_MEDICINE);
                             })
                             .addOnSuccessListener(runnable -> {
+                                if (treatment.noFood != null){
+                                    binding.layoutHome.textNoFood.setVisibility(View.VISIBLE);
+                                } else {
+                                    binding.layoutHome.textNoFood.setVisibility(View.GONE);
+                                }
+                                if (treatment.replaceWater != null){
+                                    binding.layoutHome.textReplaceWater.setVisibility(View.VISIBLE);
+                                } else {
+                                    binding.layoutHome.textReplaceWater.setVisibility(View.GONE);
+                                }
+                                if (treatment.suckMud != null){
+                                    binding.layoutHome.textSuckMud.setVisibility(View.VISIBLE);
+                                } else {
+                                    binding.layoutHome.textSuckMud.setVisibility(View.GONE);
+                                }
                                 treatment.medicines.forEach((key, value) ->
                                         database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
                                                 .whereEqualTo(Constants.KEY_CAMPUS_ID, treatment.campusId)

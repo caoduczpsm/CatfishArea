@@ -273,7 +273,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
 
         btnCreate.setOnClickListener(view -> {
             if (finalReportFish.status.equals(Constants.KEY_REPORT_PENDING)) {
-                openTreatmentProtocolDialog();
+                openTreatmentProtocolDialog(reportFish);
                 dialog.dismiss();
             } else {
                 showToast("Bạn đã tạo phát đồ điều trị cho báo cáo này!");
@@ -286,7 +286,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
     }
 
     @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
-    private void openTreatmentProtocolDialog(){
+    private void openTreatmentProtocolDialog(ReportFish reportFish){
         final Dialog dialog = openDialog(R.layout.layout_create_treatment_protocol_dialog);
         assert dialog != null;
 
@@ -405,7 +405,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
                 showToast("Vui lòng nhập đầy đủ thông tin!");
             } else {
                 boolean isValidationData = true;
-                for (int i=0;i<medicineAdapter.getItemCount();i++) {
+                for (int i = 0; i < medicineAdapter.getItemCount(); i++) {
                     MedicineAdapter.MedicineViewHolder viewHolder= (MedicineAdapter.MedicineViewHolder) medicineRecyclerView.findViewHolderForAdapterPosition(i);
                     assert viewHolder != null;
                     EditText edtQuantity = viewHolder.itemView.findViewById(R.id.edtQuantity);
@@ -430,6 +430,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
                     treatment.put(Constants.KEY_TREATMENT_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID));
                     treatment.put(Constants.KEY_TREATMENT_NOTE, Objects.requireNonNull(edtNote.getText()).toString());
                     treatment.put(Constants.KEY_TREATMENT_STATUS, Constants.KEY_TREATMENT_PENDING);
+                    treatment.put(Constants.KEY_TREATMENT_REPORT_FISH_ID, reportFish.id);
 
                     HashMap<String, Object> medicineUsed = new HashMap<>();
                     for (int i=0;i<medicineAdapter.getItemCount();i++) {
@@ -466,7 +467,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
                                 finalReportFish.status = Constants.KEY_REPORT_COMPLETED;
                                 adapter.notifyDataSetChanged();
                             })
-                            .addOnFailureListener(runnable -> dialog.dismiss());
+                            .addOnFailureListener(runnable -> showToast("Tạo phát đồ thất bại!"));
                 }
 
             }

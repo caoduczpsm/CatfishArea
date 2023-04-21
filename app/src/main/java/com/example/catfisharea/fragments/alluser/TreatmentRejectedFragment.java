@@ -158,14 +158,27 @@ public class TreatmentRejectedFragment extends Fragment implements TreatmentList
                                 treatment.creatorName = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_NAME);
                                 treatment.creatorImage = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_IMAGE);
                                 treatment.creatorPhone = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_PHONE);
+                                treatment.reportFishId = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPORT_FISH_ID);
                                 if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER) != null){
-                                    treatment.replaceWater = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                                    if (!Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER), "")){
+                                        treatment.replaceWater = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                                    } else {
+                                        treatment.replaceWater = "";
+                                    }
                                 }
                                 if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NO_FOOD) != null){
-                                    treatment.noFood = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                                    if (!Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NO_FOOD), "")){
+                                        treatment.noFood = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NO_FOOD);
+                                    } else {
+                                        treatment.noFood = "";
+                                    }
                                 }
                                 if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_SUCK_MUD) != null){
-                                    treatment.suckMud = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                                    if (!Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_SUCK_MUD), "")){
+                                        treatment.suckMud = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_SUCK_MUD);
+                                    } else {
+                                        treatment.suckMud = "";
+                                    }
                                 }
                                 if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NOTE) != null){
                                     treatment.note = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NOTE);

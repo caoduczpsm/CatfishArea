@@ -184,13 +184,25 @@ public class TreatmentAcceptedFragment extends Fragment implements TreatmentList
                                 treatment.creatorImage = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_IMAGE);
                                 treatment.creatorPhone = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_PHONE);
                                 if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER) != null){
-                                    treatment.replaceWater = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                                    if (!Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER), "")){
+                                        treatment.replaceWater = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                                    } else {
+                                        treatment.replaceWater = "";
+                                    }
                                 }
                                 if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NO_FOOD) != null){
-                                    treatment.noFood = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                                    if (!Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NO_FOOD), "")){
+                                        treatment.noFood = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NO_FOOD);
+                                    } else {
+                                        treatment.noFood = "";
+                                    }
                                 }
                                 if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_SUCK_MUD) != null){
-                                    treatment.suckMud = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                                    if (!Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_SUCK_MUD), "")){
+                                        treatment.suckMud = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_SUCK_MUD);
+                                    } else {
+                                        treatment.suckMud = "";
+                                    }
                                 }
                                 if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NOTE) != null){
                                     treatment.note = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NOTE);
@@ -198,6 +210,7 @@ public class TreatmentAcceptedFragment extends Fragment implements TreatmentList
                                 treatment.date = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_DATE);
                                 treatment.sickName = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_SICK_NAME);
                                 treatment.status = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_STATUS);
+                                treatment.reportFishId = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPORT_FISH_ID);
                                 treatment.medicines = (HashMap<String, Object>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_MEDICINE);
                                 treatments.add(treatment);
                                 treatmentRequestAdapter.notifyDataSetChanged();

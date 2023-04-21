@@ -127,4 +127,7 @@ dependencies {
 
     // PhotoView to zoom Image
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    // Ted Permission
+    implementation 'gun0912.ted:tedbottompicker:1.2.6'
 }

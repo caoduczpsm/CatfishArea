@@ -272,6 +272,7 @@ public class Constants {
     public static final String KEY_TREATMENT_ASSIGNMENT = "assignment";
     public static final String KEY_TREATMENT_IS_ASSIGNMENT = "true";
     public static final String KEY_TREATMENT_NOT_ASSIGNMENT = "false";
+    public static final String KEY_TREATMENT_REPORT_FISH_ID = "reportFishId";
 
     // Nhật ký
     public static final String KEY_COLLECTION_DIARY = "diaries";
