@@ -268,6 +268,15 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
                         .addOnSuccessListener(unused -> {
                             showToast("Đã hoàn thành điều trị!");
                             treatments.remove(treatment);
+                            if (treatment.receiverIds != null){
+                                for (String id : treatment.receiverIds){
+                                    HashMap<String, Object> notAssignmentUser = new HashMap<>();
+                                    notAssignmentUser.put(Constants.KEY_TREATMENT_ASSIGNMENT, Constants.KEY_TREATMENT_NOT_ASSIGNMENT);
+                                    database.collection(Constants.KEY_COLLECTION_USER)
+                                            .document(id)
+                                            .update(notAssignmentUser);
+                                }
+                            }
                             notifyDataSetChanged();
                         })
                         .addOnFailureListener(runnable -> showToast("Hoàn thành điều trị thất bại!"));

@@ -262,6 +262,13 @@ public class Constants {
     public static final String KEY_TREATMENT_PENDING = "pending";
     public static final String KEY_TREATMENT_REJECT = "reject";
     public static final String KEY_TREATMENT_COMPLETED = "completed";
+    public static final String KEY_TREATMENT_RECEIVER_ID = "receiverIds";
+    public static final String KEY_TREATMENT_RECEIVER_NAME = "receiverNames";
+    public static final String KEY_TREATMENT_RECEIVER_IMAGE = "receiverImages";
+    public static final String KEY_TREATMENT_RECEIVER_PHONE = "receiverPhones";
+    public static final String KEY_TREATMENT_ASSIGNMENT = "assignment";
+    public static final String KEY_TREATMENT_IS_ASSIGNMENT = "true";
+    public static final String KEY_TREATMENT_NOT_ASSIGNMENT = "false";
 
     // Nhật ký
     public static final String KEY_COLLECTION_DIARY = "diaries";

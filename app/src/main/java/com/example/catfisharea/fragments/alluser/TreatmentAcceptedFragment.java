@@ -131,6 +131,18 @@ public class TreatmentAcceptedFragment extends Fragment implements TreatmentList
                                 treatment.sickName = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_SICK_NAME);
                                 treatment.status = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_STATUS);
                                 treatment.medicines = (HashMap<String, Object>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_MEDICINE);
+                                if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_RECEIVER_ID) != null){
+                                    treatment.receiverIds = (List<String>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_ID);
+                                }
+                                if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_RECEIVER_IMAGE) != null){
+                                    treatment.receiverImages = (List<String>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_IMAGE);
+                                }
+                                if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_RECEIVER_NAME) != null){
+                                    treatment.receiverNames = (List<String>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_NAME);
+                                }
+                                if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_RECEIVER_PHONE) != null){
+                                    treatment.receiverPhones = (List<String>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_PHONE);
+                                }
                                 treatments.add(treatment);
                                 treatmentRequestAdapter.notifyDataSetChanged();
                             }
@@ -227,6 +239,7 @@ public class TreatmentAcceptedFragment extends Fragment implements TreatmentList
                 .get()
                 .addOnCompleteListener(task -> {
                     for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+
                         User user = new User();
                         user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
                         user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
@@ -234,8 +247,13 @@ public class TreatmentAcceptedFragment extends Fragment implements TreatmentList
                         user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
                         user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
                         user.id = queryDocumentSnapshot.getId();
+                        if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT) != null){
+                            if (Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT), Constants.KEY_TREATMENT_IS_ASSIGNMENT))
+                                user.isSelected = true;
+                        }
                         users.add(user);
                         adapter.notifyDataSetChanged();
+
                     }
                 });
 
@@ -248,7 +266,6 @@ public class TreatmentAcceptedFragment extends Fragment implements TreatmentList
                 List<String> receiverNames = new ArrayList<>();
                 List<String> receiverImages = new ArrayList<>();
                 List<String> receiverPhones = new ArrayList<>();
-                List<String> receiverCompleted = new ArrayList<>();
 
                 // Duyệt qua các trưởng vùng mà người dùng chọn để lấy tên và id
                 for (User user : selectedUser) {
@@ -258,6 +275,29 @@ public class TreatmentAcceptedFragment extends Fragment implements TreatmentList
                     receiverPhones.add(user.phone);
                 }
 
+                HashMap<String, Object> treatmentUpdate = new HashMap<>();
+                treatmentUpdate.put(Constants.KEY_TREATMENT_RECEIVER_ID, receiverIds);
+                treatmentUpdate.put(Constants.KEY_TREATMENT_RECEIVER_NAME, receiverNames);
+                treatmentUpdate.put(Constants.KEY_TREATMENT_RECEIVER_IMAGE, receiverImages);
+                treatmentUpdate.put(Constants.KEY_TREATMENT_RECEIVER_PHONE, receiverPhones);
+
+                database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                        .document(treatment.id)
+                        .update(treatmentUpdate)
+                        .addOnSuccessListener(runnable -> {
+                            dialog.dismiss();
+                            showToast("Chuyển phát đồ cho công nhân phụ trách thành công!");
+
+                            HashMap<String, Object> assignmentUser = new HashMap<>();
+                            assignmentUser.put(Constants.KEY_TREATMENT_ASSIGNMENT, Constants.KEY_TREATMENT_IS_ASSIGNMENT);
+                            for (String id : receiverIds) {
+                                database.collection(Constants.KEY_COLLECTION_USER)
+                                        .document(id)
+                                        .update(assignmentUser);
+                            }
+
+                        })
+                        .addOnFailureListener(runnable -> showToast("Chuyển phát đồ cho công nhân phụ trách thất bại!"));
 
 
             }
