@@ -124,4 +124,7 @@ dependencies {
 
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     //implementation 'xerces:xercesImpl:2.12.0'
+
+    // PhotoView to zoom Image
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 }
