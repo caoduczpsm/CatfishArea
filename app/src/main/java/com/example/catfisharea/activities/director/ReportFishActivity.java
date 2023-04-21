@@ -99,6 +99,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
         mBinding.monthHistory.setOnClickListener(v ->
                 openDatePicker()
         );
+        mBinding.toolbarReqest.setOnClickListener(view -> onBackPressed());
     }
 
     @SuppressLint("NewApi")

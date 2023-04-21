@@ -290,6 +290,7 @@ public class TreatmentAcceptedFragment extends Fragment implements TreatmentList
 
                             HashMap<String, Object> assignmentUser = new HashMap<>();
                             assignmentUser.put(Constants.KEY_TREATMENT_ASSIGNMENT, Constants.KEY_TREATMENT_IS_ASSIGNMENT);
+                            assignmentUser.put(Constants.KEY_TREATMENT_ID, treatment.id);
                             for (String id : receiverIds) {
                                 database.collection(Constants.KEY_COLLECTION_USER)
                                         .document(id)
