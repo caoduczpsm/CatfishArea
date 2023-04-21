@@ -2,6 +2,7 @@ package com.example.catfisharea.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,7 +30,7 @@ public class ItemHomeAdapter extends RecyclerView.Adapter<ItemHomeAdapter.ItemHo
     public ItemHomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutItemRecyclerViewItemHomeBinding mBinding = LayoutItemRecyclerViewItemHomeBinding
                 .inflate(LayoutInflater.from(
-                        parent.getContext()),
+                                parent.getContext()),
                         parent,
                         false
                 );

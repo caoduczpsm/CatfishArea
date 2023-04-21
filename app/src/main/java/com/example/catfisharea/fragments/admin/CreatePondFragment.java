@@ -403,6 +403,7 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
                                 value.put(Constants.KEY_NUM_OF_FEEDING_LIST, Arrays.asList("0", "0", "0", "0", "0", "0", "0", "0"));
                                 value.put(Constants.KEY_AMOUNT_FED, Arrays.asList("0", "0", "0", "0", "0", "0", "0", "0"));
                                 value.put(Constants.KEY_SPECIFICATIONS_TO_MEASURE, Arrays.asList("0", "0", "0", "0", "0"));
+                                value.put(Constants.KEY_NUM_OF_FEEDING, "3");
 
                                 DocumentReference doc = database.collection(Constants.KEY_COLLECTION_POND).document();
                                 doc.set(value).addOnCompleteListener(task -> {

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -34,7 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class ViewPlanActivity extends BaseActivity implements CampusListener{
+public class ViewPlanActivity extends BaseActivity implements CampusListener {
     private ActivityViewPlanBinding mBinding;
     private FirebaseFirestore database;
     private PreferenceManager preferenceManager;
@@ -60,12 +62,25 @@ public class ViewPlanActivity extends BaseActivity implements CampusListener{
 
         String type = preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT);
         if (type.equals(Constants.KEY_ADMIN)) {
+            mBinding.fabNewPlan.setVisibility(View.GONE);
             getDataHomeAdmin();
         } else if (type.equals(Constants.KEY_REGIONAL_CHIEF)) {
             getDataHomeRegionalChief();
         } else if (type.equals(Constants.KEY_DIRECTOR)) {
+            mBinding.fabNewPlan.setVisibility(View.GONE);
             getDataHomeDirector();
         }
+
+        mBinding.fabNewPlan.setOnClickListener(view -> {
+            Intent intent = new Intent(this, CreatePlanActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -194,7 +209,7 @@ public class ViewPlanActivity extends BaseActivity implements CampusListener{
             database.collection(Constants.KEY_COLLECTION_POND)
                     .whereEqualTo(Constants.KEY_CAMPUS_ID, regionModel.getId())
                     .get().addOnSuccessListener(pondQuery -> {
-                        for (DocumentSnapshot pondDocument: pondQuery) {
+                        for (DocumentSnapshot pondDocument : pondQuery) {
                             String pondId = pondDocument.getId();
                             String pondName = pondDocument.getString(Constants.KEY_NAME);
                             String acreage = pondDocument.getString(Constants.KEY_ACREAGE);
@@ -218,6 +233,11 @@ public class ViewPlanActivity extends BaseActivity implements CampusListener{
         Intent intent = new Intent(this, DetailPlanActivity.class);
         intent.putExtra(Constants.KEY_POND, regionModel);
         startActivity(intent);
+    }
+
+    @Override
+    public void onCreatePlan(RegionModel regionModel) {
+
     }
 
 //    @SuppressLint("NotifyDataSetChanged")

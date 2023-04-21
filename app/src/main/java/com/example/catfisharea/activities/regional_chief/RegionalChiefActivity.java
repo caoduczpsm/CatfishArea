@@ -210,4 +210,9 @@ public class RegionalChiefActivity extends BaseActivity implements CampusListene
             startActivity(intent);
         }
     }
+
+    @Override
+    public void onCreatePlan(RegionModel regionModel) {
+
+    }
 }

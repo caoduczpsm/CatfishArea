@@ -175,4 +175,9 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
             startActivity(intent);
         }
     }
+
+    @Override
+    public void onCreatePlan(RegionModel regionModel) {
+
+    }
 }

@@ -88,7 +88,7 @@ public class WarehouseDetailActivity extends BaseActivity {
                         String unit = doc.getString(Constants.KEY_UNIT);
                         Category category = new Category(doc.getId(), name);
                         category.setProducer(producer);
-                        category.setAmount(Integer.parseInt(amount));
+                        category.setAmount(amount);
                         category.setUnit(unit);
                         mCategories.add(category);
                     }

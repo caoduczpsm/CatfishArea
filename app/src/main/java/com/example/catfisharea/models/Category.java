@@ -3,8 +3,8 @@ package com.example.catfisharea.models;
 public class Category {
     private String id;
     private String name;
-    private int amount = 0;
-    private float price = 0;
+    private String amount = "0";
+    private String price = "0";
     private String unit;
     private String producer;
     private String effect;
@@ -33,19 +33,19 @@ public class Category {
         this.name = name;
     }
 
-    public int getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
-    public float getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

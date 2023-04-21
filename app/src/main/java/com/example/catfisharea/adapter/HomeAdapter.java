@@ -68,7 +68,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         this.regionModels = regionModels;
     }
 
-    class HomeViewHolder extends RecyclerView.ViewHolder{
+    class HomeViewHolder extends RecyclerView.ViewHolder {
         private final LayoutItemHomeRecyclerviewBinding mBinding;
 
         public HomeViewHolder(LayoutItemHomeRecyclerviewBinding mBinding) {
@@ -111,7 +111,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 }
             }
 
-            mBinding.nameItem.setOnClickListener(view -> campusListener.OnCampusClicker(item.getRegionModel()));
+
+//            mBinding.nameItem.setOnClickListener(view -> campusListener.OnCampusClicker(item.getRegionModel()));
         }
     }
 }

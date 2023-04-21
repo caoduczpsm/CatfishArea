@@ -26,6 +26,7 @@ import com.example.catfisharea.adapter.ImportAdapter;
 import com.example.catfisharea.listeners.ImportWarehouseListener;
 import com.example.catfisharea.models.Category;
 import com.example.catfisharea.ultilities.Constants;
+import com.example.catfisharea.ultilities.DecimalHelper;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
@@ -76,7 +77,7 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
         myCal = Calendar.getInstance();
         mBinding.toolbarWarehouseDetail.setOnClickListener(view -> onBackPressed());
         mBinding.edtDate.setText(myCal.get(Calendar.DAY_OF_MONTH) + "/"
-                + myCal.get(Calendar.MONTH) + 1 + "/" + myCal.get(Calendar.YEAR));
+                + (myCal.get(Calendar.MONTH) + 1) + "/" + myCal.get(Calendar.YEAR));
         mBinding.imageImport.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             Animatoo.animateSlideLeft(this);
@@ -101,7 +102,6 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
 
     private void saveCategory() {
         List<Category> result = adapter.getResult();
-        saveHistory(result);
         for (Category item : result) {
             DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
                     .document(warehouseID).collection(Constants.KEY_CATEGORY_OF_WAREHOUSE)
@@ -113,22 +113,23 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
                 data.put(Constants.KEY_UNIT, item.getUnit());
                 data.put(Constants.KEY_EFFECT, item.getEffect());
                 data.put(Constants.KEY_PRODUCER, item.getProducer());
-                HashMap<String, Object> detail;
-                if (documentSnapshot.get(Constants.KEY_DETAIL) != null) {
-                    detail = (HashMap<String, Object>) documentSnapshot.get(Constants.KEY_DETAIL);
-                    if (detail.containsKey(String.valueOf(item.getPrice()))) {
-                        detail.put(String.valueOf(item.getPrice()), item.getAmount() + Integer.parseInt(detail.get(String.valueOf(item.getPrice())).toString()));
-                    } else {
-                        detail.put(String.valueOf(item.getPrice()), item.getAmount());
-                    }
+                if (documentSnapshot.get(Constants.KEY_PRICE) != null) {
+                    String priceOld = documentSnapshot.getString(Constants.KEY_PRICE);
+                    String amountOld = documentSnapshot.getString(Constants.KEY_AMOUNT);
+                    data.put(Constants.KEY_PRICE, priceCaculation(priceOld, amountOld, item.getPrice(), item.getAmount()));
+//                    if (detail.containsKey(String.valueOf(item.getPrice()))) {
+//                        detail.put(String.valueOf(item.getPrice()), item.getAmount() + Integer.parseInt(detail.get(String.valueOf(item.getPrice())).toString()));
+//                    } else {
+//                        detail.put(String.valueOf(item.getPrice()), item.getAmount());
+//                    }
                 } else {
-                    detail = new HashMap<>();
-                    detail.put(String.valueOf(item.getPrice()), item.getAmount());
+                    data.put(Constants.KEY_PRICE, (item.getPrice()));
                 }
 
-                data.put(Constants.KEY_DETAIL, detail);
+//                data.put(Constants.KEY_DETAIL, detail);
                 if (documentSnapshot.exists()) {
-                    data.put(Constants.KEY_AMOUNT, String.valueOf(item.getAmount() + Integer.parseInt(documentSnapshot.getString(Constants.KEY_AMOUNT))) );
+                    long amount = Long.parseLong(item.getAmount()) + Long.parseLong(documentSnapshot.getString(Constants.KEY_AMOUNT));
+                    data.put(Constants.KEY_AMOUNT, String.valueOf(amount));
                     documentReference.update(data).addOnSuccessListener(command -> {
 
                         Toast.makeText(this, "Nhập hàng thành công", Toast.LENGTH_SHORT).show();
@@ -143,6 +144,14 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
                 }
             });
         }
+        saveHistory(result);
+    }
+
+    private String priceCaculation(String priceOld, String amountOld, String priceNew, String amountNew) {
+        double totalOld = Integer.parseInt(amountOld) * Double.parseDouble(priceOld);
+        double totalNew = Integer.parseInt(amountNew) * Double.parseDouble(priceNew);
+        double price = (double) ((totalOld + totalNew) / (Integer.parseInt(amountOld) + Integer.parseInt(amountNew)));
+        return String.valueOf(price);
     }
 
     private void saveHistory(List<Category> result) {
@@ -194,7 +203,7 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
             myCal.set(Calendar.YEAR, year);
             myCal.set(Calendar.MONTH, month);
             myCal.set(Calendar.DAY_OF_MONTH, day);
-            mBinding.edtDate.setText(day + "/" + month + 1 + "/" + year);
+            mBinding.edtDate.setText(day + "/" + (month + 1) + "/" + year);
         };
 
         DatePickerDialog dialog = new DatePickerDialog(
@@ -240,11 +249,11 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
     @Override
     public void changeMoney(List<Category> list) {
         List<Category> result = adapter.getResult();
-        double total = 0;
+        long total = 0;
         boolean finish = true;
         for (Category item : result) {
-            total += item.getAmount() * item.getPrice();
-            if (item.getId().isEmpty() && item.getAmount() <= 0 && item.getPrice() <= 0) {
+            total += Long.parseLong(item.getAmount()) * Long.parseLong(item.getPrice());
+            if (item.getId().isEmpty() && item.getAmount() == "0" && item.getPrice() == "0") {
                 finish = false;
             }
         }
@@ -255,6 +264,6 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
             mBinding.saveBtn.setClickable(true);
             mBinding.saveBtn.setEnabled(true);
         }
-        mBinding.edtMoney.setText(total + "");
+        mBinding.edtMoney.setText(DecimalHelper.formatText(total));
     }
 }

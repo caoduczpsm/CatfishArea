@@ -65,7 +65,7 @@ public class WarehouseHistoryActivity extends BaseActivity {
                             Category category = new Category();
                             category.setName(item.get(Constants.KEY_NAME).toString());
                             category.setUnit(item.get(Constants.KEY_UNIT).toString());
-                            category.setAmount(Integer.parseInt(item.get(Constants.KEY_AMOUNT).toString()));
+                            category.setAmount(item.get(Constants.KEY_AMOUNT).toString());
                             categories.add(category);
                         }
                         warehouseHistory.setmCategory(categories);

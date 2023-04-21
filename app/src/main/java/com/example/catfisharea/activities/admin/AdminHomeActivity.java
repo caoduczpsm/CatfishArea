@@ -317,4 +317,9 @@ public class AdminHomeActivity extends BaseActivity implements CampusListener {
         intent.putExtra(Constants.KEY_POND, regionModel);
         startActivity(intent);
     }
+
+    @Override
+    public void onCreatePlan(RegionModel regionModel) {
+
+    }
 }

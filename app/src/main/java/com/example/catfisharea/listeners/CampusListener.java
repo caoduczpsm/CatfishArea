@@ -6,4 +6,5 @@ public interface CampusListener {
 
     void OnCampusClicker(RegionModel regionModel);
     void OnPondClicker(RegionModel regionModel);
+    void onCreatePlan(RegionModel regionModel);
 }

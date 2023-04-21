@@ -34,6 +34,9 @@
         android:theme="@style/Theme.CatfishArea"
         tools:targetApi="31">
         <activity
+            android:name="com.example.catfisharea.activities.alluser.CreatePlanActivity"
+            android:exported="false" />
+        <activity
             android:name="com.example.catfisharea.activities.alluser.DetailPlanActivity"
             android:exported="false" />
         <activity

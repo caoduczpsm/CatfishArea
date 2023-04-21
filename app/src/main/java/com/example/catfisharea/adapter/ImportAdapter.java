@@ -100,7 +100,7 @@ public class ImportAdapter extends RecyclerView.Adapter<ImportAdapter.ImportHold
                 @Override
                 public void afterTextChanged(Editable s) {
                     if (!mBinding.edtAmount.getText().toString().isEmpty()) {
-                        category.setAmount(Integer.parseInt(mBinding.edtAmount.getText().toString()));
+                        category.setAmount(mBinding.edtAmount.getText().toString());
                         listener.changeMoney(result);
                     }
 
@@ -121,7 +121,7 @@ public class ImportAdapter extends RecyclerView.Adapter<ImportAdapter.ImportHold
                 @Override
                 public void afterTextChanged(Editable s) {
                     if (!mBinding.edtMoney.getText().toString().isEmpty()) {
-                        category.setPrice(Float.parseFloat(mBinding.edtMoney.getText().toString()));
+                        category.setPrice(mBinding.edtMoney.getText().toString());
                         listener.changeMoney(result);
                     }
 

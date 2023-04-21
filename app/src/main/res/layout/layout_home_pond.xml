@@ -914,6 +914,7 @@
             app:cardCornerRadius="10dp"
             app:cardUseCompatPadding="true"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/harvest"
             app:layout_constraintTop_toBottomOf="@id/cardEnvironment">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -1031,7 +1032,22 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
+        <Button
+            android:id="@+id/harvest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thu hoạch"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardHealth"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
