@@ -23,46 +23,35 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/textSelectImage"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="@dimen/_10sdp"-->
-<!--        android:text="Chọn ảnh"-->
-<!--        android:textStyle="bold"-->
-<!--        android:textAllCaps="false"-->
-<!--        android:textColor="@color/colorPrimary"-->
-<!--        android:textSize="@dimen/_16ssp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/textTitle"-->
-<!--        tools:ignore="HardcodedText" />-->
+    <TextView
+        android:id="@+id/textSelectImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Chọn ảnh"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/_16ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTitle"
+        tools:ignore="HardcodedText" />
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/photoRecyclerView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:clipToPadding="false"-->
-<!--        android:orientation="vertical"-->
-<!--        android:overScrollMode="never"-->
-<!--        android:padding="@dimen/_5sdp"-->
-<!--        android:paddingBottom="@dimen/_10sdp"-->
-<!--        android:visibility="gone"-->
-<!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/textInputGuess"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/textSelectImage" />-->
-
-    <com.github.chrisbanes.photoview.PhotoView
-        android:id="@+id/imageReason"
-        android:layout_width="@dimen/_250sdp"
-        android:layout_height="@dimen/_250sdp"
-        android:src="@drawable/pick_image"
-        android:scaleType="centerCrop"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/photoRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:overScrollMode="never"
+        android:padding="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_10sdp"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/textInputGuess"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/textSelectImage" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputGuess"
@@ -72,7 +61,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:hint="Phỏng đoán (nếu có)"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageReason"
+        app:layout_constraintTop_toBottomOf="@id/photoRecyclerView"
         tools:ignore="HardcodedText">
 
         <com.google.android.material.textfield.TextInputEditText

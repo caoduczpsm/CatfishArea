@@ -534,7 +534,7 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
                     }
 
                 }
-
+                notifyDataSetChanged();
 
             });
 

@@ -1,5 +1,6 @@
 package com.example.catfisharea.activities.worker;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
@@ -18,20 +19,25 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityWorkerHomeBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
+import com.example.catfisharea.activities.admin.AreaManagementActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
 import com.example.catfisharea.activities.director.RequestManagementActivity;
 import com.example.catfisharea.activities.director.TaskManagerActivity;
 import com.example.catfisharea.adapter.MedicineTreatmentUsedAdapter;
+import com.example.catfisharea.adapter.PhotoViewAdapter;
 import com.example.catfisharea.models.Medicine;
 import com.example.catfisharea.models.Pond;
 import com.example.catfisharea.models.Task;
@@ -44,6 +50,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.normal.TedPermission;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -54,6 +63,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import gun0912.tedbottompicker.TedBottomPicker;
+
 public class WorkerHomeActivity extends BaseActivity {
 
     private ActivityWorkerHomeBinding binding;
@@ -63,6 +74,7 @@ public class WorkerHomeActivity extends BaseActivity {
     private Task feedTask, measureTask;
     private ImageView imageReason;
     private String encodedImage;
+    private PhotoViewAdapter photoViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -909,18 +921,23 @@ public class WorkerHomeActivity extends BaseActivity {
 
         Button btnCreate, btnClose;
         TextInputEditText edtGuess;
+        TextView textSelectImage;
+        RecyclerView photoRecyclerView;
 
         btnClose = dialog.findViewById(R.id.btnClose);
         btnCreate = dialog.findViewById(R.id.btnCreate);
         imageReason = dialog.findViewById(R.id.imageReason);
         edtGuess = dialog.findViewById(R.id.edtGuess);
+        textSelectImage = dialog.findViewById(R.id.textSelectImage);
+        photoRecyclerView = dialog.findViewById(R.id.photoRecyclerView);
 
-        imageReason.setOnClickListener(view -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            Animatoo.animateSlideLeft(this);
-            intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-            pickImage.launch(intent);
-        });
+        photoViewAdapter = new PhotoViewAdapter(this);
+        photoRecyclerView.setAdapter(photoViewAdapter);
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        photoRecyclerView.setLayoutManager(layoutManager);
+
+        textSelectImage.setOnClickListener(view -> requestPermission());
 
         btnCreate.setOnClickListener(view -> {
 
@@ -952,6 +969,42 @@ public class WorkerHomeActivity extends BaseActivity {
         btnClose.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
+    }
+
+    private void requestPermission() {
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                openBottomPicker();
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+                showToast("Đã từ chối các quyền!");
+            }
+        };
+
+        TedPermission.create()
+                .setPermissionListener(permissionlistener)
+                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .check();
+    }
+
+    private void openBottomPicker() {
+        TedBottomPicker.OnMultiImageSelectedListener listener = new TedBottomPicker.OnMultiImageSelectedListener() {
+            @Override
+            public void onImagesSelected(ArrayList<Uri> uriList) {
+                photoViewAdapter.setData(uriList);
+            }
+        };
+
+        TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(WorkerHomeActivity.this)
+                .setOnMultiImageSelectedListener(listener)
+                .setCompleteButtonText("Xong")
+                .setEmptySelectionText("Chưa có ảnh được chọn...")
+                .create();
+        tedBottomPicker.show(getSupportFragmentManager());
     }
 
     private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
