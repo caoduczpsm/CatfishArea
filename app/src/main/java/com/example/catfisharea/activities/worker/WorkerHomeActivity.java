@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityWorkerHomeBinding;
@@ -32,8 +33,11 @@ import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
 import com.example.catfisharea.activities.director.RequestManagementActivity;
 import com.example.catfisharea.activities.director.TaskManagerActivity;
+import com.example.catfisharea.adapter.MedicineTreatmentUsedAdapter;
+import com.example.catfisharea.models.Medicine;
 import com.example.catfisharea.models.Pond;
 import com.example.catfisharea.models.Task;
+import com.example.catfisharea.models.Treatment;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.android.material.textfield.TextInputEditText;
@@ -47,6 +51,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +78,7 @@ public class WorkerHomeActivity extends BaseActivity {
         setListener();
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
     private void init(){
         preferenceManager = new PreferenceManager(this);
         database = FirebaseFirestore.getInstance();
@@ -115,6 +120,82 @@ public class WorkerHomeActivity extends BaseActivity {
 
                     }
                 });
+
+        if (preferenceManager.getString(Constants.KEY_TREATMENT_ASSIGNMENT) != null) {
+            if (preferenceManager.getString(Constants.KEY_TREATMENT_ASSIGNMENT).equals(Constants.KEY_TREATMENT_IS_ASSIGNMENT)){
+                binding.layoutHome.cardTreatment.setVisibility(View.VISIBLE);
+                Treatment treatment = new Treatment();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    List<Medicine> medicines = new ArrayList<>();
+                    List<String> quantityList = new ArrayList<>();
+                    MedicineTreatmentUsedAdapter medicineAdapter = new MedicineTreatmentUsedAdapter(medicines, quantityList);
+                    LinearLayoutManager layoutManager
+                            = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+                    binding.layoutHome.medicineRecyclerView.setAdapter(medicineAdapter);
+                    binding.layoutHome.medicineRecyclerView.setLayoutManager(layoutManager);
+                    database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                            .document(preferenceManager.getString(Constants.KEY_TREATMENT_ID))
+                            .get()
+                            .addOnCompleteListener(task -> {
+                                DocumentSnapshot documentSnapshot = task.getResult();
+                                treatment.id = documentSnapshot.getId();
+                                treatment.pondId = documentSnapshot.getString(Constants.KEY_TREATMENT_POND_ID);
+                                treatment.campusId = documentSnapshot.getString(Constants.KEY_TREATMENT_CAMPUS_ID);
+                                treatment.creatorId = documentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_ID);
+                                treatment.creatorName = documentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_NAME);
+                                treatment.creatorImage = documentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_IMAGE);
+                                treatment.creatorPhone = documentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_PHONE);
+                                if (documentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER) != null){
+                                    treatment.replaceWater = documentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                                }
+                                if (documentSnapshot.getString(Constants.KEY_TREATMENT_NO_FOOD) != null){
+                                    treatment.noFood = documentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                                }
+                                if (documentSnapshot.getString(Constants.KEY_TREATMENT_SUCK_MUD) != null){
+                                    treatment.suckMud = documentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                                }
+                                if (documentSnapshot.getString(Constants.KEY_TREATMENT_NOTE) != null){
+                                    treatment.note = documentSnapshot.getString(Constants.KEY_TREATMENT_NOTE);
+                                }
+                                treatment.date = documentSnapshot.getString(Constants.KEY_TREATMENT_DATE);
+                                treatment.sickName = documentSnapshot.getString(Constants.KEY_TREATMENT_SICK_NAME);
+                                treatment.status = documentSnapshot.getString(Constants.KEY_TREATMENT_STATUS);
+                                treatment.medicines = (HashMap<String, Object>) documentSnapshot.get(Constants.KEY_TREATMENT_MEDICINE);
+                            })
+                            .addOnSuccessListener(runnable -> {
+                                treatment.medicines.forEach((key, value) ->
+                                        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                .whereEqualTo(Constants.KEY_CAMPUS_ID, treatment.campusId)
+                                                .get()
+                                                .addOnCompleteListener(task -> {
+                                                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                                        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                                .document(queryDocumentSnapshot.getId())
+                                                                .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                                .document(key)
+                                                                .get()
+                                                                .addOnCompleteListener(task1 -> {
+                                                                    DocumentSnapshot documentSnapshot = task1.getResult();
+                                                                    Medicine medicine = new Medicine();
+                                                                    medicine.id = documentSnapshot.getId();
+                                                                    medicine.amount = documentSnapshot.getString(Constants.KEY_AMOUNT_OF_ROOM);
+                                                                    medicine.effect = documentSnapshot.getString(Constants.KEY_EFFECT);
+                                                                    medicine.producer = documentSnapshot.getString(Constants.KEY_PRODUCER);
+                                                                    medicine.type = documentSnapshot.getString(Constants.KEY_CATEGORY_TYPE);
+                                                                    medicine.name = documentSnapshot.getString(Constants.KEY_NAME);
+                                                                    medicine.unit = documentSnapshot.getString(Constants.KEY_UNIT);
+                                                                    medicines.add(medicine);
+                                                                    quantityList.add(value.toString());
+                                                                    medicineAdapter.notifyDataSetChanged();
+                                                                });
+                                                    }
+                                                })
+                                );
+                            });
+                }
+            }
+        }
+
         getPondData();
     }
 
@@ -882,11 +963,11 @@ public class WorkerHomeActivity extends BaseActivity {
     );
 
     private String encodeImage(Bitmap bitmap){
-        int previewWidth = 150;
+        int previewWidth = 800;
         int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
         Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }

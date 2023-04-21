@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/user_selection_background"
     android:elevation="@dimen/_2sdp"
     android:layout_marginTop="@dimen/_5sdp"
     android:layout_marginBottom="@dimen/_5sdp"
-    android:paddingStart="@dimen/_5sdp"
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:paddingStart="@dimen/_10sdp"
+    android:paddingEnd="@dimen/_10sdp"
     android:id="@+id/layoutUserSelection"
     tools:ignore="RtlSymmetry,UnusedAttribute">
 

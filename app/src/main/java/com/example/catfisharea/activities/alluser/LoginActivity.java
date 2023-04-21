@@ -131,6 +131,12 @@ public class LoginActivity extends AppCompatActivity {
                             preferenceManager.putString(Constants.KEY_POND_ID, documentSnapshot.getString(Constants.KEY_POND_ID));
                             preferenceManager.putString(Constants.KEY_CAMPUS_ID, documentSnapshot.getString(Constants.KEY_CAMPUS_ID));
                             preferenceManager.putString(Constants.KEY_AREA_ID, documentSnapshot.getString(Constants.KEY_AREA_ID));
+                            if (documentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT) != null){
+                                preferenceManager.putString(Constants.KEY_TREATMENT_ASSIGNMENT, Constants.KEY_TREATMENT_IS_ASSIGNMENT);
+                                if (documentSnapshot.getString(Constants.KEY_TREATMENT_ID) != null){
+                                    preferenceManager.putString(Constants.KEY_TREATMENT_ID, documentSnapshot.getString(Constants.KEY_TREATMENT_ID));
+                                }
+                            }
                             intent = new Intent(getApplicationContext(), WorkerHomeActivity.class);
                         } else {
                             intent = new Intent(getApplicationContext(), PersonalUserHomeActivity.class);

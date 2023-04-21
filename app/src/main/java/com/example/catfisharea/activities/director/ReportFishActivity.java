@@ -40,6 +40,7 @@ import com.example.catfisharea.models.ReportFish;
 import com.example.catfisharea.models.User;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.github.jhonnyx2012.horizontalpicker.DatePickerListener;
 import com.github.jhonnyx2012.horizontalpicker.HorizontalPicker;
 import com.google.android.material.textfield.TextInputEditText;
@@ -99,6 +100,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
         mBinding.monthHistory.setOnClickListener(v ->
                 openDatePicker()
         );
+        mBinding.toolbarReqest.setOnClickListener(view -> onBackPressed());
     }
 
     @SuppressLint("NewApi")
@@ -213,7 +215,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
         ConstraintLayout layoutUserReport;
         CircleImageView imageProfile;
         TextView textName, textPhone, textPosition, textDateReport, textGuess, textNamePond;
-        ImageView imageReason;
+        PhotoView imageReason;
 
         btnCreate = dialog.findViewById(R.id.btnCreate);
         btnClose = dialog.findViewById(R.id.btnClose);

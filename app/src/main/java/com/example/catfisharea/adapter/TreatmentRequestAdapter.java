@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ItemContainerTreatmentRequestBinding;
@@ -89,12 +90,6 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
 
         @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
         void bindTaskSelection(final Treatment treatment){
-
-            if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR)){
-                mBinding.btnAccept.setVisibility(View.GONE);
-                mBinding.btnReject.setVisibility(View.GONE);
-                mBinding.btnComplete.setVisibility(View.VISIBLE);
-            }
 
             database.collection(Constants.KEY_COLLECTION_CAMPUS)
                     .document(treatment.campusId)
@@ -167,6 +162,7 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
                     mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#fff4ec"));
                     mBinding.imageEdit.setVisibility(View.VISIBLE);
                     mBinding.imageDelete.setVisibility(View.VISIBLE);
+                    mBinding.btnComplete.setVisibility(View.GONE);
                     break;
                 case Constants.KEY_TREATMENT_ACCEPT:
                     mBinding.textStatus.setText("Chấp nhận");
@@ -177,6 +173,7 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
                     mBinding.btnReject.setVisibility(View.GONE);
                     mBinding.imageEdit.setVisibility(View.GONE);
                     mBinding.imageDelete.setVisibility(View.GONE);
+                    mBinding.btnComplete.setVisibility(View.VISIBLE);
                     if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR))
                         mBinding.layoutTask.setVisibility(View.VISIBLE);
                     break;
@@ -189,6 +186,7 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
                     setDrawableTint(Color.parseColor("#ed444f"));
                     mBinding.btnAccept.setVisibility(View.GONE);
                     mBinding.btnReject.setVisibility(View.GONE);
+                    mBinding.btnComplete.setVisibility(View.GONE);
                     break;
             }
 
@@ -197,6 +195,10 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
                 List<String> quantityList = new ArrayList<>();
                 MedicineTreatmentUsedAdapter medicineAdapter = new MedicineTreatmentUsedAdapter(medicines, quantityList);
                 mBinding.medicineRecyclerView.setAdapter(medicineAdapter);
+                LinearLayoutManager layoutManager
+                        = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+                mBinding.medicineRecyclerView.setAdapter(medicineAdapter);
+                mBinding.medicineRecyclerView.setLayoutManager(layoutManager);
                 treatment.medicines.forEach((key, value) ->
                         database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
                                 .whereEqualTo(Constants.KEY_CAMPUS_ID, treatment.campusId)
@@ -268,11 +270,28 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
                         .addOnSuccessListener(unused -> {
                             showToast("Đã hoàn thành điều trị!");
                             treatments.remove(treatment);
+                            if (treatment.receiverIds != null){
+                                for (String id : treatment.receiverIds){
+                                    HashMap<String, Object> notAssignmentUser = new HashMap<>();
+                                    notAssignmentUser.put(Constants.KEY_TREATMENT_ASSIGNMENT, Constants.KEY_TREATMENT_NOT_ASSIGNMENT);
+                                    notAssignmentUser.put(Constants.KEY_TREATMENT_ID, "");
+                                    database.collection(Constants.KEY_COLLECTION_USER)
+                                            .document(id)
+                                            .update(notAssignmentUser);
+                                }
+                            }
                             notifyDataSetChanged();
                         })
                         .addOnFailureListener(runnable -> showToast("Hoàn thành điều trị thất bại!"));
             });
 
+            if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR)){
+                mBinding.btnAccept.setVisibility(View.GONE);
+                mBinding.btnReject.setVisibility(View.GONE);
+                mBinding.btnComplete.setVisibility(View.VISIBLE);
+            } else {
+                mBinding.btnComplete.setVisibility(View.GONE);
+            }
         }
 
         private void showToast(String message){

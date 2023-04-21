@@ -334,6 +334,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_14ssp"
             android:visibility="gone"
+            android:layout_marginTop="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/btnReject"

@@ -246,6 +246,7 @@ public class Constants {
 
     // Phát đồ điều trị
     public static final String KEY_COLLECTION_TREATMENT = "treatments";
+    public static final String KEY_TREATMENT_ID = "treatmenId";
     public static final String KEY_TREATMENT_POND_ID = "pondId";
     public static final String KEY_TREATMENT_CREATOR_ID = "creatorId";
     public static final String KEY_TREATMENT_CREATOR_IMAGE = "creatorImage";
@@ -264,6 +265,13 @@ public class Constants {
     public static final String KEY_TREATMENT_PENDING = "pending";
     public static final String KEY_TREATMENT_REJECT = "reject";
     public static final String KEY_TREATMENT_COMPLETED = "completed";
+    public static final String KEY_TREATMENT_RECEIVER_ID = "receiverIds";
+    public static final String KEY_TREATMENT_RECEIVER_NAME = "receiverNames";
+    public static final String KEY_TREATMENT_RECEIVER_IMAGE = "receiverImages";
+    public static final String KEY_TREATMENT_RECEIVER_PHONE = "receiverPhones";
+    public static final String KEY_TREATMENT_ASSIGNMENT = "assignment";
+    public static final String KEY_TREATMENT_IS_ASSIGNMENT = "true";
+    public static final String KEY_TREATMENT_NOT_ASSIGNMENT = "false";
 
     // Nhật ký
     public static final String KEY_COLLECTION_DIARY = "diaries";
