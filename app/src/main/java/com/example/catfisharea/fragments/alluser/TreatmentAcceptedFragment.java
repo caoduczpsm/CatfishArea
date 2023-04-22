@@ -70,7 +70,7 @@ public class TreatmentAcceptedFragment extends Fragment implements TreatmentList
         //PreferenceManager
         preferenceManager = new PreferenceManager(requireContext());
 
-        //List
+        //ListƯ
         treatments = new ArrayList<>();
 
         //Adapter
@@ -211,6 +211,7 @@ public class TreatmentAcceptedFragment extends Fragment implements TreatmentList
                                 treatment.sickName = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_SICK_NAME);
                                 treatment.status = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_STATUS);
                                 treatment.reportFishId = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPORT_FISH_ID);
+                                treatment.assignmentStatus = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS);
                                 treatment.medicines = (HashMap<String, Object>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_MEDICINE);
                                 treatments.add(treatment);
                                 treatmentRequestAdapter.notifyDataSetChanged();

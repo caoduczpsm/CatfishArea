@@ -261,6 +261,9 @@ public class Constants {
     public static final String KEY_TREATMENT_DATE = "date";
     public static final String KEY_TREATMENT_NOTE = "note";
     public static final String KEY_TREATMENT_STATUS = "status";
+    public static final String KEY_TREATMENT_ASSIGNMENT_STATUS = "assignmentStatus";
+    public static final String KEY_TREATMENT_ASSIGNMENT_STATUS_DOING = "doing";
+    public static final String KEY_TREATMENT_ASSIGNMENT_STATUS_COMPLETED = "completed";
     public static final String KEY_TREATMENT_ACCEPT = "accept";
     public static final String KEY_TREATMENT_PENDING = "pending";
     public static final String KEY_TREATMENT_REJECT = "reject";

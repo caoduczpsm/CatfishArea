@@ -431,6 +431,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
                     treatment.put(Constants.KEY_TREATMENT_NOTE, Objects.requireNonNull(edtNote.getText()).toString());
                     treatment.put(Constants.KEY_TREATMENT_STATUS, Constants.KEY_TREATMENT_PENDING);
                     treatment.put(Constants.KEY_TREATMENT_REPORT_FISH_ID, reportFish.id);
+                    treatment.put(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS, Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING);
 
                     HashMap<String, Object> medicineUsed = new HashMap<>();
                     for (int i=0;i<medicineAdapter.getItemCount();i++) {

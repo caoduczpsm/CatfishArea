@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Treatment {
    public String id, pondId, campusId, creatorId, creatorImage, creatorName,
-           creatorPhone, replaceWater, noFood, suckMud, date, note, sickName, status, reportFishId;
+           creatorPhone, replaceWater, noFood, suckMud, date, note, sickName, status, reportFishId, assignmentStatus;
    public List<String> receiverIds, receiverImages, receiverNames, receiverPhones;
    public HashMap<String, Object> medicines;
 
@@ -32,5 +32,6 @@ public class Treatment {
       this.receiverNames = treatment.receiverNames;
       this.receiverPhones = treatment.receiverPhones;
       this.medicines = treatment.medicines;
+      this.assignmentStatus = treatment.assignmentStatus;
    }
 }
