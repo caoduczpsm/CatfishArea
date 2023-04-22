@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -11,7 +12,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
@@ -23,6 +26,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -84,6 +91,7 @@ public class WorkerHomeActivity extends BaseActivity {
 
         init();
         setListener();
+        requestReadFilePermission();
     }
 
     @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
@@ -937,7 +945,9 @@ public class WorkerHomeActivity extends BaseActivity {
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         photoRecyclerView.setLayoutManager(layoutManager);
 
-        textSelectImage.setOnClickListener(view -> requestPermission());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            textSelectImage.setOnClickListener(view -> requestReadFilePermission());
+        }
 
         btnCreate.setOnClickListener(view -> {
 
@@ -971,6 +981,30 @@ public class WorkerHomeActivity extends BaseActivity {
         dialog.show();
     }
 
+    private void requestReadFilePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (ContextCompat.checkSelfPermission(WorkerHomeActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(WorkerHomeActivity.this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+            if (!Environment.isExternalStorageManager()){
+                try {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    intent.addCategory("android.intent.category.DEFAULT");
+                    intent.setData(Uri.parse(String.format("package:%s", getApplicationContext().getOpPackageName())));
+                    startActivityIfNeeded(intent, 101);
+                } catch (Exception e){
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    startActivityIfNeeded(intent, 101);
+                }
+            }
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     private void requestPermission() {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
@@ -987,17 +1021,12 @@ public class WorkerHomeActivity extends BaseActivity {
         TedPermission.create()
                 .setPermissionListener(permissionlistener)
                 .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES)
                 .check();
     }
 
     private void openBottomPicker() {
-        TedBottomPicker.OnMultiImageSelectedListener listener = new TedBottomPicker.OnMultiImageSelectedListener() {
-            @Override
-            public void onImagesSelected(ArrayList<Uri> uriList) {
-                photoViewAdapter.setData(uriList);
-            }
-        };
+        TedBottomPicker.OnMultiImageSelectedListener listener = uriList -> photoViewAdapter.setData(uriList);
 
         TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(WorkerHomeActivity.this)
                 .setOnMultiImageSelectedListener(listener)

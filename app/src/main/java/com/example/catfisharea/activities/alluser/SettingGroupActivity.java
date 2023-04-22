@@ -665,6 +665,10 @@ public class SettingGroupActivity extends BaseActivity implements MultipleListen
         //Button trong dialog
         Button no_btn = dialog.findViewById(R.id.btnClose);
         Button btnApply = dialog.findViewById(R.id.btnApply);
+        TextView textTitle = dialog.findViewById(R.id.textTitle);
+
+        textTitle.setText("Bạn có chắc chắn muốn xóa nhóm này không?");
+        btnApply.setText("Xóa");
 
         btnApply.setOnClickListener(view ->
                 database.collection(Constants.KEY_COLLECTION_GROUP)

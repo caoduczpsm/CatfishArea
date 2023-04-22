@@ -182,7 +182,7 @@ public class CreateMultipleAccountActivity extends BaseActivity {
                                 newAccount.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_DIRECTOR);
                                 break;
                             case "Công nhân":
-                            case "Trưởng Công":
+                            case "Công Nhân":
                                 newAccount.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_WORKER);
                                 break;
                             case "Kế toán":
