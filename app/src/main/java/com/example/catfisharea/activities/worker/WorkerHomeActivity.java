@@ -1,10 +1,8 @@
 package com.example.catfisharea.activities.worker;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -12,9 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
@@ -26,11 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityWorkerHomeBinding;
 import com.example.catfisharea.activities.BaseActivity;
@@ -40,7 +32,6 @@ import com.example.catfisharea.activities.alluser.LoginActivity;
 import com.example.catfisharea.activities.director.RequestManagementActivity;
 import com.example.catfisharea.activities.director.TaskManagerActivity;
 import com.example.catfisharea.adapter.MedicineTreatmentUsedAdapter;
-import com.example.catfisharea.adapter.PhotoViewAdapter;
 import com.example.catfisharea.models.Medicine;
 import com.example.catfisharea.models.Pond;
 import com.example.catfisharea.models.Task;
@@ -53,9 +44,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.normal.TedPermission;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -66,8 +54,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import gun0912.tedbottompicker.TedBottomPicker;
-
 public class WorkerHomeActivity extends BaseActivity {
 
     private ActivityWorkerHomeBinding binding;
@@ -76,8 +62,7 @@ public class WorkerHomeActivity extends BaseActivity {
     private Pond pond;
     private Task feedTask, measureTask;
     private ImageView imageReason;
-    private String encodedImage;
-    private PhotoViewAdapter photoViewAdapter;
+    private String encodedImage, encodedImageTreatment;
     private Treatment treatment;
 
     @Override
@@ -88,13 +73,14 @@ public class WorkerHomeActivity extends BaseActivity {
 
         init();
         setListener();
-        requestReadFilePermission();
     }
 
     @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
     private void init(){
         preferenceManager = new PreferenceManager(this);
         database = FirebaseFirestore.getInstance();
+
+        binding.layoutHome.textSelectImage.setVisibility(View.VISIBLE);
 
         database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
                 .whereEqualTo(Constants.KEY_TASK_TITLE, Constants.KEY_FIXED_TASK_FEED_FISH)
@@ -177,15 +163,22 @@ public class WorkerHomeActivity extends BaseActivity {
                             })
                             .addOnSuccessListener(runnable -> {
 
+
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    if (!preferenceManager.getString(Constants.KEY_NOW).equals(LocalDate.now().toString())){
-                                        HashMap<String, Object> newTreatment = new HashMap<>();
-                                        newTreatment.put(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS, Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING);
-                                        database.collection(Constants.KEY_COLLECTION_TREATMENT)
-                                                .document(treatment.id)
-                                                .update(newTreatment);
-                                        treatment.assignmentStatus = Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING;
+                                    preferenceManager.putString(Constants.KEY_NOW, "abc");
+                                    if (preferenceManager.getString(Constants.KEY_NOW) == null){
+                                        preferenceManager.putString(Constants.KEY_NOW, LocalDate.now().toString());
+                                    } else {
+                                        if (!preferenceManager.getString(Constants.KEY_NOW).equals(LocalDate.now().toString())){
+                                            HashMap<String, Object> newTreatment = new HashMap<>();
+                                            newTreatment.put(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS, Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING);
+                                            database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                                                    .document(treatment.id)
+                                                    .update(newTreatment);
+                                            treatment.assignmentStatus = Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING;
+                                        }
                                     }
+
                                 }
 
                                 if (treatment.assignmentStatus.equals(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING) &&
@@ -293,6 +286,13 @@ public class WorkerHomeActivity extends BaseActivity {
         binding.layoutControlWorkerHome.cardReportFish.setOnClickListener(view -> openReportFishSickDialog());
 
         binding.layoutHome.btnComplete.setOnClickListener(view -> completeTreatmentInDay());
+
+        binding.layoutHome.textSelectImage.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+            pickImage.launch(intent);
+            showToast("Đã chọn ảnh báo cáo hôm nay!");
+        });
 
     }
 
@@ -943,24 +943,16 @@ public class WorkerHomeActivity extends BaseActivity {
 
         Button btnCreate, btnClose;
         TextInputEditText edtGuess;
-        TextView textSelectImage;
-        RecyclerView photoRecyclerView;
 
         btnClose = dialog.findViewById(R.id.btnClose);
         btnCreate = dialog.findViewById(R.id.btnCreate);
         imageReason = dialog.findViewById(R.id.imageReason);
         edtGuess = dialog.findViewById(R.id.edtGuess);
-        textSelectImage = dialog.findViewById(R.id.textSelectImage);
-        photoRecyclerView = dialog.findViewById(R.id.photoRecyclerView);
 
-        photoViewAdapter = new PhotoViewAdapter(this);
-        photoRecyclerView.setAdapter(photoViewAdapter);
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        photoRecyclerView.setLayoutManager(layoutManager);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            textSelectImage.setOnClickListener(view -> {
+            imageReason.setOnClickListener(view -> {
+                preferenceManager.putString(Constants.KEY_IMAGE, Constants.KEY_IMAGE);
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
                 pickImage.launch(intent);
@@ -999,101 +991,59 @@ public class WorkerHomeActivity extends BaseActivity {
         dialog.show();
     }
 
-    private void requestReadFilePermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if (ContextCompat.checkSelfPermission(WorkerHomeActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(WorkerHomeActivity.this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
-            }
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
-            if (!Environment.isExternalStorageManager()){
-                try {
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                    intent.addCategory("android.intent.category.DEFAULT");
-                    intent.setData(Uri.parse(String.format("package:%s", getApplicationContext().getOpPackageName())));
-                    startActivityIfNeeded(intent, 101);
-                } catch (Exception e){
-                    Intent intent = new Intent();
-                    intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                    startActivityIfNeeded(intent, 101);
-                }
-            }
-        }
-    }
-
     private void completeTreatmentInDay() {
-        HashMap<String, Object> completeTreatment = new HashMap<>();
-        completeTreatment.put(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS, Constants.KEY_TREATMENT_COMPLETED);
-        database.collection(Constants.KEY_COLLECTION_TREATMENT)
-                .document(treatment.id)
-                .update(completeTreatment)
-                .addOnSuccessListener(runnable -> {
-                    showToast("Đã cập nhật thành công!");
-                    binding.layoutHome.cardTreatment.setVisibility(View.GONE);
-                    database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                            .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
-                            .get()
-                            .addOnCompleteListener(task -> {
-                                for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-                                    HashMap<String, Object> medicines = treatment.medicines;
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                        medicines.forEach((key, value) -> {
+        if (encodedImageTreatment != null){
+            HashMap<String, Object> completeTreatment = new HashMap<>();
+            completeTreatment.put(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS, Constants.KEY_TREATMENT_COMPLETED);
+            database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                    .document(treatment.id)
+                    .update(completeTreatment)
+                    .addOnSuccessListener(runnable -> {
+                        showToast("Đã cập nhật thành công!");
+                        binding.layoutHome.cardTreatment.setVisibility(View.GONE);
 
-                                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                                    .document(queryDocumentSnapshot.getId())
-                                                    .collection(Constants.KEY_COLLECTION_CATEGORY)
-                                                    .document(key)
-                                                    .get()
-                                                    .addOnCompleteListener(task1 -> {
-                                                        DocumentSnapshot documentSnapshot = task1.getResult();
-                                                        int amountInWareHouse = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_AMOUNT)));
-                                                        amountInWareHouse = amountInWareHouse - Integer.parseInt(String.valueOf(value));
-                                                        HashMap<String, Object> amount = new HashMap<>();
-                                                        amount.put(Constants.KEY_AMOUNT, amountInWareHouse + "");
-                                                        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                                                .document(queryDocumentSnapshot.getId())
-                                                                .collection(Constants.KEY_COLLECTION_CATEGORY)
-                                                                .document(documentSnapshot.getId())
-                                                                .update(amount);
-                                                    });
-                                        });
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            HashMap<String, Object> updateReport = new HashMap<>();
+                            updateReport.put(Constants.KEY_TREATMENT_IMAGE_REPORT, encodedImageTreatment);
+                            database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                                    .document(treatment.id)
+                                    .collection(Constants.KEY_TREATMENT_COLLECTION_IMAGE_EVERYDAY)
+                                    .document(LocalDate.now().toString())
+                                    .set(updateReport);
+                        }
+
+                        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
+                                .get()
+                                .addOnCompleteListener(task -> {
+                                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                        HashMap<String, Object> medicines = treatment.medicines;
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                            medicines.forEach((key, value) ->
+                                                    database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                            .document(queryDocumentSnapshot.getId())
+                                                            .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                            .document(key)
+                                                            .get()
+                                                            .addOnCompleteListener(task1 -> {
+                                                                DocumentSnapshot documentSnapshot = task1.getResult();
+                                                                int amountInWareHouse = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_AMOUNT)));
+                                                                amountInWareHouse = amountInWareHouse - Integer.parseInt(String.valueOf(value));
+                                                                HashMap<String, Object> amount = new HashMap<>();
+                                                                amount.put(Constants.KEY_AMOUNT, amountInWareHouse + "");
+                                                                database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                                        .document(queryDocumentSnapshot.getId())
+                                                                        .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                                        .document(documentSnapshot.getId())
+                                                                        .update(amount);
+                                                            }));
+                                        }
                                     }
-                                }
-                            });
-                });
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
-    private void requestPermission() {
-        PermissionListener permissionlistener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                openBottomPicker();
-            }
-
-            @Override
-            public void onPermissionDenied(List<String> deniedPermissions) {
-                showToast("Đã từ chối các quyền!");
-            }
-        };
-
-        TedPermission.create()
-                .setPermissionListener(permissionlistener)
-                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES)
-                .check();
-    }
-
-    private void openBottomPicker() {
-        TedBottomPicker.OnMultiImageSelectedListener listener = uriList -> photoViewAdapter.setData(uriList);
-
-        TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(WorkerHomeActivity.this)
-                .setOnMultiImageSelectedListener(listener)
-                .setCompleteButtonText("Xong")
-                .setEmptySelectionText("Chưa có ảnh được chọn...")
-                .create();
-        tedBottomPicker.show(getSupportFragmentManager());
+                                });
+                    });
+        } else {
+            showToast("Vui lòng cập nhật ảnh để hoàn thành điều trị hôm nay!");
+        }
     }
 
     private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
@@ -1105,8 +1055,13 @@ public class WorkerHomeActivity extends BaseActivity {
                         try {
                             InputStream inputStream = this.getContentResolver().openInputStream(imageUri);
                             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                            imageReason.setImageBitmap(bitmap);
+                            if (preferenceManager.getString(Constants.KEY_IMAGE) != null &&
+                                    preferenceManager.getString(Constants.KEY_IMAGE).equals(Constants.KEY_IMAGE)){
+                                imageReason.setImageBitmap(bitmap);
+                                preferenceManager.remove(Constants.KEY_IMAGE);
+                            }
                             encodedImage = encodeImage(bitmap);
+                            encodedImageTreatment = encodeImage(bitmap);
                         }catch (FileNotFoundException e){
                             e.printStackTrace();
                         }

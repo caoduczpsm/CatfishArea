@@ -2,9 +2,13 @@ package com.example.catfisharea.activities.alluser;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -16,19 +20,29 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityPondDetailsBinding;
 import com.example.catfisharea.activities.BaseActivity;
+import com.example.catfisharea.adapter.MedicineTreatmentUsedAdapter;
 import com.example.catfisharea.adapter.UsersAdapter;
 import com.example.catfisharea.listeners.UserListener;
+import com.example.catfisharea.models.Medicine;
 import com.example.catfisharea.models.Pond;
+import com.example.catfisharea.models.Treatment;
 import com.example.catfisharea.models.User;
 import com.example.catfisharea.ultilities.Constants;
+import com.example.catfisharea.ultilities.PreferenceManager;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +55,9 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
     private FirebaseFirestore database;
     private UsersAdapter usersAdapter;
     private List<User> users;
+    private Treatment treatment;
+    private PreferenceManager preferenceManager;
+    private String encodeImageReport;
 
 
     @Override
@@ -53,15 +70,19 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
         setListeners();
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
     void init() {
 
         database = FirebaseFirestore.getInstance();
+
+        preferenceManager = new PreferenceManager(getApplicationContext());
 
         pond = (Pond) getIntent().getSerializableExtra(Constants.KEY_POND);
 
         users = new ArrayList<>();
         usersAdapter = new UsersAdapter(users, this);
+
+        binding.layoutHome.textShowImageReport.setVisibility(View.VISIBLE);
 
         binding.textName.setText(pond.getName());
         binding.textAcreage.setText(pond.getAcreage() + " (m2)");
@@ -160,6 +181,110 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
             binding.layoutHome.imageEnvironment6.setVisibility(View.VISIBLE);
         }
 
+        database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                .whereEqualTo(Constants.KEY_TREATMENT_POND_ID, pond.getId())
+                .whereEqualTo(Constants.KEY_TREATMENT_STATUS, Constants.KEY_TREATMENT_ACCEPT)
+                .whereEqualTo(Constants.KEY_TREATMENT_CREATOR_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+                .get()
+                .addOnCompleteListener(task -> {
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                        treatment = new Treatment();
+                        treatment.id = queryDocumentSnapshot.getId();
+                        treatment.pondId = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_POND_ID);
+                        treatment.campusId = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_CAMPUS_ID);
+                        treatment.creatorId = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_ID);
+                        treatment.creatorName = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_NAME);
+                        treatment.creatorImage = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_IMAGE);
+                        treatment.creatorPhone = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_PHONE);
+                        if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER) != null){
+                            treatment.replaceWater = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                        }
+                        if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NO_FOOD) != null){
+                            treatment.noFood = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                        }
+                        if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_SUCK_MUD) != null){
+                            treatment.suckMud = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                        }
+                        if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NOTE) != null){
+                            treatment.note = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NOTE);
+                        }
+                        treatment.date = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_DATE);
+                        treatment.sickName = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_SICK_NAME);
+                        treatment.status = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_STATUS);
+                        treatment.medicines = (HashMap<String, Object>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_MEDICINE);
+                        treatment.assignmentStatus = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS);
+                    }
+                })
+                .addOnSuccessListener(runnable -> {
+                    if (treatment.id != null){
+                        binding.layoutHome.cardTreatment.setVisibility(View.VISIBLE);
+                        binding.layoutHome.btnComplete.setVisibility(View.GONE);
+                        if (treatment.noFood == null || treatment.noFood.equals("")){
+                            binding.layoutHome.textNoFood.setVisibility(View.GONE);
+                        }
+
+                        if (treatment.replaceWater == null || treatment.replaceWater.equals("")){
+                            binding.layoutHome.textReplaceWater.setVisibility(View.GONE);
+                        }
+
+                        if (treatment.suckMud == null || treatment.suckMud.equals("")){
+                            binding.layoutHome.textSuckMud.setVisibility(View.GONE);
+                        }
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                                    .document(treatment.id)
+                                    .collection(Constants.KEY_TREATMENT_COLLECTION_IMAGE_EVERYDAY)
+                                    .document(LocalDate.now().toString())
+                                    .get()
+                                    .addOnCompleteListener(task -> {
+                                        if (task.getResult() != null){
+                                            DocumentSnapshot documentSnapshot = task.getResult();
+                                            encodeImageReport = documentSnapshot.getString(Constants.KEY_TREATMENT_IMAGE_REPORT);
+                                        }
+                                    });
+                            List<Medicine> medicines = new ArrayList<>();
+                            List<String> quantityList = new ArrayList<>();
+                            MedicineTreatmentUsedAdapter medicineAdapter = new MedicineTreatmentUsedAdapter(medicines, quantityList);
+                            LinearLayoutManager layoutManager
+                                    = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+                            binding.layoutHome.medicineRecyclerView.setAdapter(medicineAdapter);
+                            binding.layoutHome.medicineRecyclerView.setLayoutManager(layoutManager);
+                            treatment.medicines.forEach((key, value) ->
+                                    database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                            .whereEqualTo(Constants.KEY_CAMPUS_ID, treatment.campusId)
+                                            .get()
+                                            .addOnCompleteListener(task -> {
+                                                for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                                    database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                            .document(queryDocumentSnapshot.getId())
+                                                            .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                            .document(key)
+                                                            .get()
+                                                            .addOnCompleteListener(task1 -> {
+                                                                DocumentSnapshot documentSnapshot = task1.getResult();
+                                                                Medicine medicine = new Medicine();
+                                                                medicine.id = documentSnapshot.getId();
+                                                                medicine.amount = documentSnapshot.getString(Constants.KEY_AMOUNT_OF_ROOM);
+                                                                medicine.effect = documentSnapshot.getString(Constants.KEY_EFFECT);
+                                                                medicine.producer = documentSnapshot.getString(Constants.KEY_PRODUCER);
+                                                                medicine.type = documentSnapshot.getString(Constants.KEY_CATEGORY_TYPE);
+                                                                medicine.name = documentSnapshot.getString(Constants.KEY_NAME);
+                                                                medicine.unit = documentSnapshot.getString(Constants.KEY_UNIT);
+                                                                medicines.add(medicine);
+                                                                quantityList.add(value.toString());
+                                                                medicineAdapter.notifyDataSetChanged();
+                                                            });
+                                                }
+                                            })
+                            );
+                        }
+
+                    } else {
+                        binding.layoutHome.cardTreatment.setVisibility(View.GONE);
+                    }
+
+                });
     }
 
     private void setListeners() {
@@ -168,6 +293,8 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
         binding.layoutSettingFeed.setOnClickListener(view -> openSettingNumOfFeedingDialog());
 
         binding.layoutSettingWater.setOnClickListener(view -> openSettingNumOfWateringDialog());
+
+        binding.layoutHome.textShowImageReport.setOnClickListener(view -> openReportImageOfToDayDialog());
     }
 
     @SuppressLint("SetTextI18n")
@@ -269,6 +396,25 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
         binding.layoutHome.textFood6.setText("Lần 6: " + st_6);
         binding.layoutHome.textFood7.setText("Lần 7: " + st_7);
         binding.layoutHome.textFood8.setText("Lần 8: " + st_8);
+    }
+
+    private void openReportImageOfToDayDialog() {
+
+        if (encodeImageReport != null){
+            Dialog dialog = openDialog(R.layout.layout_dialog_show_report_image_treatment_today);
+            assert dialog != null;
+
+            PhotoView imageReportImage = dialog.findViewById(R.id.imageReportImage);
+            Button btnClose = dialog.findViewById(R.id.btnClose);
+
+            imageReportImage.setImageBitmap(getImage(encodeImageReport));
+
+            btnClose.setOnClickListener(view -> dialog.dismiss());
+            dialog.show();
+        } else {
+            showToast("Ảnh chưa được cập nhật!");
+        }
+
     }
 
     @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
@@ -792,6 +938,14 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
                     }
                 });
         dialog.show();
+    }
+
+    private Bitmap getImage(String encodedImage){
+        byte[] bytes = new byte[0];
+        if (encodedImage != null){
+            bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+        }
+        return BitmapFactory.decodeByteArray(bytes,0, bytes.length);
     }
 
     private Dialog openDialog(int layout) {
