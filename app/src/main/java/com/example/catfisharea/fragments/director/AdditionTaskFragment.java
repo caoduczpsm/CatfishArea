@@ -119,6 +119,7 @@ public class AdditionTaskFragment extends Fragment implements MultipleListener {
 
         typeOfFixedTask.add(Constants.KEY_FIXED_TASK_FEED_FISH);
         typeOfFixedTask.add(Constants.KEY_FIXED_TASK_MEASURE_WATER);
+        typeOfFixedTask.add(Constants.KEY_FIXED_TASK_FISH_SCALES);
 
         //ArrayAdapter
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), R.layout.custom_layout_spinner, typeOfFixedTask);

@@ -18,7 +18,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -60,7 +59,7 @@ public class WorkerHomeActivity extends BaseActivity {
     private PreferenceManager preferenceManager;
     private FirebaseFirestore database;
     private Pond pond;
-    private Task feedTask, measureTask;
+    private Task feedTask, measureTask, scaleTask;
     private ImageView imageReason;
     private String encodedImage, encodedImageTreatment;
     private Treatment treatment;
@@ -112,11 +111,69 @@ public class WorkerHomeActivity extends BaseActivity {
                         if (receiverFeedFishTask.contains(preferenceManager.getString(Constants.KEY_USER_ID))){
                             measureTask = new Task();
                             measureTask.id = queryDocumentSnapshot.getId();
-                            binding.layoutHome.cardFood.setVisibility(View.VISIBLE);
+                            binding.layoutHome.cardEnvironment.setVisibility(View.VISIBLE);
                         } else {
-                            binding.layoutHome.cardFood.setVisibility(View.GONE);
+                            binding.layoutHome.cardEnvironment.setVisibility(View.GONE);
                         }
 
+                    }
+                });
+
+        database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                .whereEqualTo(Constants.KEY_TASK_TITLE, Constants.KEY_FIXED_TASK_FISH_SCALES)
+                .get()
+                .addOnCompleteListener(task -> {
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                        if (task.getResult() != null){
+                            List<String> receiverFeedFishTask = (List<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVER_ID);
+                            assert receiverFeedFishTask != null;
+                            if (receiverFeedFishTask.contains(preferenceManager.getString(Constants.KEY_USER_ID))){
+                                scaleTask = new Task();
+                                scaleTask.id = queryDocumentSnapshot.getId();
+                                scaleTask.status = queryDocumentSnapshot.getString(Constants.KEY_STATUS_TASK);
+                                binding.layoutHome.cardHealth.setVisibility(View.VISIBLE);
+                            } else {
+                                binding.layoutHome.cardHealth.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                })
+                .addOnSuccessListener(runnable -> {
+                    if (scaleTask.status.equals(Constants.KEY_COMPLETED)){
+                        binding.layoutHome.btnAddWeight.setVisibility(View.GONE);
+                    } else {
+                        binding.layoutHome.btnAddWeight.setVisibility(View.VISIBLE);
+                    }
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        if (preferenceManager.getString(Constants.KEY_NOW) == null){
+                            preferenceManager.putString(Constants.KEY_NOW, LocalDate.now().toString());
+                        } else {
+                            if (!preferenceManager.getString(Constants.KEY_NOW).equals(LocalDate.now().toString())) {
+                                HashMap<String, Object> unCompleteTask = new HashMap<>();
+                                unCompleteTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
+                                database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                                        .document(scaleTask.id)
+                                        .update(unCompleteTask)
+                                        .addOnSuccessListener(runnable1 -> {
+                                            binding.layoutHome.weight.setText("g/con");
+                                            binding.layoutHome.loss.setText("con");
+                                        });
+                            } else {
+                                database.collection(Constants.KEY_COLLECTION_FISH_WEIGH)
+                                        .whereEqualTo(Constants.KEY_FISH_WEIGH_DATE, LocalDate.now().toString())
+                                        .get()
+                                        .addOnCompleteListener(task -> {
+                                            if (task.getResult() != null && task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                                    binding.layoutHome.weight.setText(queryDocumentSnapshot.getString(Constants.KEY_FISH_WEIGH_WEIGHT) + " g/con");
+                                                    binding.layoutHome.loss.setText(queryDocumentSnapshot.getString(Constants.KEY_FISH_WEIGH_LOSS) + " con");
+                                                }
+                                            }
+                                        });
+
+                            }
+                        }
                     }
                 });
 
@@ -165,7 +222,6 @@ public class WorkerHomeActivity extends BaseActivity {
 
 
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    preferenceManager.putString(Constants.KEY_NOW, "abc");
                                     if (preferenceManager.getString(Constants.KEY_NOW) == null){
                                         preferenceManager.putString(Constants.KEY_NOW, LocalDate.now().toString());
                                     } else {
@@ -294,6 +350,8 @@ public class WorkerHomeActivity extends BaseActivity {
             showToast("Đã chọn ảnh báo cáo hôm nay!");
         });
 
+        binding.layoutHome.btnAddWeight.setOnClickListener(view -> openAddWeightDialog());
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -325,6 +383,8 @@ public class WorkerHomeActivity extends BaseActivity {
 
                             LocalDate now = LocalDate.now();
                             String yesterday = now.minusDays(1).toString();
+
+                            binding.layoutHome.btnAddWeight.setVisibility(View.VISIBLE);
 
                             HashMap<String, Object> feeds = new HashMap<>();
                             feeds.put(Constants.KEY_DIARY_FEEDS_POND_ID, pond.getId());
@@ -989,6 +1049,54 @@ public class WorkerHomeActivity extends BaseActivity {
         btnClose.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void openAddWeightDialog() {
+        final Dialog dialog = openDialog(R.layout.layout_dialog_add_weight);
+        assert dialog != null;
+
+        TextInputEditText edtWeight, edtLoss;
+        Button btnClose, btnEnter;
+
+        edtWeight = dialog.findViewById(R.id.edtWeight);
+        edtLoss = dialog.findViewById(R.id.edtLoss);
+        btnClose = dialog.findViewById(R.id.btnClose);
+        btnEnter = dialog.findViewById(R.id.btnEnter);
+
+        btnEnter.setOnClickListener(view -> {
+            if (Objects.requireNonNull(edtWeight.getText()).toString().equals("") || Objects.requireNonNull(edtLoss.getText()).toString().equals("")){
+                showToast("Vui lòng nhập đầy đủ thông tin!");
+            } else {
+                HashMap<String, Object> weight = new HashMap<>();
+                weight.put(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    weight.put(Constants.KEY_FISH_WEIGH_DATE, LocalDate.now().toString());
+                }
+                weight.put(Constants.KEY_FISH_WEIGH_WEIGHT, edtWeight.getText().toString());
+                weight.put(Constants.KEY_FISH_WEIGH_LOSS, edtLoss.getText().toString());
+                database.collection(Constants.KEY_COLLECTION_FISH_WEIGH)
+                        .add(weight)
+                        .addOnSuccessListener(runnable -> {
+                            showToast("Cập nhật thành công!");
+                            dialog.dismiss();
+                            binding.layoutHome.btnAddWeight.setVisibility(View.GONE);
+                            HashMap<String, Object> completedTask = new HashMap<>();
+                            completedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_COMPLETED);
+                            database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                                    .document(scaleTask.id)
+                                    .update(completedTask);
+                            binding.layoutHome.weight.setText(edtWeight.getText().toString() + " g/con");
+                            binding.layoutHome.loss.setText(edtLoss.getText().toString() + " con");
+
+                        })
+                        .addOnFailureListener(runnable -> showToast("Cập nhật thất bại!"));
+            }
+        });
+
+        btnClose.setOnClickListener(view -> dialog.dismiss());
+        dialog.show();
+
     }
 
     private void completeTreatmentInDay() {

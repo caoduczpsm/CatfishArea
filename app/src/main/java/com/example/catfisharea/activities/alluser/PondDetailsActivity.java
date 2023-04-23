@@ -56,7 +56,6 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
     private UsersAdapter usersAdapter;
     private List<User> users;
     private Treatment treatment;
-    private PreferenceManager preferenceManager;
     private String encodeImageReport;
 
 
@@ -75,7 +74,7 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
 
         database = FirebaseFirestore.getInstance();
 
-        preferenceManager = new PreferenceManager(getApplicationContext());
+        PreferenceManager preferenceManager = new PreferenceManager(getApplicationContext());
 
         pond = (Pond) getIntent().getSerializableExtra(Constants.KEY_POND);
 
@@ -83,9 +82,26 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
         usersAdapter = new UsersAdapter(users, this);
 
         binding.layoutHome.textShowImageReport.setVisibility(View.VISIBLE);
+        binding.layoutHome.cardHealth.setVisibility(View.VISIBLE);
 
         binding.textName.setText(pond.getName());
         binding.textAcreage.setText(pond.getAcreage() + " (m2)");
+
+        binding.layoutHome.btnAddWeight.setVisibility(View.GONE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            database.collection(Constants.KEY_COLLECTION_FISH_WEIGH)
+                    .whereEqualTo(Constants.KEY_FISH_WEIGH_DATE, LocalDate.now().toString())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.getResult() != null && task.isSuccessful()){
+                            for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                                binding.layoutHome.weight.setText(queryDocumentSnapshot.getString(Constants.KEY_FISH_WEIGH_WEIGHT) + " g/con");
+                                binding.layoutHome.loss.setText(queryDocumentSnapshot.getString(Constants.KEY_FISH_WEIGH_LOSS) + " con");
+                            }
+                        }
+                    });
+        }
 
         database.collection(Constants.KEY_COLLECTION_USER)
                 .whereEqualTo(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_WORKER)

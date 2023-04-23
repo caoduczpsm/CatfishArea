@@ -110,7 +110,7 @@ public class Constants {
     public static final String KEY_DIRECTOR_ALLOCATION_TASK = "allocationTasks";
     public static final String KEY_FIXED_TASK_FEED_FISH = "Cho cá ăn";
     public static final String KEY_FIXED_TASK_MEASURE_WATER = "Đo chất lượng nước";
-    public static final String KEY_FIXED_TASK_TREATMENT = "Trị bệnh";
+    public static final String KEY_FIXED_TASK_FISH_SCALES = "Cân cá";
     public static final String KEY_TYPE_OF_TASK = "typeOfTask";
 
     // Báo cáo cá bệnh (công nhân)
@@ -289,6 +289,14 @@ public class Constants {
     public static final String KEY_DIARY_COLLECTION_WATER = "water";
     public static final String KEY_DIARY_WATER_DATE = "date";
     public static final String KEY_DIARY_WATER_POND_ID = "pondId";
+
+    // Cân cá
+    public static final String KEY_COLLECTION_FISH_WEIGH = "fishWeighs";
+    public static final String KEY_FISH_WEIGH_ID = "id";
+    public static final String KEY_FISH_WEIGH_DATE = "date";
+    public static final String KEY_FISH_WEIGH_WEIGHT = "weigh";
+    public static final String KEY_FISH_WEIGH_LOSS = "loss";
+    public static final String KEY_FISH_WEIGH_POND_ID = "pondId";
 
 
     public static HashMap<String, String> remoteMsgHeaders = null;

@@ -540,7 +540,7 @@
             android:layout_height="wrap_content"
             android:elevation="20dp"
             android:translationZ="10dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:cardCornerRadius="10dp"
             app:cardUseCompatPadding="true"
             app:layout_constraintStart_toStartOf="parent"
@@ -913,7 +913,7 @@
             android:translationZ="10dp"
             app:cardCornerRadius="10dp"
             app:cardUseCompatPadding="true"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardEnvironment">
 
@@ -943,7 +943,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_8sdp"
-                    app:layout_constraintBottom_toTopOf="@id/settingHealthBtn"
+                    app:layout_constraintBottom_toTopOf="@id/btnAddWeight"
                     app:layout_constraintTop_toBottomOf="@id/titleHealth">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -1017,7 +1017,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/settingHealthBtn"
+                    android:id="@+id/btnAddWeight"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:layout_marginEnd="@dimen/_10sdp"
@@ -1201,19 +1201,17 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnComplete"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hoàn thành"
-                    android:background="@drawable/background_border"
-                    android:backgroundTint="#3250F8"
-                    android:textColor="@color/white"
-                    android:textAllCaps="false"
-                    android:textStyle="bold"
+                    android:layout_height="48dp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:background="@drawable/background_edit_text"
+                    android:text="Hoàn thành"
+                    android:textAllCaps="false"
+                    android:textColor="#757575"
                     app:layout_constraintTop_toBottomOf="@id/medicineRecyclerView"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    tools:ignore="HardcodedText" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="HardcodedText,TextContrastCheck,TooManyViews,TouchTargetSizeCheck" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
