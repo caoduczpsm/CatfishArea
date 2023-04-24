@@ -159,6 +159,39 @@ public class WorkerHomeActivity extends BaseActivity {
                                             binding.layoutHome.weight.setText("g/con");
                                             binding.layoutHome.loss.setText("con");
                                         });
+
+                                LocalDate now = LocalDate.now();
+                                String yesterday = now.minusDays(1).toString();
+
+                                database.collection(Constants.KEY_COLLECTION_PLAN)
+                                        .whereEqualTo(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID))
+                                        .get()
+                                        .addOnCompleteListener(task -> {
+                                           if (task.getResult() != null && task.isSuccessful()){
+                                               for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                                   database.collection(Constants.KEY_COLLECTION_FISH_WEIGH)
+                                                           .whereEqualTo(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID))
+                                                           .whereEqualTo(Constants.KEY_FISH_WEIGH_DATE, yesterday)
+                                                           .get()
+                                                           .addOnCompleteListener(task1-> {
+                                                               for (QueryDocumentSnapshot queryDocumentSnapshot1 : task1.getResult()){
+                                                                   HashMap<String, Object> weight = new HashMap<>();
+                                                                   weight.put(Constants.KEY_FISH_WEIGH_DATE, yesterday);
+                                                                   weight.put(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID));
+                                                                   weight.put(Constants.KEY_FISH_WEIGH_WEIGHT, queryDocumentSnapshot1.getString(Constants.KEY_FISH_WEIGH_WEIGHT));
+                                                                   weight.put(Constants.KEY_FISH_WEIGH_LOSS, queryDocumentSnapshot1.getString(Constants.KEY_FISH_WEIGH_LOSS));
+                                                                   if (task1.getResult() != null && task1.isSuccessful()){
+                                                                       database.collection(Constants.KEY_COLLECTION_PLAN)
+                                                                               .document(queryDocumentSnapshot.getId())
+                                                                               .collection(Constants.KEY_COLLECTION_FISH_WEIGH)
+                                                                               .document(yesterday)
+                                                                               .set(weight);
+                                                                   }
+                                                               }
+                                                           });
+                                               }
+                                           }
+                                        });
                             } else {
                                 database.collection(Constants.KEY_COLLECTION_FISH_WEIGH)
                                         .whereEqualTo(Constants.KEY_FISH_WEIGH_DATE, LocalDate.now().toString())
@@ -1179,7 +1212,7 @@ public class WorkerHomeActivity extends BaseActivity {
     );
 
     private String encodeImage(Bitmap bitmap){
-        int previewWidth = 800;
+        int previewWidth = 600;
         int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
         Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

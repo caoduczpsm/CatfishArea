@@ -78,6 +78,8 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
 
         pond = (Pond) getIntent().getSerializableExtra(Constants.KEY_POND);
 
+        treatment = new Treatment();
+
         users = new ArrayList<>();
         usersAdapter = new UsersAdapter(users, this);
 
@@ -92,6 +94,7 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             database.collection(Constants.KEY_COLLECTION_FISH_WEIGH)
                     .whereEqualTo(Constants.KEY_FISH_WEIGH_DATE, LocalDate.now().toString())
+                    .whereEqualTo(Constants.KEY_POND_ID, pond.getId())
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.getResult() != null && task.isSuccessful()){
@@ -204,7 +207,6 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
                 .get()
                 .addOnCompleteListener(task -> {
                     for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-                        treatment = new Treatment();
                         treatment.id = queryDocumentSnapshot.getId();
                         treatment.pondId = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_POND_ID);
                         treatment.campusId = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_CAMPUS_ID);

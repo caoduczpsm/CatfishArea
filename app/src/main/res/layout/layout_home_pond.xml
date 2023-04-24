@@ -540,7 +540,7 @@
             android:layout_height="wrap_content"
             android:elevation="20dp"
             android:translationZ="10dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:cardCornerRadius="10dp"
             app:cardUseCompatPadding="true"
             app:layout_constraintStart_toStartOf="parent"
