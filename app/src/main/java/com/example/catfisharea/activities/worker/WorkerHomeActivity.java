@@ -986,8 +986,8 @@ public class WorkerHomeActivity extends BaseActivity {
 
         TedPermission.create()
                 .setPermissionListener(permissionlistener)
-                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .setDeniedMessage(getString(R.string.PermissionDeniedNoice))
+                .setPermissions(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .check();
     }
 
