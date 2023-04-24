@@ -12,13 +12,14 @@ import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.WarehouseDetailAdapter;
 import com.example.catfisharea.models.Category;
 import com.example.catfisharea.ultilities.Constants;
+import com.example.catfisharea.ultilities.DecimalHelper;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class WarehouseDetailActivity extends BaseActivity {
     private ActivityWarehouseDetailBinding mBinding;
@@ -62,6 +63,22 @@ public class WarehouseDetailActivity extends BaseActivity {
             intent.putExtra(Constants.KEY_AREA_ID, areaID);
             startActivity(intent);
         });
+
+        getTotalData();
+    }
+
+    private void getTotalData() {
+        AtomicLong total = new AtomicLong();
+        database.collection(Constants.KEY_COLLECTION_WAREHOUSE).document(warehouseID)
+                .collection(Constants.KEY_CATEGORY_OF_WAREHOUSE).get().addOnSuccessListener(categoryQuery -> {
+                    for (DocumentSnapshot documentSnapshot : categoryQuery.getDocuments()) {
+                        String price = documentSnapshot.getString(Constants.KEY_PRICE);
+                        String amount = documentSnapshot.getString(Constants.KEY_AMOUNT);
+                        if (price == null) price = "0";
+                        total.addAndGet((long) (Double.parseDouble(price) * Long.parseLong(amount)));
+                    }
+                    mBinding.total.setText(DecimalHelper.formatText(total));
+                });
     }
 
     @Override
@@ -81,7 +98,7 @@ public class WarehouseDetailActivity extends BaseActivity {
         database.collection(Constants.KEY_COLLECTION_WAREHOUSE).document(warehouseID)
                 .collection(Constants.KEY_CATEGORY_OF_WAREHOUSE)
                 .get().addOnSuccessListener(warehouseQuery -> {
-                    for (DocumentSnapshot doc: warehouseQuery) {
+                    for (DocumentSnapshot doc : warehouseQuery) {
                         String name = doc.getString(Constants.KEY_NAME);
                         String producer = doc.getString(Constants.KEY_PRODUCER);
                         String amount = doc.getString(Constants.KEY_AMOUNT);

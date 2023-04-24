@@ -100,6 +100,7 @@ public class CreatePlanActivity extends BaseActivity {
             data.put(Constants.KEY_CONSISTENCE, Integer.parseInt(consistence));
             data.put(Constants.KEY_NUMBER_OF_FISH, DecimalHelper.parseText(numberOfFish));
             data.put(Constants.KEY_FINGERLING_SAMPLES, DecimalHelper.parseText(fingerlingSamples));
+            data.put(Constants.KEY_PRICE, DecimalHelper.parseText(price)    );
             data.put(Constants.KEY_PREPARATION_COST, DecimalHelper.parseText(preparationCost));
 
             database.collection(Constants.KEY_COLLECTION_PLAN).document().set(data).addOnSuccessListener(command -> {

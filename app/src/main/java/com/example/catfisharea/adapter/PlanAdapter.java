@@ -1,16 +1,21 @@
 package com.example.catfisharea.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.app.catfisharea.databinding.LayoutItemPlanDetailBinding;
 import com.android.app.catfisharea.databinding.LayoutPlanItemBinding;
 import com.example.catfisharea.models.Plan;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,7 +30,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanHolder> {
     @NonNull
     @Override
     public PlanHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutPlanItemBinding layoutPlanItemBinding = LayoutPlanItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        LayoutItemPlanDetailBinding layoutPlanItemBinding = LayoutItemPlanDetailBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new PlanHolder(layoutPlanItemBinding);
     }
 
@@ -41,26 +46,33 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanHolder> {
     }
 
     class PlanHolder extends RecyclerView.ViewHolder {
-        private LayoutPlanItemBinding mBinding;
+        private LayoutItemPlanDetailBinding mBinding;
 
-        public PlanHolder(@NonNull LayoutPlanItemBinding mBinding) {
+        public PlanHolder(@NonNull LayoutItemPlanDetailBinding mBinding) {
             super(mBinding.getRoot());
             this.mBinding = mBinding;
         }
 
         public void setData(Plan plan) {
-            mBinding.nameItem.setText(plan.getPondName());
-            mBinding.acreage.setText(formatText(Float.parseFloat(plan.getAcreage())));
-            mBinding.date.setText(plan.getDate());
-            mBinding.consistence.setText(plan.getConsistence() + "");
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+//            String date = plan.getDate().getDay() +"-"+ plan.getDate().getMonth() + "-" +plan.getDate().getYear();
+            mBinding.dateItem.setText("Ngày: "+ format.format(plan.getDate()));
+            mBinding.dateBirth.setText("Ngày tuổi: " +plan.getOld());
+            mBinding.fishWeight.setText(formatText(plan.getFishWeight()));
             mBinding.numberOfFish.setText(formatText(plan.getNumberOfFish()));
-            mBinding.survivalRate.setText(plan.getSurvivalRate() + "");
-            mBinding.numberOfFishAlive.setText(formatText(plan.getNumberOfFish()));
-            mBinding.harvestSize.setText(plan.getHarvestSize() + "");
-            mBinding.harvestYield.setText(formatText(plan.getHarvestYield()));
-            mBinding.fcr.setText(plan.getFcr() + "");
-            mBinding.food.setText(formatText(plan.getFood()));
-            mBinding.fingerlingSamples.setText(formatText(plan.getFingerlingSamples()));
+            mBinding.numberOfDeadFish.setText(formatText(plan.getNumberOfDeadFish()));
+            mBinding.LKnumberOfDeadFish.setText(formatText(plan.getLKnumberOfDeadFish()));
+            mBinding.fishLeft.setText(formatText(plan.getNumberOfFishAlive()));
+            mBinding.tlhh.setText(roundThreeDecimals(plan.getSurvivalRate()) + "");
+            mBinding.numberOfFood.setText(formatText(plan.getFood()));
+            mBinding.LKnumberOfFood.setText(formatText(plan.getTotalFood()));
+            mBinding.BQFish.setText(plan.getAVG()+ "");
+        }
+
+        public double roundThreeDecimals(double d) {
+            BigDecimal bd = new BigDecimal(d);
+            bd = bd.setScale(3, RoundingMode.HALF_UP);
+            return bd.doubleValue();
         }
 
         private String formatText(Object text) {

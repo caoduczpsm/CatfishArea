@@ -35,7 +35,7 @@ public class TreatmentActivity extends BaseActivity implements DatePickerListene
     private TreatmentAcceptedFragment treatmentAcceptedFragment;
     private PendingTreatmentFragment pendingTreatmentFragment;
     private TreatmentRejectedFragment treatmentRejectedFragment;
-    //private CompletedTreatmentFragment completedTreatmentFragment;
+//    private CompletedTreatmentFragment completedTreatmentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

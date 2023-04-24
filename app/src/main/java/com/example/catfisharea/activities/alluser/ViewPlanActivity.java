@@ -10,19 +10,17 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityViewPlanBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.HomeAdapter;
-import com.example.catfisharea.adapter.PlanAdapter;
-
 import com.example.catfisharea.listeners.CampusListener;
 import com.example.catfisharea.models.Area;
 import com.example.catfisharea.models.Campus;
 import com.example.catfisharea.models.ItemHome;
-import com.example.catfisharea.models.Plan;
 import com.example.catfisharea.models.Pond;
 import com.example.catfisharea.models.RegionModel;
 import com.example.catfisharea.ultilities.Constants;
@@ -58,6 +56,9 @@ public class ViewPlanActivity extends BaseActivity implements CampusListener {
         mBinding.toolbarViewPlan.setNavigationOnClickListener(view -> onBackPressed());
         itemHomes = new ArrayList<>();
         homeAdapter = new HomeAdapter(this, itemHomes, this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mBinding.recyclerViewPlan.setLayoutManager(linearLayoutManager);
         mBinding.recyclerViewPlan.setAdapter(homeAdapter);
 
         String type = preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT);
@@ -239,55 +240,5 @@ public class ViewPlanActivity extends BaseActivity implements CampusListener {
     public void onCreatePlan(RegionModel regionModel) {
 
     }
-
-//    @SuppressLint("NotifyDataSetChanged")
-//    private void getDataPlan() {
-//        mPlans = new ArrayList<>();
-//        planAdapter = new PlanAdapter(mPlans);
-////        mBinding.recyclerViewPlan.setAdapter(planAdapter);
-//        database.collection(Constants.KEY_COLLECTION_CAMPUS)
-//                .whereEqualTo(Constants.KEY_AREA_ID, preferenceManager.getString(Constants.KEY_AREA_ID))
-//                .get().addOnSuccessListener(snapShotCampus -> {
-//                    for (DocumentSnapshot documentSnapshot : snapShotCampus.getDocuments()) {
-//                        database.collection(Constants.KEY_COLLECTION_PLAN)
-//                                .whereEqualTo(Constants.KEY_CAMPUS_ID, documentSnapshot.getId())
-//                                .get().addOnSuccessListener(queryDocumentSnapshots -> {
-//                                    Plan plan = new Plan();
-//                                    plan.setPlanId(documentSnapshot.getId());
-//                                    plan.setPondName(documentSnapshot.getString(Constants.KEY_NAME));
-//                                    plan.setPondId(documentSnapshot.getString(Constants.KEY_POND_ID));
-//
-//                                    for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
-//                                        String acreage = doc.getString(Constants.KEY_ACREAGE);
-//                                        int consistence = Objects.requireNonNull(doc.getLong(Constants.KEY_CONSISTENCE)).intValue();
-//                                        int numberOfFish = Objects.requireNonNull(doc.getLong(Constants.KEY_NUMBER_OF_FISH)).intValue();
-//                                        float survivalRate = Objects.requireNonNull(doc.getDouble(Constants.KEY_SURVIVAL_RATE)).floatValue();
-//                                        int numberOfFishAlive = Objects.requireNonNull(doc.getLong(Constants.KEY_NUMBER_OF_FISH_ALIVE)).intValue();
-//                                        float harvestSize = Objects.requireNonNull(doc.getDouble(Constants.KEY_HARVEST_SIZE)).floatValue();
-//                                        int harvestYield = Objects.requireNonNull(doc.getLong(Constants.KEY_HARVEST_YIELD)).intValue();
-//                                        float fcr = Objects.requireNonNull(doc.getDouble(Constants.KEY_FCR)).floatValue();
-//                                        int food = Objects.requireNonNull(doc.getLong(Constants.KEY_FOOD)).intValue();
-//                                        int fingerlingSamples = Objects.requireNonNull(doc.getLong(Constants.KEY_FINGERLING_SAMPLES)).intValue();
-//                                        assert acreage != null;
-//                                        plan.setAcreage(Integer.parseInt(plan.getAcreage()) + Integer.parseInt(acreage) + "");
-//                                        plan.setConsistence(plan.getConsistence() + consistence);
-//                                        plan.setNumberOfFish(plan.getNumberOfFish() + numberOfFish);
-//                                        plan.setSurvivalRate(plan.getSurvivalRate() + survivalRate);
-//                                        plan.setNumberOfFishAlive(plan.getNumberOfFishAlive() + numberOfFishAlive);
-//                                        plan.setHarvestYield(plan.getHarvestYield() + harvestYield);
-//                                        plan.setHarvestSize(plan.getHarvestSize() + harvestSize);
-//                                        plan.setFcr(plan.getFcr() + fcr);
-//                                        plan.setFood(plan.getFood() + food);
-//                                        plan.setFingerlingSamples(plan.getFingerlingSamples() + fingerlingSamples);
-//                                    }
-//                                    if (plan.getNumberOfFish() != 0) {
-//                                        mPlans.add(plan);
-//                                    }
-//                                    planAdapter.notifyDataSetChanged();
-//                                });
-//                    }
-//                });
-//
-//    }
 
 }

@@ -31,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:translationZ="10dp"
+        android:visibility="gone"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true"
@@ -38,9 +39,9 @@
         app:layout_constraintTop_toBottomOf="@id/toolbarShadow">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:padding="@dimen/_8sdp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="@dimen/_8sdp">
 
             <TextView
                 android:id="@+id/textPond"
@@ -60,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_4sdp"
-                android:text="Ao 01 "
+                android:text="Ao "
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 app:layout_constraintStart_toEndOf="@id/textPond"
@@ -71,172 +72,174 @@
                 android:id="@+id/textAcreage"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_4sdp"
                 android:text="Diện tích: "
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
-                android:padding="@dimen/_4sdp"
-                app:layout_constraintTop_toBottomOf="@id/textPond"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textPond"
                 app:layout_constraintWidth_percent="0.35" />
+
             <TextView
                 android:id="@+id/pondAcreage"
                 android:layout_width="wrap_content"
-                android:padding="@dimen/_4sdp"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_4sdp"
                 android:text="1000"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
-                app:layout_constraintTop_toTopOf="@id/textAcreage"
-                app:layout_constraintStart_toEndOf="@id/textPond" />
+                app:layout_constraintStart_toEndOf="@id/textPond"
+                app:layout_constraintTop_toTopOf="@id/textAcreage" />
 
             <TextView
                 android:id="@+id/textDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_4sdp"
                 android:text="Ngày thả: "
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
-                android:padding="@dimen/_4sdp"
-                app:layout_constraintTop_toBottomOf="@id/textAcreage"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textAcreage"
                 app:layout_constraintWidth_percent="0.35" />
+
             <TextView
                 android:id="@+id/pondDate"
                 android:layout_width="wrap_content"
-                android:padding="@dimen/_4sdp"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_4sdp"
                 android:text="21-04-2023"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
-                app:layout_constraintTop_toTopOf="@id/textDate"
                 app:layout_constraintStart_toEndOf="@id/textPond"
+                app:layout_constraintTop_toTopOf="@id/textDate"
                 app:layout_constraintWidth_percent="0.25" />
 
             <TextView
                 android:id="@+id/textConsistence"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_4sdp"
                 android:text="Mật độ thả: "
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
-                android:padding="@dimen/_4sdp"
-                app:layout_constraintTop_toBottomOf="@id/textDate"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textDate"
                 app:layout_constraintWidth_percent="0.35" />
 
             <TextView
                 android:id="@+id/pondConsistence"
                 android:layout_width="wrap_content"
-                android:padding="@dimen/_4sdp"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_4sdp"
                 android:text="75 con/m²"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
-                app:layout_constraintTop_toTopOf="@id/textConsistence"
                 app:layout_constraintStart_toEndOf="@id/textPond"
+                app:layout_constraintTop_toTopOf="@id/textConsistence"
                 app:layout_constraintWidth_percent="0.25" />
 
             <TextView
                 android:id="@+id/textNumberOfFish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_4sdp"
                 android:text="Số lượng cá thả: "
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
-                android:padding="@dimen/_4sdp"
-                app:layout_constraintTop_toBottomOf="@id/textConsistence"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textConsistence"
                 app:layout_constraintWidth_percent="0.35" />
 
             <TextView
                 android:id="@+id/pondNumberOfFish"
                 android:layout_width="0dp"
-                android:padding="@dimen/_4sdp"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_4sdp"
                 android:text="4500 con"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
-                app:layout_constraintTop_toTopOf="@id/textNumberOfFish"
                 app:layout_constraintStart_toEndOf="@id/textPond"
+                app:layout_constraintTop_toTopOf="@id/textNumberOfFish"
                 app:layout_constraintWidth_percent="0.25" />
 
             <TextView
                 android:id="@+id/textfingerlingSamples"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_4sdp"
                 android:text="Mẫu cá: "
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
-                android:padding="@dimen/_4sdp"
-                app:layout_constraintTop_toBottomOf="@id/textNumberOfFish"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textNumberOfFish"
                 app:layout_constraintWidth_percent="0.35" />
 
             <TextView
                 android:id="@+id/fingerlingSamples"
                 android:layout_width="0dp"
-                android:padding="@dimen/_4sdp"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_4sdp"
                 android:text="30 con/kg"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
-                app:layout_constraintTop_toTopOf="@id/textfingerlingSamples"
                 app:layout_constraintStart_toEndOf="@id/textPond"
+                app:layout_constraintTop_toTopOf="@id/textfingerlingSamples"
                 app:layout_constraintWidth_percent="0.25" />
 
             <TextView
                 android:id="@+id/textPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_4sdp"
                 android:text="Giá cá giống: "
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
-                android:padding="@dimen/_4sdp"
-                app:layout_constraintTop_toBottomOf="@id/textfingerlingSamples"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textfingerlingSamples"
                 app:layout_constraintWidth_percent="0.35" />
 
             <TextView
                 android:id="@+id/price"
                 android:layout_width="0dp"
-                android:padding="@dimen/_4sdp"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_4sdp"
                 android:text="30 đ/con"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
-                app:layout_constraintTop_toTopOf="@id/textPrice"
                 app:layout_constraintStart_toEndOf="@id/textPond"
+                app:layout_constraintTop_toTopOf="@id/textPrice"
                 app:layout_constraintWidth_percent="0.25" />
 
             <TextView
                 android:id="@+id/textpreparationCost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_4sdp"
                 android:text="Phí chuẩn bị ao: "
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
-                android:padding="@dimen/_4sdp"
-                app:layout_constraintTop_toBottomOf="@id/textPrice"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textPrice"
                 app:layout_constraintWidth_percent="0.35" />
 
             <TextView
                 android:id="@+id/preparationCost"
                 android:layout_width="0dp"
-                android:padding="@dimen/_4sdp"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_4sdp"
                 android:text="10000"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
-                app:layout_constraintTop_toTopOf="@id/textpreparationCost"
                 app:layout_constraintStart_toEndOf="@id/textPond"
+                app:layout_constraintTop_toTopOf="@id/textpreparationCost"
                 app:layout_constraintWidth_percent="0.25" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

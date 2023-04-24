@@ -132,7 +132,7 @@
         app:layout_constraintBottom_toBottomOf="@id/textTotal"
         app:layout_constraintEnd_toEndOf="parent"
         android:padding="@dimen/_10sdp"
-        android:text="1.000.000"
+        android:text="0"
         android:textAlignment="textEnd"
         android:textColor="@color/textGray"
         android:textSize="@dimen/_15ssp" />

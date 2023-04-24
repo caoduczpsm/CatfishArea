@@ -1,20 +1,55 @@
 package com.example.catfisharea.models;
 
+import java.util.Date;
+
 public class Plan {
     private String planId;
     private String pondId;
     private String pondName; // tên ao
     private String acreage = "0";  // diện tích nước (m2)
-    private String date;
-    private int consistence = 0; // mật độ thả (con/m2)
-    private int numberOfFish = 0;   //Số lượng cá thả (con)
+    private Date date;
+    private long numberOfFish = 0;   //Số lượng cá thả (con)
+    private long fishWeight = 0;
+    private long numberOfDeadFish = 0;
+    private long LKnumberOfDeadFish = 0;
     private float survivalRate = 0; // tỷ lệ sống (%)
-    private int numberOfFishAlive = 0;  // số lượng cá còn (con)
-    private float harvestSize = 0;  //size thu hoạch (kg/ con)
-    private int harvestYield = 0;   //sản lương thu hoạch (kg)
-    private float fcr = 0;  // FCR
-    private int food = 0;   // Thức ăn/ vụ nuôi (kg)
-    private int fingerlingSamples = 0; // Mẫu cá con/kg
+    private long numberOfFishAlive = 0;  // số lượng cá còn (con)
+    private long food = 0;   // Thức ăn/ vụ nuôi (kg)
+    private long old = 0;
+    private long totalFood = 0;
+    private long AVG = 0;
+
+    public long getAVG() {
+        return AVG;
+    }
+
+    public void setAVG(long AVG) {
+        this.AVG = AVG;
+    }
+
+    public long getTotalFood() {
+        return totalFood;
+    }
+
+    public void setTotalFood(long totalFood) {
+        this.totalFood = totalFood;
+    }
+
+    public String getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(String planId) {
+        this.planId = planId;
+    }
+
+    public String getPondId() {
+        return pondId;
+    }
+
+    public void setPondId(String pondId) {
+        this.pondId = pondId;
+    }
 
     public String getPondName() {
         return pondName;
@@ -32,28 +67,44 @@ public class Plan {
         this.acreage = acreage;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public int getConsistence() {
-        return consistence;
-    }
-
-    public void setConsistence(int consistence) {
-        this.consistence = consistence;
-    }
-
-    public int getNumberOfFish() {
+    public long getNumberOfFish() {
         return numberOfFish;
     }
 
-    public void setNumberOfFish(int numberOfFish) {
+    public void setNumberOfFish(long numberOfFish) {
         this.numberOfFish = numberOfFish;
+    }
+
+    public long getFishWeight() {
+        return fishWeight;
+    }
+
+    public void setFishWeight(long fishWeight) {
+        this.fishWeight = fishWeight;
+    }
+
+    public long getNumberOfDeadFish() {
+        return numberOfDeadFish;
+    }
+
+    public void setNumberOfDeadFish(long numberOfDeadFish) {
+        this.numberOfDeadFish = numberOfDeadFish;
+    }
+
+    public long getLKnumberOfDeadFish() {
+        return LKnumberOfDeadFish;
+    }
+
+    public void setLKnumberOfDeadFish(long LKnumberOfDeadFish) {
+        this.LKnumberOfDeadFish = LKnumberOfDeadFish;
     }
 
     public float getSurvivalRate() {
@@ -64,67 +115,28 @@ public class Plan {
         this.survivalRate = survivalRate;
     }
 
-    public int getNumberOfFishAlive() {
+    public long getNumberOfFishAlive() {
         return numberOfFishAlive;
     }
 
-    public void setNumberOfFishAlive(int numberOfFishAlive) {
+    public void setNumberOfFishAlive(long numberOfFishAlive) {
         this.numberOfFishAlive = numberOfFishAlive;
     }
 
-    public float getHarvestSize() {
-        return harvestSize;
-    }
-
-    public void setHarvestSize(float harvestSize) {
-        this.harvestSize = harvestSize;
-    }
-
-    public int getHarvestYield() {
-        return harvestYield;
-    }
-
-    public void setHarvestYield(int harvestYield) {
-        this.harvestYield = harvestYield;
-    }
-
-    public float getFcr() {
-        return fcr;
-    }
-
-    public void setFcr(float fcr) {
-        this.fcr = fcr;
-    }
-
-    public int getFood() {
+    public long getFood() {
         return food;
     }
 
-    public void setFood(int food) {
+    public void setFood(long food) {
         this.food = food;
     }
 
-    public int getFingerlingSamples() {
-        return fingerlingSamples;
+
+    public long getOld() {
+        return old;
     }
 
-    public void setFingerlingSamples(int fingerlingSamples) {
-        this.fingerlingSamples = fingerlingSamples;
-    }
-
-    public String getPondId() {
-        return pondId;
-    }
-
-    public void setPondId(String pondId) {
-        this.pondId = pondId;
-    }
-
-    public String getPlanId() {
-        return planId;
-    }
-
-    public void setPlanId(String planId) {
-        this.planId = planId;
+    public void setOld(long old) {
+        this.old = old;
     }
 }

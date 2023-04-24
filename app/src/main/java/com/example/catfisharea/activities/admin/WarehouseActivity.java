@@ -93,11 +93,25 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                         String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
                         String acreage = documentSnapshot.getString(Constants.KEY_ACREAGE);
                         String description = documentSnapshot.getString(Constants.KEY_DESCRIPTION);
+                        String pondId = documentSnapshot.getString(Constants.KEY_POND_ID);
 
                         Warehouse warehouse = new Warehouse(id, name, areaId, campusId, acreage, description);
+                        warehouse.setPondId(pondId);
                         mWarehouses.add(warehouse);
+                        database.collection(Constants.KEY_COLLECTION_POND).document(pondId)
+                                .get().addOnSuccessListener(documentSnapshot1 -> {
+                                    warehouse.setPondName(documentSnapshot1.getString(Constants.KEY_NAME));
+                                    database.collection(Constants.KEY_COLLECTION_CAMPUS).document(campusId)
+                                            .get().addOnSuccessListener(campus -> {
+                                                warehouse.setPondName(campus.getString(Constants.KEY_NAME) + warehouse.getPondName());
+                                                warehouseAdapter.notifyDataSetChanged();
+                                            });
+
+                                    warehouseAdapter.notifyDataSetChanged();
+                                });
+
                     }
-                    warehouseAdapter.notifyDataSetChanged();
+
                 });
     }
 
@@ -109,15 +123,22 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                         String name = documentSnapshot.getString(Constants.KEY_NAME);
                         String id = documentSnapshot.getId();
                         String campusId = documentSnapshot.getString(Constants.KEY_CAMPUS_ID);
-
                         String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
                         String acreage = documentSnapshot.getString(Constants.KEY_ACREAGE);
                         String description = documentSnapshot.getString(Constants.KEY_DESCRIPTION);
-
+                        String pondId = documentSnapshot.getString(Constants.KEY_POND_ID);
                         Warehouse warehouse = new Warehouse(id, name, areaId, campusId, acreage, description);
-                        mWarehouses.add(warehouse);
+                        warehouse.setPondId(pondId);
+                        database.collection(Constants.KEY_COLLECTION_POND).document(pondId)
+                                .get().addOnSuccessListener(documentSnapshot1 -> {
+                                    warehouse.setPondName(documentSnapshot1.getString(Constants.KEY_NAME));
+                                    mWarehouses.add(warehouse);
+                                    warehouseAdapter.notifyDataSetChanged();
+                                });
+//                        mWarehouses.add(warehouse);
+
                     }
-                    warehouseAdapter.notifyDataSetChanged();
+//                    warehouseAdapter.notifyDataSetChanged();
                 });
     }
 
@@ -129,15 +150,29 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                         String name = documentSnapshot.getString(Constants.KEY_NAME);
                         String id = documentSnapshot.getId();
                         String campusId = documentSnapshot.getString(Constants.KEY_CAMPUS_ID);
-
+                        String pondId = documentSnapshot.getString(Constants.KEY_POND_ID);
                         String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
                         String acreage = documentSnapshot.getString(Constants.KEY_ACREAGE);
                         String description = documentSnapshot.getString(Constants.KEY_DESCRIPTION);
 
                         Warehouse warehouse = new Warehouse(id, name, areaId, campusId, acreage, description);
+                        warehouse.setPondId(pondId);
                         mWarehouses.add(warehouse);
+                        database.collection(Constants.KEY_COLLECTION_POND).document(pondId)
+                                .get().addOnSuccessListener(documentSnapshot1 -> {
+                                    warehouse.setPondName(documentSnapshot1.getString(Constants.KEY_NAME));
+                                    database.collection(Constants.KEY_COLLECTION_CAMPUS).document(campusId)
+                                                    .get().addOnSuccessListener(campus -> {
+                                                warehouse.setPondName(campus.getString(Constants.KEY_NAME) + warehouse.getPondName());
+                                                warehouseAdapter.notifyDataSetChanged();
+                                            });
+
+                                    warehouseAdapter.notifyDataSetChanged();
+                                });
+
+//                        mWarehouses.add(warehouse);
                     }
-                    warehouseAdapter.notifyDataSetChanged();
+//                    warehouseAdapter.notifyDataSetChanged();
                 });
     }
 

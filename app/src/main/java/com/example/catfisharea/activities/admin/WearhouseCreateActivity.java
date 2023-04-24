@@ -16,6 +16,7 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.SpinnerAdapter;
 import com.example.catfisharea.models.Campus;
+import com.example.catfisharea.models.Pond;
 import com.example.catfisharea.models.RegionModel;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
@@ -38,6 +39,7 @@ public class WearhouseCreateActivity extends BaseActivity {
     private FirebaseFirestore database;
     private PreferenceManager preferenceManager;
     private Campus campus;
+    private Pond pondSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,12 +142,39 @@ public class WearhouseCreateActivity extends BaseActivity {
                     });
         } else {
             mBinding.textInputCampus.setVisibility(View.GONE);
+            getDataPond(preferenceManager.getString(Constants.KEY_CAMPUS_ID));
         }
 
         mBinding.spinnerCampus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 campus = (Campus) parent.getItemAtPosition(position);
+                getDataPond(campus.getId());
+            }
+        });
+    }
+
+    public void getDataPond(String campusId) {
+        ArrayList<RegionModel> mPond = new ArrayList<>();
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this, R.layout.layout_spinner_item, mPond);
+        mBinding.spinnerPond.setAdapter(spinnerAdapter);
+
+        database.collection(Constants.KEY_COLLECTION_POND)
+                .whereEqualTo(Constants.KEY_CAMPUS_ID, campusId)
+                .get().addOnSuccessListener(pondQuery -> {
+                    for (DocumentSnapshot doc: pondQuery.getDocuments()) {
+                        Map<String, Object> data = doc.getData();
+                        String id = doc.getId();
+                        Pond pond = new Pond(id, data.get(Constants.KEY_NAME).toString());
+                        mPond.add(pond);
+                    }
+                    spinnerAdapter.notifyDataSetChanged();
+                });
+
+        mBinding.spinnerPond.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                pondSelected = (Pond) parent.getItemAtPosition(position);
             }
         });
     }
@@ -158,13 +187,14 @@ public class WearhouseCreateActivity extends BaseActivity {
         if (!name.isEmpty() && !acreage.isEmpty()) {
             if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_ADMIN)
                     || preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF)) {
-                if (campus != null) {
+                if (campus != null && pondSelected != null) {
                     Map<String, Object> data = new HashMap<>();
                     data.put(Constants.KEY_NAME, name);
                     data.put(Constants.KEY_ACREAGE, acreage);
                     data.put(Constants.KEY_DESCRIPTION, description);
                     data.put(Constants.KEY_CAMPUS_ID, campus.getId());
                     data.put(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID));
+                    data.put(Constants.KEY_POND_ID, pondSelected.getId());
                     database.collection(Constants.KEY_CAMPUS).document(campus.getId()).get()
                             .addOnSuccessListener(documentSnapshot -> {
                                 String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
@@ -175,13 +205,14 @@ public class WearhouseCreateActivity extends BaseActivity {
                             });
                 }
             } else {
-                if (preferenceManager.getString(Constants.KEY_CAMPUS_ID) != null) {
+                if (preferenceManager.getString(Constants.KEY_CAMPUS_ID) != null && pondSelected != null) {
                     Map<String, Object> data = new HashMap<>();
                     data.put(Constants.KEY_NAME, name);
                     data.put(Constants.KEY_ACREAGE, acreage);
                     data.put(Constants.KEY_DESCRIPTION, description);
                     data.put(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID));
                     data.put(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID));
+                    data.put(Constants.KEY_POND_ID, pondSelected.getId());
                     database.collection(Constants.KEY_CAMPUS).document(preferenceManager.getString(Constants.KEY_CAMPUS_ID)).get()
                             .addOnSuccessListener(documentSnapshot -> {
                                 String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);

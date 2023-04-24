@@ -49,6 +49,7 @@ public class WarehouseAdapter extends RecyclerView.Adapter<WarehouseAdapter.Ware
 
         public void setData(Warehouse warehouse) {
             mBinding.nameWarehouse.setText(warehouse.getName());
+            mBinding.category.setText(warehouse.getPondName());
             mBinding.itemWarehouse.setOnClickListener(view -> {
                 warehouseListener.openWarehouse(warehouse);
             });

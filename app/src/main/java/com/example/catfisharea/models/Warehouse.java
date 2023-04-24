@@ -9,6 +9,8 @@ public class Warehouse {
     private String campusId;
     private String acreage;
     private String description;
+    private String pondId;
+    private String pondName;
     private Map<String, Integer> category;
 
     public Warehouse(String id, String name, String areaId, String campusId, String acreage, String description) {
@@ -18,6 +20,14 @@ public class Warehouse {
         this.campusId = campusId;
         this.acreage = acreage;
         this.description = description;
+    }
+
+    public String getPondName() {
+        return pondName;
+    }
+
+    public void setPondName(String pondName) {
+        this.pondName = pondName;
     }
 
     public String getId() {
@@ -50,6 +60,14 @@ public class Warehouse {
 
     public void setCampusId(String campusId) {
         this.campusId = campusId;
+    }
+
+    public String getPondId() {
+        return pondId;
+    }
+
+    public void setPondId(String pondId) {
+        this.pondId = pondId;
     }
 
     public String getAcreage() {

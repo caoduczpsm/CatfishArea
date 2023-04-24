@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -19,695 +20,270 @@
 
             <TextView
                 android:id="@+id/dateItem"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_5sdp"
                 android:text="Ngày 20/04/2023"
-                android:textColor="@color/black"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_15ssp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutFoodItem"
+            <TextView
+                android:id="@+id/dateBirth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:text="Ngày tuổi: 1"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TableLayout
+                android:id="@+id/table1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dateItem">
 
-                <TextView
-                    android:id="@+id/foodItem"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="@dimen/_3sdp"
-                    android:text="Thức ăn: "
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15ssp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@id/layoutFood"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent="0.2" />
+                <TableRow>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutFood"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/foodItem"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <HorizontalScrollView
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:scrollbars="none"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="TL cá thả (kg)"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold" />
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent">
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="SL cá thả (con)"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold" />
 
-                            <LinearLayout
-                                android:id="@+id/layoutFood1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="@dimen/_3sdp"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="Cá chết (con)"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold" />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="Lần 1"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="LK cá chết (con)"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold" />
+                </TableRow>
 
-                                <TextView
-                                    android:id="@+id/food1"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="100 bao"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-                            </LinearLayout>
+                <TableRow>
 
-                            <LinearLayout
-                                android:id="@+id/layoutFood2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="@dimen/_3sdp"
-                                app:layout_constraintStart_toEndOf="@id/layoutFood1"
-                                app:layout_constraintTop_toTopOf="parent">
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:id="@+id/fishWeight"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="10.000"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="Lần 2"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:id="@+id/numberOfFish"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="300.000"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
 
-                                <TextView
-                                    android:id="@+id/food2"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="10 bao"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-                            </LinearLayout>
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:id="@+id/numberOfDeadFish"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="50.000"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
 
-                            <LinearLayout
-                                android:id="@+id/layoutFood3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="@dimen/_3sdp"
-                                app:layout_constraintStart_toEndOf="@id/layoutFood2"
-                                app:layout_constraintTop_toTopOf="parent">
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:id="@+id/LKnumberOfDeadFish"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="500.000"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
+                </TableRow>
+            </TableLayout>
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="Lần 3"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <TextView
-                                    android:id="@+id/food3"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="10 bao"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/layoutFood4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="@dimen/_3sdp"
-                                app:layout_constraintStart_toEndOf="@id/layoutFood3"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="Lần 4"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <TextView
-                                    android:id="@+id/food4"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="10 bao"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/layoutFood5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="@dimen/_3sdp"
-                                app:layout_constraintStart_toEndOf="@id/layoutFood4"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="Lần 5"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <TextView
-                                    android:id="@+id/food5"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="10 bao"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/layoutFood6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="@dimen/_3sdp"
-                                app:layout_constraintStart_toEndOf="@id/layoutFood5"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="Lần 6"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <TextView
-                                    android:id="@+id/food6"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="10 bao"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/layoutFood7"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="@dimen/_3sdp"
-                                app:layout_constraintStart_toEndOf="@id/layoutFood6"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="Lần 7"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <TextView
-                                    android:id="@+id/food7"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="10 bao"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/layoutFood8"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="@dimen/_3sdp"
-                                app:layout_constraintStart_toEndOf="@id/layoutFood7"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="Lần 8"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <TextView
-                                    android:id="@+id/food8"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="10 bao"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-                            </LinearLayout>
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </HorizontalScrollView>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:id="@+id/view1"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                app:layout_constraintTop_toBottomOf="@id/layoutFoodItem"
-                android:background="@color/black2"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutEnvironmentItem"
+            <TableLayout
+                android:id="@+id/table2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view1">
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintTop_toBottomOf="@id/table1">
 
-                <TextView
-                    android:id="@+id/environmentItem"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="@dimen/_3sdp"
-                    android:text="Môi trường: "
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15ssp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@id/layoutEnvironmentItem"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent="0.2" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutEnvironment"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/environmentItem"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <HorizontalScrollView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="none"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent">
-
-                            <LinearLayout
-                                android:id="@+id/layoutpH"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="@dimen/_3sdp"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="pH"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <TextView
-                                    android:id="@+id/pH"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="10"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:layout_gravity="center_horizontal"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/layoutAlkalinity"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="@dimen/_3sdp"
-                                app:layout_constraintStart_toEndOf="@id/layoutpH"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="Độ Kiềm"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <TextView
-                                    android:id="@+id/alkalinity"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="0"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:layout_gravity="center_horizontal"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/layoutH2S"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="@dimen/_3sdp"
-                                app:layout_constraintStart_toEndOf="@id/layoutAlkalinity"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="H2S"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <TextView
-                                    android:id="@+id/H2S"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="0"
-                                    android:layout_gravity="center_horizontal"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/layoutSalinity"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="@dimen/_3sdp"
-                                app:layout_constraintStart_toEndOf="@id/layoutH2S"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="Độ mặn"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <TextView
-                                    android:id="@+id/salinity"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="0"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:layout_gravity="center_horizontal"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/layoutTemperature"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="@dimen/_3sdp"
-                                app:layout_constraintStart_toEndOf="@id/layoutSalinity"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="Nhiệt độ"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <TextView
-                                    android:id="@+id/temperature"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="0"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:layout_gravity="center_horizontal"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/layoutNH3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="@dimen/_3sdp"
-                                app:layout_constraintStart_toEndOf="@id/layoutTemperature"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="NH3"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <TextView
-                                    android:id="@+id/NH3"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/_3sdp"
-                                    android:text="0"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/_15ssp"
-                                    android:layout_gravity="center_horizontal"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-                            </LinearLayout>
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </HorizontalScrollView>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:id="@+id/view2"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                app:layout_constraintTop_toBottomOf="@id/layoutEnvironmentItem"
-                android:background="@color/black2"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutHealthItem"
-                android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@id/view2"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/healthItem"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="@dimen/_3sdp"
-                    android:text="Sức khỏe: "
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15ssp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@id/layoutHealthItem"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent="0.2" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutWeight"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/_4sdp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/healthItem"
-                    app:layout_constraintEnd_toStartOf="@id/layoutLoss"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                <TableRow>
 
                     <TextView
-                        android:id="@+id/textWeight"
-                        android:layout_width="wrap_content"
+                        android:background="@drawable/cell"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Trọng lượng"
-                        android:textColor="@color/black"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="SL cá còn (kg)"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_14ssp"
-                        android:textStyle="bold"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/weight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="10 g/con"
-                        android:textColor="@color/black"
+                        android:background="@drawable/cell"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="TLHH (%)"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_14ssp"
-                        app:layout_constraintTop_toBottomOf="@id/textWeight"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutLoss"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/layoutWeight"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textLoss"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Trọng lượng"
-                        android:textColor="@color/black"
+                        android:background="@drawable/cell"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="TL thức ăn (bao)"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_14ssp"
-                        android:textStyle="bold"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/loss"
-                        android:layout_width="wrap_content"
+                        android:background="@drawable/cell"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="10 g/con"
-                        android:textColor="@color/black"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="LK thức ăn (bao)"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_14ssp"
-                        app:layout_constraintTop_toBottomOf="@id/textLoss"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        android:textStyle="bold" />
+                </TableRow>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                <TableRow>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:id="@+id/fishLeft"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="300.000"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:id="@+id/tlhh"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="50"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:id="@+id/numberOfFood"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="50.000"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:id="@+id/LKnumberOfFood"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="500.000"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
+                </TableRow>
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/textBQFish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BQ cá (gram)"
+                android:padding="@dimen/_5sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/table2"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/BQFish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:text="1000"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textBQFish"
+                app:layout_constraintTop_toBottomOf="@+id/table2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
