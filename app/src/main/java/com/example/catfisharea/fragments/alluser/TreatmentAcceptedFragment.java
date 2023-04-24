@@ -131,16 +131,16 @@ public class TreatmentAcceptedFragment extends Fragment implements TreatmentList
                                 treatment.sickName = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_SICK_NAME);
                                 treatment.status = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_STATUS);
                                 treatment.medicines = (HashMap<String, Object>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_MEDICINE);
-                                if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_RECEIVER_ID) != null){
+                                if (queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_ID) != null){
                                     treatment.receiverIds = (List<String>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_ID);
                                 }
-                                if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_RECEIVER_IMAGE) != null){
+                                if (queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_IMAGE) != null){
                                     treatment.receiverImages = (List<String>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_IMAGE);
                                 }
-                                if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_RECEIVER_NAME) != null){
+                                if (queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_NAME) != null){
                                     treatment.receiverNames = (List<String>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_NAME);
                                 }
-                                if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_RECEIVER_PHONE) != null){
+                                if (queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_PHONE) != null){
                                     treatment.receiverPhones = (List<String>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_PHONE);
                                 }
                                 treatments.add(treatment);
@@ -213,6 +213,18 @@ public class TreatmentAcceptedFragment extends Fragment implements TreatmentList
                                 treatment.reportFishId = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPORT_FISH_ID);
                                 treatment.assignmentStatus = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS);
                                 treatment.medicines = (HashMap<String, Object>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_MEDICINE);
+                                if (queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_ID) != null){
+                                    treatment.receiverIds = (List<String>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_ID);
+                                }
+                                if (queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_IMAGE) != null){
+                                    treatment.receiverImages = (List<String>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_IMAGE);
+                                }
+                                if (queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_NAME) != null){
+                                    treatment.receiverNames = (List<String>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_NAME);
+                                }
+                                if (queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_PHONE) != null){
+                                    treatment.receiverPhones = (List<String>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_RECEIVER_PHONE);
+                                }
                                 treatments.add(treatment);
                                 treatmentRequestAdapter.notifyDataSetChanged();
                             }
