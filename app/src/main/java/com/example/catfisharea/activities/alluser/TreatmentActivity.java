@@ -10,7 +10,6 @@ import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityTreatmentBinding;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.ViewPagerAdapter;
-import com.example.catfisharea.fragments.alluser.CompletedTreatmentFragment;
 import com.example.catfisharea.fragments.alluser.PendingTreatmentFragment;
 import com.example.catfisharea.fragments.alluser.TreatmentAcceptedFragment;
 import com.example.catfisharea.fragments.alluser.TreatmentRejectedFragment;

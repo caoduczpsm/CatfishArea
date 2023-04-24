@@ -483,7 +483,11 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
     private Bitmap getUserImage(String encodedImage){
         byte[] bytes = new byte[0];
         if (encodedImage != null){
-            bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+            try {
+                bytes = Base64.decode(encodedImage, Base64.NO_WRAP);
+            } catch (IllegalArgumentException e){
+                e.printStackTrace();
+            }
         }
         return BitmapFactory.decodeByteArray(bytes,0, bytes.length);
     }

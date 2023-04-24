@@ -305,7 +305,9 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
             if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR)){
                 mBinding.btnAccept.setVisibility(View.GONE);
                 mBinding.btnReject.setVisibility(View.GONE);
-                mBinding.btnComplete.setVisibility(View.VISIBLE);
+                if (treatment.status.equals(Constants.KEY_TREATMENT_ACCEPT)){
+                    mBinding.btnComplete.setVisibility(View.VISIBLE);
+                }
             } else {
                 mBinding.btnComplete.setVisibility(View.GONE);
             }
