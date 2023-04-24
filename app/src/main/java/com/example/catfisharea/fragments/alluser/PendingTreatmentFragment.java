@@ -118,6 +118,7 @@ public class PendingTreatmentFragment extends Fragment implements TreatmentListe
                                 treatment.sickName = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_SICK_NAME);
                                 treatment.status = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_STATUS);
                                 treatment.medicines = (HashMap<String, Object>) queryDocumentSnapshot.get(Constants.KEY_TREATMENT_MEDICINE);
+                                treatment.assignmentStatus = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS);
                                 treatments.add(treatment);
                                 treatmentRequestAdapter.notifyDataSetChanged();
                             }

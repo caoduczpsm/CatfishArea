@@ -10,6 +10,7 @@ import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityTreatmentBinding;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.ViewPagerAdapter;
+import com.example.catfisharea.fragments.alluser.CompletedTreatmentFragment;
 import com.example.catfisharea.fragments.alluser.PendingTreatmentFragment;
 import com.example.catfisharea.fragments.alluser.TreatmentAcceptedFragment;
 import com.example.catfisharea.fragments.alluser.TreatmentRejectedFragment;
@@ -34,6 +35,7 @@ public class TreatmentActivity extends BaseActivity implements DatePickerListene
     private TreatmentAcceptedFragment treatmentAcceptedFragment;
     private PendingTreatmentFragment pendingTreatmentFragment;
     private TreatmentRejectedFragment treatmentRejectedFragment;
+    //private CompletedTreatmentFragment completedTreatmentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class TreatmentActivity extends BaseActivity implements DatePickerListene
         adapter.addFragment(pendingTreatmentFragment, "Chờ xử lý");
         adapter.addFragment(treatmentAcceptedFragment, "Chấp nhận");
         adapter.addFragment(treatmentRejectedFragment, "Từ chối");
+        //adapter.addFragment(completedTreatmentFragment, "Hoàn thành");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -63,11 +66,6 @@ public class TreatmentActivity extends BaseActivity implements DatePickerListene
 
         setDatePicker();
 
-        //Fragment
-        treatmentAcceptedFragment = new TreatmentAcceptedFragment();
-        pendingTreatmentFragment = new PendingTreatmentFragment();
-        treatmentRejectedFragment = new TreatmentRejectedFragment();
-
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -78,6 +76,12 @@ public class TreatmentActivity extends BaseActivity implements DatePickerListene
         preferenceManager.putString(Constants.KEY_DAY_SELECTED, myCal.get(Calendar.DAY_OF_MONTH) + "");
         preferenceManager.putString(Constants.KEY_MONTH_SELECTED, (myCal.get(Calendar.MONTH) + 1) + "");
         preferenceManager.putString(Constants.KEY_YEAR_SELECTED, myCal.get(Calendar.YEAR) + "");
+
+        //Fragment
+        treatmentAcceptedFragment = new TreatmentAcceptedFragment();
+        pendingTreatmentFragment = new PendingTreatmentFragment();
+        treatmentRejectedFragment = new TreatmentRejectedFragment();
+        //completedTreatmentFragment = new CompletedTreatmentFragment();
     }
 
     private void setListener(){
@@ -153,6 +157,7 @@ public class TreatmentActivity extends BaseActivity implements DatePickerListene
         treatmentAcceptedFragment.getRequest();
         pendingTreatmentFragment.getRequest();
         treatmentRejectedFragment.getRequest();
+        //completedTreatmentFragment.getRequest();
 
     }
 

@@ -93,6 +93,8 @@ public class RegionalChiefActivity extends BaseActivity implements CampusListene
     private void initActivity() {
         database = FirebaseFirestore.getInstance();
         preferenceManager = new PreferenceManager(this);
+
+
     }
 
 

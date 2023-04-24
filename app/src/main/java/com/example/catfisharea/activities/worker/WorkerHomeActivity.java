@@ -1,6 +1,5 @@
 package com.example.catfisharea.activities.worker;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
@@ -19,25 +18,19 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityWorkerHomeBinding;
-import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
-import com.example.catfisharea.activities.admin.AreaManagementActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
 import com.example.catfisharea.activities.director.RequestManagementActivity;
 import com.example.catfisharea.activities.director.TaskManagerActivity;
 import com.example.catfisharea.adapter.MedicineTreatmentUsedAdapter;
-import com.example.catfisharea.adapter.PhotoViewAdapter;
 import com.example.catfisharea.models.Medicine;
 import com.example.catfisharea.models.Pond;
 import com.example.catfisharea.models.Task;
@@ -50,9 +43,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.normal.TedPermission;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -63,18 +53,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import gun0912.tedbottompicker.TedBottomPicker;
-
 public class WorkerHomeActivity extends BaseActivity {
 
     private ActivityWorkerHomeBinding binding;
     private PreferenceManager preferenceManager;
     private FirebaseFirestore database;
     private Pond pond;
-    private Task feedTask, measureTask;
+    private Task feedTask, measureTask, scaleTask;
     private ImageView imageReason;
-    private String encodedImage;
-    private PhotoViewAdapter photoViewAdapter;
+    private String encodedImage, encodedImageTreatment;
+    private Treatment treatment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +78,8 @@ public class WorkerHomeActivity extends BaseActivity {
     private void init(){
         preferenceManager = new PreferenceManager(this);
         database = FirebaseFirestore.getInstance();
+
+        binding.layoutHome.textSelectImage.setVisibility(View.VISIBLE);
 
         database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
                 .whereEqualTo(Constants.KEY_TASK_TITLE, Constants.KEY_FIXED_TASK_FEED_FISH)
@@ -121,18 +111,75 @@ public class WorkerHomeActivity extends BaseActivity {
                         if (receiverFeedFishTask.contains(preferenceManager.getString(Constants.KEY_USER_ID))){
                             measureTask = new Task();
                             measureTask.id = queryDocumentSnapshot.getId();
-                            binding.layoutHome.cardFood.setVisibility(View.VISIBLE);
+                            binding.layoutHome.cardEnvironment.setVisibility(View.VISIBLE);
                         } else {
-                            binding.layoutHome.cardFood.setVisibility(View.GONE);
+                            binding.layoutHome.cardEnvironment.setVisibility(View.GONE);
                         }
 
                     }
                 });
 
+        database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                .whereEqualTo(Constants.KEY_TASK_TITLE, Constants.KEY_FIXED_TASK_FISH_SCALES)
+                .get()
+                .addOnCompleteListener(task -> {
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                        if (task.getResult() != null){
+                            List<String> receiverFeedFishTask = (List<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVER_ID);
+                            assert receiverFeedFishTask != null;
+                            if (receiverFeedFishTask.contains(preferenceManager.getString(Constants.KEY_USER_ID))){
+                                scaleTask = new Task();
+                                scaleTask.id = queryDocumentSnapshot.getId();
+                                scaleTask.status = queryDocumentSnapshot.getString(Constants.KEY_STATUS_TASK);
+                                binding.layoutHome.cardHealth.setVisibility(View.VISIBLE);
+                            } else {
+                                binding.layoutHome.cardHealth.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                })
+                .addOnSuccessListener(runnable -> {
+                    if (scaleTask.status.equals(Constants.KEY_COMPLETED)){
+                        binding.layoutHome.btnAddWeight.setVisibility(View.GONE);
+                    } else {
+                        binding.layoutHome.btnAddWeight.setVisibility(View.VISIBLE);
+                    }
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        if (preferenceManager.getString(Constants.KEY_NOW) == null){
+                            preferenceManager.putString(Constants.KEY_NOW, LocalDate.now().toString());
+                        } else {
+                            if (!preferenceManager.getString(Constants.KEY_NOW).equals(LocalDate.now().toString())) {
+                                HashMap<String, Object> unCompleteTask = new HashMap<>();
+                                unCompleteTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
+                                database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                                        .document(scaleTask.id)
+                                        .update(unCompleteTask)
+                                        .addOnSuccessListener(runnable1 -> {
+                                            binding.layoutHome.weight.setText("g/con");
+                                            binding.layoutHome.loss.setText("con");
+                                        });
+                            } else {
+                                database.collection(Constants.KEY_COLLECTION_FISH_WEIGH)
+                                        .whereEqualTo(Constants.KEY_FISH_WEIGH_DATE, LocalDate.now().toString())
+                                        .get()
+                                        .addOnCompleteListener(task -> {
+                                            if (task.getResult() != null && task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                                    binding.layoutHome.weight.setText(queryDocumentSnapshot.getString(Constants.KEY_FISH_WEIGH_WEIGHT) + " g/con");
+                                                    binding.layoutHome.loss.setText(queryDocumentSnapshot.getString(Constants.KEY_FISH_WEIGH_LOSS) + " con");
+                                                }
+                                            }
+                                        });
+
+                            }
+                        }
+                    }
+                });
+
         if (preferenceManager.getString(Constants.KEY_TREATMENT_ASSIGNMENT) != null) {
             if (preferenceManager.getString(Constants.KEY_TREATMENT_ASSIGNMENT).equals(Constants.KEY_TREATMENT_IS_ASSIGNMENT)){
-                binding.layoutHome.cardTreatment.setVisibility(View.VISIBLE);
-                Treatment treatment = new Treatment();
+                treatment = new Treatment();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     List<Medicine> medicines = new ArrayList<>();
                     List<String> quantityList = new ArrayList<>();
@@ -169,51 +216,75 @@ public class WorkerHomeActivity extends BaseActivity {
                                 treatment.sickName = documentSnapshot.getString(Constants.KEY_TREATMENT_SICK_NAME);
                                 treatment.status = documentSnapshot.getString(Constants.KEY_TREATMENT_STATUS);
                                 treatment.medicines = (HashMap<String, Object>) documentSnapshot.get(Constants.KEY_TREATMENT_MEDICINE);
+                                treatment.assignmentStatus = documentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS);
                             })
                             .addOnSuccessListener(runnable -> {
-                                if (treatment.noFood != null){
-                                    binding.layoutHome.textNoFood.setVisibility(View.VISIBLE);
-                                } else {
-                                    binding.layoutHome.textNoFood.setVisibility(View.GONE);
+
+
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    if (preferenceManager.getString(Constants.KEY_NOW) == null){
+                                        preferenceManager.putString(Constants.KEY_NOW, LocalDate.now().toString());
+                                    } else {
+                                        if (!preferenceManager.getString(Constants.KEY_NOW).equals(LocalDate.now().toString())){
+                                            HashMap<String, Object> newTreatment = new HashMap<>();
+                                            newTreatment.put(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS, Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING);
+                                            database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                                                    .document(treatment.id)
+                                                    .update(newTreatment);
+                                            treatment.assignmentStatus = Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING;
+                                        }
+                                    }
+
                                 }
-                                if (treatment.replaceWater != null){
-                                    binding.layoutHome.textReplaceWater.setVisibility(View.VISIBLE);
-                                } else {
-                                    binding.layoutHome.textReplaceWater.setVisibility(View.GONE);
+
+                                if (treatment.assignmentStatus.equals(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING) &&
+                                        treatment.status.equals(Constants.KEY_TREATMENT_ACCEPT)) {
+                                    binding.layoutHome.cardTreatment.setVisibility(View.VISIBLE);
+                                    if (treatment.noFood != null){
+                                        binding.layoutHome.textNoFood.setVisibility(View.VISIBLE);
+                                    } else {
+                                        binding.layoutHome.textNoFood.setVisibility(View.GONE);
+                                    }
+                                    if (treatment.replaceWater != null){
+                                        binding.layoutHome.textReplaceWater.setVisibility(View.VISIBLE);
+                                    } else {
+                                        binding.layoutHome.textReplaceWater.setVisibility(View.GONE);
+                                    }
+                                    if (treatment.suckMud != null){
+                                        binding.layoutHome.textSuckMud.setVisibility(View.VISIBLE);
+                                    } else {
+                                        binding.layoutHome.textSuckMud.setVisibility(View.GONE);
+                                    }
+                                    treatment.medicines.forEach((key, value) ->
+                                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                    .whereEqualTo(Constants.KEY_CAMPUS_ID, treatment.campusId)
+                                                    .get()
+                                                    .addOnCompleteListener(task -> {
+                                                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                                    .document(queryDocumentSnapshot.getId())
+                                                                    .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                                    .document(key)
+                                                                    .get()
+                                                                    .addOnCompleteListener(task1 -> {
+                                                                        DocumentSnapshot documentSnapshot = task1.getResult();
+                                                                        Medicine medicine = new Medicine();
+                                                                        medicine.id = documentSnapshot.getId();
+                                                                        medicine.amount = documentSnapshot.getString(Constants.KEY_AMOUNT_OF_ROOM);
+                                                                        medicine.effect = documentSnapshot.getString(Constants.KEY_EFFECT);
+                                                                        medicine.producer = documentSnapshot.getString(Constants.KEY_PRODUCER);
+                                                                        medicine.type = documentSnapshot.getString(Constants.KEY_CATEGORY_TYPE);
+                                                                        medicine.name = documentSnapshot.getString(Constants.KEY_NAME);
+                                                                        medicine.unit = documentSnapshot.getString(Constants.KEY_UNIT);
+                                                                        medicines.add(medicine);
+                                                                        quantityList.add(value.toString());
+                                                                        medicineAdapter.notifyDataSetChanged();
+                                                                    });
+                                                        }
+                                                    })
+                                    );
                                 }
-                                if (treatment.suckMud != null){
-                                    binding.layoutHome.textSuckMud.setVisibility(View.VISIBLE);
-                                } else {
-                                    binding.layoutHome.textSuckMud.setVisibility(View.GONE);
-                                }
-                                treatment.medicines.forEach((key, value) ->
-                                        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                                .whereEqualTo(Constants.KEY_CAMPUS_ID, treatment.campusId)
-                                                .get()
-                                                .addOnCompleteListener(task -> {
-                                                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-                                                        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                                                .document(queryDocumentSnapshot.getId())
-                                                                .collection(Constants.KEY_COLLECTION_CATEGORY)
-                                                                .document(key)
-                                                                .get()
-                                                                .addOnCompleteListener(task1 -> {
-                                                                    DocumentSnapshot documentSnapshot = task1.getResult();
-                                                                    Medicine medicine = new Medicine();
-                                                                    medicine.id = documentSnapshot.getId();
-                                                                    medicine.amount = documentSnapshot.getString(Constants.KEY_AMOUNT_OF_ROOM);
-                                                                    medicine.effect = documentSnapshot.getString(Constants.KEY_EFFECT);
-                                                                    medicine.producer = documentSnapshot.getString(Constants.KEY_PRODUCER);
-                                                                    medicine.type = documentSnapshot.getString(Constants.KEY_CATEGORY_TYPE);
-                                                                    medicine.name = documentSnapshot.getString(Constants.KEY_NAME);
-                                                                    medicine.unit = documentSnapshot.getString(Constants.KEY_UNIT);
-                                                                    medicines.add(medicine);
-                                                                    quantityList.add(value.toString());
-                                                                    medicineAdapter.notifyDataSetChanged();
-                                                                });
-                                                    }
-                                                })
-                                );
+
                             });
                 }
             }
@@ -270,6 +341,17 @@ public class WorkerHomeActivity extends BaseActivity {
 
         binding.layoutControlWorkerHome.cardReportFish.setOnClickListener(view -> openReportFishSickDialog());
 
+        binding.layoutHome.btnComplete.setOnClickListener(view -> completeTreatmentInDay());
+
+        binding.layoutHome.textSelectImage.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+            pickImage.launch(intent);
+            showToast("Đã chọn ảnh báo cáo hôm nay!");
+        });
+
+        binding.layoutHome.btnAddWeight.setOnClickListener(view -> openAddWeightDialog());
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -292,7 +374,6 @@ public class WorkerHomeActivity extends BaseActivity {
                 .addOnSuccessListener(runnable -> {
 
                     setVisibleData();
-
                     if (preferenceManager.getString(Constants.KEY_NOW) == null){
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             preferenceManager.putString(Constants.KEY_NOW, String.valueOf(LocalDate.now()));
@@ -302,6 +383,8 @@ public class WorkerHomeActivity extends BaseActivity {
 
                             LocalDate now = LocalDate.now();
                             String yesterday = now.minusDays(1).toString();
+
+                            binding.layoutHome.btnAddWeight.setVisibility(View.VISIBLE);
 
                             HashMap<String, Object> feeds = new HashMap<>();
                             feeds.put(Constants.KEY_DIARY_FEEDS_POND_ID, pond.getId());
@@ -401,7 +484,6 @@ public class WorkerHomeActivity extends BaseActivity {
                                                     preferenceManager.putString(Constants.KEY_NOW, String.valueOf(LocalDate.now()));
                                                 });
                                     });
-
 
                         }
                     }
@@ -921,23 +1003,21 @@ public class WorkerHomeActivity extends BaseActivity {
 
         Button btnCreate, btnClose;
         TextInputEditText edtGuess;
-        TextView textSelectImage;
-        RecyclerView photoRecyclerView;
 
         btnClose = dialog.findViewById(R.id.btnClose);
         btnCreate = dialog.findViewById(R.id.btnCreate);
         imageReason = dialog.findViewById(R.id.imageReason);
         edtGuess = dialog.findViewById(R.id.edtGuess);
-        textSelectImage = dialog.findViewById(R.id.textSelectImage);
-        photoRecyclerView = dialog.findViewById(R.id.photoRecyclerView);
 
-        photoViewAdapter = new PhotoViewAdapter(this);
-        photoRecyclerView.setAdapter(photoViewAdapter);
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        photoRecyclerView.setLayoutManager(layoutManager);
 
-        textSelectImage.setOnClickListener(view -> requestPermission());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            imageReason.setOnClickListener(view -> {
+                preferenceManager.putString(Constants.KEY_IMAGE, Constants.KEY_IMAGE);
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+                pickImage.launch(intent);
+            });
+        }
 
         btnCreate.setOnClickListener(view -> {
 
@@ -971,40 +1051,107 @@ public class WorkerHomeActivity extends BaseActivity {
         dialog.show();
     }
 
-    private void requestPermission() {
-        PermissionListener permissionlistener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                openBottomPicker();
-            }
+    @SuppressLint("SetTextI18n")
+    private void openAddWeightDialog() {
+        final Dialog dialog = openDialog(R.layout.layout_dialog_add_weight);
+        assert dialog != null;
 
-            @Override
-            public void onPermissionDenied(List<String> deniedPermissions) {
-                showToast("Đã từ chối các quyền!");
-            }
-        };
+        TextInputEditText edtWeight, edtLoss;
+        Button btnClose, btnEnter;
 
-        TedPermission.create()
-                .setPermissionListener(permissionlistener)
-                .setDeniedMessage(getString(R.string.PermissionDeniedNoice))
-                .setPermissions(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .check();
+        edtWeight = dialog.findViewById(R.id.edtWeight);
+        edtLoss = dialog.findViewById(R.id.edtLoss);
+        btnClose = dialog.findViewById(R.id.btnClose);
+        btnEnter = dialog.findViewById(R.id.btnEnter);
+
+        btnEnter.setOnClickListener(view -> {
+            if (Objects.requireNonNull(edtWeight.getText()).toString().equals("") || Objects.requireNonNull(edtLoss.getText()).toString().equals("")){
+                showToast("Vui lòng nhập đầy đủ thông tin!");
+            } else {
+                HashMap<String, Object> weight = new HashMap<>();
+                weight.put(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    weight.put(Constants.KEY_FISH_WEIGH_DATE, LocalDate.now().toString());
+                }
+                weight.put(Constants.KEY_FISH_WEIGH_WEIGHT, edtWeight.getText().toString());
+                weight.put(Constants.KEY_FISH_WEIGH_LOSS, edtLoss.getText().toString());
+                database.collection(Constants.KEY_COLLECTION_FISH_WEIGH)
+                        .add(weight)
+                        .addOnSuccessListener(runnable -> {
+                            showToast("Cập nhật thành công!");
+                            dialog.dismiss();
+                            binding.layoutHome.btnAddWeight.setVisibility(View.GONE);
+                            HashMap<String, Object> completedTask = new HashMap<>();
+                            completedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_COMPLETED);
+                            database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                                    .document(scaleTask.id)
+                                    .update(completedTask);
+                            binding.layoutHome.weight.setText(edtWeight.getText().toString() + " g/con");
+                            binding.layoutHome.loss.setText(edtLoss.getText().toString() + " con");
+
+                        })
+                        .addOnFailureListener(runnable -> showToast("Cập nhật thất bại!"));
+            }
+        });
+
+        btnClose.setOnClickListener(view -> dialog.dismiss());
+        dialog.show();
+
     }
 
-    private void openBottomPicker() {
-        TedBottomPicker.OnMultiImageSelectedListener listener = new TedBottomPicker.OnMultiImageSelectedListener() {
-            @Override
-            public void onImagesSelected(ArrayList<Uri> uriList) {
-                photoViewAdapter.setData(uriList);
-            }
-        };
+    private void completeTreatmentInDay() {
+        if (encodedImageTreatment != null){
+            HashMap<String, Object> completeTreatment = new HashMap<>();
+            completeTreatment.put(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS, Constants.KEY_TREATMENT_COMPLETED);
+            database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                    .document(treatment.id)
+                    .update(completeTreatment)
+                    .addOnSuccessListener(runnable -> {
+                        showToast("Đã cập nhật thành công!");
+                        binding.layoutHome.cardTreatment.setVisibility(View.GONE);
 
-        TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(WorkerHomeActivity.this)
-                .setOnMultiImageSelectedListener(listener)
-                .setCompleteButtonText("Xong")
-                .setEmptySelectionText("Chưa có ảnh được chọn...")
-                .create();
-        tedBottomPicker.show(getSupportFragmentManager());
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            HashMap<String, Object> updateReport = new HashMap<>();
+                            updateReport.put(Constants.KEY_TREATMENT_IMAGE_REPORT, encodedImageTreatment);
+                            database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                                    .document(treatment.id)
+                                    .collection(Constants.KEY_TREATMENT_COLLECTION_IMAGE_EVERYDAY)
+                                    .document(LocalDate.now().toString())
+                                    .set(updateReport);
+                        }
+
+                        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
+                                .get()
+                                .addOnCompleteListener(task -> {
+                                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                        HashMap<String, Object> medicines = treatment.medicines;
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                            medicines.forEach((key, value) ->
+                                                    database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                            .document(queryDocumentSnapshot.getId())
+                                                            .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                            .document(key)
+                                                            .get()
+                                                            .addOnCompleteListener(task1 -> {
+                                                                DocumentSnapshot documentSnapshot = task1.getResult();
+                                                                int amountInWareHouse = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_AMOUNT)));
+                                                                amountInWareHouse = amountInWareHouse - Integer.parseInt(String.valueOf(value));
+                                                                HashMap<String, Object> amount = new HashMap<>();
+                                                                amount.put(Constants.KEY_AMOUNT, amountInWareHouse + "");
+                                                                database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                                        .document(queryDocumentSnapshot.getId())
+                                                                        .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                                        .document(documentSnapshot.getId())
+                                                                        .update(amount);
+                                                            }));
+                                        }
+                                    }
+                                });
+                    });
+        } else {
+            showToast("Vui lòng cập nhật ảnh để hoàn thành điều trị hôm nay!");
+        }
     }
 
     private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
@@ -1016,8 +1163,13 @@ public class WorkerHomeActivity extends BaseActivity {
                         try {
                             InputStream inputStream = this.getContentResolver().openInputStream(imageUri);
                             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                            imageReason.setImageBitmap(bitmap);
+                            if (preferenceManager.getString(Constants.KEY_IMAGE) != null &&
+                                    preferenceManager.getString(Constants.KEY_IMAGE).equals(Constants.KEY_IMAGE)){
+                                imageReason.setImageBitmap(bitmap);
+                                preferenceManager.remove(Constants.KEY_IMAGE);
+                            }
                             encodedImage = encodeImage(bitmap);
+                            encodedImageTreatment = encodeImage(bitmap);
                         }catch (FileNotFoundException e){
                             e.printStackTrace();
                         }
