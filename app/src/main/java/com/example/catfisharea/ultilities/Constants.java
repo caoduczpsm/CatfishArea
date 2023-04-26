@@ -299,6 +299,20 @@ public class Constants {
     public static final String KEY_FISH_WEIGH_LOSS = "loss";
     public static final String KEY_FISH_WEIGH_POND_ID = "pondId";
 
+    // Thả giống
+    public static final String KEY_COLLECTION_RELEASE_FISH = "releaseFishes";
+    public static final String KEY_RELEASE_FISH_ID = "id";
+    public static final String KEY_RELEASE_FISH_CREATED_AT = "createdAt";
+    public static final String KEY_RELEASE_FISH_DATE = "date";
+    public static final String KEY_RELEASE_FISH_AMOUNT = "amount";
+    public static final String KEY_RELEASE_FISH_AMOUNT_RELEASE = "amountRelease";
+    public static final String KEY_RELEASE_FISH_PLAN_ID = "planId";
+    public static final String KEY_RELEASE_FISH_WORKER_ID_ASSIGN = "workerIds";
+    public static final String KEY_RELEASE_FISH_POND_ID = "pondId";
+    public static final String KEY_RELEASE_FISH_STATUS = "status";
+    public static final String KEY_RELEASE_FISH_COMPLETED = "completed";
+    public static final String KEY_RELEASE_FISH_UNCOMPLETED = "uncompleted";
+
 
     public static HashMap<String, String> remoteMsgHeaders = null;
 

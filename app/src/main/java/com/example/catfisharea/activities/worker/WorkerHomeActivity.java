@@ -329,6 +329,26 @@ public class WorkerHomeActivity extends BaseActivity {
             }
         }
 
+        database.collection(Constants.KEY_COLLECTION_RELEASE_FISH)
+                .whereEqualTo(Constants.KEY_RELEASE_FISH_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID))
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                            List<String> workerAssignId = (List<String>) queryDocumentSnapshot.get(Constants.KEY_RELEASE_FISH_WORKER_ID_ASSIGN);
+                            for (String id : workerAssignId){
+                                if (Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_RELEASE_FISH_STATUS), Constants.KEY_RELEASE_FISH_UNCOMPLETED)){
+                                    if (id.equals(preferenceManager.getString(Constants.KEY_USER_ID))){
+                                        binding.layoutHome.cardReleaseFish.setVisibility(View.VISIBLE);
+                                        binding.layoutHome.textReleaseFish.setText(queryDocumentSnapshot.getString(Constants.KEY_RELEASE_FISH_AMOUNT_RELEASE) + " con");
+                                        binding.layoutHome.textNeedToRelease.setText(queryDocumentSnapshot.getString(Constants.KEY_RELEASE_FISH_AMOUNT) + " con");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
         getPondData();
     }
 
@@ -391,6 +411,55 @@ public class WorkerHomeActivity extends BaseActivity {
 
         binding.layoutHome.btnAddWeight.setOnClickListener(view -> openAddWeightDialog());
 
+        binding.layoutHome.btnAddReleaseFish.setOnClickListener(view -> openAddReleaseFishDialog());
+
+    }
+
+    private void openAddReleaseFishDialog() {
+        Dialog dialog = openDialog(R.layout.layout_dialog_add_release_fish_worker);
+        assert dialog != null;
+
+        Button btnClose, btnAdd;
+        TextInputEditText edtNumOfFish = dialog.findViewById(R.id.edtNumOfFish);
+
+        btnAdd = dialog.findViewById(R.id.btnAdd);
+        btnClose = dialog.findViewById(R.id.btnClose);
+
+        btnAdd.setOnClickListener(view -> {
+            if (Objects.requireNonNull(edtNumOfFish.getText()).toString().equals("")){
+                showToast("Vui lòng nhập số lượng cá đã thả!");
+            } else {
+                database.collection(Constants.KEY_COLLECTION_RELEASE_FISH)
+                        .whereEqualTo(Constants.KEY_RELEASE_FISH_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID))
+                        .whereEqualTo(Constants.KEY_RELEASE_FISH_STATUS, Constants.KEY_RELEASE_FISH_UNCOMPLETED)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                           if (task.isSuccessful()){
+                               for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                   if (!edtNumOfFish.getText().toString().equals(queryDocumentSnapshot.getString(Constants.KEY_RELEASE_FISH_AMOUNT))){
+                                       showToast("Bạn phải thả đúng số lượng cá được giao!");
+                                   } else {
+                                       HashMap<String, Object> release = new HashMap<>();
+                                       release.put(Constants.KEY_RELEASE_FISH_STATUS, Constants.KEY_RELEASE_FISH_COMPLETED);
+                                       release.put(Constants.KEY_RELEASE_FISH_AMOUNT_RELEASE, edtNumOfFish.getText().toString());
+                                       database.collection(Constants.KEY_COLLECTION_RELEASE_FISH)
+                                               .document(queryDocumentSnapshot.getId())
+                                               .update(release)
+                                               .addOnSuccessListener(runnable -> {
+                                                   showToast("Đã cập nhật số lượng cá thành công!");
+                                                   binding.layoutHome.cardReleaseFish.setVisibility(View.GONE);
+                                                   dialog.dismiss();
+                                               })
+                                               .addOnFailureListener(runnable -> showToast("Cập nhật số lượng cá thả thất bại!"));
+                                   }
+                               }
+                           }
+                        });
+            }
+        });
+
+        btnClose.setOnClickListener(view -> dialog.dismiss());
+        dialog.show();
     }
 
     @SuppressLint("SetTextI18n")

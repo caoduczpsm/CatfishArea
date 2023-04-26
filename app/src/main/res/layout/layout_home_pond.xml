@@ -11,11 +11,12 @@
         android:layout_height="match_parent">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardImage"
+            android:id="@+id/cardReleaseFish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="20dp"
+            android:elevation="@dimen/_2sdp"
             android:translationZ="10dp"
+            android:visibility="gone"
             app:cardCornerRadius="10dp"
             app:cardUseCompatPadding="true"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,45 +27,112 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/titleImage"
+                    android:id="@+id/titleReleaseFish"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
                     android:background="@drawable/background_title"
+                    android:drawableEnd="@drawable/ic_chevron_right"
                     android:drawablePadding="@dimen/_8sdp"
+                    android:drawableTint="@color/white"
                     android:gravity="center_vertical"
                     android:paddingStart="@dimen/_20sdp"
-                    android:text="Hình ảnh hằng ngày"
+                    android:text="Thả giống"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_15ssp"
                     android:textStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_chevron_right"
-                    app:drawableTint="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="HardcodedText,RtlSymmetry,TextContrastCheck" />
+                    tools:ignore="HardcodedText,RtlSymmetry,UseCompatTextViewDrawableXml,TextContrastCheck" />
 
-                <androidx.recyclerview.widget.RecyclerView
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp"
-                    android:layout_marginBottom="@dimen/_8sdp"
-                    android:padding="@dimen/_8sdp"
-                    app:layout_constraintBottom_toTopOf="@id/settingImageBtn"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/titleImage" />
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@id/btnAddReleaseFish"
+                    app:layout_constraintTop_toBottomOf="@id/titleReleaseFish">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/layoutReleaseFish"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:id="@+id/layoutNeedToRelease"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_90sdp">
+
+                        <TextView
+                            android:id="@+id/textTitleNeedToRelease"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="Số lượng giống cần thả"
+                            android:textColor="#757575"
+                            android:textSize="@dimen/_13ssp"
+                            app:layout_constraintBottom_toTopOf="@id/textNeedToRelease"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:id="@+id/textNeedToRelease"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="con"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_18ssp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/textTitleNeedToRelease"
+                            tools:ignore="HardcodedText,TooManyViews" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layoutReleaseFish"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/layoutNeedToRelease"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_90sdp">
+
+                        <TextView
+                            android:id="@+id/textTitleReleaseFish"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="Số lượng giống đã thả"
+                            android:textColor="#757575"
+                            android:textSize="@dimen/_13ssp"
+                            app:layout_constraintBottom_toTopOf="@id/textReleaseFish"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:id="@+id/textReleaseFish"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="con"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_18ssp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/textTitleReleaseFish"
+                            tools:ignore="HardcodedText" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/settingImageBtn"
+                    android:id="@+id/btnAddReleaseFish"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_25sdp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:background="@drawable/background_edit_text"
                     android:text="Thêm"
                     android:textAllCaps="false"
-                    android:textColor="@color/black"
+                    android:textColor="#757575"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:ignore="HardcodedText,TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
+                    tools:ignore="HardcodedText,TextContrastCheck,TooManyViews,TouchTargetSizeCheck" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
@@ -77,7 +145,7 @@
             app:cardCornerRadius="10dp"
             app:cardUseCompatPadding="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardImage">
+            app:layout_constraintTop_toBottomOf="@id/cardReleaseFish">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -915,7 +983,8 @@
             app:cardUseCompatPadding="true"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardEnvironment">
+            app:layout_constraintTop_toBottomOf="@id/cardEnvironment"
+            tools:ignore="TooManyViews">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -944,7 +1013,8 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_8sdp"
                     app:layout_constraintBottom_toTopOf="@id/btnAddWeight"
-                    app:layout_constraintTop_toBottomOf="@id/titleHealth">
+                    app:layout_constraintTop_toBottomOf="@id/titleHealth"
+                    tools:ignore="TooManyViews">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         app:layout_constraintStart_toStartOf="parent"
@@ -1042,7 +1112,8 @@
             app:cardUseCompatPadding="true"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardHealth">
+            app:layout_constraintTop_toBottomOf="@id/cardHealth"
+            tools:ignore="TooManyViews">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

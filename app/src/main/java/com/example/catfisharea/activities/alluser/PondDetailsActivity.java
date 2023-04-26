@@ -27,10 +27,13 @@ import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityPondDetailsBinding;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.MedicineTreatmentUsedAdapter;
+import com.example.catfisharea.adapter.MultipleUserSelectionAdapter;
 import com.example.catfisharea.adapter.UsersAdapter;
+import com.example.catfisharea.listeners.MultipleListener;
 import com.example.catfisharea.listeners.UserListener;
 import com.example.catfisharea.models.Medicine;
 import com.example.catfisharea.models.Pond;
+import com.example.catfisharea.models.Task;
 import com.example.catfisharea.models.Treatment;
 import com.example.catfisharea.models.User;
 import com.example.catfisharea.ultilities.Constants;
@@ -40,20 +43,23 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class PondDetailsActivity extends BaseActivity implements UserListener {
+public class PondDetailsActivity extends BaseActivity implements UserListener, MultipleListener {
 
     private Pond pond;
     private ActivityPondDetailsBinding binding;
     private FirebaseFirestore database;
     private UsersAdapter usersAdapter;
+    private MultipleUserSelectionAdapter multipleUserSelectionAdapter;
     private List<User> users;
     private Treatment treatment;
     private String encodeImageReport;
@@ -77,6 +83,11 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
         PreferenceManager preferenceManager = new PreferenceManager(getApplicationContext());
 
         pond = (Pond) getIntent().getSerializableExtra(Constants.KEY_POND);
+
+        if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF)){
+            binding.layoutReleaseFish.setVisibility(View.VISIBLE);
+            binding.layoutHome.btnAddReleaseFish.setVisibility(View.GONE);
+        }
 
         treatment = new Treatment();
 
@@ -303,6 +314,23 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
                     }
 
                 });
+
+        database.collection(Constants.KEY_COLLECTION_RELEASE_FISH)
+                .whereEqualTo(Constants.KEY_RELEASE_FISH_POND_ID, pond.getId())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                            if (queryDocumentSnapshot.getString(Constants.KEY_RELEASE_FISH_POND_ID) != null){
+                                if (Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_RELEASE_FISH_POND_ID), pond.getId())){
+                                    binding.layoutHome.cardReleaseFish.setVisibility(View.VISIBLE);
+                                    binding.layoutHome.textNeedToRelease.setText(queryDocumentSnapshot.getString(Constants.KEY_RELEASE_FISH_AMOUNT) + " con");
+                                    binding.layoutHome.textReleaseFish.setText(queryDocumentSnapshot.getString(Constants.KEY_RELEASE_FISH_AMOUNT_RELEASE) + " con");
+                                }
+                            }
+                        }
+                    }
+                });
     }
 
     private void setListeners() {
@@ -313,6 +341,122 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
         binding.layoutSettingWater.setOnClickListener(view -> openSettingNumOfWateringDialog());
 
         binding.layoutHome.textShowImageReport.setOnClickListener(view -> openReportImageOfToDayDialog());
+
+        binding.cardReleaseFish.setOnClickListener(view -> {
+            database.collection(Constants.KEY_COLLECTION_RELEASE_FISH)
+                    .whereEqualTo(Constants.KEY_RELEASE_FISH_POND_ID, pond.getId())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        boolean isAvailable = false;
+                       if (task.isSuccessful()){
+                           for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                               isAvailable = Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_RELEASE_FISH_STATUS), Constants.KEY_RELEASE_FISH_UNCOMPLETED);
+                           }
+                       }
+                       if (isAvailable){
+                           showToast("Thả giống vẫn chưa được hoàn thành!");
+                       } else {
+                           openSettingReleaseFishDialog();
+                       }
+                    });
+        });
+    }
+
+    @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
+    private void openSettingReleaseFishDialog(){
+        Dialog dialog = openDialog(R.layout.layout_dialog_setting_release_fish);
+        assert dialog != null;
+
+        Button btnCreate, btnClose;
+
+        btnClose = dialog.findViewById(R.id.btnClose);
+        btnCreate = dialog.findViewById(R.id.btnCreate);
+
+        RecyclerView userRecyclerView = dialog.findViewById(R.id.userRecyclerView);
+        TextInputEditText edtNumOfFish = dialog.findViewById(R.id.edtNumOfFish);
+
+        multipleUserSelectionAdapter = new MultipleUserSelectionAdapter(users, this);
+        userRecyclerView.setAdapter(multipleUserSelectionAdapter);
+
+        users.clear();
+
+        database.collection(Constants.KEY_COLLECTION_USER)
+                .whereEqualTo(Constants.KEY_POND_ID, pond.getId())
+                .get()
+                .addOnCompleteListener(task -> {
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                        if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                            User user = new User();
+                            user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                            user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                            user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                            user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                            user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                            user.id = queryDocumentSnapshot.getId();
+                            users.add(user);
+                            multipleUserSelectionAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+
+        btnCreate.setOnClickListener(view -> {
+            List<User> selectedUser = multipleUserSelectionAdapter.getSelectedUser();
+            if (selectedUser.size() == 0){
+                showToast("Vui lòng chọn ít nhất một công nhân!");
+            } else {
+                if (Objects.requireNonNull(edtNumOfFish.getText()).toString().equals("")){
+                    showToast("Vui lòng chọn nhập số lượng cá giống cần thả!");
+                } else {
+                    HashMap<String, Object> releaseFist = new HashMap<>();
+                    List<String> workerIds = new ArrayList<>();
+                    for (User user : selectedUser){
+                        workerIds.add(user.id);
+                    }
+
+                    database.collection(Constants.KEY_COLLECTION_PLAN)
+                            .whereEqualTo(Constants.KEY_POND_ID, pond.getId())
+                            .get()
+                            .addOnCompleteListener(task -> {
+
+                                if (task.isSuccessful()){
+                                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+
+                                        releaseFist.put(Constants.KEY_RELEASE_FISH_PLAN_ID, queryDocumentSnapshot.getId());
+                                        releaseFist.put(Constants.KEY_RELEASE_FISH_AMOUNT, Objects.requireNonNull(edtNumOfFish.getText()).toString());
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            releaseFist.put(Constants.KEY_RELEASE_FISH_DATE, LocalDate.now().toString());
+                                        }
+                                        releaseFist.put(Constants.KEY_RELEASE_FISH_WORKER_ID_ASSIGN, workerIds);
+                                        releaseFist.put(Constants.KEY_RELEASE_FISH_AMOUNT_RELEASE, "0");
+                                        releaseFist.put(Constants.KEY_RELEASE_FISH_POND_ID, pond.getId());
+                                        releaseFist.put(Constants.KEY_RELEASE_FISH_STATUS, Constants.KEY_RELEASE_FISH_UNCOMPLETED);
+                                        releaseFist.put(Constants.KEY_RELEASE_FISH_CREATED_AT, new Date());
+
+                                        database.collection(Constants.KEY_COLLECTION_RELEASE_FISH)
+                                                .document(new Date().toString())
+                                                .set(releaseFist)
+                                                .addOnSuccessListener(runnable -> {
+                                                    showToast("Đã tạo nhiệm vụ thả giống cho công nhân");
+                                                    dialog.dismiss();
+                                                })
+                                                .addOnFailureListener(runnable -> showToast("Tạo nhiệm vụ thả giống cho công nhân thất bại"));
+
+                                        binding.layoutHome.cardReleaseFish.setVisibility(View.VISIBLE);
+                                        binding.layoutHome.textNeedToRelease.setText(edtNumOfFish.getText().toString() + " con");
+                                        binding.layoutHome.textReleaseFish.setText("0 con");
+
+                                    }
+                                }
+
+
+                            });
+                }
+            }
+        });
+
+        btnClose.setOnClickListener(view -> dialog.dismiss());
+
+        dialog.show();
     }
 
     @SuppressLint("SetTextI18n")
@@ -993,6 +1137,26 @@ public class PondDetailsActivity extends BaseActivity implements UserListener {
 
     @Override
     public void onUserClicker(User user) {
+
+    }
+
+    @Override
+    public void onMultipleUserSelection(Boolean isSelected) {
+
+    }
+
+    @Override
+    public void onChangeTeamLeadClicker(User user) {
+
+    }
+
+    @Override
+    public void onTaskClicker(Task task) {
+
+    }
+
+    @Override
+    public void onTaskSelectedClicker(Boolean isSelected, Boolean isMultipleSelection) {
 
     }
 }
