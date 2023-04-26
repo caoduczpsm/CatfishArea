@@ -128,6 +128,7 @@ public class WorkerHomeActivity extends BaseActivity {
                             List<String> receiverFeedFishTask = (List<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVER_ID);
                             assert receiverFeedFishTask != null;
                             if (receiverFeedFishTask.contains(preferenceManager.getString(Constants.KEY_USER_ID))){
+                                binding.layoutHome.btnAddWeight.setVisibility(View.VISIBLE);
                                 scaleTask = new Task();
                                 scaleTask.id = queryDocumentSnapshot.getId();
                                 scaleTask.status = queryDocumentSnapshot.getString(Constants.KEY_STATUS_TASK);
@@ -145,6 +146,8 @@ public class WorkerHomeActivity extends BaseActivity {
                         binding.layoutHome.btnAddWeight.setVisibility(View.VISIBLE);
                     }
 
+                    preferenceManager.putString(Constants.KEY_NOW, "abc");
+
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         if (preferenceManager.getString(Constants.KEY_NOW) == null){
                             preferenceManager.putString(Constants.KEY_NOW, LocalDate.now().toString());
@@ -156,6 +159,7 @@ public class WorkerHomeActivity extends BaseActivity {
                                         .document(scaleTask.id)
                                         .update(unCompleteTask)
                                         .addOnSuccessListener(runnable1 -> {
+                                            binding.layoutHome.btnAddWeight.setVisibility(View.VISIBLE);
                                             binding.layoutHome.weight.setText("g/con");
                                             binding.layoutHome.loss.setText("con");
                                         });
@@ -195,10 +199,12 @@ public class WorkerHomeActivity extends BaseActivity {
                             } else {
                                 database.collection(Constants.KEY_COLLECTION_FISH_WEIGH)
                                         .whereEqualTo(Constants.KEY_FISH_WEIGH_DATE, LocalDate.now().toString())
+                                        .whereEqualTo(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID))
                                         .get()
                                         .addOnCompleteListener(task -> {
                                             if (task.getResult() != null && task.isSuccessful()) {
                                                 for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                                    binding.layoutHome.btnAddWeight.setVisibility(View.GONE);
                                                     binding.layoutHome.weight.setText(queryDocumentSnapshot.getString(Constants.KEY_FISH_WEIGH_WEIGHT) + " g/con");
                                                     binding.layoutHome.loss.setText(queryDocumentSnapshot.getString(Constants.KEY_FISH_WEIGH_LOSS) + " con");
                                                 }

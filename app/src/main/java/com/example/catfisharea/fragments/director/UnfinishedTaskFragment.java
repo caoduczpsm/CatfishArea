@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
-import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.FragmentUnfinishedTaskBinding;
 import com.example.catfisharea.adapter.TaskAdapter;
 import com.example.catfisharea.bottomsheet.CommentBottomSheetFragment;
@@ -100,6 +98,9 @@ public class UnfinishedTaskFragment extends Fragment implements MultipleListener
                                     if (amountCompleted == amountReceiverTask){
                                         HashMap<String, Object> updatedTask = new HashMap<>();
                                         updatedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_COMPLETED);
+                                        assert receiverCompleted != null;
+                                        receiverCompleted.add(preferenceManager.getString(Constants.KEY_USER_ID));
+                                        updatedTask.put(Constants.KEY_RECEIVERS_ID_COMPLETED, receiverCompleted);
                                         updatedTask.put(Constants.KEY_AMOUNT_RECEIVERS_COMPLETED, amountCompleted + "");
                                         database.collection(Constants.KEY_COLLECTION_TASK)
                                                 .document(selectedTask.get(finalI).id)
@@ -109,6 +110,7 @@ public class UnfinishedTaskFragment extends Fragment implements MultipleListener
                                                     taskAdapter.notifyDataSetChanged();
                                                 });
                                     } else {
+                                        assert receiverCompleted != null;
                                         receiverCompleted.add(preferenceManager.getString(Constants.KEY_USER_ID));
                                         HashMap<String, Object> updatedTask = new HashMap<>();
                                         updatedTask.put(Constants.KEY_RECEIVERS_ID_COMPLETED, receiverCompleted);
@@ -178,6 +180,8 @@ public class UnfinishedTaskFragment extends Fragment implements MultipleListener
     // Hàm lấy các user từ database về và hiển thị ra recyclerview
     @SuppressLint("NotifyDataSetChanged")
     public void getTasks(){
+
+        tasks.clear();
 
         daySelected = Integer.parseInt(preferenceManager.getString(Constants.KEY_DAY_SELECTED));
         monthSelected = Integer.parseInt(preferenceManager.getString(Constants.KEY_MONTH_SELECTED));
