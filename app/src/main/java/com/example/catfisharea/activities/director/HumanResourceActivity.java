@@ -1,13 +1,10 @@
 package com.example.catfisharea.activities.director;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -39,7 +36,6 @@ import com.example.catfisharea.models.Task;
 import com.example.catfisharea.models.User;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -458,10 +454,12 @@ public class HumanResourceActivity extends BaseActivity implements MultipleCampu
     private void deleteUser() {
         List<User> selectedUser = multipleUserSelectionAdapter.getSelectedUser();
         if (selectedUser.size() != 0 ){
+            HashMap<String, Object> softDelete = new HashMap<>();
+            softDelete.put(Constants.KEY_DISABLE_USER, "1");
             for (User user : selectedUser){
                 database.collection(Constants.KEY_COLLECTION_USER)
                         .document(user.id)
-                        .delete()
+                        .update(softDelete)
                         .addOnCompleteListener(task -> {
                             int count = 0;
                             count++;
@@ -472,66 +470,6 @@ public class HumanResourceActivity extends BaseActivity implements MultipleCampu
                             multipleUserSelectionAdapter.notifyDataSetChanged();
                         });
             }
-            database.collection(Constants.KEY_COLLECTION_COMPANY)
-                    .document(preferenceManager.getString(Constants.KEY_COMPANY_ID))
-                    .get()
-                    .addOnCompleteListener(task -> {
-
-                        // Các biến đếm số tài khoản bị xóa theo từng loại
-                        int countAdmin = 0, countAccountant = 0, countRegionalChief = 0, countDirector = 0, countWork = 0;
-
-                        for (int j = 0; j < selectedUser.size(); j++){
-
-                            switch (selectedUser.get(j).position) {
-                                case Constants.KEY_ADMIN:
-                                    countAdmin++;
-                                    break;
-                                case Constants.KEY_ACCOUNTANT:
-                                    countAccountant++;
-                                    break;
-                                case Constants.KEY_REGIONAL_CHIEF:
-                                    countRegionalChief++;
-                                    break;
-                                case Constants.KEY_DIRECTOR:
-                                    countDirector++;
-                                    break;
-                                default:
-                                    countWork++;
-                                    break;
-                            }
-
-                        }
-
-                        DocumentSnapshot documentSnapshot = task.getResult();
-
-                        // Lấy số lượng các loại tài khoản hiện tài trên cơ sở dữ liệu
-                        int currentTotalAccount = Integer.parseInt(Objects.requireNonNull(
-                                documentSnapshot.getString(Constants.KEY_COMPANY_TOTAL_ACCOUNT))) - selectedUser.size();
-                        int currentAmountAdmin = Integer.parseInt(Objects.requireNonNull(
-                                documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_ADMIN)));
-                        int currentAmountAccountant = Integer.parseInt(Objects.requireNonNull(
-                                documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT)));
-                        int currentAmountRegionalChief = Integer.parseInt(Objects.requireNonNull(
-                                documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF)));
-                        int currentAmountDirector = Integer.parseInt(Objects.requireNonNull(
-                                documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_DIRECTOR)));
-                        int currentAmountWorker = Integer.parseInt(Objects.requireNonNull(
-                                documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_WORKER)));
-
-                        // Tạo các trường dữ liệu cần thay đổi trong bảng công ty
-                        HashMap<String, Object> company = new HashMap<>();
-                        company.put(Constants.KEY_COMPANY_TOTAL_ACCOUNT, currentTotalAccount + "");
-                        company.put(Constants.KEY_COMPANY_AMOUNT_ADMIN, currentAmountAdmin - countAdmin + "");
-                        company.put(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT, currentAmountAccountant - countAccountant + "");
-                        company.put(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF, currentAmountRegionalChief - countRegionalChief + "");
-                        company.put(Constants.KEY_COMPANY_AMOUNT_DIRECTOR, currentAmountDirector - countDirector + "");
-                        company.put(Constants.KEY_COMPANY_AMOUNT_WORKER, currentAmountWorker - countWork + "");
-
-                        database.collection(Constants.KEY_COLLECTION_COMPANY)
-                                .document(preferenceManager.getString(Constants.KEY_COMPANY_ID))
-                                .update(company);
-
-                    });
         } else {
             showToast("Vui lòng chọn ít nhất một người dùng cần xóa!");
         }
