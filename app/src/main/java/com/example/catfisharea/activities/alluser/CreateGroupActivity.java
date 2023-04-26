@@ -124,14 +124,17 @@ public class CreateGroupActivity extends BaseActivity implements UserListener, M
                             if (currentUserId.equals(queryDocumentSnapshot.getId())) {
                                 continue;
                             }
-                            User user = new User();
-                            user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                            user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                            user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                            user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                            user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                            user.id = queryDocumentSnapshot.getId();
-                            users.add(user);
+                            if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                User user = new User();
+                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                user.id = queryDocumentSnapshot.getId();
+                                users.add(user);
+                            }
+
                         }
                         if (users.size() > 0) {
                             usersAdapter = new MultipleUserSelectionAdapter(users, this);
@@ -316,17 +319,17 @@ public class CreateGroupActivity extends BaseActivity implements UserListener, M
 
                     if (task.isSuccessful() && task.getResult() != null) {
                         for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-
-                            User user = new User();
-                            user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                            user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                            user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                            user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                            user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                            user.id = queryDocumentSnapshot.getId();
-                            users.add(user);
-                            usersAdapter.notifyDataSetChanged();
-
+                            if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                User user = new User();
+                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                user.id = queryDocumentSnapshot.getId();
+                                users.add(user);
+                                usersAdapter.notifyDataSetChanged();
+                            }
                         }
 
                     }

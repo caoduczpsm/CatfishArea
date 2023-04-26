@@ -265,21 +265,21 @@ public class TreatmentAcceptedFragment extends Fragment implements TreatmentList
                 .get()
                 .addOnCompleteListener(task -> {
                     for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-
-                        User user = new User();
-                        user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                        user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                        user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                        user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                        user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                        user.id = queryDocumentSnapshot.getId();
-                        if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT) != null){
-                            if (Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT), Constants.KEY_TREATMENT_IS_ASSIGNMENT))
-                                user.isSelected = true;
+                        if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                            User user = new User();
+                            user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                            user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                            user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                            user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                            user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                            user.id = queryDocumentSnapshot.getId();
+                            if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT) != null){
+                                if (Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT), Constants.KEY_TREATMENT_IS_ASSIGNMENT))
+                                    user.isSelected = true;
+                            }
+                            users.add(user);
+                            adapter.notifyDataSetChanged();
                         }
-                        users.add(user);
-                        adapter.notifyDataSetChanged();
-
                     }
                 });
 

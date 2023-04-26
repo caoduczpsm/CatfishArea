@@ -202,6 +202,21 @@ public class HumanResourceActivity extends BaseActivity implements MultipleCampu
                                     if (finalI == 0){
                                         if (Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT), Constants.KEY_ACCOUNTANT)){
                                             if (Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_AREA_ID), preferenceManager.getString(Constants.KEY_AREA_ID))){
+                                                if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                                    User user = new User();
+                                                    user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                                    user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                                    user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                                    user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                                    user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                                    user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                                    user.id = queryDocumentSnapshot.getId();
+                                                    users.add(user);
+                                                    multipleUserSelectionAdapter.notifyDataSetChanged();
+                                                }
+                                            }
+                                        } else if (Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_CAMPUS_ID), selectedCampuses.get(finalI).getId())){
+                                            if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
                                                 User user = new User();
                                                 user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
                                                 user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
@@ -213,30 +228,21 @@ public class HumanResourceActivity extends BaseActivity implements MultipleCampu
                                                 users.add(user);
                                                 multipleUserSelectionAdapter.notifyDataSetChanged();
                                             }
-                                        } else if (Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_CAMPUS_ID), selectedCampuses.get(finalI).getId())){
-                                            User user = new User();
-                                            user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                                            user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                                            user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                                            user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                                            user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                                            user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                                            user.id = queryDocumentSnapshot.getId();
-                                            users.add(user);
-                                            multipleUserSelectionAdapter.notifyDataSetChanged();
                                         }
                                     } else {
                                         if (Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_CAMPUS_ID), selectedCampuses.get(finalI).getId())){
-                                            User user = new User();
-                                            user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                                            user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                                            user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                                            user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                                            user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                                            user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                                            user.id = queryDocumentSnapshot.getId();
-                                            users.add(user);
-                                            multipleUserSelectionAdapter.notifyDataSetChanged();
+                                            if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                                User user = new User();
+                                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                                user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                                user.id = queryDocumentSnapshot.getId();
+                                                users.add(user);
+                                                multipleUserSelectionAdapter.notifyDataSetChanged();
+                                            }
                                         }
                                     }
                                 }
@@ -263,18 +269,20 @@ public class HumanResourceActivity extends BaseActivity implements MultipleCampu
                         if (task.isSuccessful() && task.getResult() != null) {
                             for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
                                 if (Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_POND_ID), selectedPonds.get(finalI).getId())){
-                                    User user = new User();
-                                    user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                                    user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                                    user.dateOfBirth = queryDocumentSnapshot.getString(Constants.KEY_DATEOFBIRTH);
-                                    user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                                    user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                                    user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                                    user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                                    user.id = queryDocumentSnapshot.getId();
-                                    users.add(user);
-                                    binding.usersRecyclerview.setAdapter(usersAdapter);
-                                    usersAdapter.notifyDataSetChanged();
+                                    if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                        User user = new User();
+                                        user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                        user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                        user.dateOfBirth = queryDocumentSnapshot.getString(Constants.KEY_DATEOFBIRTH);
+                                        user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                        user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                        user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                        user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                        user.id = queryDocumentSnapshot.getId();
+                                        users.add(user);
+                                        binding.usersRecyclerview.setAdapter(usersAdapter);
+                                        usersAdapter.notifyDataSetChanged();
+                                    }
                                 }
                             }
 
@@ -342,19 +350,21 @@ public class HumanResourceActivity extends BaseActivity implements MultipleCampu
                             if (Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT), Constants.KEY_DIRECTOR)
                                     || Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT), Constants.KEY_WORKER)
                                     || Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT), Constants.KEY_ACCOUNTANT)){
-                                User user = new User();
-                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                                user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                                user.address = queryDocumentSnapshot.getString(Constants.KEY_ADDRESS);
-                                user.dateOfBirth = queryDocumentSnapshot.getString(Constants.KEY_DATEOFBIRTH);
-                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                                user.id = queryDocumentSnapshot.getId();
-                                users.add(user);
-                                usersAdapter.notifyDataSetChanged();
+                                if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                    User user = new User();
+                                    user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                    user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                    user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                    user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                    user.address = queryDocumentSnapshot.getString(Constants.KEY_ADDRESS);
+                                    user.dateOfBirth = queryDocumentSnapshot.getString(Constants.KEY_DATEOFBIRTH);
+                                    user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                    user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                    user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                    user.id = queryDocumentSnapshot.getId();
+                                    users.add(user);
+                                    usersAdapter.notifyDataSetChanged();
+                                }
                             }
 
                         }
@@ -379,19 +389,21 @@ public class HumanResourceActivity extends BaseActivity implements MultipleCampu
                             if (Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT), Constants.KEY_DIRECTOR)
                                     || Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT), Constants.KEY_WORKER)
                                     || Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT), Constants.KEY_ACCOUNTANT)){
-                                User user = new User();
-                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                                user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                                user.address = queryDocumentSnapshot.getString(Constants.KEY_ADDRESS);
-                                user.dateOfBirth = queryDocumentSnapshot.getString(Constants.KEY_DATEOFBIRTH);
-                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                                user.id = queryDocumentSnapshot.getId();
-                                users.add(user);
-                                multipleUserSelectionAdapter.notifyDataSetChanged();
+                                if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                    User user = new User();
+                                    user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                    user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                    user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                    user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                    user.address = queryDocumentSnapshot.getString(Constants.KEY_ADDRESS);
+                                    user.dateOfBirth = queryDocumentSnapshot.getString(Constants.KEY_DATEOFBIRTH);
+                                    user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                    user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                    user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                    user.id = queryDocumentSnapshot.getId();
+                                    users.add(user);
+                                    multipleUserSelectionAdapter.notifyDataSetChanged();
+                                }
                             }
 
                         }
@@ -415,20 +427,23 @@ public class HumanResourceActivity extends BaseActivity implements MultipleCampu
                         for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
 
                             if (Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT), Constants.KEY_WORKER)){
-                                User user = new User();
-                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                                user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                                user.address = queryDocumentSnapshot.getString(Constants.KEY_ADDRESS);
-                                user.dateOfBirth = queryDocumentSnapshot.getString(Constants.KEY_DATEOFBIRTH);
-                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                                user.id = queryDocumentSnapshot.getId();
-                                users.add(user);
-                                binding.usersRecyclerview.setAdapter(usersAdapter);
-                                usersAdapter.notifyDataSetChanged();
+                                if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                    User user = new User();
+                                    user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                    user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                    user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                    user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                    user.address = queryDocumentSnapshot.getString(Constants.KEY_ADDRESS);
+                                    user.dateOfBirth = queryDocumentSnapshot.getString(Constants.KEY_DATEOFBIRTH);
+                                    user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                    user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                    user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                    user.id = queryDocumentSnapshot.getId();
+                                    users.add(user);
+                                    binding.usersRecyclerview.setAdapter(usersAdapter);
+                                    usersAdapter.notifyDataSetChanged();
+                                }
+
                             }
 
                         }

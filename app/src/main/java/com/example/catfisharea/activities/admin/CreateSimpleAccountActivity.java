@@ -25,7 +25,6 @@ import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.EncryptHandler;
 import com.example.catfisharea.ultilities.PreferenceManager;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -149,60 +148,16 @@ public class CreateSimpleAccountActivity extends BaseActivity {
                 user.put(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_WORKER);
             }
 
-            // Giả lập trạng thái loading và ẩn nút đăng kí
-            loading(true);
             database.collection(Constants.KEY_COLLECTION_USER)
                     .add(user)
                     .addOnSuccessListener(task ->{
-                        loading(false);
-                        database.collection(Constants.KEY_COLLECTION_COMPANY)
-                                .document(preferenceManager.getString(Constants.KEY_COMPANY_ID))
-                                .get()
-                                .addOnCompleteListener(task1 -> {
-
-                                    DocumentSnapshot documentSnapshot = task1.getResult();
-
-                                    // Lấy số tài khoản công ty hiện tại cộng thêm một tài khoản vừa tạo
-                                    int currentTotalAccount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_TOTAL_ACCOUNT))) + 1;
-
-                                    // Tạo các trưởng dữ liệu cần cập nhật
-                                    HashMap<String, Object> company = new HashMap<>();
-                                    company.put(Constants.KEY_COMPANY_TOTAL_ACCOUNT, currentTotalAccount + "");
-
-                                    int currentTypeAmount;
-                                    if (typeAccount.equals(listTypeAccount.get(0))){
-                                        currentTypeAmount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_ADMIN))) + 1;
-                                        company.put(Constants.KEY_COMPANY_AMOUNT_ADMIN, currentTypeAmount + "");
-                                    } else if (typeAccount.equals(listTypeAccount.get(1))){
-                                        currentTypeAmount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT))) + 1;
-                                        company.put(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT, currentTypeAmount + "");
-                                    } else if (typeAccount.equals(listTypeAccount.get(2))){
-                                        currentTypeAmount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF))) + 1;
-                                        company.put(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF, currentTypeAmount + "");
-                                    } else if (typeAccount.equals(listTypeAccount.get(3))){
-                                        currentTypeAmount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_DIRECTOR))) + 1;
-                                        company.put(Constants.KEY_COMPANY_AMOUNT_DIRECTOR, currentTypeAmount + "");
-                                    } else {
-                                        currentTypeAmount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_WORKER))) + 1;
-                                        company.put(Constants.KEY_COMPANY_AMOUNT_WORKER, currentTypeAmount + "");
-                                    }
-
-                                    database.collection(Constants.KEY_COLLECTION_COMPANY)
-                                            .document(preferenceManager.getString(Constants.KEY_COMPANY_ID))
-                                            .update(company)
-                                            .addOnSuccessListener(task2 -> {
-                                                showToast("Tạo tài khoản thành công");
-                                                mBinding.edtPhone.setText("");
-                                                mBinding.edtPassword.setText("");
-                                                mBinding.edtName.setText("");
-                                                mBinding.edtPersonalID.setText("");
-                                                mBinding.textDateOfBirth.setText("");
-                                                mBinding.edtAddress.setText("");
-                                            });
-
-
-                                });
-
+                        showToast("Tạo tài khoản thành công");
+                        mBinding.edtPhone.setText("");
+                        mBinding.edtPassword.setText("");
+                        mBinding.edtName.setText("");
+                        mBinding.edtPersonalID.setText("");
+                        mBinding.textDateOfBirth.setText("");
+                        mBinding.edtAddress.setText("");
                     }).addOnFailureListener(e -> showToast("Lỗi trong quá trench tạo tài khoản!"));
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
@@ -292,13 +247,4 @@ public class CreateSimpleAccountActivity extends BaseActivity {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    private void loading(Boolean isLoading){
-        if(isLoading){
-            mBinding.btnRegis.setVisibility(View.INVISIBLE);
-            mBinding.progressBar.setVisibility(View.VISIBLE);
-        } else{
-            mBinding.btnRegis.setVisibility(View.VISIBLE);
-            mBinding.progressBar.setVisibility(View.INVISIBLE);
-        }
-    }
 }

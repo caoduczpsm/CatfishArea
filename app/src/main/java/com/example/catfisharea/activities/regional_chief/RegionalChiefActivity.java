@@ -20,7 +20,6 @@ import com.example.catfisharea.activities.director.RequestManagementActivity;
 import com.example.catfisharea.activities.director.TaskManagerActivity;
 import com.example.catfisharea.adapter.HomeAdapter;
 import com.example.catfisharea.listeners.CampusListener;
-import com.example.catfisharea.listeners.PondListener;
 import com.example.catfisharea.models.Campus;
 import com.example.catfisharea.models.ItemHome;
 import com.example.catfisharea.models.Pond;
@@ -174,6 +173,7 @@ public class RegionalChiefActivity extends BaseActivity implements CampusListene
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void OnCampusClicker(RegionModel regionModel) {
         if (homeAdapter.isShowed()) {

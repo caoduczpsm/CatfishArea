@@ -21,6 +21,7 @@ public class Constants {
     public static final String KEY_ADDRESS = "address";
     public static final String KEY_DATEOFBIRTH = "dateOfBirth";
     public static final String KEY_PERSONAL_ID = "personalID";
+    public static final String KEY_DISABLE_USER = "disable";
 
     // Các thông tin công ty
     public static final String KEY_COLLECTION_COMPANY = "companies";

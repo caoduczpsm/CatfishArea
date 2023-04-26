@@ -2,14 +2,10 @@ package com.example.catfisharea.activities.alluser;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -305,7 +301,7 @@ public class SettingGroupActivity extends BaseActivity implements MultipleListen
     }
 
     // Hàm mở hộp thoại xem thành viên trong nhóm
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
     private void openShowMemberDialog() {
         final Dialog dialog = openDialog(R.layout.layout_dialog_show_member);
         assert dialog != null;
@@ -313,6 +309,8 @@ public class SettingGroupActivity extends BaseActivity implements MultipleListen
         //Button trong dialog
         Button no_btn = dialog.findViewById(R.id.btnClose);
         RecyclerView userRecyclerView = dialog.findViewById(R.id.userRecyclerView);
+        UsersAdapter adapter = new UsersAdapter(users, this);
+        userRecyclerView.setAdapter(adapter);
         users.clear();
         for (String memberId : groupMember){
 
@@ -321,18 +319,19 @@ public class SettingGroupActivity extends BaseActivity implements MultipleListen
                     .get()
                     .addOnCompleteListener(task -> {
                         DocumentSnapshot documentSnapshot = task.getResult();
-                        User user = new User();
-                        user.name = documentSnapshot.getString(Constants.KEY_NAME);
-                        user.phone = documentSnapshot.getString(Constants.KEY_PHONE);
-                        user.position = documentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                        user.image = documentSnapshot.getString(Constants.KEY_IMAGE);
-                        user.token = documentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                        user.id = documentSnapshot.getId();
-                        users.add(user);
-                        users.size();
-                        UsersAdapter adapter = new UsersAdapter(users, this);
-                        userRecyclerView.setAdapter(adapter);
-                        userRecyclerView.setVisibility(View.VISIBLE);
+                        if (documentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                            User user = new User();
+                            user.name = documentSnapshot.getString(Constants.KEY_NAME);
+                            user.phone = documentSnapshot.getString(Constants.KEY_PHONE);
+                            user.position = documentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                            user.image = documentSnapshot.getString(Constants.KEY_IMAGE);
+                            user.token = documentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                            user.id = documentSnapshot.getId();
+                            users.add(user);
+                            users.size();
+                            userRecyclerView.setVisibility(View.VISIBLE);
+                            adapter.notifyDataSetChanged();
+                        }
                     });
 
         }
@@ -417,18 +416,21 @@ public class SettingGroupActivity extends BaseActivity implements MultipleListen
                     .addOnCompleteListener(task -> {
                         DocumentSnapshot documentSnapshot = task.getResult();
                         if (!documentSnapshot.getId().equals(preferenceManager.getString(Constants.KEY_USER_ID))){
-                            User user = new User();
-                            user.name = documentSnapshot.getString(Constants.KEY_NAME);
-                            user.phone = documentSnapshot.getString(Constants.KEY_PHONE);
-                            user.position = documentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                            user.image = documentSnapshot.getString(Constants.KEY_IMAGE);
-                            user.token = documentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                            user.id = documentSnapshot.getId();
-                            users.add(user);
-                            users.size();
-                            usersAdapter = new MultipleUserSelectionAdapter(users, this);
-                            userRecyclerView.setAdapter(usersAdapter);
-                            userRecyclerView.setVisibility(View.VISIBLE);
+                            if (documentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                User user = new User();
+                                user.name = documentSnapshot.getString(Constants.KEY_NAME);
+                                user.phone = documentSnapshot.getString(Constants.KEY_PHONE);
+                                user.position = documentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                user.image = documentSnapshot.getString(Constants.KEY_IMAGE);
+                                user.token = documentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                user.id = documentSnapshot.getId();
+                                users.add(user);
+                                users.size();
+                                usersAdapter = new MultipleUserSelectionAdapter(users, this);
+                                userRecyclerView.setAdapter(usersAdapter);
+                                userRecyclerView.setVisibility(View.VISIBLE);
+                            }
+
                         }
                     });
         }
@@ -482,18 +484,20 @@ public class SettingGroupActivity extends BaseActivity implements MultipleListen
                     .addOnCompleteListener(task -> {
                         DocumentSnapshot documentSnapshot = task.getResult();
                         if (!documentSnapshot.getId().equals(preferenceManager.getString(Constants.KEY_USER_ID))){
-                            User user = new User();
-                            user.name = documentSnapshot.getString(Constants.KEY_NAME);
-                            user.phone = documentSnapshot.getString(Constants.KEY_PHONE);
-                            user.position = documentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                            user.image = documentSnapshot.getString(Constants.KEY_IMAGE);
-                            user.token = documentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                            user.id = documentSnapshot.getId();
-                            users.add(user);
-                            users.size();
-                            usersAdapter = new MultipleUserSelectionAdapter(users, this);
-                            userRecyclerView.setAdapter(usersAdapter);
-                            userRecyclerView.setVisibility(View.VISIBLE);
+                            if (documentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                User user = new User();
+                                user.name = documentSnapshot.getString(Constants.KEY_NAME);
+                                user.phone = documentSnapshot.getString(Constants.KEY_PHONE);
+                                user.position = documentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                user.image = documentSnapshot.getString(Constants.KEY_IMAGE);
+                                user.token = documentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                user.id = documentSnapshot.getId();
+                                users.add(user);
+                                users.size();
+                                usersAdapter = new MultipleUserSelectionAdapter(users, this);
+                                userRecyclerView.setAdapter(usersAdapter);
+                                userRecyclerView.setVisibility(View.VISIBLE);
+                            }
                         }
                     });
 
@@ -753,17 +757,19 @@ public class SettingGroupActivity extends BaseActivity implements MultipleListen
                         if (countFor != 0){
                             continue;
                         }
-                        User user = new User();
-                        user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                        user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                        user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                        user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                        user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                        user.id = queryDocumentSnapshot.getId();
-                        users.add(user);
-                        usersAdapter = new MultipleUserSelectionAdapter(users, this);
-                        usersNotInGroupRecyclerView.setAdapter(usersAdapter);
-                        usersNotInGroupRecyclerView.setVisibility(View.VISIBLE);
+                        if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                            User user = new User();
+                            user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                            user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                            user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                            user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                            user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                            user.id = queryDocumentSnapshot.getId();
+                            users.add(user);
+                            usersAdapter = new MultipleUserSelectionAdapter(users, this);
+                            usersNotInGroupRecyclerView.setAdapter(usersAdapter);
+                            usersNotInGroupRecyclerView.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
 
