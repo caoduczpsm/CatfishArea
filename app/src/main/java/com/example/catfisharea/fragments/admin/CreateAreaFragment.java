@@ -65,6 +65,7 @@ import com.mapbox.turf.TurfJoins;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CreateAreaFragment extends Fragment implements PermissionsListener, OnMapReadyCallback, PickUserListener {
 
@@ -94,6 +95,9 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
     private String action;
     private String idItem;
     private User mUserEdit;
+    private int fillColor = Color.argb(100, 20, 137, 238);
+    private boolean isStarted = false;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -137,28 +141,90 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
 
                         List<List<Point>> boundingBoxList = new ArrayList<>();
                         boundingBoxList.add(boundingBox);
-                        Polygon polygon = mapboxMap.addPolygon(new PolygonOptions()
-                                .addAll(listpoint)
-                                .fillColor(Color.argb(100, 255, 80, 80)));
+                        if (idItem != null && idItem.equals(doc.getId())) {
+                            polygon = mapboxMap.addPolygon(new PolygonOptions()
+                                    .addAll(listpoint)
+                                    .fillColor(Color.argb(100, 20, 137, 238)));
+                        } else {
+                            Polygon polygon = mapboxMap.addPolygon(new PolygonOptions()
+                                    .addAll(listpoint)
+                                    .fillColor(Color.argb(100, 255, 80, 80)));
+                        }
+
                         listpoint.add(listpoint.get(0));
                         PolylineOptions rectOptions = new PolylineOptions()
                                 .addAll(listpoint)
                                 .color(Color.BLACK)
                                 .width(3);
-                        Polyline line = mapboxMap.addPolyline(rectOptions);
-                        mapboxMap.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
-                            @Override
-                            public boolean onMapClick(@NonNull LatLng point) {
-                                if (TurfJoins.inside(Point.fromLngLat(point.getLatitude(), point.getLongitude()),
-                                        com.mapbox.geojson.Polygon.fromLngLats(boundingBoxList))) {
-                                    Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
-                                }
-                                return false;
-                            }
-                        });
+
+                        if (idItem != null && idItem.equals(doc.getId())) {
+                            line = mapboxMap.addPolyline(rectOptions);
+                        } else {
+                            Polyline line = mapboxMap.addPolyline(rectOptions);
+
+                        }
+
+//                        mapboxMap.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
+//                            @Override
+//                            public boolean onMapClick(@NonNull LatLng point) {
+//                                if (TurfJoins.inside(Point.fromLngLat(point.getLatitude(), point.getLongitude()),
+//                                        com.mapbox.geojson.Polygon.fromLngLats(boundingBoxList))) {
+//                                    Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
+//                                }
+//                                return false;
+//                            }
+//                        });
                     }
 
                 });
+        drawCampus();
+    }
+
+    private boolean checkInside(Point point) {
+        List<Point> boundingBox = new ArrayList<>();
+        List<List<Point>> boundingBoxList = new ArrayList<>();
+
+        if (!mapboxMap.getPolygons().isEmpty()) {
+            for (Polygon polygon : mapboxMap.getPolygons()) {
+                boundingBox.clear();
+                boundingBoxList.clear();
+                for (LatLng latLng : polygon.getPoints()) {
+                    boundingBox.add(Point.fromLngLat(latLng.getLatitude(), latLng.getLongitude()));
+                }
+                boundingBoxList.add(boundingBox);
+                if (TurfJoins.inside(point, com.mapbox.geojson.Polygon.fromLngLats(boundingBoxList))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean checkBound() {
+        List<Point> boundingBox = new ArrayList<>();
+        List<List<Point>> boundingBoxList = new ArrayList<>();
+        for (LatLng latLng : polygon.getPoints()) {
+            boundingBox.add(Point.fromLngLat(latLng.getLatitude(), latLng.getLongitude()));
+
+        }
+        boundingBoxList.add(boundingBox);
+
+        AtomicBoolean isBound = new AtomicBoolean();
+        database.collection(Constants.KEY_COLLECTION_CAMPUS)
+                .whereEqualTo(Constants.KEY_AREA_ID, idItem)
+                .get().addOnSuccessListener(queryDocumentSnapshots -> {
+                   for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots.getDocuments()) {
+                       ArrayList<GeoPoint> geoPoints = (ArrayList<GeoPoint>) documentSnapshot.get(Constants.KEY_MAP);
+
+                       Point point = Point.fromLngLat(geoPoints.get(0).getLatitude(), geoPoints.get(0).getLongitude());
+
+                       if (!TurfJoins.inside(point, com.mapbox.geojson.Polygon.fromLngLats(boundingBoxList))) {
+
+                           isBound.set(false);
+                       }
+                   }
+                });
+       return isBound.get();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -196,11 +262,14 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (Is_MAP_Moveable) {
-                    if (action.equals("edit")) {
+                    if (action.equals("edit") && !isStarted) {
                         if (mapboxMap.getPolygons().size() > 0 && mapboxMap.getPolylines().size() > 0) {
-                            mapboxMap.removePolygon(mapboxMap.getPolygons().get(0));
-                            mapboxMap.removePolyline(mapboxMap.getPolylines().get(0));
+                            mapboxMap.removePolyline(line);
+                            mapboxMap.removePolygon(polygon);
+                            polygon.remove();
+                            line.remove();
                         }
+                        isStarted = true;
                     }
                     float x = event.getX();
                     float y = event.getY();
@@ -230,6 +299,11 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
                             line = mapboxMap.addPolyline(rectOptions);
                             polylineList.add(line);
 //                        line.setJointType(JointType.ROUND);
+
+                            if (checkInside(Point.fromLngLat(latitude, longitude))) {
+                                fillColor = Color.argb(100, 255, 80, 80);
+                            }
+
                             break;
                         case MotionEvent.ACTION_UP:
                             // finger leaves the screen
@@ -239,7 +313,7 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
 
                             polygon = mapboxMap.addPolygon(new PolygonOptions()
                                     .addAll(arraylistoflatlng)
-                                    .fillColor(Color.argb(100, 20, 137, 238)));
+                                    .fillColor(fillColor));
                             available = true;
                             break;
                     }
@@ -252,6 +326,7 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
             if (available) {
                 //clear the previous polygon first. Write code here
                 if (polygon != null) {
+                    fillColor = Color.argb(100, 20, 137, 238);
                     deletePolygon();
                 }
                 available = false;
@@ -275,10 +350,39 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
         });
     }
 
+    private void drawCampus() {
+        database.collection(Constants.KEY_COLLECTION_CAMPUS)
+                .whereEqualTo(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID))
+                .get().addOnSuccessListener(queryDocumentSnapshots -> {
+                   for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots.getDocuments()) {
+                       ArrayList<GeoPoint> geo = (ArrayList<GeoPoint>) documentSnapshot.get(Constants.KEY_MAP);
+                       assert geo != null;
+                       List<LatLng> listpoint = new ArrayList<>();
+                       for (GeoPoint point : geo) {
+                           listpoint.add(new LatLng(point.getLatitude(), point.getLongitude()));
+                       }
+
+                       Polygon polygon = mapboxMap.addPolygon(new PolygonOptions()
+                               .addAll(listpoint)
+                               .fillColor(Color.argb(100, 255, 80, 80)));
+
+                       listpoint.add(listpoint.get(0));
+                       PolylineOptions rectOptions = new PolylineOptions()
+                               .addAll(listpoint)
+                               .color(Color.BLACK)
+                               .width(3);
+                       Polyline line = mapboxMap.addPolyline(rectOptions);
+                   }
+                });
+    }
+
+
     private void deletePolygon() {
         if (polygon != null) {
             mapboxMap.removePolyline(line);
             mapboxMap.removePolygon(polygon);
+            polygon.remove();
+            line.remove();
             polygon.remove();
             for (Polyline l : polylineList) {
                 l.remove();
@@ -287,6 +391,8 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
             arraylistoflatlng.clear();
         }
     }
+
+
 
     //  Lưu lại vùng đã tạo
     private void saveArea() {
@@ -406,7 +512,8 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
                         String phone = qr.getString(Constants.KEY_PHONE);
                         String type = qr.getString(Constants.KEY_TYPE_ACCOUNT);
                         String areaId = qr.getString(Constants.KEY_AREA_ID);
-                        if (areaId == null || areaId.isEmpty()) {
+                        String disable = qr.getString("disable");
+                        if ((areaId == null || areaId.isEmpty()) && (disable == null || disable.equals("0"))) {
                             User user = new User();
                             user.name = name;
                             user.image = image;
@@ -472,6 +579,7 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
         } else if (action.equals("edit")) {
             mBinding.toolbarManageArea.setTitle("Chỉnh sửa vùng");
             idItem = getArguments().getString("idItem");
+            getAraes();
             setData(idItem);
         }
         mapboxMap.setStyle(Style.SATELLITE_STREETS, new Style.OnStyleLoaded() {
@@ -577,15 +685,15 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
                         arraylistoflatlng.add(new LatLng(point.getLatitude(), point.getLongitude()));
                     }
 
-                    polygon = mapboxMap.addPolygon(new PolygonOptions()
-                            .addAll(arraylistoflatlng)
-                            .fillColor(Color.argb(100, 255, 80, 80)));
+//                    polygon = mapboxMap.addPolygon(new PolygonOptions()
+//                            .addAll(arraylistoflatlng)
+//                            .fillColor(Color.argb(100, 255, 80, 80)));
                     arraylistoflatlng.add(arraylistoflatlng.get(0));
-                    PolylineOptions rectOptions = new PolylineOptions()
-                            .addAll(arraylistoflatlng)
-                            .color(Color.BLACK)
-                            .width(3);
-                    Polyline line = mapboxMap.addPolyline(rectOptions);
+//                    PolylineOptions rectOptions = new PolylineOptions()
+//                            .addAll(arraylistoflatlng)
+//                            .color(Color.BLACK)
+//                            .width(3);
+//                    Polyline line = mapboxMap.addPolyline(rectOptions);
                     LatLng center = getPolygonCenterPoint((ArrayList<LatLng>) arraylistoflatlng);
                     CameraPosition areaPosition = new CameraPosition.Builder()
                             .target(center)

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
 import com.android.app.catfisharea.databinding.ActivityDirectorHomeBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
@@ -27,13 +28,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class DirectorHomeActivity extends BaseActivity implements CampusListener{
+public class DirectorHomeActivity extends BaseActivity implements CampusListener {
     private ActivityDirectorHomeBinding mBinding;
     private FirebaseFirestore database;
     private PreferenceManager preferenceManager;
@@ -110,6 +112,7 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
         database.collection(Constants.KEY_COLLECTION_POND).whereEqualTo(Constants.KEY_CAMPUS_ID, campusId)
                 .get().addOnSuccessListener(pondQuery -> {
                     List<RegionModel> regionModels = new ArrayList<>();
+                    int i = 0;
                     for (DocumentSnapshot pondDocument : pondQuery.getDocuments()) {
                         String pondId = pondDocument.getId();
                         String pondName = pondDocument.getString(Constants.KEY_NAME);
@@ -125,6 +128,9 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
                     Collections.sort(itemHomes,
                             (o1, o2) -> (o1.getRegionModel().getName()
                                     .compareToIgnoreCase(o2.getRegionModel().getName())));
+                    Collections.sort(regionModels,
+                            (o1, o2) -> (o1.getName()
+                                    .compareToIgnoreCase(o2.getName())));
                     itemHome.setReginonList(regionModels);
                     homeAdapter.notifyDataSetChanged();
                 });
@@ -169,7 +175,7 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
     @Override
     public void OnPondClicker(RegionModel regionModel) {
         if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF) ||
-                preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR)){
+                preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR)) {
             Intent intent = new Intent(this, PondDetailsActivity.class);
             intent.putExtra(Constants.KEY_POND, regionModel);
             startActivity(intent);

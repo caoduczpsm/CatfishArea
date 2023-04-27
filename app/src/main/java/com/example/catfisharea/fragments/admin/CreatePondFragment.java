@@ -299,15 +299,17 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
                     mUsers.clear();
                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
                         String pondId = doc.getString(Constants.KEY_POND_ID);
-                        if (pondId == null || pondId.isEmpty()) {
+                        String disable = doc.getString("disable");
+                        if ((pondId == null || pondId.isEmpty()) && (disable == null || disable.equals("0"))) {
                             User user = new User();
                             user.name = doc.getString(Constants.KEY_NAME);
                             user.phone = doc.getString(Constants.KEY_PHONE);
                             user.image = doc.getString(Constants.KEY_IMAGE);
                             user.position = doc.getString(Constants.KEY_TYPE_ACCOUNT);
                             user.token = doc.getString(Constants.KEY_FCM_TOKEN);
-                            Log.d("CreatePond", "getUser" + mUsersSelected.size());
-                            if (mUsersSelected.size() > 0 && mUsersSelected.contains(user))
+
+
+                            if ((mUsersSelected.size() > 0 && mUsersSelected.contains(user)))
                                 user.isSelected = true;
                             user.id = doc.getId();
                             mUsers.add(user);

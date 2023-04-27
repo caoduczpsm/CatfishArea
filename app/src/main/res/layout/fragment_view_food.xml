@@ -1,0 +1,51 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.catfisharea.fragments.alluser.ViewFoodFragment">
+
+    <TextView
+        android:id="@+id/textArrange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:text="Sắp xếp: "
+        android:textColor="@color/black"
+        android:textSize="@dimen/_11ssp"
+        app:layout_constraintBottom_toBottomOf="@id/arrange"
+        app:layout_constraintEnd_toStartOf="@id/arrange"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/arrange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="@dimen/_5sdp"
+        android:text="Tăng dần"
+        android:textColor="@color/textGray"
+        android:textSize="@dimen/_11ssp"
+        app:layout_constraintEnd_toStartOf="@id/imageArrange"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageArrange"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:src="@drawable/ic_up"
+        app:layout_constraintBottom_toBottomOf="@id/arrange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/arrange"
+        app:tint="@color/textGray" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerviewDetailPlan"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/arrange" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

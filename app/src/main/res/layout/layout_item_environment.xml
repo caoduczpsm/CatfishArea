@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:translationZ="10dp"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_5sdp">
+
+            <TextView
+                android:id="@+id/dateItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:text="Ngày 20/04/2023"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/dateBirth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:text="Ngày tuổi: 1"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TableLayout
+                android:id="@+id/table1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/dateItem">
+
+                <TableRow>
+
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="Độ mặn"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="Độ kiềm"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="Độ pH"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:id="@+id/food1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="10.000"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:id="@+id/food2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="300.000"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:id="@+id/food3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="50.000"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
+
+                </TableRow>
+            </TableLayout>
+
+            <TableLayout
+                android:id="@+id/table2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintTop_toBottomOf="@id/table1">
+
+                <TableRow>
+
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="H2S"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="NH3"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="Nhiệt độ"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:id="@+id/food5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="300.000"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:id="@+id/food6"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="50"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <TextView
+                        android:background="@drawable/cell"
+                        android:id="@+id/food7"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:text="50.000"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
+
+                </TableRow>
+            </TableLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

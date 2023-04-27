@@ -81,7 +81,6 @@ public class ViewPlanActivity extends BaseActivity implements CampusListener {
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -115,6 +114,9 @@ public class ViewPlanActivity extends BaseActivity implements CampusListener {
                     Collections.sort(itemHomes,
                             (o1, o2) -> (o1.getRegionModel().getName()
                                     .compareToIgnoreCase(o2.getRegionModel().getName())));
+                    Collections.sort(regionModels,
+                            (o1, o2) -> (o1.getName()
+                                    .compareToIgnoreCase(o2.getName())));
                     itemHome.setReginonList(regionModels);
                     homeAdapter.notifyDataSetChanged();
                 });

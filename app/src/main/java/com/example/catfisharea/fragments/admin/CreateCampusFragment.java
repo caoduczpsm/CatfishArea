@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -39,7 +38,6 @@ import com.example.catfisharea.adapter.SpinnerAdapter;
 import com.example.catfisharea.adapter.UserPickerAdapter;
 import com.example.catfisharea.listeners.PickUserListener;
 import com.example.catfisharea.models.Area;
-import com.example.catfisharea.models.ItemHome;
 import com.example.catfisharea.models.RegionModel;
 import com.example.catfisharea.models.User;
 import com.example.catfisharea.ultilities.Constants;
@@ -105,11 +103,12 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
     private Area areaSelected;
     private int fillColor = Color.argb(100, 20, 137, 238);
 
-    private List<Point> boundingBox = new ArrayList<>();
-    private List<List<Point>> boundingBoxList = new ArrayList<>();
+    private List<Point> boundingBoxTotal = new ArrayList<>();
+    private List<List<Point>> boundingBoxListTotal = new ArrayList<>();
     private String action;
     private String idItem;
     private User mUserEdit;
+    private boolean isStarted = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -132,7 +131,6 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
         database.collection(Constants.KEY_COLLECTION_AREA)
                 .whereEqualTo(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID))
                 .get().addOnSuccessListener(queryDocumentSnapshots -> {
-
                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
                         String name = doc.getString(Constants.KEY_NAME);
                         ArrayList<GeoPoint> geo = (ArrayList<GeoPoint>) doc.get(Constants.KEY_MAP);
@@ -149,6 +147,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
 //                        Polygon polygon = mapboxMap.addPolygon(new PolygonOptions()
 //                                .addAll(listpoint)
 //                                .fillColor(Color.argb(100, 255, 80, 80)));
+
 
                         PolylineOptions rectOptions = new PolylineOptions()
                                 .addAll(listpoint)
@@ -188,9 +187,16 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                         }
                         List<List<Point>> boundingBoxList = new ArrayList<>();
                         boundingBoxList.add(boundingBox);
-                        Polygon polygon = mapboxMap.addPolygon(new PolygonOptions()
-                                .addAll(listpoint)
-                                .fillColor(fillColor));
+                        if (idItem != null && idItem.equals(doc.getId())) {
+                            polygon = mapboxMap.addPolygon(new PolygonOptions()
+                                    .addAll(listpoint)
+                                    .fillColor(fillColor));
+                        } else {
+                            Polygon polygon = mapboxMap.addPolygon(new PolygonOptions()
+                                    .addAll(listpoint)
+                                    .fillColor(Color.argb(100, 255, 80, 80)));
+                        }
+
 
                         PolylineOptions rectOptions = new PolylineOptions()
                                 .addAll(listpoint)
@@ -232,20 +238,25 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
             public void onClick(View v) {
                 if (!Is_MAP_Moveable) {
                     mBinding.freeHandBtn.setImageResource(R.drawable.baseline_done_24);
-                    if (action.equals("edit")) {
+                    if (action.equals("edit") && !isStarted) {
                         mapboxMap.getPolygons().forEach(it -> {
-                            if (it.getPoints().contains(arraylistoflatlng.get(0))) {
-                                mapboxMap.removePolygon(it);
+                            if (arraylistoflatlng != null && arraylistoflatlng.size() > 0) {
+                                if (it.getPoints().contains(arraylistoflatlng.get(0))) {
+                                    mapboxMap.removePolygon(it);
+                                }
                             }
                         });
                         if (mapboxMap.getPolylines().size() > 0) {
                             mapboxMap.getPolylines().forEach(it -> {
-                                if (it.getPoints().contains(arraylistoflatlng.get(0))) {
-                                    mapboxMap.removePolyline(it);
-                                    arraylistoflatlng.clear();
+                                if (arraylistoflatlng != null && arraylistoflatlng.size() > 0) {
+                                    if (it.getPoints().contains(arraylistoflatlng.get(0))) {
+                                        mapboxMap.removePolyline(it);
+                                        arraylistoflatlng.clear();
+                                    }
                                 }
                             });
                         }
+                        isStarted = true;
                     }
                 } else {
                     mBinding.freeHandBtn.setImageResource(R.drawable.baseline_draw_24);
@@ -296,12 +307,16 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
 
                             polylineList.add(line);
 //                        line.setJointType(JointType.ROUND);
-                            Log.d("boundingBoxList", boundingBoxList.size() + "");
-                            if (boundingBoxList.size() > 0) {
+                            if (boundingBoxListTotal.size() > 0) {
                                 if (!TurfJoins.inside(Point.fromLngLat(latitude, longitude),
-                                        com.mapbox.geojson.Polygon.fromLngLats(boundingBoxList))) {
+                                        com.mapbox.geojson.Polygon.fromLngLats(boundingBoxListTotal))) {
+                                    Log.d("FATAL EXCEPTION: main", boundingBoxTotal.get(0).toJson());
                                     fillColor = Color.argb(100, 255, 80, 80);
                                 }
+                            }
+
+                            if (checkInside(Point.fromLngLat(latitude, longitude))) {
+                                fillColor = Color.argb(100, 255, 80, 80);
                             }
                             break;
                         case MotionEvent.ACTION_UP:
@@ -309,6 +324,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                             if (polygon != null) {
                                 polygon.remove();
                             }
+
 
                             polygon = mapboxMap.addPolygon(new PolygonOptions()
                                     .addAll(arraylistoflatlng)
@@ -466,8 +482,8 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Area area = (Area) parent.getItemAtPosition(position);
-                    boundingBox.clear();
-                    boundingBoxList.clear();
+                    boundingBoxTotal.clear();
+                    boundingBoxListTotal.clear();
                     areaSelected = area;
                     List<LatLng> listpoint = new ArrayList<>();
                     listpoint = area.getListLatLng();
@@ -499,7 +515,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                             });
 
                     for (LatLng lt : listpoint) {
-                        boundingBox.add(Point.fromLngLat(lt.getLatitude(), lt.getLongitude()));
+                        boundingBoxTotal.add(Point.fromLngLat(lt.getLatitude(), lt.getLongitude()));
                     }
                     mapboxMap.getPolygons().forEach(plg -> {
                         mapboxMap.removePolygon(plg);
@@ -509,7 +525,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                         mapboxMap.removePolyline(plg);
                     });
 
-                    boundingBoxList.add(boundingBox);
+                    boundingBoxListTotal.add(boundingBoxTotal);
 
                     PolylineOptions rectOptions = new PolylineOptions()
                             .addAll(listpoint)
@@ -545,6 +561,43 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
         }
 
 
+    }
+
+    private boolean checkInside(Point point) {
+        List<Point> boundingBox = new ArrayList<>();
+        List<List<Point>> boundingBoxList = new ArrayList<>();
+
+        if (!mapboxMap.getPolygons().isEmpty()) {
+            for (Polygon polygon : mapboxMap.getPolygons()) {
+                boundingBox.clear();
+                boundingBoxList.clear();
+                for (LatLng latLng : polygon.getPoints()) {
+                    boundingBox.add(Point.fromLngLat(latLng.getLatitude(), latLng.getLongitude()));
+                }
+                boundingBoxList.add(boundingBox);
+                if (TurfJoins.inside(point, com.mapbox.geojson.Polygon.fromLngLats(boundingBoxList))) {
+                    return true;
+                }
+
+                if (this.polygon != null) {
+                    boundingBox.clear();
+                    boundingBoxList.clear();
+                    for (LatLng latLng : this.polygon.getPoints()) {
+                        boundingBox.add(Point.fromLngLat(latLng.getLatitude(), latLng.getLongitude()));
+                    }
+                    boundingBoxList.add(boundingBox);
+
+                    if (TurfJoins.inside(
+                            Point.fromLngLat(polygon.getPoints().get(0).getLatitude(),
+                                    polygon.getPoints().get(0).getLongitude()),
+                            com.mapbox.geojson.Polygon.fromLngLats(boundingBoxList))) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     private LatLng getPolygonCenterPoint(ArrayList<LatLng> polygonPointsList) {
@@ -589,7 +642,8 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                         String phone = qr.getString(Constants.KEY_PHONE);
                         String type = qr.getString(Constants.KEY_TYPE_ACCOUNT);
                         String areaId = qr.getString(Constants.KEY_CAMPUS_ID);
-                        if (areaId == null || areaId.isEmpty()) {
+                        String disable = qr.getString("disable");
+                        if (areaId == null || areaId.isEmpty() && (disable == null || disable.equals("0"))) {
                             User user = new User();
                             user.name = name;
                             user.image = image;
@@ -628,6 +682,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
             mapboxMap.removePolyline(line);
             mapboxMap.removePolygon(polygon);
             polygon.remove();
+            line.remove();
             for (Polyline l : polylineList) {
                 l.remove();
             }
@@ -772,6 +827,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                 .get().addOnSuccessListener(documentSnapshot -> {
                     String name = documentSnapshot.getString(Constants.KEY_NAME);
                     ArrayList<GeoPoint> geoList = (ArrayList<GeoPoint>) documentSnapshot.get(Constants.KEY_MAP);
+                    String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
                     mBinding.edtNameArea.setText(name);
 //                  Vẽ vùng lên bản đồ
 
@@ -783,7 +839,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                     getAraes();
                     mapboxMap.getPolygons().forEach(it -> {
                         if (it.getPoints().contains(arraylistoflatlng.get(0))) {
-                            it.setFillColor(Color.argb(80, 20, 137, 238));
+                            it.setFillColor(Color.argb(100, 255, 80, 80));
                         }
                     });
                     LatLng center = getPolygonCenterPoint((ArrayList<LatLng>) arraylistoflatlng);
@@ -792,12 +848,19 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                             .zoom(19).build();
                     mapboxMap.setCameraPosition(areaPosition);
                     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(areaPosition), 500);
-                    boundingBox.clear();
-                    boundingBoxList.clear();
-                    for (LatLng lt : arraylistoflatlng) {
-                        boundingBox.add(Point.fromLngLat(lt.getLatitude(), lt.getLongitude()));
-                    }
-                    boundingBoxList.add(boundingBox);
+
+                    database.collection(Constants.KEY_COLLECTION_AREA)
+                            .document(areaId).get().addOnSuccessListener(documentSnapshot1 -> {
+                                ArrayList<GeoPoint> geoPoints = (ArrayList<GeoPoint>) documentSnapshot.get(Constants.KEY_MAP);
+                                boundingBoxTotal.clear();
+                                boundingBoxListTotal.clear();
+                                for (GeoPoint point1 : geoPoints) {
+                                    boundingBoxTotal.add(Point.fromLngLat(point1.getLatitude(),
+                                            point1.getLongitude()));
+                                }
+                                boundingBoxListTotal.add(boundingBoxTotal);
+                            });
+
                 });
         database.collection(Constants.KEY_COLLECTION_USER)
                 .whereEqualTo(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_DIRECTOR)
