@@ -393,19 +393,20 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
                         if (task.isSuccessful() && task.getResult() != null) {
                             users.clear();
                             for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-
-                                User user = new User();
-                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                                user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                                user.id = queryDocumentSnapshot.getId();
-                                if (taskComment.receiverID.contains(user.id)){
-                                    user.isSelected = true;
+                                if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                    User user = new User();
+                                    user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                    user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                    user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                    user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                    user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                    user.id = queryDocumentSnapshot.getId();
+                                    if (taskComment.receiverID.contains(user.id)){
+                                        user.isSelected = true;
+                                    }
+                                    users.add(user);
+                                    multipleUserSelectionAdapter.notifyDataSetChanged();
                                 }
-                                users.add(user);
-                                multipleUserSelectionAdapter.notifyDataSetChanged();
                             }
 
                         }
@@ -421,20 +422,20 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
                         if (task.isSuccessful() && task.getResult() != null) {
                             users.clear();
                             for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-
-                                User user = new User();
-                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                                user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                                user.id = queryDocumentSnapshot.getId();
-                                if (taskComment.receiverID.contains(user.id)){
-                                    user.isSelected = true;
+                                if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                    User user = new User();
+                                    user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                    user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                    user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                    user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                    user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                    user.id = queryDocumentSnapshot.getId();
+                                    if (taskComment.receiverID.contains(user.id)){
+                                        user.isSelected = true;
+                                    }
+                                    users.add(user);
+                                    usersAdapter.notifyDataSetChanged();
                                 }
-                                users.add(user);
-                                usersAdapter.notifyDataSetChanged();
-
                             }
 
                         }
@@ -604,19 +605,21 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
                         if (task.isSuccessful() && task.getResult() != null) {
                             users.clear();
                             for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-
-                                User user = new User();
-                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                                user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                                user.id = queryDocumentSnapshot.getId();
-                                if (taskComment.receiverID.contains(user.id)){
-                                    user.isSelected = true;
+                                if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                    User user = new User();
+                                    user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                    user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                    user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                    user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                    user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                    user.id = queryDocumentSnapshot.getId();
+                                    if (taskComment.receiverID.contains(user.id)){
+                                        user.isSelected = true;
+                                    }
+                                    users.add(user);
+                                    multipleUserSelectionAdapter.notifyDataSetChanged();
                                 }
-                                users.add(user);
-                                multipleUserSelectionAdapter.notifyDataSetChanged();
+
                             }
 
                         }
@@ -632,20 +635,20 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
                         if (task.isSuccessful() && task.getResult() != null) {
                             users.clear();
                             for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-
-                                User user = new User();
-                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                                user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                                user.id = queryDocumentSnapshot.getId();
-                                if (taskComment.receiverID.contains(user.id)){
-                                    user.isSelected = true;
+                                if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                    User user = new User();
+                                    user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                    user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                    user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                    user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                    user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                    user.id = queryDocumentSnapshot.getId();
+                                    if (taskComment.receiverID.contains(user.id)){
+                                        user.isSelected = true;
+                                    }
+                                    users.add(user);
+                                    usersAdapter.notifyDataSetChanged();
                                 }
-                                users.add(user);
-                                usersAdapter.notifyDataSetChanged();
-
                             }
 
                         }
@@ -791,18 +794,21 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
                                     .get()
                                     .addOnCompleteListener(task1 -> {
                                         DocumentSnapshot documentSnapshot1 = task1.getResult();
-                                        User user = new User();
-                                        user.name = documentSnapshot1.getString(Constants.KEY_NAME);
-                                        user.phone = documentSnapshot1.getString(Constants.KEY_PHONE);
-                                        user.position = documentSnapshot1.getString(Constants.KEY_TYPE_ACCOUNT);
-                                        user.image = documentSnapshot1.getString(Constants.KEY_IMAGE);
-                                        user.token = documentSnapshot1.getString(Constants.KEY_FCM_TOKEN);
-                                        user.id = documentSnapshot1.getId();
-                                        users.add(user);
-                                        usersAdapter.notifyDataSetChanged();
-                                        if (users.size() == 0) {
-                                            textMessage.setVisibility(View.VISIBLE);
-                                        } else textMessage.setVisibility(View.GONE);
+                                        if (documentSnapshot1.getString(Constants.KEY_DISABLE_USER) == null){
+                                            User user = new User();
+                                            user.name = documentSnapshot1.getString(Constants.KEY_NAME);
+                                            user.phone = documentSnapshot1.getString(Constants.KEY_PHONE);
+                                            user.position = documentSnapshot1.getString(Constants.KEY_TYPE_ACCOUNT);
+                                            user.image = documentSnapshot1.getString(Constants.KEY_IMAGE);
+                                            user.token = documentSnapshot1.getString(Constants.KEY_FCM_TOKEN);
+                                            user.id = documentSnapshot1.getId();
+                                            users.add(user);
+                                            usersAdapter.notifyDataSetChanged();
+                                            if (users.size() == 0) {
+                                                textMessage.setVisibility(View.VISIBLE);
+                                            } else textMessage.setVisibility(View.GONE);
+                                        }
+
                                     });
                         }
                     }
@@ -829,18 +835,21 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
                                 .get()
                                 .addOnCompleteListener(task1 -> {
                                     DocumentSnapshot documentSnapshot1 = task1.getResult();
-                                    User user = new User();
-                                    user.name = documentSnapshot1.getString(Constants.KEY_NAME);
-                                    user.phone = documentSnapshot1.getString(Constants.KEY_PHONE);
-                                    user.position = documentSnapshot1.getString(Constants.KEY_TYPE_ACCOUNT);
-                                    user.image = documentSnapshot1.getString(Constants.KEY_IMAGE);
-                                    user.token = documentSnapshot1.getString(Constants.KEY_FCM_TOKEN);
-                                    user.id = documentSnapshot1.getId();
-                                    users.add(user);
-                                    usersAdapter.notifyDataSetChanged();
-                                    if (users.size() == 0) {
-                                        textMessage.setVisibility(View.VISIBLE);
-                                    } else textMessage.setVisibility(View.GONE);
+                                    if (documentSnapshot1.getString(Constants.KEY_DISABLE_USER) == null){
+                                        User user = new User();
+                                        user.name = documentSnapshot1.getString(Constants.KEY_NAME);
+                                        user.phone = documentSnapshot1.getString(Constants.KEY_PHONE);
+                                        user.position = documentSnapshot1.getString(Constants.KEY_TYPE_ACCOUNT);
+                                        user.image = documentSnapshot1.getString(Constants.KEY_IMAGE);
+                                        user.token = documentSnapshot1.getString(Constants.KEY_FCM_TOKEN);
+                                        user.id = documentSnapshot1.getId();
+                                        users.add(user);
+                                        usersAdapter.notifyDataSetChanged();
+                                        if (users.size() == 0) {
+                                            textMessage.setVisibility(View.VISIBLE);
+                                        } else textMessage.setVisibility(View.GONE);
+                                    }
+
                                 });
 
                     }
@@ -865,15 +874,18 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
                                 .get()
                                 .addOnCompleteListener(task1 -> {
                                     DocumentSnapshot documentSnapshot1 = task1.getResult();
-                                    User user = new User();
-                                    user.name = documentSnapshot1.getString(Constants.KEY_NAME);
-                                    user.phone = documentSnapshot1.getString(Constants.KEY_PHONE);
-                                    user.position = documentSnapshot1.getString(Constants.KEY_TYPE_ACCOUNT);
-                                    user.image = documentSnapshot1.getString(Constants.KEY_IMAGE);
-                                    user.token = documentSnapshot1.getString(Constants.KEY_FCM_TOKEN);
-                                    user.id = documentSnapshot1.getId();
-                                    users.add(user);
-                                    usersAdapter.notifyDataSetChanged();
+                                    if (documentSnapshot1.getString(Constants.KEY_DISABLE_USER) == null){
+                                        User user = new User();
+                                        user.name = documentSnapshot1.getString(Constants.KEY_NAME);
+                                        user.phone = documentSnapshot1.getString(Constants.KEY_PHONE);
+                                        user.position = documentSnapshot1.getString(Constants.KEY_TYPE_ACCOUNT);
+                                        user.image = documentSnapshot1.getString(Constants.KEY_IMAGE);
+                                        user.token = documentSnapshot1.getString(Constants.KEY_FCM_TOKEN);
+                                        user.id = documentSnapshot1.getId();
+                                        users.add(user);
+                                        usersAdapter.notifyDataSetChanged();
+                                    }
+
                                 });
                     }
 

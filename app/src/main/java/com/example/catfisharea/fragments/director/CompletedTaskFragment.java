@@ -70,6 +70,8 @@ public class CompletedTaskFragment extends Fragment implements MultipleListener 
     @SuppressLint("NotifyDataSetChanged")
     public void getTasks(){
 
+        tasks.clear();
+
         daySelected = Integer.parseInt(preferenceManager.getString(Constants.KEY_DAY_SELECTED));
         monthSelected = Integer.parseInt(preferenceManager.getString(Constants.KEY_MONTH_SELECTED));
         yearSelected = Integer.parseInt(preferenceManager.getString(Constants.KEY_YEAR_SELECTED));

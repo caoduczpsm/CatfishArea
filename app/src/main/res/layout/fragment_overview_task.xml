@@ -44,6 +44,7 @@
                     android:layout_marginStart="@dimen/_5sdp"
                     android:contentDescription="TODO"
                     android:src="@drawable/ic_add2"
+                    android:visibility="gone"
                     tools:ignore="ContentDescription,HardcodedText,SpeakableTextPresentCheck" />
 
                 <TextView
@@ -52,6 +53,7 @@
                     app:layout_constraintStart_toEndOf="@+id/imageAddTask"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.8"
+                    android:visibility="gone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"

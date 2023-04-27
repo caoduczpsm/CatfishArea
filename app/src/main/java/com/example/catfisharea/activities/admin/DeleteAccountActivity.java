@@ -24,14 +24,11 @@ import com.example.catfisharea.models.Task;
 import com.example.catfisharea.models.User;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class DeleteAccountActivity extends BaseActivity implements MultipleListener {
     private ActivityDeleteAccountBinding mBinding;
@@ -119,74 +116,16 @@ public class DeleteAccountActivity extends BaseActivity implements MultipleListe
                 users.remove(selectedUsers.get(i));
                 usersAdapter.notifyDataSetChanged();
 
+                HashMap<String, Object> disableUser = new HashMap<>();
+                disableUser.put(Constants.KEY_DISABLE_USER, "1");
+
                 database.collection(Constants.KEY_COLLECTION_USER)
                         .document(selectedUsers.get(i).id)
-                        .delete()
+                        .update(disableUser)
                         .addOnCompleteListener(unused -> showToast("Đã xóa những tài khoản được chọn!"))
                         .addOnFailureListener(e -> showToast("Đã xảy ra lỗi trong quá trình xóa!"));
 
             }
-
-            database.collection(Constants.KEY_COLLECTION_COMPANY)
-                    .document(preferenceManager.getString(Constants.KEY_COMPANY_ID))
-                    .get()
-                    .addOnCompleteListener(task -> {
-
-                        // Các biến đếm số tài khoản bị xóa theo từng loại
-                        int countAdmin = 0, countAccountant = 0, countRegionalChief = 0, countDirector = 0, countWork = 0;
-
-                        for (int j = 0; j < selectedUsers.size(); j++){
-
-                            switch (selectedUsers.get(j).position) {
-                                case Constants.KEY_ADMIN:
-                                    countAdmin++;
-                                    break;
-                                case Constants.KEY_ACCOUNTANT:
-                                    countAccountant++;
-                                    break;
-                                case Constants.KEY_REGIONAL_CHIEF:
-                                    countRegionalChief++;
-                                    break;
-                                case Constants.KEY_DIRECTOR:
-                                    countDirector++;
-                                    break;
-                                default:
-                                    countWork++;
-                                    break;
-                            }
-
-                        }
-
-                        DocumentSnapshot documentSnapshot = task.getResult();
-
-                        // Lấy số lượng các loại tài khoản hiện tài trên cơ sở dữ liệu
-                        int currentTotalAccount = Integer.parseInt(Objects.requireNonNull(
-                                documentSnapshot.getString(Constants.KEY_COMPANY_TOTAL_ACCOUNT))) - selectedUsers.size();
-                        int currentAmountAdmin = Integer.parseInt(Objects.requireNonNull(
-                                documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_ADMIN)));
-                        int currentAmountAccountant = Integer.parseInt(Objects.requireNonNull(
-                                documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT)));
-                        int currentAmountRegionalChief = Integer.parseInt(Objects.requireNonNull(
-                                documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF)));
-                        int currentAmountDirector = Integer.parseInt(Objects.requireNonNull(
-                                documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_DIRECTOR)));
-                        int currentAmountWorker = Integer.parseInt(Objects.requireNonNull(
-                                documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_WORKER)));
-
-                        // Tạo các trường dữ liệu cần thay đổi trong bảng công ty
-                        HashMap<String, Object> company = new HashMap<>();
-                        company.put(Constants.KEY_COMPANY_TOTAL_ACCOUNT, currentTotalAccount + "");
-                        company.put(Constants.KEY_COMPANY_AMOUNT_ADMIN, currentAmountAdmin - countAdmin + "");
-                        company.put(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT, currentAmountAccountant - countAccountant + "");
-                        company.put(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF, currentAmountRegionalChief - countRegionalChief + "");
-                        company.put(Constants.KEY_COMPANY_AMOUNT_DIRECTOR, currentAmountDirector - countDirector + "");
-                        company.put(Constants.KEY_COMPANY_AMOUNT_WORKER, currentAmountWorker - countWork + "");
-
-                        database.collection(Constants.KEY_COLLECTION_COMPANY)
-                                .document(preferenceManager.getString(Constants.KEY_COMPANY_ID))
-                                .update(company);
-
-                    });
         }
 
     }
@@ -201,7 +140,10 @@ public class DeleteAccountActivity extends BaseActivity implements MultipleListe
         Button no_btn = dialog.findViewById(R.id.btnClose);
         Button btnDelete = dialog.findViewById(R.id.btnDelete);
 
-        btnDelete.setOnClickListener(view -> deleteUser());
+        btnDelete.setOnClickListener(view -> {
+            dialog.dismiss();
+            deleteUser();
+        });
 
         no_btn.setOnClickListener(view -> dialog.dismiss());
         dialog.show();
@@ -363,17 +305,17 @@ public class DeleteAccountActivity extends BaseActivity implements MultipleListe
 
                     if (task.isSuccessful() && task.getResult() != null) {
                         for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-
-                            User user = new User();
-                            user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                            user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                            user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                            user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                            user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                            user.id = queryDocumentSnapshot.getId();
-                            users.add(user);
-                            usersAdapter.notifyDataSetChanged();
-
+                            if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                User user = new User();
+                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                user.id = queryDocumentSnapshot.getId();
+                                users.add(user);
+                                usersAdapter.notifyDataSetChanged();
+                            }
                         }
 
                     }
@@ -412,14 +354,16 @@ public class DeleteAccountActivity extends BaseActivity implements MultipleListe
                     if (task.isSuccessful() && task.getResult() != null) {
                         users.clear();
                         for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-                            User user = new User();
-                            user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                            user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                            user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                            user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                            user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                            user.id = queryDocumentSnapshot.getId();
-                            users.add(user);
+                            if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                User user = new User();
+                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                user.id = queryDocumentSnapshot.getId();
+                                users.add(user);
+                            }
                         }
                         usersAdapter.notifyDataSetChanged();
                         loading(false);

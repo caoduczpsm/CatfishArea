@@ -86,8 +86,11 @@ public class OverviewTaskFragment extends Fragment {
         //Fragment
         additionTaskFragment = new AdditionTaskFragment();
 
-        if (!preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_WORKER))
+        if (!preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_WORKER)){
             textAddTask.setVisibility(View.VISIBLE);
+            imageAddTask.setVisibility(View.VISIBLE);
+        }
+
 
 
     }

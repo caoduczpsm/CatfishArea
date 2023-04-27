@@ -156,16 +156,18 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
                     .get()
                     .addOnCompleteListener(task -> {
                        DocumentSnapshot documentSnapshot = task.getResult();
-                        User user = new User();
-                        user.name = documentSnapshot.getString(Constants.KEY_NAME);
-                        user.phone = documentSnapshot.getString(Constants.KEY_PHONE);
-                        user.position = documentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                        user.image = documentSnapshot.getString(Constants.KEY_IMAGE);
-                        user.token = documentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                        user.id = documentSnapshot.getId();
-                        Intent intent = new Intent(context, ChatActivity.class);
-                        intent.putExtra(Constants.KEY_USER, user);
-                        context.startActivity(intent);
+                        if (documentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                            User user = new User();
+                            user.name = documentSnapshot.getString(Constants.KEY_NAME);
+                            user.phone = documentSnapshot.getString(Constants.KEY_PHONE);
+                            user.position = documentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                            user.image = documentSnapshot.getString(Constants.KEY_IMAGE);
+                            user.token = documentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                            user.id = documentSnapshot.getId();
+                            Intent intent = new Intent(context, ChatActivity.class);
+                            intent.putExtra(Constants.KEY_USER, user);
+                            context.startActivity(intent);
+                        }
                     }));
 
             switch (treatment.status) {

@@ -115,250 +115,22 @@ public class PermissionEditActivity extends BaseActivity implements MultipleList
                 typeAccount = Constants.KEY_DIRECTOR;
             } else typeAccount = Constants.KEY_WORKER;
 
-            // Biến kiểm tra nếu người dùng chỉ chọn đúng 1 loại account
-            boolean isOneType = true;
-            // Biến lưu loại account mà người dùng đã chọn nếu trong danh sách chọn chỉ có 1 loại account
-            String typeOne = "";
-
-            // Các biến đếm số tài khoản bị thay đổi quyền theo từng loại
-            int countAdmin = 0, countAccountant = 0, countRegionalChief = 0, countDirector = 0, countWorker = 0;
-
-            for (int i = 0; i < selectedUsers.size(); i++){
-
-                // Nếu như trong danh sách tài khoản được chọn là khác nhau thì isOneType sẽ bằng false
-                // Nếu isOneType bằng true thì gán kết quả đầu tiên trong danh sách được chọn cho typeOne
-                if (!Objects.equals(selectedUsers.get(0).position, selectedUsers.get(i).position))
-                    isOneType = false;
-                else typeOne = selectedUsers.get(0).position;
-
-                // Đếm số lượng từng loại tài khoản được người dùng chọn
-                switch (selectedUsers.get(i).position) {
-                    case Constants.KEY_ADMIN:
-                        countAdmin++;
-                        break;
-                    case Constants.KEY_ACCOUNTANT:
-                        countAccountant++;
-                        break;
-                    case Constants.KEY_REGIONAL_CHIEF:
-                        countRegionalChief++;
-                        break;
-                    case Constants.KEY_DIRECTOR:
-                        countDirector++;
-                        break;
-                    case Constants.KEY_WORKER:
-                        countWorker++;
-                        break;
-                }
-
-            }
-
-            if (selectedUsers.size() == 0){
-                showToast("Vui lòng chọn ít nhất một tài khoản cần chỉnh sửa quyền!");
-                loading(false);
-            } else {
-
-                loading(false);
-
-                // Đếm số account được tròn trùng với số account đã là loại account mà người dùng muốn đổi
-                int countTypeAccountAvailable = 0;
-
-                for (int i = 0; i < selectedUsers.size(); i++){
-
-                    HashMap<String, Object> user = new HashMap<>();
-                    user.put(Constants.KEY_TYPE_ACCOUNT, typeAccount);
-
-                    if (selectedUsers.get(i).position.equals(typeAccount)){
-                        countTypeAccountAvailable++;
-                    }
-
-                    if (selectedUsers.get(i).id.equals(users.get(i).id)){
-                        // Gán lại kết quả đã đổi vào ArrayList users
-                        if (!typeAccount.equals(users.get(i).position)){
-                            users.get(i).position = typeAccount;
-                        }
-                    }
-
-                    int finalI = i;
-                    database.collection(Constants.KEY_COLLECTION_USER)
-                            .document(selectedUsers.get(i).id)
-                            .update(user)
-                            .addOnSuccessListener(unused -> {
-                                if (finalI ==0)
-                                    showToast("Cập nhật quyền cho các tài khoản thành công!");
-                            })
-                            .addOnFailureListener(e -> {
-                                if (finalI ==0)
-                                    showToast("Lỗi trong quá trình cập nhật!");
-                            });
-
-                }
-
-                // Các biến sao chép kết quả của hàm truy vấn trên để sử dụng được ở hàm truy vấn ở đây
-                int finalCountTypeAccountAvailable = countTypeAccountAvailable;
-                String finalTypeOne = typeOne;
-                boolean finalIsOneType = isOneType;
-                int finalCountAdmin = countAdmin;
-                int finalCountAccountant = countAccountant;
-                int finalCountRegionalChief = countRegionalChief;
-                int finalCountDirector = countDirector;
-                int finalCountWorker = countWorker;
-                database.collection(Constants.KEY_COLLECTION_COMPANY)
-                        .document(preferenceManager.getString(Constants.KEY_COMPANY_ID))
-                        .get()
-                        .addOnCompleteListener(task -> {
-
-                            DocumentSnapshot documentSnapshot = task.getResult();
-                            //int currentTotalAccount = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COMPANY_TOTAL_ACCOUNT)));
-
-                            // Lấy số lượng các loại tài khoản hiện tài trên cơ sở dữ liệu
-                            int currentAmountAdmin = Integer.parseInt(Objects.requireNonNull(
-                                    documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_ADMIN)));
-                            int currentAmountAccountant = Integer.parseInt(Objects.requireNonNull(
-                                    documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT)));
-                            int currentAmountRegionalChief = Integer.parseInt(Objects.requireNonNull(
-                                    documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF)));
-                            int currentAmountDirector = Integer.parseInt(Objects.requireNonNull(
-                                    documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_DIRECTOR)));
-                            int currentAmountWorker = Integer.parseInt(Objects.requireNonNull(
-                                    documentSnapshot.getString(Constants.KEY_COMPANY_AMOUNT_WORKER)));
-
-                            // Tạo các trường dữ liệu cần thay đổi trong bảng công ty
-                            HashMap<String, Object> company = new HashMap<>();
-
-                            /* Nếu danh sách được chọn có kích cỡ trùng với số lượng tài khoản thì cập nhật số lượng tài khoản như sau:
-                             * Nếu tài khoản cần đổi là Admin thì đổi số lượng tài khoản Admin bằng độ dài của danh sách người dùng
-                             *                   Các loại tài khoản khác bằng 0
-                             * Tương tự với các loại tài khoản khác
-                             * */
-
-                            if (selectedUsers.size() == users.size()){
-
-                                if (Constants.KEY_ADMIN.equals(typeAccount)){
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ADMIN, selectedUsers.size() + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT, 0 + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF, 0 + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_DIRECTOR, 0 + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_WORKER, 0 + "");
-                                }
-
-                                if (Constants.KEY_ACCOUNTANT.equals(typeAccount)){
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ADMIN, 0 + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT, selectedUsers.size() + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF, 0 + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_DIRECTOR, 0 + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_WORKER, 0 + "");
-                                }
-
-                                if (Constants.KEY_REGIONAL_CHIEF.equals(typeAccount)){
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ADMIN, 0 + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT, 0 + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF, selectedUsers.size() + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_DIRECTOR, 0 + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_WORKER, 0 + "");
-                                }
-
-                                if (Constants.KEY_DIRECTOR.equals(typeAccount)){
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ADMIN, 0 + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT, 0 + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF, 0 + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_DIRECTOR, selectedUsers.size() + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_WORKER, 0 + "");
-                                }
-
-                                if (Constants.KEY_WORKER.equals(typeAccount)){
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ADMIN, 0 + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT, 0 + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF, 0 + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_DIRECTOR, 0 + "");
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_WORKER, selectedUsers.size() + "");
-                                }
-
-                            } if (finalIsOneType){
-
-                                /*
-                                 * Nếu danh sách tài khoản cần chỉnh sửa quyền mà người dùng chọn chỉ có một loại tài khoản duy nhất thì cập nhật như sau:
-                                 *       Nếu loại tài khoản được chọn đó là Admin thì
-                                 *           số lượng tài khoản Admin bằng với số Admin hiện tại (currentAmountAdmin) trừ cho danh sách mà người dùng chọn (selectedUsers.size())
-                                 *                   Tương tự cho các loại tài khoản khác
-                                 *       Nếu loại tài khoản người dùng cần thay đổi là Admin thì
-                                 *           số lượng tài khoản Admin bằng với số lượng Admin hiện tại (currentAmountAdmin) cộng cho danh sách người dùng chọn (selectedUsers.size())
-                                 *                   Tương tự cho các tài khoản khác
-                                 * */
-
-
-                                if (Constants.KEY_ADMIN.equals(finalTypeOne)){
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ADMIN, currentAmountAdmin - selectedUsers.size() + "");
-                                } else if (Constants.KEY_ACCOUNTANT.equals(finalTypeOne)){
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT, currentAmountAccountant - selectedUsers.size() + "");
-                                } else if (Constants.KEY_REGIONAL_CHIEF.equals(finalTypeOne)){
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF, currentAmountRegionalChief - selectedUsers.size() + "");
-                                } else if (Constants.KEY_DIRECTOR.equals(finalTypeOne)){
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_DIRECTOR, currentAmountDirector - selectedUsers.size() + "");
-                                } else if (Constants.KEY_WORKER.equals(finalTypeOne)){
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_WORKER, currentAmountWorker - selectedUsers.size() + "");
-                                }
-
-                                if (Constants.KEY_ADMIN.equals(typeAccount)){
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ADMIN, currentAmountAdmin + selectedUsers.size() + "");
-                                } else if (Constants.KEY_ACCOUNTANT.equals(typeAccount)){
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT, currentAmountAccountant + selectedUsers.size() + "");
-                                } else if (Constants.KEY_REGIONAL_CHIEF.equals(typeAccount)){
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF, currentAmountRegionalChief + selectedUsers.size() + "");
-                                } else if (Constants.KEY_DIRECTOR.equals(typeAccount)){
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_DIRECTOR, currentAmountDirector + selectedUsers.size() + "");
-                                } else if (Constants.KEY_WORKER.equals(typeAccount)){
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_WORKER, currentAmountWorker + selectedUsers.size() + "");
-                                }
-
-
-                            } else {
-
-                                /*
-                                 * Nếu người dùng chọn hỗ hợp nhiều tài khoản khác nhau cần đổi quyền thì xử lý như sau:
-                                 * Nếu loại tài khoản được đổi (typeAccount) là Admin thì
-                                 *           số lượng tài khoản Admin hiện tài (currentAmountAdmin) + độ dài danh sách tài khoản mà người dùng chọn (selectedUsers.size())
-                                 *                                             - số lượng tài khoản admin trong danh sách người dùng chọn (finalCountTypeAccountAvailable)
-                                 * Ngược lại thì số lượng Admin bằng số lượng Admin hiện tại (currentAmountAdmin) trừ số lượng Admin trong danh sách mà người dùng chọn (countAdmin)
-                                 *
-                                 * Tương tự cho các loại tài khoản khác
-                                 * */
-
-                                if (Constants.KEY_ADMIN.equals(typeAccount)){
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ADMIN, currentAmountAdmin + selectedUsers.size()
-                                            - finalCountTypeAccountAvailable + "");
-                                } else company.put(Constants.KEY_COMPANY_AMOUNT_ADMIN, currentAmountAdmin - finalCountAdmin + "");
-
-                                if (Constants.KEY_ACCOUNTANT.equals(typeAccount))
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT, currentAmountAccountant + selectedUsers.size()
-                                            - finalCountTypeAccountAvailable + "");
-                                else company.put(Constants.KEY_COMPANY_AMOUNT_ACCOUNTANT, currentAmountAccountant - finalCountAccountant + "");
-
-                                if (Constants.KEY_REGIONAL_CHIEF.equals(typeAccount))
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF, currentAmountRegionalChief + selectedUsers.size()
-                                            - finalCountTypeAccountAvailable + "");
-                                else company.put(Constants.KEY_COMPANY_AMOUNT_REGIONAL_CHIEF, currentAmountRegionalChief - finalCountRegionalChief + "");
-
-                                if (Constants.KEY_DIRECTOR.equals(typeAccount))
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_DIRECTOR, currentAmountDirector + selectedUsers.size()
-                                            - finalCountTypeAccountAvailable + "");
-                                else company.put(Constants.KEY_COMPANY_AMOUNT_DIRECTOR, currentAmountDirector - finalCountDirector + "");
-
-                                if (Constants.KEY_WORKER.equals(typeAccount))
-                                    company.put(Constants.KEY_COMPANY_AMOUNT_WORKER, currentAmountWorker + selectedUsers.size()
-                                            - finalCountTypeAccountAvailable + "");
-                                else company.put(Constants.KEY_COMPANY_AMOUNT_WORKER, currentAmountWorker - finalCountWorker + "");
+            for (int i = 0; i < selectedUsers.size(); i++) {
+                HashMap<String, Object> permission = new HashMap<>();
+                permission.put(Constants.KEY_TYPE_ACCOUNT, typeAccount);
+                int finalI = i;
+                database.collection(Constants.KEY_COLLECTION_USER)
+                        .document(selectedUsers.get(i).id)
+                        .update(permission)
+                        .addOnSuccessListener(runnable -> {
+                            if (finalI == 0){
+                                showToast("Đã đổi quyền thành công");
                             }
-
-                            database.collection(Constants.KEY_COLLECTION_COMPANY)
-                                    .document(preferenceManager.getString(Constants.KEY_COMPANY_ID))
-                                    .update(company);
-
-
-                        });
-                // Hàm giúp bỏ chọn các user đang được người dùng chọn sau khi bấm thay đổi quyền
-                usersAdapter.setUserUnSelected(users);
-
+                        })
+                        .addOnFailureListener(runnable -> showToast("Đổi quyền thất bại"));
             }
+
+
 
         });
 
@@ -577,17 +349,17 @@ public class PermissionEditActivity extends BaseActivity implements MultipleList
 
                     if (task.isSuccessful() && task.getResult() != null) {
                         for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-
-                            User user = new User();
-                            user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                            user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                            user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                            user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                            user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                            user.id = queryDocumentSnapshot.getId();
-                            users.add(user);
-                            usersAdapter.notifyDataSetChanged();
-
+                            if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                User user = new User();
+                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                user.id = queryDocumentSnapshot.getId();
+                                users.add(user);
+                                usersAdapter.notifyDataSetChanged();
+                            }
                         }
 
                     }
@@ -627,17 +399,17 @@ public class PermissionEditActivity extends BaseActivity implements MultipleList
                     if (task.isSuccessful() && task.getResult() != null) {
                         users.clear();
                         for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-
-                            User user = new User();
-                            user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-                            user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
-                            user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-                            user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
-                            user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-                            user.id = queryDocumentSnapshot.getId();
-                            users.add(user);
-                            usersAdapter.notifyDataSetChanged();
-
+                            if (queryDocumentSnapshot.getString(Constants.KEY_DISABLE_USER) == null){
+                                User user = new User();
+                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                user.phone = queryDocumentSnapshot.getString(Constants.KEY_PHONE);
+                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                user.position = queryDocumentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT);
+                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                user.id = queryDocumentSnapshot.getId();
+                                users.add(user);
+                                usersAdapter.notifyDataSetChanged();
+                            }
                         }
 
                     }
