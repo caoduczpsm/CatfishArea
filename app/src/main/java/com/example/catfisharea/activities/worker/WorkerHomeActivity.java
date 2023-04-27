@@ -77,7 +77,7 @@ public class WorkerHomeActivity extends BaseActivity {
     private void init(){
         preferenceManager = new PreferenceManager(this);
         database = FirebaseFirestore.getInstance();
-        preferenceManager.putString(Constants.KEY_NOW, "ABC");
+
         binding.layoutHome.textSelectImage.setVisibility(View.VISIBLE);
 
         database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
