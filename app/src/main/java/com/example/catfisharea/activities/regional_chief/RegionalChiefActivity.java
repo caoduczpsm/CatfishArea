@@ -30,6 +30,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -207,9 +209,20 @@ public class RegionalChiefActivity extends BaseActivity implements CampusListene
     public void OnPondClicker(RegionModel regionModel) {
         if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF) ||
                 preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR)){
-            Intent intent = new Intent(this, PondDetailsActivity.class);
-            intent.putExtra(Constants.KEY_POND, regionModel);
-            startActivity(intent);
+            database.collection(Constants.KEY_COLLECTION_PLAN)
+                    .whereEqualTo(Constants.KEY_POND_ID, regionModel.getId())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()){
+                            for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                if (queryDocumentSnapshot.getString(Constants.KEY_POND_ID) != null){
+                                    Intent intent = new Intent(this, PondDetailsActivity.class);
+                                    intent.putExtra(Constants.KEY_POND, regionModel);
+                                    startActivity(intent);
+                                }
+                            }
+                        }
+                    });
         }
     }
 

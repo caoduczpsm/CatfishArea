@@ -13,7 +13,7 @@
         android:id="@+id/textTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nhập trọng lượng cá"
+        android:text="Sửa trọng lượng cá"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/_18sdp"
@@ -55,39 +55,8 @@
             tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <ImageView
-        android:layout_width="@dimen/_35sdp"
-        android:layout_height="@dimen/_35sdp"
-        android:src="@drawable/ic_loss"
-        app:layout_constraintBottom_toBottomOf="@+id/textLoss"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textLoss"
-        tools:ignore="ContentDescription" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textLoss"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:hint="Lượng cá hao hụt (con)"
-        android:layout_marginStart="@dimen/_40sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textWeight"
-        tools:ignore="HardcodedText">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtLoss"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:inputType="number"
-            android:textColor="@color/black"
-            tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
-
     <Button
-        android:id="@+id/btnEnter"
+        android:id="@+id/btnEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
@@ -95,13 +64,13 @@
         android:layout_marginBottom="@dimen/_12sdp"
         android:background="@drawable/border_fun_background"
         android:backgroundTint="@color/colorPrimary"
-        android:text="Nhập"
+        android:text="Sửa"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/_16sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textLoss"
+        app:layout_constraintTop_toBottomOf="@+id/textWeight"
         app:layout_constraintWidth_percent="0.48"
         tools:ignore="HardcodedText,UnusedAttribute" />
 
@@ -119,7 +88,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textLoss"
+        app:layout_constraintTop_toBottomOf="@+id/textWeight"
         app:layout_constraintWidth_percent="0.48"
         tools:ignore="HardcodedText,UnusedAttribute" />
 

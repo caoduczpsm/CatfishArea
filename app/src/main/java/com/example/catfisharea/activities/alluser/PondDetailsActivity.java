@@ -43,7 +43,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.time.LocalDate;
@@ -281,7 +280,7 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
                             binding.layoutHome.medicineRecyclerView.setLayoutManager(layoutManager);
                             treatment.medicines.forEach((key, value) ->
                                     database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                            .whereEqualTo(Constants.KEY_CAMPUS_ID, treatment.campusId)
+                                            .whereEqualTo(Constants.KEY_POND_ID, treatment.pondId)
                                             .get()
                                             .addOnCompleteListener(task -> {
                                                 for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
@@ -373,7 +372,10 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
         btnCreate = dialog.findViewById(R.id.btnCreate);
 
         RecyclerView userRecyclerView = dialog.findViewById(R.id.userRecyclerView);
-        TextInputEditText edtNumOfFish = dialog.findViewById(R.id.edtNumOfFish);
+        TextInputEditText edtNumOfFish, edtModel, edtPrice;
+        edtNumOfFish = dialog.findViewById(R.id.edtNumOfFish);
+        edtModel = dialog.findViewById(R.id.edtModel);
+        edtPrice = dialog.findViewById(R.id.edtPrice);
 
         multipleUserSelectionAdapter = new MultipleUserSelectionAdapter(users, this);
         userRecyclerView.setAdapter(multipleUserSelectionAdapter);
@@ -404,8 +406,10 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
             if (selectedUser.size() == 0){
                 showToast("Vui lòng chọn ít nhất một công nhân!");
             } else {
-                if (Objects.requireNonNull(edtNumOfFish.getText()).toString().equals("")){
-                    showToast("Vui lòng chọn nhập số lượng cá giống cần thả!");
+                if (Objects.requireNonNull(edtNumOfFish.getText()).toString().equals("")
+                    || Objects.requireNonNull(edtModel.getText()).toString().equals("")
+                    || Objects.requireNonNull(edtPrice.getText()).toString().equals("")){
+                    showToast("Vui lòng chọn nhập đầy đủ thông tin");
                 } else {
                     HashMap<String, Object> releaseFist = new HashMap<>();
                     List<String> workerIds = new ArrayList<>();
@@ -431,6 +435,8 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
                                         releaseFist.put(Constants.KEY_RELEASE_FISH_POND_ID, pond.getId());
                                         releaseFist.put(Constants.KEY_RELEASE_FISH_STATUS, Constants.KEY_RELEASE_FISH_UNCOMPLETED);
                                         releaseFist.put(Constants.KEY_RELEASE_FISH_CREATED_AT, new Date());
+                                        releaseFist.put(Constants.KEY_RELEASE_FISH_MODEL, Objects.requireNonNull(edtModel.getText()).toString());
+                                        releaseFist.put(Constants.KEY_RELEASE_FISH_PRICE, Objects.requireNonNull(edtPrice.getText()).toString());
 
                                         database.collection(Constants.KEY_COLLECTION_RELEASE_FISH)
                                                 .document(new Date().toString())

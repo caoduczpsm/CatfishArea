@@ -981,7 +981,7 @@
             android:translationZ="10dp"
             app:cardCornerRadius="10dp"
             app:cardUseCompatPadding="true"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardEnvironment"
             tools:ignore="TooManyViews">
@@ -1021,30 +1021,45 @@
                         app:layout_constraintEnd_toStartOf="@id/layoutLoss"
                         app:layout_constraintTop_toTopOf="parent"
                         android:id="@+id/layoutWeight"
-                        android:layout_width="@dimen/_80sdp"
+                        android:layout_width="wrap_content"
                         android:layout_height="@dimen/_90sdp">
 
                         <TextView
                             android:id="@+id/textWeight"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="Trọng lượng"
                             android:textColor="#757575"
                             android:textSize="@dimen/_13ssp"
                             app:layout_constraintBottom_toTopOf="@id/weight"
+                            app:layout_constraintEnd_toEndOf="@+id/weight"
+                            app:layout_constraintStart_toStartOf="@+id/weight"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:ignore="HardcodedText" />
 
+                        <ImageView
+                            android:id="@+id/imageEditWeight"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:src="@drawable/ic_edit"
+                            android:visibility="gone"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            app:layout_constraintBottom_toBottomOf="@+id/textWeight"
+                            app:layout_constraintStart_toEndOf="@+id/textWeight"
+                            app:layout_constraintTop_toTopOf="@+id/textWeight"
+                            tools:ignore="ContentDescription" />
+
                         <TextView
                             android:id="@+id/weight"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="g/con"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_18ssp"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/textWeight"
                             tools:ignore="HardcodedText,TooManyViews" />
@@ -1055,20 +1070,34 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/layoutWeight"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:layout_width="@dimen/_80sdp"
+                        android:layout_width="wrap_content"
                         android:layout_height="@dimen/_90sdp">
 
                         <TextView
                             android:id="@+id/textLoss"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="Hao hụt"
                             android:textColor="#757575"
                             android:textSize="@dimen/_13ssp"
                             app:layout_constraintBottom_toTopOf="@id/loss"
+                            app:layout_constraintEnd_toEndOf="@+id/loss"
+                            app:layout_constraintStart_toStartOf="@+id/loss"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:ignore="HardcodedText" />
+
+                        <ImageView
+                            android:id="@+id/imageEditLoss"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:src="@drawable/ic_edit"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="@+id/textLoss"
+                            app:layout_constraintStart_toEndOf="@+id/textLoss"
+                            app:layout_constraintTop_toTopOf="@+id/textLoss"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:id="@+id/loss"
@@ -1079,6 +1108,7 @@
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_18ssp"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/textLoss"
                             tools:ignore="HardcodedText" />

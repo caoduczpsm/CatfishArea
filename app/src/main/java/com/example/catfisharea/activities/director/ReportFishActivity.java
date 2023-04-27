@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -295,7 +294,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
         TextView textDateReport, textNamePond;
         TextInputEditText edtNote;
         CheckBox cbWater, cbFood, cbMud;
-        MultiAutoCompleteTextView edtMedicine;
+        AutoCompleteTextView edtMedicine;
         RecyclerView medicineRecyclerView;
         ConstraintLayout layoutQuantity, layoutDropdown;
         ImageView imageDropdown;
@@ -345,8 +344,9 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
         MedicineAdapter medicineAdapter = new MedicineAdapter(this, medicinesSelected);
         medicineRecyclerView.setAdapter(medicineAdapter);
 
+
         database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
+                .whereEqualTo(Constants.KEY_POND_ID, finalReportFish.pondId)
                 .get()
                 .addOnCompleteListener(task -> {
                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
@@ -395,8 +395,6 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
         MedicineAutoCompleteAdapter medicineAutoCompleteAdapter = new MedicineAutoCompleteAdapter(this,
                 R.layout.item_container_medicine_autocomplete, medicineItemList);
         edtMedicine.setAdapter(medicineAutoCompleteAdapter);
-        edtMedicine.showDropDown();
-        edtMedicine.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
         btnCreate.setOnClickListener(view -> {
 
