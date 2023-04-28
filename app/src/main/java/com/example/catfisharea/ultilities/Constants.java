@@ -315,6 +315,11 @@ public class Constants {
     public static final String KEY_RELEASE_FISH_COMPLETED = "completed";
     public static final String KEY_RELEASE_FISH_UNCOMPLETED = "uncompleted";
 
+//    Thu hoạch
+    public static final String KEY_COLLECTION_HARVEST = "harvest";
+    public static final String KEY_QUANTITY = "quantity";
+
+
 
     public static HashMap<String, String> remoteMsgHeaders = null;
 

@@ -37,6 +37,12 @@
         android:theme="@style/Theme.CatfishArea"
         tools:targetApi="31">
         <activity
+            android:name="com.example.catfisharea.activities.regional_chief.HarvestFishActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.catfisharea.activities.regional_chief.PondHarvestActivity"
+            android:exported="false" />
+        <activity
             android:name="com.example.catfisharea.activities.accountant.AccountingActivity"
             android:exported="false" />
         <activity

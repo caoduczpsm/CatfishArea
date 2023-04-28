@@ -2,6 +2,7 @@ package com.example.catfisharea.activities.alluser;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -26,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityPondDetailsBinding;
 import com.example.catfisharea.activities.BaseActivity;
+import com.example.catfisharea.activities.regional_chief.HarvestFishActivity;
 import com.example.catfisharea.adapter.MedicineTreatmentUsedAdapter;
 import com.example.catfisharea.adapter.MultipleUserSelectionAdapter;
 import com.example.catfisharea.adapter.UsersAdapter;
@@ -364,9 +366,12 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
         });
 
         binding.layoutHarvest.setOnClickListener(view -> {
-
+            Intent intent = new Intent(this, HarvestFishActivity.class);
+            intent.putExtra(Constants.KEY_POND, pond);
+            startActivity(intent);
         });
     }
+
 
     @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
     private void openSettingReleaseFishDialog(){

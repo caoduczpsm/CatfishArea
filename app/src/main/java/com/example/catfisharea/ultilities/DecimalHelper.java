@@ -24,6 +24,7 @@ public class DecimalHelper {
         dfs.setCurrencySymbol("VNĐ");
 
         DecimalFormat df = new DecimalFormat("#,###.##", dfs);
+        if (text.isEmpty()) return 0;
         return df.parse(text);
     }
 }
