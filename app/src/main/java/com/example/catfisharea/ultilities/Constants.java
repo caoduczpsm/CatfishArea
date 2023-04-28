@@ -319,6 +319,10 @@ public class Constants {
     public static final String KEY_COLLECTION_HARVEST = "harvest";
     public static final String KEY_QUANTITY = "quantity";
 
+    public static final String KEY_COLLECTION_MEDICINES_PRICE = "medicinePrices";
+    public static final String KEY_MEDICINES_PRICE_PRICE = "price";
+    public static final String KEY_MEDICINES_PRICE_DATE = "date";
+
 
 
     public static HashMap<String, String> remoteMsgHeaders = null;

@@ -219,6 +219,8 @@ public class RegionalChiefActivity extends BaseActivity implements CampusListene
                                     Intent intent = new Intent(this, PondDetailsActivity.class);
                                     intent.putExtra(Constants.KEY_POND, regionModel);
                                     startActivity(intent);
+                                } else {
+                                    showToast("Ao này chưa được tạo kế hoạch nuôi! Hãy tạo kế hoạch nuôi để xem chi tiết!");
                                 }
                             }
                         }

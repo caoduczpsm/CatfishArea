@@ -188,6 +188,8 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
                                    Intent intent = new Intent(this, PondDetailsActivity.class);
                                    intent.putExtra(Constants.KEY_POND, regionModel);
                                    startActivity(intent);
+                               } else {
+                                   showToast("Ao này chưa được trưởng vùng tạo kế hoạch nuôi!");
                                }
                            }
                        }
