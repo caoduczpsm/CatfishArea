@@ -216,7 +216,7 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
                 mBinding.medicineRecyclerView.setLayoutManager(layoutManager);
                 treatment.medicines.forEach((key, value) ->
                         database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                .whereEqualTo(Constants.KEY_CAMPUS_ID, treatment.campusId)
+                                .whereEqualTo(Constants.KEY_POND_ID, treatment.pondId)
                                 .get()
                                 .addOnCompleteListener(task -> {
                                     for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){

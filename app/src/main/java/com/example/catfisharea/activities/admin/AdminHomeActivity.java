@@ -313,9 +313,9 @@ public class AdminHomeActivity extends BaseActivity implements CampusListener {
 
     @Override
     public void OnPondClicker(RegionModel regionModel) {
-        Intent intent = new Intent(this, PondDetailsActivity.class);
-        intent.putExtra(Constants.KEY_POND, regionModel);
-        startActivity(intent);
+//        Intent intent = new Intent(this, PondDetailsActivity.class);
+//        intent.putExtra(Constants.KEY_POND, regionModel);
+//        startActivity(intent);
     }
 
     @Override

@@ -305,6 +305,8 @@ public class Constants {
     public static final String KEY_RELEASE_FISH_CREATED_AT = "createdAt";
     public static final String KEY_RELEASE_FISH_DATE = "date";
     public static final String KEY_RELEASE_FISH_AMOUNT = "amount";
+    public static final String KEY_RELEASE_FISH_PRICE = "fishPrice";
+    public static final String KEY_RELEASE_FISH_MODEL = "fishModel";
     public static final String KEY_RELEASE_FISH_AMOUNT_RELEASE = "amountRelease";
     public static final String KEY_RELEASE_FISH_PLAN_ID = "planId";
     public static final String KEY_RELEASE_FISH_WORKER_ID_ASSIGN = "workerIds";

@@ -13,7 +13,7 @@
         android:id="@+id/textTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nhập trọng lượng cá"
+        android:text="Sửa lượng cá hao hụt"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/_18sdp"
@@ -22,38 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText" />
-
-    <ImageView
-        android:id="@+id/imageView12"
-        android:layout_width="@dimen/_35sdp"
-        android:layout_height="@dimen/_35sdp"
-        android:src="@drawable/ic_kg"
-        app:layout_constraintBottom_toBottomOf="@+id/textWeight"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textWeight"
-        tools:ignore="ContentDescription" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textWeight"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:hint="Trọng lượng cá (g/con)"
-        android:layout_marginStart="@dimen/_40sdp"
-        app:layout_constraintStart_toEndOf="@+id/imageView12"
-        app:layout_constraintTop_toBottomOf="@id/textTitle"
-        tools:ignore="HardcodedText">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtWeight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:inputType="number"
-            android:textColor="@color/black"
-            tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:layout_width="@dimen/_35sdp"
@@ -73,7 +41,7 @@
         android:hint="Lượng cá hao hụt (con)"
         android:layout_marginStart="@dimen/_40sdp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textWeight"
+        app:layout_constraintTop_toBottomOf="@id/textTitle"
         tools:ignore="HardcodedText">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -87,7 +55,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btnEnter"
+        android:id="@+id/btnEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
