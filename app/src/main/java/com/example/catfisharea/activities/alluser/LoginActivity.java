@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.app.catfisharea.databinding.ActivityLoginBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
+import com.example.catfisharea.activities.accountant.AccountantHomeActivity;
 import com.example.catfisharea.activities.admin.AdminHomeActivity;
 import com.example.catfisharea.activities.director.DirectorHomeActivity;
 import com.example.catfisharea.activities.personal.PersonalUserHomeActivity;
@@ -57,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
             if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_ADMIN)) {
                 intent = new Intent(getApplicationContext(), AdminHomeActivity.class);
             } else if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_ACCOUNTANT)) {
-//                intent = new Intent(getApplicationContext(), AccountantHomeActivity.class);
+                intent = new Intent(getApplicationContext(), AccountantHomeActivity.class);
             } else if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF)) {
                 intent = new Intent(getApplicationContext(), RegionalChiefActivity.class);
             } else if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR)) {
@@ -65,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 intent = new Intent(getApplicationContext(), WorkerHomeActivity.class);
             }
+
             //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
@@ -126,14 +128,15 @@ public class LoginActivity extends AppCompatActivity {
                             preferenceManager.putString(Constants.KEY_CAMPUS_ID, documentSnapshot.getString(Constants.KEY_CAMPUS_ID));
                             intent = new Intent(getApplicationContext(), DirectorHomeActivity.class);
                         } else if (Objects.equals(documentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT), Constants.KEY_ACCOUNTANT)) {
-//                            intent = new Intent(getApplicationContext(), AccountantHomeActivity.class);
+                            preferenceManager.putString(Constants.KEY_AREA_ID, documentSnapshot.getString(Constants.KEY_AREA_ID));
+                            intent = new Intent(getApplicationContext(), AccountantHomeActivity.class);
                         } else if (Objects.equals(documentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT), Constants.KEY_WORKER)) {
                             preferenceManager.putString(Constants.KEY_POND_ID, documentSnapshot.getString(Constants.KEY_POND_ID));
                             preferenceManager.putString(Constants.KEY_CAMPUS_ID, documentSnapshot.getString(Constants.KEY_CAMPUS_ID));
                             preferenceManager.putString(Constants.KEY_AREA_ID, documentSnapshot.getString(Constants.KEY_AREA_ID));
-                            if (documentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT) != null){
+                            if (documentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT) != null) {
                                 preferenceManager.putString(Constants.KEY_TREATMENT_ASSIGNMENT, Constants.KEY_TREATMENT_IS_ASSIGNMENT);
-                                if (documentSnapshot.getString(Constants.KEY_TREATMENT_ID) != null){
+                                if (documentSnapshot.getString(Constants.KEY_TREATMENT_ID) != null) {
                                     preferenceManager.putString(Constants.KEY_TREATMENT_ID, documentSnapshot.getString(Constants.KEY_TREATMENT_ID));
                                 }
                             }

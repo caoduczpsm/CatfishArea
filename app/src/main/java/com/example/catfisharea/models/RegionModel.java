@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public abstract class RegionModel implements Serializable {
     private String id;
-    private String name;
+    private String name = "";
     private User manager;
 
     public RegionModel(String id, String name) {

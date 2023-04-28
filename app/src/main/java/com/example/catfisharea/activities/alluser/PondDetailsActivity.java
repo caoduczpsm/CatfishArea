@@ -87,7 +87,10 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
         if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF)){
             binding.layoutReleaseFish.setVisibility(View.VISIBLE);
             binding.layoutHome.btnAddReleaseFish.setVisibility(View.GONE);
+            binding.layoutHarvest.setVisibility(View.VISIBLE);
         }
+
+
 
         treatment = new Treatment();
 
@@ -359,6 +362,10 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
                            openSettingReleaseFishDialog();
                        }
                     });
+        });
+
+        binding.layoutHarvest.setOnClickListener(view -> {
+
         });
     }
 

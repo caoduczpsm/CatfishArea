@@ -15,6 +15,10 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.WarehouseAdapter;
 import com.example.catfisharea.listeners.WarehouseListener;
+import com.example.catfisharea.models.Area;
+import com.example.catfisharea.models.Campus;
+import com.example.catfisharea.models.ItemWarehouse;
+import com.example.catfisharea.models.RegionModel;
 import com.example.catfisharea.models.Warehouse;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
@@ -29,7 +33,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
     private FirebaseFirestore database;
     private PreferenceManager preferenceManager;
     private WarehouseAdapter warehouseAdapter;
-    private List<Warehouse> mWarehouses;
+    private List<ItemWarehouse> mWarehouses;
     private boolean isFABOpen = false;
 
 
@@ -46,10 +50,9 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
         database = FirebaseFirestore.getInstance();
         preferenceManager = new PreferenceManager(this);
         mWarehouses = new ArrayList<>();
-        warehouseAdapter = new WarehouseAdapter(mWarehouses, this);
+        warehouseAdapter = new WarehouseAdapter(mWarehouses, this, this);
         mBinding.recyclerViewWarehouse.setAdapter(warehouseAdapter);
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        mBinding.recyclerViewWarehouse.addItemDecoration(itemDecoration);
+
         mBinding.toolbarWarehouse.setNavigationOnClickListener(view -> onBackPressed());
         mBinding.createWarehouse.setOnClickListener(view -> {
             startActivity(new Intent(getApplicationContext(), WearhouseCreateActivity.class));
@@ -75,7 +78,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
         String type = preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT);
         if (type.equals(Constants.KEY_DIRECTOR)) {
             getDataWarehouseForDirector();
-        } else if (type.equals(Constants.KEY_REGIONAL_CHIEF)) {
+        } else if (type.equals(Constants.KEY_REGIONAL_CHIEF) || type.equals(Constants.KEY_ACCOUNTANT)) {
             getDataWarehouseForRegional();
         } else if (type.equals(Constants.KEY_ADMIN)) {
             getDataWarehouseForAdmin();
@@ -83,35 +86,39 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
     }
 
     private void getDataWarehouseForRegional() {
-        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+        database.collection(Constants.KEY_COLLECTION_CAMPUS)
                 .whereEqualTo(Constants.KEY_AREA_ID, preferenceManager.getString(Constants.KEY_AREA_ID))
-                .get().addOnSuccessListener(queryDocumentSnapshots -> {
-                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-                        String name = documentSnapshot.getString(Constants.KEY_NAME);
-                        String id = documentSnapshot.getId();
-                        String campusId = documentSnapshot.getString(Constants.KEY_CAMPUS_ID);
-                        String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
-                        String acreage = documentSnapshot.getString(Constants.KEY_ACREAGE);
-                        String description = documentSnapshot.getString(Constants.KEY_DESCRIPTION);
-                        String pondId = documentSnapshot.getString(Constants.KEY_POND_ID);
+                .get().addOnSuccessListener(campusQuery -> {
+                    for (DocumentSnapshot campusDoc : campusQuery.getDocuments()) {
+                        ItemWarehouse itemWarehouse = new ItemWarehouse();
+                        List<Warehouse> warehouseList = new ArrayList<>();
+                        mWarehouses.add(itemWarehouse);
+                        Campus campus = new Campus(campusDoc.getId(), campusDoc.getString(Constants.KEY_NAME));
+                        itemWarehouse.setRegionModel(campus);
 
-                        Warehouse warehouse = new Warehouse(id, name, areaId, campusId, acreage, description);
-                        warehouse.setPondId(pondId);
-                        mWarehouses.add(warehouse);
-                        database.collection(Constants.KEY_COLLECTION_POND).document(pondId)
-                                .get().addOnSuccessListener(documentSnapshot1 -> {
-                                    warehouse.setPondName(documentSnapshot1.getString(Constants.KEY_NAME));
-                                    database.collection(Constants.KEY_COLLECTION_CAMPUS).document(campusId)
-                                            .get().addOnSuccessListener(campus -> {
-                                                warehouse.setPondName(campus.getString(Constants.KEY_NAME) + warehouse.getPondName());
-                                                warehouseAdapter.notifyDataSetChanged();
-                                            });
+                        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                .whereEqualTo(Constants.KEY_CAMPUS_ID, campusDoc.getId())
+                                .get().addOnSuccessListener(warehouseQuery -> {
 
-                                    warehouseAdapter.notifyDataSetChanged();
+                                    for (DocumentSnapshot warehouseDoc : warehouseQuery.getDocuments()) {
+                                        String name = warehouseDoc.getString(Constants.KEY_NAME);
+                                        String id = warehouseDoc.getId();
+                                        String campusId = warehouseDoc.getString(Constants.KEY_CAMPUS_ID);
+                                        String pondId = warehouseDoc.getString(Constants.KEY_POND_ID);
+                                        String areaId = warehouseDoc.getString(Constants.KEY_AREA_ID);
+                                        String acreage = warehouseDoc.getString(Constants.KEY_ACREAGE);
+                                        String description = warehouseDoc.getString(Constants.KEY_DESCRIPTION);
+
+                                        Warehouse warehouse = new Warehouse(id, name, areaId, campusId, acreage, description);
+                                        warehouse.setPondId(pondId);
+
+                                        warehouseList.add(warehouse);
+                                        itemWarehouse.setWarehouseList(warehouseList);
+
+                                        warehouseAdapter.notifyDataSetChanged();
+                                    }
                                 });
-
                     }
-
                 });
     }
 
@@ -119,6 +126,17 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
         database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
                 .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
                 .get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    ItemWarehouse itemWarehouse = new ItemWarehouse();
+                    List<Warehouse> warehouseList = new ArrayList<>();
+                    database.collection(Constants.KEY_COLLECTION_CAMPUS)
+                            .document(preferenceManager.getString(Constants.KEY_CAMPUS_ID))
+                            .get().addOnSuccessListener(documentSnapshot -> {
+                                Campus campus = new Campus(documentSnapshot.getId(),
+                                        documentSnapshot.getString(Constants.KEY_NAME));
+                                itemWarehouse.setRegionModel(campus);
+                                mWarehouses.add(itemWarehouse);
+                                warehouseAdapter.notifyDataSetChanged();
+                            });
                     for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
                         String name = documentSnapshot.getString(Constants.KEY_NAME);
                         String id = documentSnapshot.getId();
@@ -129,12 +147,10 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                         String pondId = documentSnapshot.getString(Constants.KEY_POND_ID);
                         Warehouse warehouse = new Warehouse(id, name, areaId, campusId, acreage, description);
                         warehouse.setPondId(pondId);
-                        database.collection(Constants.KEY_COLLECTION_POND).document(pondId)
-                                .get().addOnSuccessListener(documentSnapshot1 -> {
-                                    warehouse.setPondName(documentSnapshot1.getString(Constants.KEY_NAME));
-                                    mWarehouses.add(warehouse);
-                                    warehouseAdapter.notifyDataSetChanged();
-                                });
+                        warehouseList.add(warehouse);
+
+                        itemWarehouse.setWarehouseList(warehouseList);
+                        warehouseAdapter.notifyDataSetChanged();
 //                        mWarehouses.add(warehouse);
 
                     }
@@ -143,37 +159,37 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
     }
 
     private void getDataWarehouseForAdmin() {
-        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                .whereEqualTo(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID))
-                .get().addOnSuccessListener(queryDocumentSnapshots -> {
-                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-                        String name = documentSnapshot.getString(Constants.KEY_NAME);
-                        String id = documentSnapshot.getId();
-                        String campusId = documentSnapshot.getString(Constants.KEY_CAMPUS_ID);
-                        String pondId = documentSnapshot.getString(Constants.KEY_POND_ID);
-                        String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
-                        String acreage = documentSnapshot.getString(Constants.KEY_ACREAGE);
-                        String description = documentSnapshot.getString(Constants.KEY_DESCRIPTION);
-
-                        Warehouse warehouse = new Warehouse(id, name, areaId, campusId, acreage, description);
-                        warehouse.setPondId(pondId);
-                        mWarehouses.add(warehouse);
-                        database.collection(Constants.KEY_COLLECTION_POND).document(pondId)
-                                .get().addOnSuccessListener(documentSnapshot1 -> {
-                                    warehouse.setPondName(documentSnapshot1.getString(Constants.KEY_NAME));
-                                    database.collection(Constants.KEY_COLLECTION_CAMPUS).document(campusId)
-                                                    .get().addOnSuccessListener(campus -> {
-                                                warehouse.setPondName(campus.getString(Constants.KEY_NAME) + warehouse.getPondName());
-                                                warehouseAdapter.notifyDataSetChanged();
-                                            });
-
-                                    warehouseAdapter.notifyDataSetChanged();
-                                });
-
+//        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+//                .whereEqualTo(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID))
+//                .get().addOnSuccessListener(queryDocumentSnapshots -> {
+//                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+//                        String name = documentSnapshot.getString(Constants.KEY_NAME);
+//                        String id = documentSnapshot.getId();
+//                        String campusId = documentSnapshot.getString(Constants.KEY_CAMPUS_ID);
+//                        String pondId = documentSnapshot.getString(Constants.KEY_POND_ID);
+//                        String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
+//                        String acreage = documentSnapshot.getString(Constants.KEY_ACREAGE);
+//                        String description = documentSnapshot.getString(Constants.KEY_DESCRIPTION);
+//
+//                        Warehouse warehouse = new Warehouse(id, name, areaId, campusId, acreage, description);
+//                        warehouse.setPondId(pondId);
 //                        mWarehouses.add(warehouse);
-                    }
-//                    warehouseAdapter.notifyDataSetChanged();
-                });
+//                        database.collection(Constants.KEY_COLLECTION_POND).document(pondId)
+//                                .get().addOnSuccessListener(documentSnapshot1 -> {
+//                                    warehouse.setPondName(documentSnapshot1.getString(Constants.KEY_NAME));
+//                                    database.collection(Constants.KEY_COLLECTION_CAMPUS).document(campusId)
+//                                                    .get().addOnSuccessListener(campus -> {
+//                                                warehouse.setPondName(campus.getString(Constants.KEY_NAME) + warehouse.getPondName());
+//                                                warehouseAdapter.notifyDataSetChanged();
+//                                            });
+//
+//                                    warehouseAdapter.notifyDataSetChanged();
+//                                });
+//
+////                        mWarehouses.add(warehouse);
+//                    }
+////                    warehouseAdapter.notifyDataSetChanged();
+//                });
     }
 
     private void showFABMenu() {

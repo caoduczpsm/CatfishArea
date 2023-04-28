@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -70,10 +71,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     class HomeViewHolder extends RecyclerView.ViewHolder {
         private final LayoutItemHomeRecyclerviewBinding mBinding;
+        private PreferenceManager preferenceManager;
 
         public HomeViewHolder(LayoutItemHomeRecyclerviewBinding mBinding) {
             super(mBinding.getRoot());
             this.mBinding = mBinding;
+            preferenceManager = new PreferenceManager(context);
         }
 
         @SuppressLint("SetTextI18n")
@@ -89,9 +92,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 }
             } else {
                 mBinding.nameEmpty.setVisibility(View.GONE);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-                layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                mBinding.recyclerviewItemHome.setLayoutManager(layoutManager);
+                String type = preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT);
+                if (type.equals(Constants.KEY_DIRECTOR)) {
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
+                    mBinding.recyclerviewItemHome.setLayoutManager(gridLayoutManager);
+                } else {
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+                    layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                    mBinding.recyclerviewItemHome.setLayoutManager(layoutManager);
+                }
 
                 ItemHomeAdapter adapter = new ItemHomeAdapter(item.getReginonList(), campusListener);
                 mBinding.recyclerviewItemHome.setAdapter(adapter);

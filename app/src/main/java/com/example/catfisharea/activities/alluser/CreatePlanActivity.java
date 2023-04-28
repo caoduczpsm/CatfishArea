@@ -102,6 +102,7 @@ public class CreatePlanActivity extends BaseActivity {
             data.put(Constants.KEY_FINGERLING_SAMPLES, DecimalHelper.parseText(fingerlingSamples));
             data.put(Constants.KEY_PRICE, DecimalHelper.parseText(price)    );
             data.put(Constants.KEY_PREPARATION_COST, DecimalHelper.parseText(preparationCost));
+            data.put(Constants.KEY_AREA_ID, preferenceManager.getString(Constants.KEY_AREA_ID));
 
             database.collection(Constants.KEY_COLLECTION_PLAN).document().set(data).addOnSuccessListener(command -> {
                 mBinding.edtPrice.setText("");
