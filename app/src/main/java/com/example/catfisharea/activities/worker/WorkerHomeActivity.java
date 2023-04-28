@@ -79,7 +79,7 @@ public class WorkerHomeActivity extends BaseActivity {
         database = FirebaseFirestore.getInstance();
 
         binding.layoutHome.textSelectImage.setVisibility(View.VISIBLE);
-        
+
         preferenceManager.putString(Constants.KEY_MEDICINES_PRICE_PRICE, "0");
 
 
