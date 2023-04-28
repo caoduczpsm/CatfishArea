@@ -218,7 +218,6 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
         database.collection(Constants.KEY_COLLECTION_TREATMENT)
                 .whereEqualTo(Constants.KEY_TREATMENT_POND_ID, pond.getId())
                 .whereEqualTo(Constants.KEY_TREATMENT_STATUS, Constants.KEY_TREATMENT_ACCEPT)
-                .whereEqualTo(Constants.KEY_TREATMENT_CREATOR_ID, preferenceManager.getString(Constants.KEY_USER_ID))
                 .get()
                 .addOnCompleteListener(task -> {
                     for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
