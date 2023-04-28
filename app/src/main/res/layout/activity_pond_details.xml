@@ -7,309 +7,308 @@
     android:background="@color/backgroundPrimary"
     tools:context="com.example.catfisharea.activities.alluser.PondDetailsActivity">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout11"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_130sdp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/background_pond"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/textName"
-            android:layout_width="@dimen/_120sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:background="@drawable/background_border"
-            android:gravity="center"
-            android:text="Ao 01"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp"
-            android:textStyle="bold"
-            android:elevation="@dimen/_2sdp"
-            android:layout_marginTop="@dimen/_110sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout11"
-            app:layout_constraintEnd_toEndOf="@+id/constraintLayout11"
-            app:layout_constraintStart_toStartOf="@+id/constraintLayout11"
-            app:layout_constraintTop_toTopOf="@+id/constraintLayout11"
-            tools:ignore="HardcodedText" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout12"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="@dimen/_5sdp"
-        android:paddingEnd="@dimen/_5sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout11">
-
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutShowWorker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/imageList"
-                        android:layout_width="@dimen/_35sdp"
-                        android:layout_height="@dimen/_35sdp"
-                        android:src="@drawable/ic_list_color"
-                        android:translationZ="10dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription,ImageContrastCheck" />
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardList"
-                        android:layout_width="@dimen/_100sdp"
-                        android:layout_height="@dimen/_88sdp"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="@dimen/_5sdp"
-                        app:cardElevation="@dimen/_6sdp"
-                        app:cardUseCompatPadding="true"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/imageList">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/_4sdp"
-                            android:gravity="center"
-                            android:text="Xem Danh Sách Công Nhân"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_10ssp"
-                            android:textStyle="bold"
-                            tools:ignore="HardcodedText" />
-                    </androidx.cardview.widget.CardView>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutSettingWater"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintStart_toEndOf="@+id/layoutShowWorker"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/imageSettingWater"
-                        android:layout_width="@dimen/_35sdp"
-                        android:layout_height="@dimen/_35sdp"
-                        android:src="@drawable/ic_water"
-                        android:translationZ="10dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription" />
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardWater"
-                        android:layout_width="@dimen/_100sdp"
-                        android:layout_height="@dimen/_88sdp"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="@dimen/_5sdp"
-                        app:cardElevation="@dimen/_6sdp"
-                        app:cardUseCompatPadding="true"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/imageSettingWater">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/_4sdp"
-                            android:gravity="center"
-                            android:text="Cài Đặt Đo Chất Lượng Nước"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_10ssp"
-                            android:textStyle="bold"
-                            tools:ignore="HardcodedText" />
-                    </androidx.cardview.widget.CardView>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutSettingFeed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintStart_toEndOf="@+id/layoutSettingWater"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/imageSettingFeed"
-                        android:layout_width="@dimen/_35sdp"
-                        android:layout_height="@dimen/_35sdp"
-                        android:src="@drawable/ic_food"
-                        android:translationZ="10dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription" />
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardSetting"
-                        android:layout_width="@dimen/_100sdp"
-                        android:layout_height="@dimen/_88sdp"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="@dimen/_5sdp"
-                        app:cardElevation="@dimen/_6sdp"
-                        app:cardUseCompatPadding="true"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/imageSettingFeed">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/_4sdp"
-                            android:gravity="center"
-                            android:text="Cài Đặt Cho Ăn Trong Ngày"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_10ssp"
-                            android:textStyle="bold"
-                            tools:ignore="HardcodedText" />
-                    </androidx.cardview.widget.CardView>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutReleaseFish"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintStart_toEndOf="@+id/layoutSettingFeed"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/imageReleaseFish"
-                        android:layout_width="@dimen/_35sdp"
-                        android:layout_height="@dimen/_45sdp"
-                        android:src="@drawable/ic_release_fish"
-                        android:translationZ="10dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription" />
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardReleaseFish"
-                        android:layout_width="@dimen/_100sdp"
-                        android:layout_height="@dimen/_88sdp"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="@dimen/_5sdp"
-                        app:cardElevation="@dimen/_6sdp"
-                        app:cardUseCompatPadding="true"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/imageReleaseFish">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/_4sdp"
-                            android:gravity="center"
-                            android:text="Thả thêm cá giống vào ao"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_10ssp"
-                            android:textStyle="bold"
-                            tools:ignore="HardcodedText" />
-                    </androidx.cardview.widget.CardView>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutHarvest"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintStart_toEndOf="@+id/layoutReleaseFish"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/imageHarvest"
-                        android:layout_width="@dimen/_35sdp"
-                        android:layout_height="@dimen/_45sdp"
-                        android:src="@drawable/ic_fishing"
-                        android:translationZ="10dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription" />
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardHarvest"
-                        android:layout_width="@dimen/_100sdp"
-                        android:layout_height="@dimen/_88sdp"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="@dimen/_5sdp"
-                        app:cardElevation="@dimen/_6sdp"
-                        app:cardUseCompatPadding="true"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/imageHarvest">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/_4sdp"
-                            android:gravity="center"
-                            android:text="Thả thêm cá giống vào ao"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_10ssp"
-                            android:textStyle="bold"
-                            tools:ignore="HardcodedText" />
-                    </androidx.cardview.widget.CardView>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </HorizontalScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.core.widget.NestedScrollView
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout12"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_130sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/background_pond"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/textName"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:background="@drawable/background_border"
+                    android:gravity="center"
+                    android:text="Ao 01"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_18ssp"
+                    android:textStyle="bold"
+                    android:elevation="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_110sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/constraintLayout11"
+                    app:layout_constraintEnd_toEndOf="@+id/constraintLayout11"
+                    app:layout_constraintStart_toStartOf="@+id/constraintLayout11"
+                    app:layout_constraintTop_toTopOf="@+id/constraintLayout11"
+                    tools:ignore="HardcodedText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout11">
+
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/layoutShowWorker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/imageList"
+                                android:layout_width="@dimen/_35sdp"
+                                android:layout_height="@dimen/_35sdp"
+                                android:src="@drawable/ic_list_color"
+                                android:translationZ="10dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cardList"
+                                android:layout_width="@dimen/_100sdp"
+                                android:layout_height="@dimen/_88sdp"
+                                android:layout_marginTop="@dimen/_8sdp"
+                                app:cardBackgroundColor="@color/white"
+                                app:cardCornerRadius="@dimen/_5sdp"
+                                app:cardElevation="@dimen/_6sdp"
+                                app:cardUseCompatPadding="true"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/imageList">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="@dimen/_4sdp"
+                                    android:gravity="center"
+                                    android:text="Xem Danh Sách Công Nhân"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:textStyle="bold"
+                                    tools:ignore="HardcodedText" />
+                            </androidx.cardview.widget.CardView>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/layoutSettingWater"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintStart_toEndOf="@+id/layoutShowWorker"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/imageSettingWater"
+                                android:layout_width="@dimen/_35sdp"
+                                android:layout_height="@dimen/_35sdp"
+                                android:src="@drawable/ic_water"
+                                android:translationZ="10dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="ContentDescription" />
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cardWater"
+                                android:layout_width="@dimen/_100sdp"
+                                android:layout_height="@dimen/_88sdp"
+                                android:layout_marginTop="@dimen/_8sdp"
+                                app:cardBackgroundColor="@color/white"
+                                app:cardCornerRadius="@dimen/_5sdp"
+                                app:cardElevation="@dimen/_6sdp"
+                                app:cardUseCompatPadding="true"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/imageSettingWater">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="@dimen/_4sdp"
+                                    android:gravity="center"
+                                    android:text="Cài Đặt Đo Chất Lượng Nước"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:textStyle="bold"
+                                    tools:ignore="HardcodedText" />
+                            </androidx.cardview.widget.CardView>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/layoutSettingFeed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintStart_toEndOf="@+id/layoutSettingWater"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/imageSettingFeed"
+                                android:layout_width="@dimen/_35sdp"
+                                android:layout_height="@dimen/_35sdp"
+                                android:src="@drawable/ic_food"
+                                android:translationZ="10dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="ContentDescription" />
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cardSetting"
+                                android:layout_width="@dimen/_100sdp"
+                                android:layout_height="@dimen/_88sdp"
+                                android:layout_marginTop="@dimen/_8sdp"
+                                app:cardBackgroundColor="@color/white"
+                                app:cardCornerRadius="@dimen/_5sdp"
+                                app:cardElevation="@dimen/_6sdp"
+                                app:cardUseCompatPadding="true"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/imageSettingFeed">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="@dimen/_4sdp"
+                                    android:gravity="center"
+                                    android:text="Cài Đặt Cho Ăn Trong Ngày"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:textStyle="bold"
+                                    tools:ignore="HardcodedText" />
+                            </androidx.cardview.widget.CardView>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/layoutReleaseFish"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintStart_toEndOf="@+id/layoutSettingFeed"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/imageReleaseFish"
+                                android:layout_width="@dimen/_35sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:src="@drawable/ic_release_fish"
+                                android:translationZ="10dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="ContentDescription" />
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cardReleaseFish"
+                                android:layout_width="@dimen/_100sdp"
+                                android:layout_height="@dimen/_88sdp"
+                                android:layout_marginTop="@dimen/_8sdp"
+                                app:cardBackgroundColor="@color/white"
+                                app:cardCornerRadius="@dimen/_5sdp"
+                                app:cardElevation="@dimen/_6sdp"
+                                app:cardUseCompatPadding="true"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/imageReleaseFish">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="@dimen/_4sdp"
+                                    android:gravity="center"
+                                    android:text="Thả thêm cá giống vào ao"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:textStyle="bold"
+                                    tools:ignore="HardcodedText" />
+                            </androidx.cardview.widget.CardView>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/layoutHarvest"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintStart_toEndOf="@+id/layoutReleaseFish"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/imageHarvest"
+                                android:layout_width="@dimen/_35sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:src="@drawable/ic_fishing"
+                                android:translationZ="10dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="ContentDescription" />
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cardHarvest"
+                                android:layout_width="@dimen/_100sdp"
+                                android:layout_height="@dimen/_88sdp"
+                                android:layout_marginTop="@dimen/_8sdp"
+                                app:cardBackgroundColor="@color/white"
+                                app:cardCornerRadius="@dimen/_5sdp"
+                                app:cardElevation="@dimen/_6sdp"
+                                app:cardUseCompatPadding="true"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/imageHarvest">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="@dimen/_4sdp"
+                                    android:gravity="center"
+                                    android:text="Thả thêm cá giống vào ao"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:textStyle="bold"
+                                    tools:ignore="HardcodedText" />
+                            </androidx.cardview.widget.CardView>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </HorizontalScrollView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutInfo"
@@ -322,7 +321,7 @@
                 android:padding="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout12">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layoutNumOfWorker"
@@ -423,7 +422,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_250sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutInfo" />

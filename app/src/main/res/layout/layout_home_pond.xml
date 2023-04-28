@@ -545,7 +545,7 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:visibility="gone"
+                            android:visibility="visible"
                             android:id="@+id/food8"
                             android:layout_width="@dimen/_80sdp"
                             android:layout_height="@dimen/_70sdp"
@@ -559,7 +559,7 @@
                                 android:layout_width="@dimen/_45sdp"
                                 android:layout_height="@dimen/_45sdp"
                                 android:src="@drawable/ic_add"
-                                android:visibility="gone"
+                                android:visibility="visible"
                                 app:layout_constraintBottom_toTopOf="@id/textFood8"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
