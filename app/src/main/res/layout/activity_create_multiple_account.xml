@@ -30,12 +30,15 @@
         android:translationZ="5dp"
         app:layout_constraintTop_toBottomOf="@id/toolbarMultipleAccount" />
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarMultipleAccount">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_shadow">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardAccount"
@@ -50,9 +53,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_marginBottom="@dimen/_10sdp"
+                android:id="@+id/constraintLayout123"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="@dimen/_520sdp"
+                android:layout_marginBottom="@dimen/_10sdp">
 
                 <TextView
                     android:id="@+id/textView2"
@@ -66,332 +70,577 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText,TextContrastCheck" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout4"
+                <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_border"
-                    android:backgroundTint="#81E185"
-                    android:padding="@dimen/_5sdp"
-                    android:layout_margin="@dimen/_5sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textView2">
+                    app:layout_constraintTop_toBottomOf="@+id/textView2">
 
-                    <ImageView
-                        android:id="@+id/imageView1"
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:src="@drawable/ic_list"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView3"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView3"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="0dp"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:text="Dòng đầu tiên trong tập tin chứa tiêu đề gồm: Họ và tên, Số điện thoại, CMND/CCCD, Ngày tháng năm sinh, Địa chỉ, Mật khẩu, Chức vụ."
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
-                        android:gravity="center"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView1"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.85"
-                        tools:ignore="HardcodedText" />
+                        android:layout_marginBottom="@dimen/_70sdp">
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <View
+                            android:id="@+id/view5"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@drawable/background_circle"
+                            android:backgroundTint="#81E185"
+                            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout4"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/constraintLayout4" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_5sdp"
-                    android:background="@drawable/background_border"
-                    android:backgroundTint="#66A7DA"
-                    android:padding="@dimen/_5sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
+                        <View
+                            android:id="@+id/view6"
+                            android:layout_width="@dimen/_2sdp"
+                            android:layout_height="@dimen/_50sdp"
+                            android:background="#81E185"
+                            app:layout_constraintEnd_toEndOf="@+id/view5"
+                            app:layout_constraintStart_toStartOf="@+id/view5"
+                            app:layout_constraintTop_toBottomOf="@+id/view5" />
 
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:src="@drawable/ic_account"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView4"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView4"
-                        tools:ignore="ContentDescription" />
+                        <View
+                            android:id="@+id/view7"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_2sdp"
+                            android:background="#81E185"
+                            app:layout_constraintBottom_toTopOf="@+id/view6"
+                            app:layout_constraintStart_toEndOf="@+id/view5"
+                            app:layout_constraintTop_toTopOf="@+id/view5" />
 
-                    <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:gravity="center"
-                        android:text="Cột đầu tiên là Họ và tên, chứa tên của nhân viên cần tạo, không được trống."
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView2"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.85"
-                        tools:ignore="HardcodedText" />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraintLayout4"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:background="@drawable/background_border"
+                            android:backgroundTint="@color/white"
+                            android:elevation="@dimen/_5sdp"
+                            android:padding="@dimen/_5sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/view"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintWidth_percent="0.85">
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                            <ImageView
+                                android:id="@+id/imageView1"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_list"
+                                app:layout_constraintBottom_toBottomOf="@+id/textView3"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/textView3"
+                                tools:ignore="ContentDescription,ImageContrastCheck" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_5sdp"
-                    android:background="@drawable/background_border"
-                    android:backgroundTint="#F6CD50"
-                    android:padding="@dimen/_5sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout5">
+                            <TextView
+                                android:id="@+id/textView3"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="Dòng đầu tiên trong tập tin chứa tiêu đề gồm: Họ và tên, Số điện thoại, CMND/CCCD, Ngày tháng năm sinh, Địa chỉ, Mật khẩu, Chức vụ."
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/imageView1"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.85"
+                                tools:ignore="HardcodedText" />
 
-                    <ImageView
-                        android:id="@+id/imageView3"
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:src="@drawable/ic_call_gray"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView5"
-                        app:tint="@color/amp_blue"
-                        tools:ignore="ContentDescription" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:gravity="center"
-                        android:text="Cột thứ hai là số điện thoại, số điện thoại phải đúng định dạng, không được trống và trùng với những tài khoản khác."
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView3"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.85"
-                        tools:ignore="HardcodedText" />
+                        <View
+                            android:id="@+id/view"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@drawable/background_circle"
+                            android:backgroundTint="#66A7DA"
+                            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <View
+                            android:id="@+id/view3"
+                            android:layout_width="@dimen/_2sdp"
+                            android:layout_height="@dimen/_50sdp"
+                            android:background="#66A7DA"
+                            app:layout_constraintEnd_toEndOf="@+id/view"
+                            app:layout_constraintStart_toStartOf="@+id/view"
+                            app:layout_constraintTop_toBottomOf="@+id/view" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_5sdp"
-                    android:background="@drawable/background_border"
-                    android:backgroundTint="#F17BA3"
-                    android:padding="@dimen/_5sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout6">
+                        <View
+                            android:id="@+id/view4"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_2sdp"
+                            android:background="#66A7DA"
+                            app:layout_constraintBottom_toTopOf="@+id/view3"
+                            app:layout_constraintStart_toEndOf="@+id/view"
+                            app:layout_constraintTop_toTopOf="@+id/view" />
 
-                    <ImageView
-                        android:id="@+id/imageView4"
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:src="@drawable/ic_person_id"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView6"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView6"
-                        app:tint="#3AC53F"
-                        tools:ignore="ContentDescription" />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraintLayout5"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:background="@drawable/background_border"
+                            android:backgroundTint="@color/white"
+                            android:elevation="@dimen/_5sdp"
+                            android:padding="@dimen/_5sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/view"
+                            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+                            app:layout_constraintWidth_percent="0.85">
 
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:gravity="center"
-                        android:text="Cột thứ ba là CMND/CCCD, CMND/CCCD không được trống."
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView4"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.85"
-                        tools:ignore="HardcodedText" />
+                            <ImageView
+                                android:id="@+id/imageView2"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_account"
+                                app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/textView4"
+                                tools:ignore="ContentDescription,ImageContrastCheck" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="Cột đầu tiên là Họ và tên, chứa tên của nhân viên cần tạo, không được trống."
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.85"
+                                tools:ignore="HardcodedText" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout8"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_5sdp"
-                    android:background="@drawable/background_border"
-                    android:backgroundTint="#61EADD"
-                    android:padding="@dimen/_5sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout7">
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <ImageView
-                        android:id="@+id/imageView5"
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:src="@drawable/ic_user"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView7"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView7"
-                        app:tint="#3F51B5"
-                        tools:ignore="ContentDescription" />
+                        <View
+                            android:id="@+id/view9"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@drawable/background_circle"
+                            android:backgroundTint="#F6CD50"
+                            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout6"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/constraintLayout5" />
 
-                    <TextView
-                        android:id="@+id/textView7"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:gravity="center"
-                        android:text="Cột thứ tư là ngày tháng năm sinh, ngày tháng năm sinh không được trống và phải đúng định dạng DD/MM/YYYY."
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView5"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.85"
-                        tools:ignore="HardcodedText" />
+                        <View
+                            android:id="@+id/view10"
+                            android:layout_width="@dimen/_2sdp"
+                            android:layout_height="@dimen/_50sdp"
+                            android:background="#F6CD50"
+                            app:layout_constraintEnd_toEndOf="@+id/view9"
+                            app:layout_constraintStart_toStartOf="@+id/view9"
+                            app:layout_constraintTop_toBottomOf="@+id/view9" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <View
+                            android:id="@+id/view11"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_2sdp"
+                            android:background="#F6CD50"
+                            app:layout_constraintBottom_toTopOf="@+id/view10"
+                            app:layout_constraintStart_toEndOf="@+id/view9"
+                            app:layout_constraintTop_toTopOf="@+id/view9" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout9"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_5sdp"
-                    android:background="@drawable/background_border"
-                    android:backgroundTint="#FF9088"
-                    android:padding="@dimen/_5sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout8">
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraintLayout6"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:background="@drawable/background_border"
+                            android:backgroundTint="@color/white"
+                            android:elevation="@dimen/_5sdp"
+                            android:padding="@dimen/_5sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/view9"
+                            app:layout_constraintTop_toBottomOf="@+id/constraintLayout5"
+                            app:layout_constraintWidth_percent="0.85">
 
-                    <ImageView
-                        android:id="@+id/imageView6"
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:src="@drawable/ic_my_location"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView8"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView8"
-                        app:tint="#F44336"
-                        tools:ignore="ContentDescription" />
+                            <ImageView
+                                android:id="@+id/imageView3"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_phone_color"
+                                app:layout_constraintBottom_toBottomOf="@+id/textView5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/textView5"
+                                tools:ignore="ContentDescription,ImageContrastCheck" />
 
-                    <TextView
-                        android:id="@+id/textView8"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:gravity="center"
-                        android:text="Cột thứ tư là địa chỉ, địa chỉ không được trống."
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView6"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.85"
-                        tools:ignore="HardcodedText" />
+                            <TextView
+                                android:id="@+id/textView5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="Cột thứ hai là số điện thoại, số điện thoại phải đúng định dạng, không được trống và trùng với những tài khoản khác."
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/imageView3"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.85"
+                                tools:ignore="HardcodedText" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout10"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_5sdp"
-                    android:background="@drawable/background_border"
-                    android:backgroundTint="#8D9EF8"
-                    android:padding="@dimen/_5sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout8">
+                        <View
+                            android:id="@+id/view12"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@drawable/background_circle"
+                            android:backgroundTint="#F17BA3"
+                            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout7"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
 
-                    <ImageView
-                        android:id="@+id/imageView7"
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:src="@drawable/ic_lock"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView9"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView9"
-                        app:tint="@color/white"
-                        tools:ignore="ContentDescription" />
+                        <View
+                            android:id="@+id/view13"
+                            android:layout_width="@dimen/_2sdp"
+                            android:layout_height="@dimen/_50sdp"
+                            android:background="#F17BA3"
+                            app:layout_constraintEnd_toEndOf="@+id/view12"
+                            app:layout_constraintStart_toStartOf="@+id/view12"
+                            app:layout_constraintTop_toBottomOf="@+id/view12" />
 
-                    <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:gravity="center"
-                        android:text="Cột thứ năm là mật khẩu, mật khẩu không được trống, bạn có thể tạo một mật khẩu cho tài khoản mới và được người dùng thay đổi sau đó."
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView7"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.85"
-                        tools:ignore="HardcodedText" />
+                        <View
+                            android:id="@+id/view14"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_2sdp"
+                            android:background="#F17BA3"
+                            app:layout_constraintBottom_toTopOf="@+id/view13"
+                            app:layout_constraintStart_toEndOf="@+id/view12"
+                            app:layout_constraintTop_toTopOf="@+id/view12" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraintLayout7"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:background="@drawable/background_border"
+                            android:backgroundTint="@color/white"
+                            android:elevation="@dimen/_5sdp"
+                            android:padding="@dimen/_5sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/constraintLayout6"
+                            app:layout_constraintWidth_percent="0.85">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_5sdp"
-                    android:background="@drawable/background_border"
-                    android:backgroundTint="#F4754D"
-                    android:padding="@dimen/_5sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout10">
+                            <ImageView
+                                android:id="@+id/imageView4"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_personal_id_color"
+                                app:layout_constraintBottom_toBottomOf="@+id/textView6"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/textView6"
+                                tools:ignore="ContentDescription,ImageContrastCheck" />
 
-                    <ImageView
-                        android:id="@+id/imageView8"
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:src="@drawable/ic_some"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView10"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView10"
-                        app:tint="#70CDC5"
-                        tools:ignore="ContentDescription" />
+                            <TextView
+                                android:id="@+id/textView6"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="Cột thứ ba là CMND/CCCD, CMND/CCCD không được trống."
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.85"
+                                tools:ignore="HardcodedText" />
 
-                    <TextView
-                        android:id="@+id/textView10"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:gravity="center"
-                        android:text="Cột thứ sáu là loại tài khoản, loại tài khoản không được trống, loại tài khoản phải là một trong các loại sau đây: Trưởng Vùng, Trưởng Khu, Công Nhân, Kế Toán hoặc Admin."
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView8"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.85"
-                        tools:ignore="HardcodedText" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <View
+                            android:id="@+id/view15"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@drawable/background_circle"
+                            android:backgroundTint="#61EADD"
+                            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout8"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/constraintLayout7" />
+
+                        <View
+                            android:id="@+id/view16"
+                            android:layout_width="@dimen/_2sdp"
+                            android:layout_height="@dimen/_50sdp"
+                            android:background="#61EADD"
+                            app:layout_constraintEnd_toEndOf="@+id/view15"
+                            app:layout_constraintStart_toStartOf="@+id/view15"
+                            app:layout_constraintTop_toBottomOf="@+id/view15" />
+
+                        <View
+                            android:id="@+id/view17"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_2sdp"
+                            android:background="#61EADD"
+                            app:layout_constraintBottom_toTopOf="@+id/view16"
+                            app:layout_constraintStart_toEndOf="@+id/view15"
+                            app:layout_constraintTop_toTopOf="@+id/view15" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraintLayout8"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:background="@drawable/background_border"
+                            android:backgroundTint="@color/white"
+                            android:elevation="@dimen/_5sdp"
+                            android:padding="@dimen/_5sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/constraintLayout7"
+                            app:layout_constraintWidth_percent="0.85">
+
+                            <ImageView
+                                android:id="@+id/imageView5"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_date_of_birth_color"
+                                app:layout_constraintBottom_toBottomOf="@+id/textView7"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/textView7"
+                                tools:ignore="ContentDescription" />
+
+                            <TextView
+                                android:id="@+id/textView7"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="Cột thứ tư là ngày tháng năm sinh, ngày tháng năm sinh không được trống và phải đúng định dạng DD/MM/YYYY."
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/imageView5"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.85"
+                                tools:ignore="HardcodedText" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <View
+                            android:id="@+id/view18"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@drawable/background_circle"
+                            android:backgroundTint="#FF9088"
+                            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout9"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" />
+
+                        <View
+                            android:id="@+id/view19"
+                            android:layout_width="@dimen/_2sdp"
+                            android:layout_height="@dimen/_50sdp"
+                            android:background="#FF9088"
+                            app:layout_constraintEnd_toEndOf="@+id/view18"
+                            app:layout_constraintStart_toStartOf="@+id/view18"
+                            app:layout_constraintTop_toBottomOf="@+id/view18" />
+
+                        <View
+                            android:id="@+id/view20"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_2sdp"
+                            android:background="#FF9088"
+                            app:layout_constraintBottom_toTopOf="@+id/view19"
+                            app:layout_constraintStart_toEndOf="@+id/view18"
+                            app:layout_constraintTop_toTopOf="@+id/view18" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraintLayout9"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:background="@drawable/background_border"
+                            android:backgroundTint="@color/white"
+                            android:elevation="@dimen/_5sdp"
+                            android:padding="@dimen/_5sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/constraintLayout8"
+                            app:layout_constraintWidth_percent="0.85">
+
+                            <ImageView
+                                android:id="@+id/imageView6"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_location_color"
+                                app:layout_constraintBottom_toBottomOf="@+id/textView8"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/textView8"
+                                tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                            <TextView
+                                android:id="@+id/textView8"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="Cột thứ tư là địa chỉ, địa chỉ không được trống."
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.85"
+                                tools:ignore="HardcodedText" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <View
+                            android:id="@+id/view21"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@drawable/background_circle"
+                            android:backgroundTint="#8D9EF8"
+                            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout10"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/constraintLayout9" />
+
+                        <View
+                            android:id="@+id/view22"
+                            android:layout_width="@dimen/_2sdp"
+                            android:layout_height="@dimen/_70sdp"
+                            android:background="#8D9EF8"
+                            app:layout_constraintEnd_toEndOf="@+id/view21"
+                            app:layout_constraintStart_toStartOf="@+id/view21"
+                            app:layout_constraintTop_toBottomOf="@+id/view21" />
+
+                        <View
+                            android:id="@+id/view23"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_2sdp"
+                            android:background="#8D9EF8"
+                            app:layout_constraintBottom_toTopOf="@+id/view22"
+                            app:layout_constraintStart_toEndOf="@+id/view21"
+                            app:layout_constraintTop_toTopOf="@+id/view21" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraintLayout10"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:background="@drawable/background_border"
+                            android:backgroundTint="@color/white"
+                            android:elevation="@dimen/_5sdp"
+                            android:padding="@dimen/_5sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/constraintLayout9"
+                            app:layout_constraintWidth_percent="0.85">
+
+                            <ImageView
+                                android:id="@+id/imageView7"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_lock_color"
+                                app:layout_constraintBottom_toBottomOf="@+id/textView9"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/textView9"
+                                tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                            <TextView
+                                android:id="@+id/textView9"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="Cột thứ năm là mật khẩu, mật khẩu không được trống, bạn có thể tạo một mật khẩu cho tài khoản mới và được người dùng thay đổi sau đó."
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/imageView7"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.85"
+                                tools:ignore="HardcodedText" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <View
+                            android:id="@+id/view24"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@drawable/background_circle"
+                            android:backgroundTint="#F4754D"
+                            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout14"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/constraintLayout14" />
+
+                        <View
+                            android:id="@+id/view26"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_2sdp"
+                            android:background="#F4754D"
+                            app:layout_constraintBottom_toBottomOf="@+id/view24"
+                            app:layout_constraintStart_toEndOf="@+id/view24"
+                            app:layout_constraintTop_toTopOf="@+id/view24" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraintLayout14"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:background="@drawable/background_border"
+                            android:backgroundTint="@color/white"
+                            android:elevation="@dimen/_2sdp"
+                            android:padding="@dimen/_5sdp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/constraintLayout10"
+                            app:layout_constraintWidth_percent="0.85">
+
+                            <ImageView
+                                android:id="@+id/imageView8"
+                                android:layout_width="@dimen/_30sdp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_multiple_color"
+                                app:layout_constraintBottom_toBottomOf="@+id/textView10"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/textView10"
+                                tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                            <TextView
+                                android:id="@+id/textView10"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:maxLines="6"
+                                android:text="Cột thứ sáu là loại tài khoản, loại tài khoản không được trống, loại tài khoản phải là một trong các loại sau đây: Trưởng Vùng, Trưởng Khu, Công Nhân, Kế Toán hoặc Admin."
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/imageView8"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.8"
+                                tools:ignore="HardcodedText" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.core.widget.NestedScrollView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -413,7 +662,6 @@
         android:id="@+id/btnCreate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/border_fun_background"
         android:backgroundTint="@color/colorPrimary"
         android:text="Tạo"
@@ -423,9 +671,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout"
         app:layout_constraintWidth_percent="0.7"
-        tools:ignore="HardcodedText,UnusedAttribute" />
+        tools:ignore="HardcodedText,UnusedAttribute,TouchTargetSizeCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
