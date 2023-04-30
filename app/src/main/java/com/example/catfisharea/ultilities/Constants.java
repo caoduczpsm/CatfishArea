@@ -323,6 +323,10 @@ public class Constants {
     public static final String KEY_MEDICINES_PRICE_PRICE = "price";
     public static final String KEY_MEDICINES_PRICE_DATE = "date";
 
+    // AI
+    public static final String KEY_AI = "percent";
+    public static final String KEY_AI_BITMAP = "bitmap";
+
 
 
     public static HashMap<String, String> remoteMsgHeaders = null;

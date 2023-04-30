@@ -9,6 +9,7 @@ import com.android.app.catfisharea.databinding.ActivityRegionalChiefBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.admin.WarehouseActivity;
+import com.example.catfisharea.activities.alluser.AIActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
@@ -89,6 +90,7 @@ public class RegionalChiefActivity extends BaseActivity implements CampusListene
 
         mBinding.layoutControlRegionalChiefHome.layoutChart.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TreatmentActivity.class)));
 
+        mBinding.layoutControlRegionalChiefHome.layoutAI.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), AIActivity.class)));
     }
 
     private void initActivity() {

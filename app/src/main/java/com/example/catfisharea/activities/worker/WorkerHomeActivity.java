@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityWorkerHomeBinding;
 import com.example.catfisharea.activities.BaseActivity;
+import com.example.catfisharea.activities.alluser.AIActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
@@ -427,6 +428,8 @@ public class WorkerHomeActivity extends BaseActivity {
         binding.layoutHome.imageEditLoss.setOnClickListener(view ->  openEditLossDialog());
 
         binding.layoutHome.btnAddReleaseFish.setOnClickListener(view -> openAddReleaseFishDialog());
+
+        binding.layoutControlWorkerHome.layoutAI.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), AIActivity.class)));
 
     }
 

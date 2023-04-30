@@ -10,6 +10,7 @@ import com.android.app.catfisharea.databinding.ActivityDirectorHomeBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.admin.WarehouseActivity;
+import com.example.catfisharea.activities.alluser.AIActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
@@ -90,6 +91,7 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
 
         mBinding.layoutControlDirectorHome.layoutChart.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TreatmentActivity.class)));
 
+        mBinding.layoutControlDirectorHome.layoutAI.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), AIActivity.class)));
     }
 
     private void initActivity() {
