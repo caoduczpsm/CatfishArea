@@ -1,16 +1,27 @@
 package com.example.catfisharea.activities.director;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityDirectorHomeBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.admin.WarehouseActivity;
 import com.example.catfisharea.activities.alluser.AIActivity;
+import com.example.catfisharea.activities.alluser.AreaHRManagementActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
@@ -76,7 +87,7 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
             startActivity(intent);
         });
 
-        mBinding.layoutControlDirectorHome.layoutHR.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), HumanResourceActivity.class)));
+        mBinding.layoutControlDirectorHome.layoutHR.setOnClickListener(view -> openHRManagementOptionDialog());
 
         mBinding.layoutControlDirectorHome.layoutTask.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TaskManagerActivity.class)));
 
@@ -97,6 +108,52 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
     private void initActivity() {
         database = FirebaseFirestore.getInstance();
         preferenceManager = new PreferenceManager(this);
+    }
+
+    private void openHRManagementOptionDialog(){
+        Dialog dialog = openDialog(R.layout.layout_dialog_options_hr_management);
+        assert dialog != null;
+
+        Button btnClose = dialog.findViewById(R.id.btnClose);
+        ConstraintLayout layoutShowInfo, layoutMove;
+
+        layoutMove = dialog.findViewById(R.id.layoutMove);
+        layoutShowInfo = dialog.findViewById(R.id.layoutShowInfo);
+
+        layoutShowInfo.setOnClickListener(view -> {
+            dialog.dismiss();
+            Intent intent = new Intent(getApplicationContext(), HumanResourceActivity.class);
+            startActivity(intent);
+        });
+
+        layoutMove.setOnClickListener(view -> {
+            dialog.dismiss();
+            Intent intent = new Intent(getApplicationContext(), AreaHRManagementActivity.class);
+            startActivity(intent);
+        });
+
+        btnClose.setOnClickListener(view -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    private Dialog openDialog(int layout) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(layout);
+        dialog.setCancelable(true);
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return null;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+
+        return dialog;
     }
 
 
