@@ -268,31 +268,7 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
 
             mBinding.layoutTask.setOnClickListener(view -> treatmentListener.onSelectWorker(treatment));
 
-            mBinding.btnComplete.setOnClickListener(view -> {
-
-                HashMap<String, Object> completed = new HashMap<>();
-                completed.put(Constants.KEY_TREATMENT_STATUS, Constants.KEY_TREATMENT_COMPLETED);
-
-                database.collection(Constants.KEY_COLLECTION_TREATMENT)
-                        .document(treatment.id)
-                        .update(completed)
-                        .addOnSuccessListener(unused -> {
-                            showToast("Đã hoàn thành điều trị!");
-                            treatments.remove(treatment);
-                            if (treatment.receiverIds != null){
-                                for (String id : treatment.receiverIds){
-                                    HashMap<String, Object> notAssignmentUser = new HashMap<>();
-                                    notAssignmentUser.put(Constants.KEY_TREATMENT_ASSIGNMENT, Constants.KEY_TREATMENT_NOT_ASSIGNMENT);
-                                    notAssignmentUser.put(Constants.KEY_TREATMENT_ID, "");
-                                    database.collection(Constants.KEY_COLLECTION_USER)
-                                            .document(id)
-                                            .update(notAssignmentUser);
-                                }
-                            }
-                            notifyDataSetChanged();
-                        })
-                        .addOnFailureListener(runnable -> showToast("Hoàn thành điều trị thất bại!"));
-            });
+            mBinding.btnComplete.setOnClickListener(view -> openCompleteTreatmentDialog(treatment));
 
             if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF)){
                 mBinding.layoutUserReport.setVisibility(View.VISIBLE);
@@ -320,6 +296,55 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
         }
 
         @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
+        private void openCompleteTreatmentDialog(Treatment treatment) {
+            Dialog dialog = openDialog(R.layout.layout_dialog_confirm_delete_task);
+            assert dialog != null;
+
+            TextView textTitle, textMessage;
+            Button btnComplete, btnClose;
+
+            textTitle = dialog.findViewById(R.id.textTitle);
+            textMessage = dialog.findViewById(R.id.textMessage);
+            btnComplete = dialog.findViewById(R.id.btnDelete);
+            btnClose = dialog.findViewById(R.id.btnClose);
+
+            textTitle.setText("Xác nhận hoàn thành điều trị");
+            textMessage.setText("Bạn có chắc chắn muốn hoàn thành phác đồ điều trị này không?");
+
+            btnComplete.setText("Hoàn thành");
+
+            btnComplete.setOnClickListener(view -> {
+                HashMap<String, Object> completed = new HashMap<>();
+                completed.put(Constants.KEY_TREATMENT_STATUS, Constants.KEY_TREATMENT_COMPLETED);
+
+                database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                        .document(treatment.id)
+                        .update(completed)
+                        .addOnSuccessListener(unused -> {
+                            showToast("Đã hoàn thành điều trị!");
+                            treatments.remove(treatment);
+                            if (treatment.receiverIds != null){
+                                for (String id : treatment.receiverIds){
+                                    HashMap<String, Object> notAssignmentUser = new HashMap<>();
+                                    notAssignmentUser.put(Constants.KEY_TREATMENT_ASSIGNMENT, Constants.KEY_TREATMENT_NOT_ASSIGNMENT);
+                                    notAssignmentUser.put(Constants.KEY_TREATMENT_ID, "");
+                                    database.collection(Constants.KEY_COLLECTION_USER)
+                                            .document(id)
+                                            .update(notAssignmentUser);
+                                }
+                            }
+                            notifyDataSetChanged();
+                            dialog.dismiss();
+                        })
+                        .addOnFailureListener(runnable -> showToast("Hoàn thành điều trị thất bại!"));
+            });
+
+            btnClose.setOnClickListener(view -> dialog.dismiss());
+
+            dialog.show();
+        }
+
+        @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
         private void openEditTreatmentDialog(Treatment treatment) {
             final Dialog dialog = openDialog(R.layout.layout_create_treatment_protocol_dialog);
             assert dialog != null;
@@ -331,7 +356,7 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
             TextView textDateReport, textNamePond, textTitle;
             TextInputEditText edtNote;
             CheckBox cbWater, cbFood, cbMud;
-            MultiAutoCompleteTextView edtMedicine;
+            AutoCompleteTextView edtMedicine;
             RecyclerView medicineRecyclerView;
             ConstraintLayout layoutQuantity, layoutDropdown;
             ImageView imageDropdown;
@@ -460,7 +485,6 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
                     R.layout.item_container_medicine_autocomplete, medicineItemList);
             edtMedicine.setAdapter(medicineAutoCompleteAdapter);
             edtMedicine.showDropDown();
-            edtMedicine.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
             btnCreate.setOnClickListener(view -> {
 

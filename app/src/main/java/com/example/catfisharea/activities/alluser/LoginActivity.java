@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.app.catfisharea.databinding.ActivityLoginBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
-import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.accountant.AccountantHomeActivity;
 import com.example.catfisharea.activities.admin.AdminHomeActivity;
 import com.example.catfisharea.activities.director.DirectorHomeActivity;
@@ -54,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
 
         if (preferenceManager.getBoolean(Constants.KEY_IS_SIGNED_IN)) {
             Intent intent;
-            intent = new Intent(getApplicationContext(), AdminHomeActivity.class);
             if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_ADMIN)) {
                 intent = new Intent(getApplicationContext(), AdminHomeActivity.class);
             } else if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_ACCOUNTANT)) {
@@ -115,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                         preferenceManager.putString(Constants.KEY_TYPE_ACCOUNT, documentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT));
                         preferenceManager.putString(Constants.KEY_COMPANY_ID, documentSnapshot.getString(Constants.KEY_COMPANY_ID));
                         showToast("Đăng nhập thành công");
-                        Intent intent = null;
+                        Intent intent;
 
                         // Kiểm tra tài khoản đăng nhập có chức vụ gì và chuyển đến màn hình trang chủ tương ứng
                         if (Objects.equals(documentSnapshot.getString(Constants.KEY_TYPE_ACCOUNT), Constants.KEY_ADMIN)) {
@@ -134,17 +132,20 @@ public class LoginActivity extends AppCompatActivity {
                             preferenceManager.putString(Constants.KEY_POND_ID, documentSnapshot.getString(Constants.KEY_POND_ID));
                             preferenceManager.putString(Constants.KEY_CAMPUS_ID, documentSnapshot.getString(Constants.KEY_CAMPUS_ID));
                             preferenceManager.putString(Constants.KEY_AREA_ID, documentSnapshot.getString(Constants.KEY_AREA_ID));
-                            if (documentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT) != null) {
+                            if (documentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT) != null ||
+                                    Objects.equals(documentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT), Constants.KEY_TREATMENT_NOT_ASSIGNMENT)) {
                                 preferenceManager.putString(Constants.KEY_TREATMENT_ASSIGNMENT, Constants.KEY_TREATMENT_IS_ASSIGNMENT);
-                                if (documentSnapshot.getString(Constants.KEY_TREATMENT_ID) != null) {
+                                if (documentSnapshot.getString(Constants.KEY_TREATMENT_ID) != null ||
+                                        !Objects.equals(documentSnapshot.getString(Constants.KEY_TREATMENT_ID), "")) {
                                     preferenceManager.putString(Constants.KEY_TREATMENT_ID, documentSnapshot.getString(Constants.KEY_TREATMENT_ID));
                                 }
+                            } else {
+                                preferenceManager.putString(Constants.KEY_TREATMENT_ASSIGNMENT, Constants.KEY_TREATMENT_NOT_ASSIGNMENT);
                             }
                             intent = new Intent(getApplicationContext(), WorkerHomeActivity.class);
                         } else {
                             intent = new Intent(getApplicationContext(), PersonalUserHomeActivity.class);
                         }
-                        assert intent != null;
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         Animatoo.animateSlideLeft(LoginActivity.this);
                         startActivity(intent);

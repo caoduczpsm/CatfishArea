@@ -1231,7 +1231,7 @@
                         android:text="Hút bùn"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14ssp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="HardcodedText" />
@@ -1247,7 +1247,7 @@
                         android:text="Cắt mồi"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14ssp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         app:layout_constraintStart_toEndOf="@+id/textSuckMud"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="HardcodedText" />
@@ -1263,7 +1263,7 @@
                         android:text="Thay nước"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14ssp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:layout_marginStart="@dimen/_5sdp"
                         app:layout_constraintStart_toEndOf="@+id/textNoFood"
                         app:layout_constraintTop_toTopOf="parent"
