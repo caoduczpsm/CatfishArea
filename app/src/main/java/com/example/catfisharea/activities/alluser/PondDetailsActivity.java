@@ -103,7 +103,7 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
         binding.layoutHome.cardHealth.setVisibility(View.VISIBLE);
 
         binding.textName.setText(pond.getName());
-        binding.textAcreage.setText(pond.getAcreage() + " (m2)");
+        binding.textAcreage.setText(pond.getAcreage() + " m\u00b2");
 
         binding.layoutHome.btnAddWeight.setVisibility(View.GONE);
 
@@ -388,6 +388,16 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
         });
 
         binding.textDetail.setOnClickListener(view -> {
+            if (binding.layoutInfoDetail.getVisibility() == View.VISIBLE){
+                binding.layoutInfoDetail.setVisibility(View.GONE);
+                binding.imageDetail.setImageResource(R.drawable.ic_down);
+            } else {
+                binding.layoutInfoDetail.setVisibility(View.VISIBLE);
+                binding.imageDetail.setImageResource(R.drawable.ic_up);
+            }
+        });
+
+        binding.imageDetail.setOnClickListener(view -> {
             if (binding.layoutInfoDetail.getVisibility() == View.VISIBLE){
                 binding.layoutInfoDetail.setVisibility(View.GONE);
                 binding.imageDetail.setImageResource(R.drawable.ic_down);

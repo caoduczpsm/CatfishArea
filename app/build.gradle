@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.android.app.catfisharea"
-        minSdk 23
+        minSdk 24
         multiDexEnabled true
         targetSdk 33
         versionCode 1

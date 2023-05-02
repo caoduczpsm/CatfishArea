@@ -341,7 +341,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
         ArrayList<Medicine> medicineItemList = new ArrayList<>();
 
         List<Medicine> medicinesSelected = new ArrayList<>();
-        MedicineAdapter medicineAdapter = new MedicineAdapter(this, medicinesSelected);
+        MedicineAdapter medicineAdapter = new MedicineAdapter(medicinesSelected);
         medicineRecyclerView.setAdapter(medicineAdapter);
 
 
