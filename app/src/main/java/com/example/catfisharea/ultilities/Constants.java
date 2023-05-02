@@ -249,6 +249,7 @@ public class Constants {
     public static final String KEY_COLLECTION_TREATMENT = "treatments";
     public static final String KEY_TREATMENT_ID = "treatmenId";
     public static final String KEY_TREATMENT_POND_ID = "pondId";
+    public static final String KEY_TREATMENT_PLAN_ID = "planId";
     public static final String KEY_TREATMENT_CREATOR_ID = "creatorId";
     public static final String KEY_TREATMENT_CREATOR_IMAGE = "creatorImage";
     public static final String KEY_TREATMENT_CREATOR_NAME = "creatorName";

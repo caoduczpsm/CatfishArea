@@ -416,57 +416,69 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
                 if (!isValidationData){
                     showToast("Vui lòng nhập số lượng thuốc cần dùng!");
                 } else {
-                    HashMap<String, Object> treatment = new HashMap<>();
-                    treatment.put(Constants.KEY_TREATMENT_DATE, LocalDate.now().toString());
-                    treatment.put(Constants.KEY_AREA_ID, preferenceManager.getString(Constants.KEY_AREA_ID));
-                    treatment.put(Constants.KEY_TREATMENT_POND_ID, finalReportFish.pondId);
-                    treatment.put(Constants.KEY_TREATMENT_SICK_NAME, nameItem.getText().toString());
-                    treatment.put(Constants.KEY_TREATMENT_CREATOR_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-                    treatment.put(Constants.KEY_TREATMENT_CREATOR_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
-                    treatment.put(Constants.KEY_CREATOR_NAME, preferenceManager.getString(Constants.KEY_NAME));
-                    treatment.put(Constants.KEY_CREATOR_PHONE, preferenceManager.getString(Constants.KEY_PHONE));
-                    treatment.put(Constants.KEY_TREATMENT_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID));
-                    treatment.put(Constants.KEY_TREATMENT_NOTE, Objects.requireNonNull(edtNote.getText()).toString());
-                    treatment.put(Constants.KEY_TREATMENT_STATUS, Constants.KEY_TREATMENT_PENDING);
-                    treatment.put(Constants.KEY_TREATMENT_REPORT_FISH_ID, reportFish.id);
-                    treatment.put(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS, Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING);
+                    database.collection(Constants.KEY_COLLECTION_PLAN)
+                            .whereEqualTo(Constants.KEY_POND_ID, finalReportFish.pondId)
+                            .get()
+                            .addOnCompleteListener(planTask -> {
+                                if (planTask.isSuccessful()){
+                                    for (QueryDocumentSnapshot queryDocumentSnapshot : planTask.getResult()){
+                                        if (queryDocumentSnapshot.getString(Constants.KEY_POND_ID) != null){
+                                            HashMap<String, Object> treatment = new HashMap<>();
+                                            treatment.put(Constants.KEY_TREATMENT_DATE, LocalDate.now().toString());
+                                            treatment.put(Constants.KEY_AREA_ID, preferenceManager.getString(Constants.KEY_AREA_ID));
+                                            treatment.put(Constants.KEY_TREATMENT_POND_ID, finalReportFish.pondId);
+                                            treatment.put(Constants.KEY_TREATMENT_PLAN_ID, queryDocumentSnapshot.getId());
+                                            treatment.put(Constants.KEY_TREATMENT_SICK_NAME, nameItem.getText().toString());
+                                            treatment.put(Constants.KEY_TREATMENT_CREATOR_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+                                            treatment.put(Constants.KEY_TREATMENT_CREATOR_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
+                                            treatment.put(Constants.KEY_CREATOR_NAME, preferenceManager.getString(Constants.KEY_NAME));
+                                            treatment.put(Constants.KEY_CREATOR_PHONE, preferenceManager.getString(Constants.KEY_PHONE));
+                                            treatment.put(Constants.KEY_TREATMENT_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID));
+                                            treatment.put(Constants.KEY_TREATMENT_NOTE, Objects.requireNonNull(edtNote.getText()).toString());
+                                            treatment.put(Constants.KEY_TREATMENT_STATUS, Constants.KEY_TREATMENT_PENDING);
+                                            treatment.put(Constants.KEY_TREATMENT_REPORT_FISH_ID, reportFish.id);
+                                            treatment.put(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS, Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING);
 
-                    HashMap<String, Object> medicineUsed = new HashMap<>();
-                    for (int i=0;i<medicineAdapter.getItemCount();i++) {
-                        MedicineAdapter.MedicineViewHolder viewHolder= (MedicineAdapter.MedicineViewHolder) medicineRecyclerView.findViewHolderForAdapterPosition(i);
-                        assert viewHolder != null;
-                        EditText edtQuantity = viewHolder.itemView.findViewById(R.id.edtQuantity);
-                        medicineUsed.put(medicinesSelected.get(i).id, edtQuantity.getText().toString());
-                    }
-                    treatment.put(Constants.KEY_TREATMENT_MEDICINE, medicineUsed);
+                                            HashMap<String, Object> medicineUsed = new HashMap<>();
+                                            for (int i=0;i<medicineAdapter.getItemCount();i++) {
+                                                MedicineAdapter.MedicineViewHolder viewHolder= (MedicineAdapter.MedicineViewHolder) medicineRecyclerView.findViewHolderForAdapterPosition(i);
+                                                assert viewHolder != null;
+                                                EditText edtQuantity = viewHolder.itemView.findViewById(R.id.edtQuantity);
+                                                medicineUsed.put(medicinesSelected.get(i).id, edtQuantity.getText().toString());
+                                            }
+                                            treatment.put(Constants.KEY_TREATMENT_MEDICINE, medicineUsed);
 
-                    if (cbFood.isChecked()){
-                        treatment.put(Constants.KEY_TREATMENT_NO_FOOD, Constants.KEY_TREATMENT_NO_FOOD);
-                    }
+                                            if (cbFood.isChecked()){
+                                                treatment.put(Constants.KEY_TREATMENT_NO_FOOD, Constants.KEY_TREATMENT_NO_FOOD);
+                                            }
 
-                    if (cbMud.isChecked()){
-                        treatment.put(Constants.KEY_TREATMENT_SUCK_MUD, Constants.KEY_TREATMENT_SUCK_MUD);
-                    }
+                                            if (cbMud.isChecked()){
+                                                treatment.put(Constants.KEY_TREATMENT_SUCK_MUD, Constants.KEY_TREATMENT_SUCK_MUD);
+                                            }
 
-                    if (cbWater.isChecked()){
-                        treatment.put(Constants.KEY_TREATMENT_REPLACE_WATER, Constants.KEY_TREATMENT_REPLACE_WATER);
-                    }
+                                            if (cbWater.isChecked()){
+                                                treatment.put(Constants.KEY_TREATMENT_REPLACE_WATER, Constants.KEY_TREATMENT_REPLACE_WATER);
+                                            }
 
-                    database.collection(Constants.KEY_COLLECTION_TREATMENT)
-                            .add(treatment)
-                            .addOnSuccessListener(runnable -> {
-                                showToast("Tạo phát đồ thành công");
-                                dialog.dismiss();
-                                HashMap<String, Object> updateReport = new HashMap<>();
-                                updateReport.put(Constants.KEY_REPORT_STATUS, Constants.KEY_REPORT_COMPLETED);
-                                database.collection(Constants.KEY_COLLECTION_REPORT_FISH)
-                                        .document(finalReportFish.id)
-                                        .update(updateReport);
-                                getReportFish();
-                                finalReportFish.status = Constants.KEY_REPORT_COMPLETED;
-                                adapter.notifyDataSetChanged();
-                            })
-                            .addOnFailureListener(runnable -> showToast("Tạo phát đồ thất bại!"));
+                                            database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                                                    .add(treatment)
+                                                    .addOnSuccessListener(runnable -> {
+                                                        showToast("Tạo phát đồ thành công");
+                                                        dialog.dismiss();
+                                                        HashMap<String, Object> updateReport = new HashMap<>();
+                                                        updateReport.put(Constants.KEY_REPORT_STATUS, Constants.KEY_REPORT_COMPLETED);
+                                                        database.collection(Constants.KEY_COLLECTION_REPORT_FISH)
+                                                                .document(finalReportFish.id)
+                                                                .update(updateReport);
+                                                        getReportFish();
+                                                        finalReportFish.status = Constants.KEY_REPORT_COMPLETED;
+                                                        adapter.notifyDataSetChanged();
+                                                    })
+                                                    .addOnFailureListener(runnable -> showToast("Tạo phát đồ thất bại!"));
+                                        }
+                                    }
+                                }
+                            });
                 }
 
             }
