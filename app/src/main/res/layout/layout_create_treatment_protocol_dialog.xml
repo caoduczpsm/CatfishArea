@@ -120,8 +120,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textDateReport"
-            app:startIconDrawable="@drawable/ic_sick"
-            app:startIconTint="@color/colorPrimary">
+            tools:ignore="HardcodedText">
 
             <AutoCompleteTextView
                 android:id="@+id/nameItem"
@@ -132,7 +131,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/imageLeave"
-                tools:ignore="Deprecated,HardcodedText,LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                tools:ignore="Deprecated,HardcodedText,LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck,TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -149,8 +148,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textNameItem"
-            app:startIconDrawable="@drawable/ic_medicine"
-            app:startIconTint="@color/colorPrimary">
+            tools:ignore="HardcodedText">
 
             <AutoCompleteTextView
                 android:id="@+id/edtMedicine"
@@ -159,7 +157,8 @@
                 android:editable="false"
                 android:focusable="false"
                 android:padding="@dimen/_5sdp"
-                android:textColor="@color/black">
+                android:textColor="@color/black"
+                tools:ignore="Deprecated,LabelFor,RtlSymmetry,TextContrastCheck">
 
             </AutoCompleteTextView>
         </com.google.android.material.textfield.TextInputLayout>

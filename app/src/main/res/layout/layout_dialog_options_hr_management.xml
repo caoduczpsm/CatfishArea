@@ -13,7 +13,7 @@
         android:id="@+id/textTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Quản lý tài khoản"
+        android:text="Quản lý nhân sự"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/_18sdp"
@@ -24,7 +24,7 @@
         tools:ignore="HardcodedText" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutCreate"
+        android:id="@+id/layoutShowInfo"
         android:layout_width="0dp"
         android:layout_height="140dp"
         android:layout_marginTop="@dimen/_20sdp"
@@ -33,7 +33,7 @@
         android:padding="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textTitle"
-        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintWidth_percent="0.47"
         tools:ignore="UnusedAttribute">
 
         <ImageView
@@ -51,7 +51,7 @@
             android:id="@+id/textAdd"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="Tạo tài khoản"
+            android:text="Xem thông tin"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="@dimen/_14sdp"
@@ -66,17 +66,16 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutChange"
+        android:id="@+id/layoutMove"
         android:layout_width="0dp"
         android:layout_height="140dp"
         android:layout_marginTop="@dimen/_20sdp"
         android:background="@drawable/border_fun_background"
         android:backgroundTint="#EFF0B3"
         android:padding="@dimen/_10sdp"
-        app:layout_constraintEnd_toStartOf="@id/layoutDelete"
-        app:layout_constraintStart_toEndOf="@+id/layoutCreate"
         app:layout_constraintTop_toBottomOf="@+id/textTitle"
-        app:layout_constraintWidth_percent="0.3">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.47">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -93,7 +92,7 @@
             android:id="@+id/textEdit"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="Phân quyền"
+            android:text="Chuyển công tác"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="@dimen/_14sdp"
@@ -103,48 +102,6 @@
             app:layout_constraintHeight_percent="0.45"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2"
-            tools:ignore="HardcodedText" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutDelete"
-        android:layout_width="0dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:background="@drawable/border_fun_background"
-        android:backgroundTint="#B3F0D3"
-        android:padding="@dimen/_10sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textTitle"
-        app:layout_constraintWidth_percent="0.3"
-        tools:ignore="UnusedAttribute">
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:src="@drawable/ic_delete_account"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.45"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/textDelete"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="Xóa tài khoản"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_14sdp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.45"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3"
             tools:ignore="HardcodedText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -164,7 +121,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutCreate"
+        app:layout_constraintTop_toBottomOf="@+id/layoutShowInfo"
         app:layout_constraintWidth_percent="0.7"
         tools:ignore="HardcodedText,UnusedAttribute" />
 

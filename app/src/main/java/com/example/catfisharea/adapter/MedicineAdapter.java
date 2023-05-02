@@ -9,11 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.app.catfisharea.databinding.ItemContainerMedicineListBinding;
 import com.example.catfisharea.models.Medicine;
-import com.example.catfisharea.ultilities.Constants;
-import com.example.catfisharea.ultilities.PreferenceManager;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.List;
 
@@ -21,11 +16,9 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
 
     private final List<Medicine> medicineList;
     private ItemContainerMedicineListBinding itemContainerMedicineListBinding;
-    private final Context context;
 
-    public MedicineAdapter(Context context, List<Medicine> medicineList) {
+    public MedicineAdapter(List<Medicine> medicineList) {
         this.medicineList = medicineList;
-        this.context = context;
     }
 
     @NonNull
@@ -49,15 +42,11 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
     public class MedicineViewHolder extends RecyclerView.ViewHolder{
 
         private final ItemContainerMedicineListBinding binding;
-        private final FirebaseFirestore database;
-        private final PreferenceManager preferenceManager;
 
         MedicineViewHolder(ItemContainerMedicineListBinding mBinding){
             super(mBinding.getRoot());
             this.binding = mBinding;
             itemContainerMedicineListBinding = this.binding;
-            database = FirebaseFirestore.getInstance();
-            preferenceManager = new PreferenceManager(context);
         }
 
         @SuppressLint("SetTextI18n")
@@ -67,22 +56,7 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
 
             binding.textProducer.setText(medicine.producer);
 
-            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                    .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                    .document(queryDocumentSnapshot.getId())
-                                    .collection(Constants.KEY_COLLECTION_CATEGORY)
-                                    .document(medicine.id)
-                                    .get()
-                                    .addOnCompleteListener(task1 -> {
-                                        DocumentSnapshot documentSnapshot = task1.getResult();
-                                        binding.textQuantityInWarehouse.setText("Kho: " + documentSnapshot.getString(Constants.KEY_AMOUNT_OF_ROOM));
-                                    });
-                        }
-                    });
+            binding.textQuantityInWarehouse.setText("Kho: " + medicine.amount);
         }
 
     }

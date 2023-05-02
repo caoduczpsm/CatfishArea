@@ -144,12 +144,6 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
             }
             mBinding.textGuess.setText(treatment.sickName);
 
-            if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF)){
-                mBinding.layoutUserReport.setVisibility(View.VISIBLE);
-            } else {
-                mBinding.layoutUserReport.setVisibility(View.GONE);
-            }
-
             mBinding.layoutUserReport.setOnClickListener(view ->
                     database.collection(Constants.KEY_COLLECTION_USER)
                     .document(treatment.creatorId)
@@ -300,6 +294,16 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
                         .addOnFailureListener(runnable -> showToast("Hoàn thành điều trị thất bại!"));
             });
 
+            if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF)){
+                mBinding.layoutUserReport.setVisibility(View.VISIBLE);
+                mBinding.imageEdit.setVisibility(View.GONE);
+                mBinding.imageDelete.setVisibility(View.GONE);
+            } else {
+                mBinding.layoutUserReport.setVisibility(View.GONE);
+                mBinding.imageEdit.setVisibility(View.VISIBLE);
+                mBinding.imageDelete.setVisibility(View.VISIBLE);
+            }
+
             mBinding.imageDelete.setOnClickListener(view -> openDeleteTreatmentDialog(treatment));
 
             mBinding.imageEdit.setOnClickListener(view -> openEditTreatmentDialog(treatment));
@@ -402,7 +406,7 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
             ArrayList<Medicine> medicineItemList = new ArrayList<>();
 
             List<Medicine> medicinesSelected = new ArrayList<>();
-            MedicineAdapter medicineAdapter = new MedicineAdapter(context, medicinesSelected);
+            MedicineAdapter medicineAdapter = new MedicineAdapter(medicinesSelected);
             medicineRecyclerView.setAdapter(medicineAdapter);
 
             database.collection(Constants.KEY_COLLECTION_WAREHOUSE)

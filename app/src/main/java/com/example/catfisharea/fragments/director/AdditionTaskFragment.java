@@ -134,6 +134,12 @@ public class AdditionTaskFragment extends Fragment implements MultipleListener {
             textSelectUser.setText("Chọn trưởng khu");
         else textSelectUser.setText("Chọn công nhân");
 
+        if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_REGIONAL_CHIEF)){
+            radioMomentarilyTask.setChecked(true);
+            radioMomentarilyTask.setVisibility(View.GONE);
+            radioFixedTask.setVisibility(View.GONE);
+            setVisibilityTextOfDay(true);
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -241,6 +247,8 @@ public class AdditionTaskFragment extends Fragment implements MultipleListener {
                             imageSelectDirector.setImageResource(R.drawable.ic_down);
                         }
 
+                        showToast("Đã tạo nhiệm vụ thành công!");
+
 
                     }).addOnFailureListener(e -> showToast(e.getMessage()));
 
@@ -310,6 +318,7 @@ public class AdditionTaskFragment extends Fragment implements MultipleListener {
                             imageSelectDirector.setImageResource(R.drawable.ic_down);
                         }
 
+                        showToast("Đã tạo nhiệm vụ thành công!");
 
                     }).addOnFailureListener(e -> showToast(e.getMessage()));
 

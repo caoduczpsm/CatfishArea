@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class PondDetailsActivity extends BaseActivity implements UserListener, MultipleListener {
@@ -102,7 +103,7 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
         binding.layoutHome.cardHealth.setVisibility(View.VISIBLE);
 
         binding.textName.setText(pond.getName());
-        binding.textAcreage.setText(pond.getAcreage() + " (m2)");
+        binding.textAcreage.setText(pond.getAcreage() + " m\u00b2");
 
         binding.layoutHome.btnAddWeight.setVisibility(View.GONE);
 
@@ -120,6 +121,23 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
                         }
                     });
         }
+
+        database.collection(Constants.KEY_COLLECTION_PLAN)
+                .whereEqualTo(Constants.KEY_POND_ID, pond.getId())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                            if (queryDocumentSnapshot.getString(Constants.KEY_POND_ID) != null){
+                                binding.textPreparationCos.setText(String.format(Locale.US, "%,d"
+                                        , queryDocumentSnapshot.get(Constants.KEY_PREPARATION_COST)) + " VNĐ");
+                                binding.textFishModel.setText(queryDocumentSnapshot.get(Constants.KEY_FINGERLING_SAMPLES) + " g/con");
+                                binding.textNumOfFish.setText(String.format(Locale.US, "%,d"
+                                        , queryDocumentSnapshot.get(Constants.KEY_NUMBER_OF_FISH)) + " con");
+                            }
+                        }
+                    }
+                });
 
         database.collection(Constants.KEY_COLLECTION_USER)
                 .whereEqualTo(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_WORKER)
@@ -218,7 +236,6 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
         database.collection(Constants.KEY_COLLECTION_TREATMENT)
                 .whereEqualTo(Constants.KEY_TREATMENT_POND_ID, pond.getId())
                 .whereEqualTo(Constants.KEY_TREATMENT_STATUS, Constants.KEY_TREATMENT_ACCEPT)
-                .whereEqualTo(Constants.KEY_TREATMENT_CREATOR_ID, preferenceManager.getString(Constants.KEY_USER_ID))
                 .get()
                 .addOnCompleteListener(task -> {
                     for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
@@ -346,29 +363,48 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
 
         binding.layoutHome.textShowImageReport.setOnClickListener(view -> openReportImageOfToDayDialog());
 
-        binding.cardReleaseFish.setOnClickListener(view -> {
-            database.collection(Constants.KEY_COLLECTION_RELEASE_FISH)
-                    .whereEqualTo(Constants.KEY_RELEASE_FISH_POND_ID, pond.getId())
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        boolean isAvailable = false;
-                       if (task.isSuccessful()){
-                           for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-                               isAvailable = Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_RELEASE_FISH_STATUS), Constants.KEY_RELEASE_FISH_UNCOMPLETED);
-                           }
+        binding.cardReleaseFish.setOnClickListener(view ->
+                database.collection(Constants.KEY_COLLECTION_RELEASE_FISH)
+                .whereEqualTo(Constants.KEY_RELEASE_FISH_POND_ID, pond.getId())
+                .get()
+                .addOnCompleteListener(task -> {
+                    boolean isAvailable = false;
+                   if (task.isSuccessful()){
+                       for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                           isAvailable = Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_RELEASE_FISH_STATUS), Constants.KEY_RELEASE_FISH_UNCOMPLETED);
                        }
-                       if (isAvailable){
-                           showToast("Thả giống vẫn chưa được hoàn thành!");
-                       } else {
-                           openSettingReleaseFishDialog();
-                       }
-                    });
-        });
+                   }
+                   if (isAvailable){
+                       showToast("Thả giống vẫn chưa được hoàn thành!");
+                   } else {
+                       openSettingReleaseFishDialog();
+                   }
+                }));
 
         binding.layoutHarvest.setOnClickListener(view -> {
             Intent intent = new Intent(this, HarvestFishActivity.class);
             intent.putExtra(Constants.KEY_POND, pond);
             startActivity(intent);
+        });
+
+        binding.textDetail.setOnClickListener(view -> {
+            if (binding.layoutInfoDetail.getVisibility() == View.VISIBLE){
+                binding.layoutInfoDetail.setVisibility(View.GONE);
+                binding.imageDetail.setImageResource(R.drawable.ic_down);
+            } else {
+                binding.layoutInfoDetail.setVisibility(View.VISIBLE);
+                binding.imageDetail.setImageResource(R.drawable.ic_up);
+            }
+        });
+
+        binding.imageDetail.setOnClickListener(view -> {
+            if (binding.layoutInfoDetail.getVisibility() == View.VISIBLE){
+                binding.layoutInfoDetail.setVisibility(View.GONE);
+                binding.imageDetail.setImageResource(R.drawable.ic_down);
+            } else {
+                binding.layoutInfoDetail.setVisibility(View.VISIBLE);
+                binding.imageDetail.setImageResource(R.drawable.ic_up);
+            }
         });
     }
 
