@@ -301,7 +301,7 @@ public class WorkerHomeActivity extends BaseActivity {
                                         if (treatment.replaceWater == null || treatment.replaceWater.equals("")){
                                             binding.layoutHome.textReplaceWater.setVisibility(View.GONE);
                                         }
-                                        
+
                                         if (treatment.suckMud == null || treatment.suckMud.equals("")){
                                             binding.layoutHome.textSuckMud.setVisibility(View.GONE);
                                         }

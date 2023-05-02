@@ -93,13 +93,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             } else {
                 mBinding.nameEmpty.setVisibility(View.GONE);
                 String type = preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT);
-                if (type.equals(Constants.KEY_DIRECTOR)) {
-                    GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
-                    mBinding.recyclerviewItemHome.setLayoutManager(gridLayoutManager);
-                } else {
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-                    layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                    mBinding.recyclerviewItemHome.setLayoutManager(layoutManager);
+                
+                if (type != null) {
+                    if (type.equals(Constants.KEY_DIRECTOR)) {
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
+                        mBinding.recyclerviewItemHome.setLayoutManager(gridLayoutManager);
+                    } else {
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+                        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                        mBinding.recyclerviewItemHome.setLayoutManager(layoutManager);
+                    }
                 }
 
                 ItemHomeAdapter adapter = new ItemHomeAdapter(item.getReginonList(), campusListener);
