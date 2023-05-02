@@ -318,6 +318,7 @@ public class Constants {
 //    Thu hoạch
     public static final String KEY_COLLECTION_HARVEST = "harvest";
     public static final String KEY_QUANTITY = "quantity";
+    public static final String KEY_DATE_HARVEST = "dateHarvest";
 
 
 

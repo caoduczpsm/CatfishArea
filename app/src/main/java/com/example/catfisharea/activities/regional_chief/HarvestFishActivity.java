@@ -96,9 +96,9 @@ public class HarvestFishActivity extends BaseActivity {
         if (bq.isEmpty() && quantity.isEmpty() && quantity.isEmpty() && price.isEmpty() && number.isEmpty() && total.isEmpty()) {
             Toast.makeText(this, "Hãy nhập đủ thông tin", Toast.LENGTH_SHORT).show();
         } else {
-            String date = mBinding.edtDate.getText().toString();
-            Map<String, String> data = new HashMap<>();
-            data.put(Constants.KEY_FISH_WEIGH_DATE, date);
+
+            Map<String, Object> data = new HashMap<>();
+            data.put(Constants.KEY_FISH_WEIGH_DATE, myCal.getTime());
             data.put(Constants.KEY_FISH_WEIGH_WEIGHT, bq);
             data.put(Constants.KEY_QUANTITY, quantity);
             data.put(Constants.KEY_PRICE, price);
@@ -109,11 +109,19 @@ public class HarvestFishActivity extends BaseActivity {
                     .whereEqualTo(Constants.KEY_POND_ID, pond.getId())
                     .get().addOnSuccessListener(planQuery -> {
                         database.collection(Constants.KEY_COLLECTION_PLAN).document(planQuery.getDocuments().get(0).getId())
-                                .collection(Constants.KEY_COLLECTION_HARVEST)
-                                .document().set(data).addOnSuccessListener(harvestDoc -> {
-                                    copyDocument(planQuery.getDocuments().get(0).getData(),
-                                            planQuery);
+                                .update(Constants.KEY_DATE_HARVEST, myCal.getTime())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        database.collection(Constants.KEY_COLLECTION_PLAN).document(planQuery.getDocuments().get(0).getId())
+                                                .collection(Constants.KEY_COLLECTION_HARVEST)
+                                                .document().set(data).addOnSuccessListener(harvestDoc -> {
+//                                                    copyDocument(planQuery.getDocuments().get(0).getData(),
+//                                                            planQuery);
+                                                });
+                                    }
                                 });
+
 
                     });
         }
@@ -123,7 +131,7 @@ public class HarvestFishActivity extends BaseActivity {
     private void copyDocument(Map<String, Object> data, QuerySnapshot planQuery) {
 
         database.collection(Constants.KEY_COLLECTION_DIARY)
-                .document().set(planQuery.getDocuments().get(0).getData())
+                .document().set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -134,10 +142,10 @@ public class HarvestFishActivity extends BaseActivity {
                         database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
                                 .whereEqualTo(Constants.KEY_ID_PLAN, planQuery.getDocuments().get(0).getId())
                                 .get().addOnSuccessListener(taskQuery -> {
-                                   for (DocumentSnapshot documentSnapshot: taskQuery.getDocuments()) {
-                                       database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
-                                               .document(documentSnapshot.getId()).delete();
-                                   }
+                                    for (DocumentSnapshot documentSnapshot : taskQuery.getDocuments()) {
+                                        database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                                                .document(documentSnapshot.getId()).delete();
+                                    }
                                 });
                     }
                 });
@@ -201,6 +209,7 @@ public class HarvestFishActivity extends BaseActivity {
                                     .collection(Constants.KEY_COLLECTION_FISH_WEIGH)
                                     .orderBy(Constants.KEY_FISH_WEIGH_WEIGHT, Query.Direction.DESCENDING)
                                     .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                        @SuppressLint("SetTextI18n")
                                         @Override
                                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                             if (!queryDocumentSnapshots.isEmpty()) {
@@ -211,10 +220,15 @@ public class HarvestFishActivity extends BaseActivity {
                                                 for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
                                                     totalLoss += Long.parseLong(documentSnapshot.getString(Constants.KEY_FISH_WEIGH_LOSS));
                                                 }
-                                                mBinding.edtNumOfFish.setText(
-                                                        (Long.parseLong(mBinding.edtNumOfFish.getText().toString())
-                                                                - totalLoss) + ""
-                                                );
+                                                if (!mBinding.edtNumOfFish.getText().toString().isEmpty()) {
+                                                    String num = mBinding.edtNumOfFish.getText().toString();
+
+                                                        mBinding.edtNumOfFish.setText(
+                                                                (DecimalHelper.parseText(num).longValue() - totalLoss) + ""
+                                                        );
+
+                                                }
+
                                             }
                                         }
                                     });
@@ -223,10 +237,12 @@ public class HarvestFishActivity extends BaseActivity {
                                     .get().addOnSuccessListener(releaseQuery -> {
                                         for (DocumentSnapshot releaseDoc : releaseQuery.getDocuments()) {
                                             String amount = releaseDoc.getString(Constants.KEY_AMOUNT);
+                                            String num = mBinding.edtNumOfFish.getText().toString();
                                             try {
                                                 mBinding.edtNumOfFish.setText(
-                                                        (Long.parseLong(mBinding.edtNumOfFish.getText().toString())
-                                                                + Long.parseLong(amount)) + "");
+                                                        (DecimalHelper.parseText(num).longValue() + +Long.parseLong(amount)) + ""
+                                                );
+
                                                 updateData();
                                             } catch (Exception exception) {
 

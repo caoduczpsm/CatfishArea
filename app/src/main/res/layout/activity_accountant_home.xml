@@ -39,7 +39,7 @@
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:padding="@dimen/_2sdp"
-                android:src="@drawable/ic_notification"
+                android:src="@drawable/ic_notification2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/imageConference"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -91,18 +91,12 @@ public class OverviewTaskFragment extends Fragment {
             imageAddTask.setVisibility(View.VISIBLE);
         }
 
-
-
     }
 
     private void setListener() {
-
         textAddTask.setOnClickListener(view -> replaceFragments(additionTaskFragment));
-
         imageAddTask.setOnClickListener(view -> replaceFragments(additionTaskFragment));
-
         //imageAddTask.setOnClickListener(view -> addTaskDialog());
-
     }
 
     public void replaceFragments(Fragment fragment) {

@@ -111,6 +111,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     } else {
                         mBinding.campusEmpty.setVisibility(View.GONE);
                         ItemHomeAdapter adapter1 = new ItemHomeAdapter(regionModels, campusListener);
+                        LinearLayoutManager layoutManager2 = new LinearLayoutManager(context);
+                        layoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
+                        mBinding.recyclerviewItem.setLayoutManager(layoutManager2);
                         mBinding.recyclerviewItem.setAdapter(adapter1);
                         mBinding.recyclerviewItem.setVisibility(View.VISIBLE);
                     }

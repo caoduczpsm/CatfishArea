@@ -33,6 +33,7 @@ public class EnvironmentViewFragment extends Fragment {
     private FirebaseFirestore database;
     private PreferenceManager preferenceManager;
     private Pond pond;
+    private String planId;
     private List<Environment> environmentList;
     private EnvironmentViewAdapter adapter;
 
@@ -42,6 +43,7 @@ public class EnvironmentViewFragment extends Fragment {
         mBinding = FragmentEnvironmentViewBinding.inflate(inflater, container, false);
         Bundle bundle = getArguments();
         pond = (Pond) bundle.getSerializable(Constants.KEY_POND);
+        planId = bundle.getString(Constants.KEY_ID_PLAN, null);
         setListener();
 
         return mBinding.getRoot();
@@ -66,8 +68,52 @@ public class EnvironmentViewFragment extends Fragment {
             adapter.notifyDataSetChanged();
         });
 
-        getData();
+        if (planId == null) {
+            getData();
+        } else {
+            getDataDiary();
+        }
     }
+
+    private void getDataDiary() {
+        database.collection(Constants.KEY_COLLECTION_DIARY)
+                .document(planId)
+                .get().addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        retrieveWaterDiary(documentSnapshot.getId(),
+                                documentSnapshot.getTimestamp(Constants.KEY_DATE_OF_PLAN));
+                    }
+                });
+    }
+
+    private void retrieveWaterDiary(String id, Timestamp timestamp) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format2 = new SimpleDateFormat("dd-MM-yyyy");
+        String dateTime = format2.format(timestamp.toDate());
+
+        database.collection(Constants.KEY_COLLECTION_DIARY).document(id)
+                .collection(Constants.KEY_DIARY_COLLECTION_WATER)
+                .get().addOnSuccessListener(waterQuery -> {
+                    for (DocumentSnapshot documentSnapshot : waterQuery.getDocuments()) {
+                        String date = documentSnapshot.getId();
+                        Map<String, String> parameter = (Map<String, String>) documentSnapshot.get(Constants.KEY_SPECIFICATIONS_MEASURED);
+                        try {
+                            Date datetime = format.parse(date);
+                            Date pondDate = format2.parse(dateTime);
+                            long diff = datetime.getTime() - pondDate.getTime();
+                            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+                            Environment environment = new Environment(date, id, datetime, parameter, diffDays);
+
+                            environmentList.add(environment);
+                        } catch (Exception e) {
+
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
 
     private void getData() {
         database.collection(Constants.KEY_COLLECTION_PLAN)

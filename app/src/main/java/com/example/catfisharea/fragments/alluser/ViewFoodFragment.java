@@ -32,6 +32,7 @@ public class ViewFoodFragment extends Fragment {
     private FirebaseFirestore database;
     private PreferenceManager preferenceManager;
     private Pond pond;
+    private String planId;
     private List<Feed> feedList;
     private ViewFoodAdapter adapter;
 
@@ -41,6 +42,7 @@ public class ViewFoodFragment extends Fragment {
         mBinding = FragmentViewFoodBinding.inflate(inflater, container, false);
         Bundle bundle = getArguments();
         pond = (Pond) bundle.getSerializable(Constants.KEY_POND);
+        planId = bundle.getString(Constants.KEY_ID_PLAN, null);
         setListener();
         return mBinding.getRoot();
     }
@@ -65,8 +67,57 @@ public class ViewFoodFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
+        if (planId == null) {
+            getData();
+        } else {
+            getDataDiary();
+        }
+    }
 
-        getData();
+    private void getDataDiary() {
+        database.collection(Constants.KEY_COLLECTION_DIARY)
+                .document(planId)
+                .get().addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        retrieveFoodDiary(documentSnapshot.getId(),
+                                documentSnapshot.getTimestamp(Constants.KEY_DATE_OF_PLAN));
+                    }
+                });
+    }
+
+    private void retrieveFoodDiary(String id, Timestamp datePlan) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format2 = new SimpleDateFormat("dd-MM-yyyy");
+        String dateTime = format2.format(datePlan.toDate());
+
+        database.collection(Constants.KEY_COLLECTION_DIARY).document(id)
+                .collection(Constants.KEY_DIARY_COLLECTION_FEEDS)
+                .get().addOnSuccessListener(feedQuery -> {
+                    long totalFood = 0;
+                    for (DocumentSnapshot documentSnapshot : feedQuery.getDocuments()) {
+                        String date = documentSnapshot.getId();
+                        List<String> amountFeed = (List<String>) documentSnapshot.get(Constants.KEY_AMOUNT_FED);
+                        try {
+                            Date datetime = format.parse(date);
+                            Date pondDate = format2.parse(dateTime);
+                            long diff = datetime.getTime() - pondDate.getTime();
+                            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+                            Feed feed = new Feed(documentSnapshot.getId(), id, datetime, amountFeed);
+                            feed.setOld(diffDays);
+                            if (totalFood == 0) {
+                                feed.setTotalFood(Long.parseLong(feed.sumFood()));
+                            } else {
+                                feed.setTotalFood(totalFood + Long.parseLong(feed.sumFood()));
+                            }
+                            totalFood += Long.parseLong(feed.sumFood());
+                            feedList.add(feed);
+                        } catch (Exception e) {
+
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                });
     }
 
     private void getData() {
@@ -81,7 +132,6 @@ public class ViewFoodFragment extends Fragment {
                     }
 
                 });
-
     }
 
     private void retrieveFood(String id, Timestamp datePlan) {

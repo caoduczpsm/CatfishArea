@@ -33,6 +33,7 @@ public class OverviewPlanFragment extends Fragment {
     private PlanAdapter planAdapter;
     private FirebaseFirestore database;
     private PreferenceManager preferenceManager;
+    private String planId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +42,7 @@ public class OverviewPlanFragment extends Fragment {
         mBinding = FragmentOverviewPlanBinding.inflate(inflater, container, false);
         Bundle bundle = getArguments();
         pond = (Pond) bundle.getSerializable(Constants.KEY_POND);
+        planId = bundle.getString(Constants.KEY_ID_PLAN, null);
         setListener();
         return mBinding.getRoot();
     }
@@ -63,7 +65,102 @@ public class OverviewPlanFragment extends Fragment {
             Collections.reverse(planList);
             planAdapter.notifyDataSetChanged();
         });
-        getDataDetail();
+        if (planId == null) {
+            getDataDetail();
+        } else {
+            getDataDiary();
+        }
+    }
+
+    private void getDataDiary() {
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+//        mBinding.pondName.setText(pond.getName());
+//        mBinding.pondAcreage.setText(pond.getAcreage());
+//        Log.d("FATAL EXCEPTION: main", pond.getName());
+
+        database.collection(Constants.KEY_COLLECTION_DIARY)
+                .document(planId).get()
+                .addOnSuccessListener(diaryDoc -> {
+                    Timestamp time = diaryDoc.getTimestamp(Constants.KEY_DATE_OF_PLAN);
+                    String pondDate = format.format(time.toDate());
+                    long pondConsistence = diaryDoc.getLong(Constants.KEY_CONSISTENCE);
+                    long pondNumberOfFish = diaryDoc.getLong(Constants.KEY_NUMBER_OF_FISH);
+                    long fingerlingSamples = diaryDoc.getLong(Constants.KEY_FINGERLING_SAMPLES);
+                    long price = diaryDoc.getLong(Constants.KEY_PRICE);
+                    long preparationCost = diaryDoc.getLong(Constants.KEY_PREPARATION_COST);
+
+                    preferenceManager.putString(Constants.KEY_DATE_OF_PLAN, pondDate);
+                    preferenceManager.putString(Constants.KEY_TOTAL_MONEY, "0");
+                    preferenceManager.putString(Constants.KEY_FISH_WEIGH_LOSS, "0");
+                    preferenceManager.putString(Constants.KEY_FINGERLING_SAMPLES, String.valueOf(fingerlingSamples));
+                    mBinding.pondDate.setText((pondDate));
+                    mBinding.pondConsistence.setText(DecimalHelper.formatText(pondConsistence));
+                    mBinding.pondNumberOfFish.setText(DecimalHelper.formatText(pondNumberOfFish));
+                    mBinding.fingerlingSamples.setText(DecimalHelper.formatText(fingerlingSamples));
+                    mBinding.price.setText(DecimalHelper.formatText(price));
+                    mBinding.preparationCost.setText(DecimalHelper.formatText(preparationCost));
+                    getDetailDiary(pondNumberOfFish, pondConsistence);
+                });
+    }
+
+    private void getDetailDiary(long numberfish, long pondConsistence) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format2 = new SimpleDateFormat("dd-MM-yyyy");
+        database.collection(Constants.KEY_COLLECTION_DIARY).document(planId)
+                .collection(Constants.KEY_DIARY_COLLECTION_FEEDS)
+                .get().addOnSuccessListener(planQuery -> {
+                    for (DocumentSnapshot doc : planQuery.getDocuments()) {
+                        Plan plan = new Plan();
+
+                        String date = doc.getId();
+                        List<String> amountFeed = (List<String>) doc.get(Constants.KEY_AMOUNT_FED);
+                        long total = 0;
+                        for (String item : amountFeed) {
+                            total += Long.parseLong(item);
+                        }
+                        long totalFood = Long.parseLong(preferenceManager.getString(Constants.KEY_TOTAL_MONEY)) + total;
+
+                        try {
+                            Date datetime = format.parse(date);
+                            Date pondDate = format2.parse(preferenceManager.getString(Constants.KEY_DATE_OF_PLAN));
+                            long diff = datetime.getTime() - pondDate.getTime();
+                            long diffDays = diff / (24 * 60 * 60 * 1000);
+                            plan.setDate(datetime);
+                            plan.setOld(diffDays);
+                            plan.setFood(total);
+                            plan.setTotalFood(totalFood);
+                            plan.setNumberOfFish(numberfish);
+                            plan.setFishWeight(numberfish / pondConsistence);
+                            preferenceManager.putString(Constants.KEY_TOTAL_MONEY, String.valueOf(totalFood));
+                            planList.add(plan);
+
+                            database.collection(Constants.KEY_COLLECTION_PLAN).document(planId)
+                                    .collection(Constants.KEY_COLLECTION_FISH_WEIGH)
+                                    .document(date).get().addOnSuccessListener(fishDoc -> {
+                                        if (fishDoc.exists()) {
+                                            String loss = fishDoc.getString(Constants.KEY_FISH_WEIGH_LOSS);
+                                            String weigh = fishDoc.getString(Constants.KEY_FISH_WEIGH_WEIGHT);
+                                            plan.setAVG(Long.parseLong(weigh));
+                                            plan.setNumberOfDeadFish(Long.parseLong(loss));
+                                            long totalLoss = Long.parseLong(preferenceManager.getString(Constants.KEY_FISH_WEIGH_LOSS)) + Long.parseLong(loss);
+                                            preferenceManager.putString(Constants.KEY_FINGERLING_SAMPLES, weigh);
+                                            preferenceManager.putString(Constants.KEY_FISH_WEIGH_LOSS, String.valueOf(totalLoss));
+                                            plan.setLKnumberOfDeadFish(totalLoss);
+                                            plan.setSurvivalRate(((float) totalLoss) / ((float) numberfish) * 100);
+                                            plan.setNumberOfFishAlive(numberfish - totalLoss);
+                                        } else {
+                                            plan.setAVG(Long.parseLong(preferenceManager.getString(Constants.KEY_FINGERLING_SAMPLES)));
+                                            plan.setNumberOfFishAlive(numberfish - Long.parseLong(preferenceManager.getString(Constants.KEY_FISH_WEIGH_LOSS)));
+                                        }
+                                        planAdapter.notifyDataSetChanged();
+                                    });
+
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+
+                });
     }
 
     private void getDataPlan(Long numberfish, Long pondConsistence) {
@@ -109,7 +206,7 @@ public class OverviewPlanFragment extends Fragment {
                                             preferenceManager.putString(Constants.KEY_FINGERLING_SAMPLES, weigh);
                                             preferenceManager.putString(Constants.KEY_FISH_WEIGH_LOSS, String.valueOf(totalLoss));
                                             plan.setLKnumberOfDeadFish(totalLoss);
-                                            plan.setSurvivalRate( ((float) totalLoss) / ((float) numberfish) * 100);
+                                            plan.setSurvivalRate(((float) totalLoss) / ((float) numberfish) * 100);
                                             plan.setNumberOfFishAlive(numberfish - totalLoss);
                                         } else {
                                             plan.setAVG(Long.parseLong(preferenceManager.getString(Constants.KEY_FINGERLING_SAMPLES)));

@@ -57,6 +57,7 @@ public class ItemHomeAdapter extends RecyclerView.Adapter<ItemHomeAdapter.ItemHo
         }
 
         public void setData(RegionModel regionModel) {
+
             mBinding.nameItem.setText(regionModel.getName());
             if (regionModel instanceof Pond) {
                 mBinding.layoutItem.setOnClickListener(view -> campusListener.OnPondClicker(regionModel));

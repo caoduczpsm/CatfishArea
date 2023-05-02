@@ -21,6 +21,7 @@ import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
 import com.example.catfisharea.activities.alluser.DetailPlanActivity;
+import com.example.catfisharea.activities.alluser.DiaryActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
 import com.example.catfisharea.activities.alluser.PondDetailsActivity;
 import com.example.catfisharea.activities.alluser.ViewPlanActivity;
@@ -85,7 +86,7 @@ public class AdminHomeActivity extends BaseActivity implements CampusListener {
         });
 
         mBinding.layoutControlAdminHome.layoutSeason.setOnClickListener(view -> {
-            Intent intent = new Intent(this, ViewPlanActivity.class);
+            Intent intent = new Intent(this, DiaryActivity.class);
             startActivity(intent);
         });
 

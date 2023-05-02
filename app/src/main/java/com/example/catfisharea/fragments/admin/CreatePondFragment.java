@@ -313,10 +313,10 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
                                 user.isSelected = true;
                             user.id = doc.getId();
                             mUsers.add(user);
-
+                            usersAdapter.notifyDataSetChanged();
                         }
                     }
-                    usersAdapter.notifyDataSetChanged();
+
                 });
 
     }

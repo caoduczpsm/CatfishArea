@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/item"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/textDateStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vụ từ: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="@dimen/_16ssp"
+        android:textColor="@color/black"
+        android:paddingTop="@dimen/_8sdp"
+        android:paddingBottom="@dimen/_8sdp"
+        android:paddingLeft="@dimen/_8sdp"/>
+
+    <TextView
+        android:id="@+id/dateStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20/10/2020"
+        app:layout_constraintStart_toEndOf="@id/textDateStart"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="@dimen/_16ssp"
+        android:textColor="@color/black"
+        android:padding="@dimen/_8sdp"/>
+
+    <TextView
+        android:id="@+id/textDateEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" đến "
+        app:layout_constraintStart_toEndOf="@id/dateStart"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="@dimen/_16ssp"
+        android:textColor="@color/black"
+        android:paddingTop="@dimen/_8sdp"
+        android:paddingBottom="@dimen/_8sdp"/>
+
+
+    <TextView
+        android:id="@+id/dateEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20/10/2020"
+        app:layout_constraintStart_toEndOf="@id/textDateEnd"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="@dimen/_16ssp"
+        android:textColor="@color/black"
+        android:padding="@dimen/_8sdp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

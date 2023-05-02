@@ -288,7 +288,7 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/_4sdp"
                             android:gravity="center"
-                            android:text="Thả thêm cá giống vào ao"
+                            android:text="Thu hoạch"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_10ssp"
                             android:textStyle="bold"
