@@ -241,6 +241,7 @@ public class WorkerHomeActivity extends BaseActivity {
                     binding.layoutHome.medicineRecyclerView.setAdapter(medicineAdapter);
                     binding.layoutHome.medicineRecyclerView.setLayoutManager(layoutManager);
                     if (!Objects.equals(preferenceManager.getString(Constants.KEY_TREATMENT_ID), "")) {
+                        binding.layoutHome.cardTreatment.setVisibility(View.VISIBLE);
                         database.collection(Constants.KEY_COLLECTION_TREATMENT)
                                 .document(preferenceManager.getString(Constants.KEY_TREATMENT_ID))
                                 .get()
@@ -257,7 +258,7 @@ public class WorkerHomeActivity extends BaseActivity {
                                         treatment.replaceWater = documentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
                                     }
                                     if (documentSnapshot.getString(Constants.KEY_TREATMENT_NO_FOOD) != null){
-                                        treatment.noFood = documentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                                        treatment.noFood = documentSnapshot.getString(Constants.KEY_TREATMENT_NO_FOOD);
                                     }
                                     if (documentSnapshot.getString(Constants.KEY_TREATMENT_SUCK_MUD) != null){
                                         treatment.suckMud = documentSnapshot.getString(Constants.KEY_TREATMENT_SUCK_MUD);
@@ -293,19 +294,15 @@ public class WorkerHomeActivity extends BaseActivity {
                                     if (treatment.assignmentStatus.equals(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING) &&
                                             treatment.status.equals(Constants.KEY_TREATMENT_ACCEPT)) {
                                         binding.layoutHome.cardTreatment.setVisibility(View.VISIBLE);
-                                        if (treatment.noFood != null && !treatment.noFood.equals("")){
-                                            binding.layoutHome.textNoFood.setVisibility(View.VISIBLE);
-                                        } else {
+                                        if (treatment.noFood == null || treatment.noFood.equals("")){
                                             binding.layoutHome.textNoFood.setVisibility(View.GONE);
                                         }
-                                        if (treatment.replaceWater != null && !treatment.replaceWater.equals("")){
-                                            binding.layoutHome.textReplaceWater.setVisibility(View.VISIBLE);
-                                        } else {
+
+                                        if (treatment.replaceWater == null || treatment.replaceWater.equals("")){
                                             binding.layoutHome.textReplaceWater.setVisibility(View.GONE);
                                         }
-                                        if (treatment.suckMud != null && !treatment.suckMud.equals("")){
-                                            binding.layoutHome.textSuckMud.setVisibility(View.VISIBLE);
-                                        } else {
+                                        
+                                        if (treatment.suckMud == null || treatment.suckMud.equals("")){
                                             binding.layoutHome.textSuckMud.setVisibility(View.GONE);
                                         }
                                         treatment.medicines.forEach((key, value) ->

@@ -249,10 +249,10 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
                             treatment.replaceWater = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
                         }
                         if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NO_FOOD) != null){
-                            treatment.noFood = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                            treatment.noFood = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NO_FOOD);
                         }
                         if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_SUCK_MUD) != null){
-                            treatment.suckMud = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                            treatment.suckMud = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_SUCK_MUD);
                         }
                         if (queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NOTE) != null){
                             treatment.note = queryDocumentSnapshot.getString(Constants.KEY_TREATMENT_NOTE);
