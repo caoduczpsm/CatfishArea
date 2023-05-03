@@ -35,6 +35,18 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription" />
 
+                <ImageView
+                    android:id="@+id/imageBack"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_back_activity"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
                 <TextView
                     android:id="@+id/textName"
                     android:layout_width="@dimen/_120sdp"

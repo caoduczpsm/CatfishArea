@@ -65,7 +65,8 @@ public class WarehouseDetailActivity extends BaseActivity {
         mBinding.recyclerViewMedicine.addItemDecoration(itemDecoration);
         mBinding.recyclerViewAnother.addItemDecoration(itemDecoration);
 
-        mBinding.toolbarWarehouseDetail.setNavigationOnClickListener(view -> onBackPressed());
+        mBinding.imageBack.setOnClickListener(view -> onBackPressed());
+
         mBinding.layoutGoods.setOnClickListener(view -> {
             Intent intent = new Intent(this, ImportWarehouseActivity.class);
             intent.putExtra(Constants.KEY_WAREHOUSE_ID, warehouseID);
@@ -192,7 +193,7 @@ public class WarehouseDetailActivity extends BaseActivity {
         database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
                 .document(warehouseID).get().addOnSuccessListener(warehouseDoc -> {
                     String name = warehouseDoc.getString(Constants.KEY_NAME);
-                    mBinding.toolbarWarehouseDetail.setTitle(name);
+                    mBinding.textName.setText(name);
                 });
         database.collection(Constants.KEY_COLLECTION_WAREHOUSE).document(warehouseID)
                 .collection(Constants.KEY_CATEGORY_OF_WAREHOUSE)

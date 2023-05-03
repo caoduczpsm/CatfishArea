@@ -6,34 +6,82 @@
     android:layout_height="match_parent"
     tools:context="com.example.catfisharea.activities.admin.WarehouseHistoryActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarWarehouseDetail"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:elevation="10dp"
-        android:translationZ="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_back_activity"
-        app:title="Lịch sử nhập kho"
-        app:titleTextColor="@color/black" />
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <View
-        android:id="@+id/toolbar_shadow"
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@drawable/toolbar_dropshadow"
-        android:elevation="10dp"
-        android:translationZ="5dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbarWarehouseDetail" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclervewHistory"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_shadow" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/warehouse"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/imageBack"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_back_activity"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/textName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginTop="@dimen/_130sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/background_border"
+                    android:elevation="@dimen/_2sdp"
+                    android:gravity="center"
+                    android:text="Lịch sử nhập kho 01"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold"
+                    android:paddingStart="@dimen/_15sdp"
+                    android:paddingEnd="@dimen/_15sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/constraintLayout11"
+                    app:layout_constraintEnd_toEndOf="@+id/constraintLayout11"
+                    app:layout_constraintStart_toStartOf="@+id/constraintLayout11"
+                    app:layout_constraintTop_toTopOf="@+id/constraintLayout11"
+                    tools:ignore="HardcodedText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclervewHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/constraintLayout11" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

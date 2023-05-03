@@ -6,110 +6,237 @@
     android:layout_height="match_parent"
     tools:context="com.example.catfisharea.activities.admin.ImportWarehouseActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarWarehouseDetail"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:elevation="10dp"
-        android:translationZ="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_back_activity"
-        app:title="Nhập kho"
-        app:titleTextColor="@color/black" />
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <View
-        android:id="@+id/toolbar_shadow"
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@drawable/toolbar_dropshadow"
-        android:elevation="10dp"
-        android:translationZ="5dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbarWarehouseDetail" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:padding="@dimen/_8sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_shadow">
-
-        <ImageView
-            android:id="@+id/imageImport"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
-            android:src="@drawable/pick_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputDate"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
-            android:hint="Ngày nhập"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageImport"
-            app:startIconTint="@color/colorPrimary">
+            android:paddingBottom="@dimen/_20sdp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtDate"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:editable="false"
-                android:focusable="false"
-                android:gravity="center_vertical"
-                android:inputType="text"
-                android:textColor="@color/black" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputMoney"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:hint="Thanh toán (VND)"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputDate"
-            app:startIconTint="@color/colorPrimary">
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/warehouse"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtMoney"
+                <ImageView
+                    android:id="@+id/imageBack"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_back_activity"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/textName"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:background="@drawable/background_border"
+                    android:gravity="center"
+                    android:text="Kho 01"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold"
+                    android:elevation="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_130sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/constraintLayout11"
+                    app:layout_constraintEnd_toEndOf="@+id/constraintLayout11"
+                    app:layout_constraintStart_toStartOf="@+id/constraintLayout11"
+                    app:layout_constraintTop_toTopOf="@+id/constraintLayout11"
+                    tools:ignore="HardcodedText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:inputType="text"
-                android:textColor="@color/black" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:paddingStart="@dimen/_8sdp"
+                android:paddingEnd="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/constraintLayout11">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewImport"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/textInputMoney"
-            app:layout_constraintBottom_toTopOf="@id/saveBtn"
-            android:layout_marginTop="@dimen/_8sdp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:layout_marginBottom="@dimen/_8sdp"/>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardElevation="@dimen/_4sdp"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:enabled="false"
-            android:clickable="false"
-            android:id="@+id/saveBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_login"
-            android:text="Nhập"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_15ssp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                        <ImageView
+                            android:id="@+id/imageImport"
+                            android:layout_width="@dimen/_100sdp"
+                            android:layout_height="@dimen/_100sdp"
+                            android:src="@drawable/pick_image"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageView
+                            android:id="@+id/imageDate"
+                            android:layout_width="@dimen/_35sdp"
+                            android:layout_height="@dimen/_35sdp"
+                            android:src="@drawable/ic_calendar"
+                            app:layout_constraintBottom_toBottomOf="@+id/textInputDate"
+                            app:layout_constraintEnd_toStartOf="@+id/textInputDate"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/textInputDate"
+                            tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputDate"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:hint="Ngày nhập"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/imageImport"
+                            app:layout_constraintWidth_percent="0.83"
+                            app:startIconTint="@color/colorPrimary"
+                            tools:ignore="HardcodedText">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:editable="false"
+                                android:focusable="false"
+                                android:gravity="center_vertical"
+                                android:inputType="text"
+                                android:textColor="@color/black"
+                                tools:ignore="Deprecated,TextContrastCheck" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <ImageView
+                            android:id="@+id/imageMoney"
+                            android:layout_width="@dimen/_35sdp"
+                            android:layout_height="@dimen/_35sdp"
+                            android:src="@drawable/ic_price"
+                            app:layout_constraintBottom_toBottomOf="@+id/textInputMoney"
+                            app:layout_constraintEnd_toStartOf="@+id/textInputDate"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/textInputMoney"
+                            tools:ignore="ContentDescription" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputMoney"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:hint="Thanh toán (VND)"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/textInputDate"
+                            app:layout_constraintWidth_percent="0.83"
+                            app:startIconTint="@color/colorPrimary"
+                            tools:ignore="HardcodedText">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtMoney"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:inputType="text"
+                                android:textColor="@color/black"
+                                tools:ignore="TextContrastCheck" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardElevation="@dimen/_4sdp"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardInfo">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_10sdp">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerViewImport"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintBottom_toTopOf="@id/saveBtn"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <Button
+                            android:id="@+id/saveBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_login"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:text="Nhập"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_15ssp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:ignore="HardcodedText" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

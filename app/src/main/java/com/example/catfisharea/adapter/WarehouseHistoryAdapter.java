@@ -2,16 +2,11 @@ package com.example.catfisharea.adapter;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.app.catfisharea.databinding.LayoutItemHistoryWarehouseBinding;
 import com.example.catfisharea.models.Category;
-import com.example.catfisharea.models.ImportRequest;
-import com.example.catfisharea.models.Warehouse;
 import com.example.catfisharea.models.WarehouseHistory;
 
 import java.util.List;
@@ -44,7 +39,7 @@ public class WarehouseHistoryAdapter extends RecyclerView.Adapter<WarehouseHisto
     }
 
     static class WarehouseHistoryHolder extends RecyclerView.ViewHolder {
-        private LayoutItemHistoryWarehouseBinding mBinding;
+        private final LayoutItemHistoryWarehouseBinding mBinding;
 
         public WarehouseHistoryHolder(@NonNull LayoutItemHistoryWarehouseBinding mBinding) {
             super(mBinding.getRoot());
@@ -53,7 +48,8 @@ public class WarehouseHistoryAdapter extends RecyclerView.Adapter<WarehouseHisto
 
         @SuppressLint("SetTextI18n")
         public void setData(WarehouseHistory data) {
-            mBinding.dateImport.setText(data.getDate().getDate() + "/" + (data.getDate().getMonth() + 1) + "/" + (data.getDate().getYear() + 1900));
+            mBinding.dateImport.setText(data.getDate().getDate() + "/" + (data.getDate().getMonth() + 1)
+                    + "/" + (data.getDate().getYear() + 1900));
             mBinding.total.setText(data.getTotal());
             StringBuilder nameItem = new StringBuilder();
             StringBuilder amount = new StringBuilder();

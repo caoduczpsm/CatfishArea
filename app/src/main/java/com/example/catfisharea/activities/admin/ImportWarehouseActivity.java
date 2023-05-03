@@ -2,8 +2,6 @@ package com.example.catfisharea.activities.admin;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -13,12 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
-
-import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityImportWarehouseBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
@@ -31,21 +24,16 @@ import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.ServerTimestamp;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ImportWarehouseActivity extends BaseActivity implements ImportWarehouseListener {
     private ActivityImportWarehouseBinding mBinding;
@@ -75,7 +63,7 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
         database = FirebaseFirestore.getInstance();
         preferenceManager = new PreferenceManager(this);
         myCal = Calendar.getInstance();
-        mBinding.toolbarWarehouseDetail.setOnClickListener(view -> onBackPressed());
+        mBinding.imageBack.setOnClickListener(view -> onBackPressed());
         mBinding.edtDate.setText(myCal.get(Calendar.DAY_OF_MONTH) + "/"
                 + (myCal.get(Calendar.MONTH) + 1) + "/" + myCal.get(Calendar.YEAR));
         mBinding.imageImport.setOnClickListener(view -> {
@@ -85,9 +73,7 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
             pickImage.launch(intent);
         });
 
-        mBinding.edtDate.setOnClickListener(view -> {
-            openDatePicker();
-        });
+        mBinding.edtDate.setOnClickListener(view -> openDatePicker());
 
         mList = new ArrayList<>();
         adapter = new ImportAdapter(this, mList, this);
@@ -95,9 +81,7 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
 
         setDataRecyclerView();
 
-        mBinding.saveBtn.setOnClickListener(view -> {
-            saveCategory();
-        });
+        mBinding.saveBtn.setOnClickListener(view -> saveCategory());
     }
 
     private void saveCategory() {
@@ -128,7 +112,8 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
 
 //                data.put(Constants.KEY_DETAIL, detail);
                 if (documentSnapshot.exists()) {
-                    long amount = Long.parseLong(item.getAmount()) + Long.parseLong(documentSnapshot.getString(Constants.KEY_AMOUNT));
+                    long amount = Long.parseLong(item.getAmount()) +
+                            Long.parseLong(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_AMOUNT)));
                     data.put(Constants.KEY_AMOUNT, String.valueOf(amount));
                     documentReference.update(data).addOnSuccessListener(command -> {
 
@@ -150,7 +135,7 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
     private String priceCaculation(String priceOld, String amountOld, String priceNew, String amountNew) {
         double totalOld = Integer.parseInt(amountOld) * Double.parseDouble(priceOld);
         double totalNew = Integer.parseInt(amountNew) * Double.parseDouble(priceNew);
-        double price = (double) ((totalOld + totalNew) / (Integer.parseInt(amountOld) + Integer.parseInt(amountNew)));
+        double price = (totalOld + totalNew) / (Integer.parseInt(amountOld) + Integer.parseInt(amountNew));
         return String.valueOf(price);
     }
 
@@ -161,7 +146,7 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
         data.put(Constants.KEY_TIMESTAMP, timestamp);
         data.put(Constants.KEY_WAREHOUSE_ID, warehouseID);
         data.put(Constants.KEY_AREA_ID, areaID);
-        data.put(Constants.KEY_TOTAL_MONEY, mBinding.edtMoney.getText().toString());
+        data.put(Constants.KEY_TOTAL_MONEY, Objects.requireNonNull(mBinding.edtMoney.getText()).toString());
 
         List<Map<String, Object>> product = new ArrayList<>();
 
@@ -177,6 +162,7 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
         database.collection(Constants.KEY_COLLECTION_WAREHOUSE_HISTORY).document().set(data);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void setDataRecyclerView() {
         database.collection(Constants.KEY_COLLECTION_CATEGORY)
                 .whereEqualTo(Constants.KEY_AREA_ID, areaID).get()
@@ -253,7 +239,8 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
         boolean finish = true;
         for (Category item : result) {
             total += Long.parseLong(item.getAmount()) * Long.parseLong(item.getPrice());
-            if (item.getId().isEmpty() && item.getAmount() == "0" && item.getPrice() == "0") {
+            if (item.getId().isEmpty() &&
+                    Objects.equals(item.getAmount(), "0") && Objects.equals(item.getPrice(), "0")) {
                 finish = false;
             }
         }

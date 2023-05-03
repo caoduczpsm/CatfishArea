@@ -355,6 +355,8 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
     }
 
     private void setListeners() {
+        binding.imageBack.setOnClickListener(view -> onBackPressed());
+
         binding.layoutShowWorker.setOnClickListener(view -> openShowWorkerDialog());
 
         binding.layoutSettingFeed.setOnClickListener(view -> openSettingNumOfFeedingDialog());
