@@ -1,6 +1,6 @@
 package com.example.catfisharea.adapter;
 
-import android.util.Log;
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.app.catfisharea.databinding.LayoutItemPlanDetailBinding;
-import com.android.app.catfisharea.databinding.LayoutPlanItemBinding;
 import com.example.catfisharea.models.Plan;
 
 import java.math.BigDecimal;
@@ -21,7 +20,7 @@ import java.util.Locale;
 
 public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanHolder> {
 
-    private List<Plan> mPlans;
+    private final List<Plan> mPlans;
 
     public PlanAdapter(List<Plan> mPlans) {
         this.mPlans = mPlans;
@@ -45,16 +44,17 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanHolder> {
         return mPlans.size();
     }
 
-    class PlanHolder extends RecyclerView.ViewHolder {
-        private LayoutItemPlanDetailBinding mBinding;
+    static class PlanHolder extends RecyclerView.ViewHolder {
+        private final LayoutItemPlanDetailBinding mBinding;
 
         public PlanHolder(@NonNull LayoutItemPlanDetailBinding mBinding) {
             super(mBinding.getRoot());
             this.mBinding = mBinding;
         }
 
+        @SuppressLint("SetTextI18n")
         public void setData(Plan plan) {
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 //            String date = plan.getDate().getDay() +"-"+ plan.getDate().getMonth() + "-" +plan.getDate().getYear();
             mBinding.dateItem.setText("Ngày: "+ format.format(plan.getDate()));
             mBinding.dateBirth.setText("Ngày tuổi: " +plan.getOld());

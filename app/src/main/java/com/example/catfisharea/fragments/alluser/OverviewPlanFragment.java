@@ -1,7 +1,9 @@
 package com.example.catfisharea.fragments.alluser;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -36,20 +38,22 @@ public class OverviewPlanFragment extends Fragment {
     private String planId;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = FragmentOverviewPlanBinding.inflate(inflater, container, false);
         Bundle bundle = getArguments();
+        assert bundle != null;
         pond = (Pond) bundle.getSerializable(Constants.KEY_POND);
         planId = bundle.getString(Constants.KEY_ID_PLAN, null);
         setListener();
         return mBinding.getRoot();
     }
 
+    @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
     private void setListener() {
         database = FirebaseFirestore.getInstance();
-        preferenceManager = new PreferenceManager(getContext());
+        preferenceManager = new PreferenceManager(requireContext());
 
         planList = new ArrayList<>();
         planAdapter = new PlanAdapter(planList);
@@ -73,7 +77,7 @@ public class OverviewPlanFragment extends Fragment {
     }
 
     private void getDataDiary() {
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 //        mBinding.pondName.setText(pond.getName());
 //        mBinding.pondAcreage.setText(pond.getAcreage());
 //        Log.d("FATAL EXCEPTION: main", pond.getName());
@@ -82,6 +86,7 @@ public class OverviewPlanFragment extends Fragment {
                 .document(planId).get()
                 .addOnSuccessListener(diaryDoc -> {
                     Timestamp time = diaryDoc.getTimestamp(Constants.KEY_DATE_OF_PLAN);
+                    assert time != null;
                     String pondDate = format.format(time.toDate());
                     long pondConsistence = diaryDoc.getLong(Constants.KEY_CONSISTENCE);
                     long pondNumberOfFish = diaryDoc.getLong(Constants.KEY_NUMBER_OF_FISH);
@@ -103,9 +108,10 @@ public class OverviewPlanFragment extends Fragment {
                 });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getDetailDiary(long numberfish, long pondConsistence) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat format2 = new SimpleDateFormat("dd-MM-yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format2 = new SimpleDateFormat("dd-MM-yyyy");
         database.collection(Constants.KEY_COLLECTION_DIARY).document(planId)
                 .collection(Constants.KEY_DIARY_COLLECTION_FEEDS)
                 .get().addOnSuccessListener(planQuery -> {
@@ -115,6 +121,7 @@ public class OverviewPlanFragment extends Fragment {
                         String date = doc.getId();
                         List<String> amountFeed = (List<String>) doc.get(Constants.KEY_AMOUNT_FED);
                         long total = 0;
+                        assert amountFeed != null;
                         for (String item : amountFeed) {
                             total += Long.parseLong(item);
                         }
@@ -123,6 +130,8 @@ public class OverviewPlanFragment extends Fragment {
                         try {
                             Date datetime = format.parse(date);
                             Date pondDate = format2.parse(preferenceManager.getString(Constants.KEY_DATE_OF_PLAN));
+                            assert datetime != null;
+                            assert pondDate != null;
                             long diff = datetime.getTime() - pondDate.getTime();
                             long diffDays = diff / (24 * 60 * 60 * 1000);
                             plan.setDate(datetime);
@@ -140,7 +149,9 @@ public class OverviewPlanFragment extends Fragment {
                                         if (fishDoc.exists()) {
                                             String loss = fishDoc.getString(Constants.KEY_FISH_WEIGH_LOSS);
                                             String weigh = fishDoc.getString(Constants.KEY_FISH_WEIGH_WEIGHT);
+                                            assert weigh != null;
                                             plan.setAVG(Long.parseLong(weigh));
+                                            assert loss != null;
                                             plan.setNumberOfDeadFish(Long.parseLong(loss));
                                             long totalLoss = Long.parseLong(preferenceManager.getString(Constants.KEY_FISH_WEIGH_LOSS)) + Long.parseLong(loss);
                                             preferenceManager.putString(Constants.KEY_FINGERLING_SAMPLES, weigh);
@@ -163,9 +174,10 @@ public class OverviewPlanFragment extends Fragment {
                 });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getDataPlan(Long numberfish, Long pondConsistence) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat format2 = new SimpleDateFormat("dd-MM-yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format2 = new SimpleDateFormat("dd-MM-yyyy");
         database.collection(Constants.KEY_COLLECTION_PLAN).document(preferenceManager.getString(Constants.KEY_ID_PLAN))
                 .collection(Constants.KEY_DIARY_COLLECTION_FEEDS)
                 .get().addOnSuccessListener(planQuery -> {
@@ -175,6 +187,7 @@ public class OverviewPlanFragment extends Fragment {
                         String date = doc.getId();
                         List<String> amountFeed = (List<String>) doc.get(Constants.KEY_AMOUNT_FED);
                         long total = 0;
+                        assert amountFeed != null;
                         for (String item : amountFeed) {
                             total += Long.parseLong(item);
                         }
@@ -183,6 +196,8 @@ public class OverviewPlanFragment extends Fragment {
                         try {
                             Date datetime = format.parse(date);
                             Date pondDate = format2.parse(preferenceManager.getString(Constants.KEY_DATE_OF_PLAN));
+                            assert datetime != null;
+                            assert pondDate != null;
                             long diff = datetime.getTime() - pondDate.getTime();
                             long diffDays = diff / (24 * 60 * 60 * 1000);
                             plan.setDate(datetime);
@@ -200,7 +215,9 @@ public class OverviewPlanFragment extends Fragment {
                                         if (fishDoc.exists()) {
                                             String loss = fishDoc.getString(Constants.KEY_FISH_WEIGH_LOSS);
                                             String weigh = fishDoc.getString(Constants.KEY_FISH_WEIGH_WEIGHT);
+                                            assert weigh != null;
                                             plan.setAVG(Long.parseLong(weigh));
+                                            assert loss != null;
                                             plan.setNumberOfDeadFish(Long.parseLong(loss));
                                             long totalLoss = Long.parseLong(preferenceManager.getString(Constants.KEY_FISH_WEIGH_LOSS)) + Long.parseLong(loss);
                                             preferenceManager.putString(Constants.KEY_FINGERLING_SAMPLES, weigh);
@@ -224,7 +241,7 @@ public class OverviewPlanFragment extends Fragment {
     }
 
     private void getDataDetail() {
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         mBinding.pondName.setText(pond.getName());
         mBinding.pondAcreage.setText(pond.getAcreage());
 //        Log.d("FATAL EXCEPTION: main", pond.getName());
@@ -235,6 +252,7 @@ public class OverviewPlanFragment extends Fragment {
                 .get().addOnSuccessListener(planQuery -> {
                     for (DocumentSnapshot doc : planQuery.getDocuments()) {
                         Timestamp time = doc.getTimestamp(Constants.KEY_DATE_OF_PLAN);
+                        assert time != null;
                         String pondDate = format.format(time.toDate());
                         long pondConsistence = doc.getLong(Constants.KEY_CONSISTENCE);
                         long pondNumberOfFish = doc.getLong(Constants.KEY_NUMBER_OF_FISH);

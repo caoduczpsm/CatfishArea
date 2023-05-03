@@ -15,7 +15,8 @@
         android:textSize="@dimen/_11ssp"
         app:layout_constraintBottom_toBottomOf="@id/arrange"
         app:layout_constraintEnd_toStartOf="@id/arrange"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/arrange"
@@ -27,7 +28,8 @@
         android:textColor="@color/textGray"
         android:textSize="@dimen/_11ssp"
         app:layout_constraintEnd_toStartOf="@id/imageArrange"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
     <ImageView
         android:id="@+id/imageArrange"
@@ -38,7 +40,8 @@
         app:layout_constraintBottom_toBottomOf="@id/arrange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/arrange"
-        app:tint="@color/textGray" />
+        app:tint="@color/textGray"
+        tools:ignore="ContentDescription" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerviewDetailPlan"

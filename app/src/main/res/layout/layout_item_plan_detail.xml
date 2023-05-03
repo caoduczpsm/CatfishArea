@@ -28,7 +28,8 @@
                 android:textSize="@dimen/_15ssp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/dateBirth"
@@ -40,7 +41,8 @@
                 android:textSize="@dimen/_15ssp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
 
             <TableLayout
                 android:id="@+id/table1"
@@ -60,7 +62,8 @@
                         android:text="TL cá thả (kg)"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_14ssp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:background="@drawable/cell"
@@ -72,7 +75,8 @@
                         android:text="SL cá thả (con)"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_14ssp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:background="@drawable/cell"
@@ -84,7 +88,8 @@
                         android:text="Cá chết (con)"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_14ssp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:background="@drawable/cell"
@@ -96,7 +101,8 @@
                         android:text="LK cá chết (con)"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_14ssp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
                 </TableRow>
 
                 <TableRow>
@@ -111,7 +117,8 @@
                         android:padding="@dimen/_5sdp"
                         android:text="10.000"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_14ssp" />
+                        android:textSize="@dimen/_14ssp"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:background="@drawable/cell"
@@ -123,7 +130,8 @@
                         android:padding="@dimen/_5sdp"
                         android:text="300.000"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_14ssp" />
+                        android:textSize="@dimen/_14ssp"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:background="@drawable/cell"
@@ -135,7 +143,8 @@
                         android:padding="@dimen/_5sdp"
                         android:text="50.000"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_14ssp" />
+                        android:textSize="@dimen/_14ssp"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:background="@drawable/cell"
@@ -147,7 +156,8 @@
                         android:padding="@dimen/_5sdp"
                         android:text="500.000"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_14ssp" />
+                        android:textSize="@dimen/_14ssp"
+                        tools:ignore="HardcodedText" />
                 </TableRow>
             </TableLayout>
 
@@ -170,7 +180,8 @@
                         android:text="SL cá còn (kg)"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_14ssp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:background="@drawable/cell"
@@ -182,7 +193,8 @@
                         android:text="TLHH (%)"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_14ssp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:background="@drawable/cell"
@@ -194,7 +206,8 @@
                         android:text="TL thức ăn (bao)"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_14ssp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:background="@drawable/cell"
@@ -206,7 +219,8 @@
                         android:text="LK thức ăn (bao)"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_14ssp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
                 </TableRow>
 
                 <TableRow>
@@ -221,7 +235,8 @@
                         android:padding="@dimen/_5sdp"
                         android:text="300.000"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_14ssp" />
+                        android:textSize="@dimen/_14ssp"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:background="@drawable/cell"
@@ -233,7 +248,8 @@
                         android:padding="@dimen/_5sdp"
                         android:text="50"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_14ssp" />
+                        android:textSize="@dimen/_14ssp"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:background="@drawable/cell"
@@ -245,7 +261,8 @@
                         android:padding="@dimen/_5sdp"
                         android:text="50.000"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_14ssp" />
+                        android:textSize="@dimen/_14ssp"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:background="@drawable/cell"
@@ -257,7 +274,8 @@
                         android:padding="@dimen/_5sdp"
                         android:text="500.000"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_14ssp" />
+                        android:textSize="@dimen/_14ssp"
+                        tools:ignore="HardcodedText" />
                 </TableRow>
             </TableLayout>
 
@@ -265,13 +283,15 @@
                 android:id="@+id/textBQFish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="BQ cá (gram)"
                 android:padding="@dimen/_5sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/table2"
+                android:text="BQ cá (gram)"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/table2"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/BQFish"
@@ -283,7 +303,8 @@
                 android:textSize="@dimen/_14ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textBQFish"
-                app:layout_constraintTop_toBottomOf="@+id/table2" />
+                app:layout_constraintTop_toBottomOf="@+id/table2"
+                tools:ignore="HardcodedText" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

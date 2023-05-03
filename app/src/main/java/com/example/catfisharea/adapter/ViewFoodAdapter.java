@@ -1,12 +1,11 @@
 package com.example.catfisharea.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.airbnb.lottie.L;
 import com.android.app.catfisharea.databinding.LayoutItemFoodViewBinding;
 import com.example.catfisharea.models.Feed;
 
@@ -15,7 +14,7 @@ import java.util.List;
 
 public class ViewFoodAdapter extends RecyclerView.Adapter<ViewFoodAdapter.ViewFoodHolder>{
 
-    private List<Feed> feedList;
+    private final List<Feed> feedList;
 
     public ViewFoodAdapter(List<Feed> feedList) {
         this.feedList = feedList;
@@ -39,16 +38,17 @@ public class ViewFoodAdapter extends RecyclerView.Adapter<ViewFoodAdapter.ViewFo
         return feedList.size();
     }
 
-    class ViewFoodHolder extends RecyclerView.ViewHolder {
-        private LayoutItemFoodViewBinding mBinding;
+    static class ViewFoodHolder extends RecyclerView.ViewHolder {
+        private final LayoutItemFoodViewBinding mBinding;
 
         public ViewFoodHolder(LayoutItemFoodViewBinding mBinding) {
             super(mBinding.getRoot());
             this.mBinding = mBinding;
         }
 
+        @SuppressLint("SetTextI18n")
         public void setData(Feed feed) {
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
             mBinding.dateItem.setText("Ngày: " + format.format(feed.getDate()) );
             mBinding.dateBirth.setText("Ngày tuổi: "+ feed.getOld() + "");
             mBinding.food1.setText(feed.getAmountFed().get(0));

@@ -1,33 +1,16 @@
 package com.example.catfisharea.activities.alluser;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.util.Log;
-
-import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityDetailPlanBinding;
-import com.android.app.catfisharea.databinding.ActivityImportWarehouseBinding;
 import com.example.catfisharea.activities.BaseActivity;
-import com.example.catfisharea.adapter.PlanAdapter;
 import com.example.catfisharea.adapter.ViewPagerAdapter;
 import com.example.catfisharea.fragments.alluser.EnvironmentViewFragment;
 import com.example.catfisharea.fragments.alluser.OverviewPlanFragment;
 import com.example.catfisharea.fragments.alluser.ViewFoodFragment;
-import com.example.catfisharea.models.Plan;
 import com.example.catfisharea.models.Pond;
 import com.example.catfisharea.ultilities.Constants;
-import com.example.catfisharea.ultilities.DecimalHelper;
 import com.example.catfisharea.ultilities.PreferenceManager;
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class DetailPlanActivity extends BaseActivity {
     private ActivityDetailPlanBinding mBinding;

@@ -85,23 +85,28 @@
         android:id="@+id/recyclerviewInvite"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/invite"
         app:layout_constraintTop_toBottomOf="@id/layoutSearch" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/invite"
         android:layout_width="0dp"
         android:layout_height="@dimen/_35sdp"
         android:layout_marginBottom="@dimen/_20sdp"
-        android:background="@drawable/border_fun_background"
+        android:background="@drawable/background_button"
+        android:backgroundTint="@color/colorButtonLeft"
         android:text="Bắt đầu"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.7" />
+        app:layout_constraintWidth_percent="0.7"
+        tools:ignore="HardcodedText,TouchTargetSizeCheck,TextContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
