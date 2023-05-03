@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -84,12 +85,15 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
         TextInputLayout textInputCampus;
         AutoCompleteTextView spinnerCampus;
         AppCompatButton btnClose, btnCreate;
+        ImageView imageCampus;
 
         edtNameWarehouse = dialog.findViewById(R.id.edtNameWarehouse);
         edtAceage = dialog.findViewById(R.id.edtAceage);
         edtDescription = dialog.findViewById(R.id.edtDescription);
         spinnerCampus = dialog.findViewById(R.id.spinnerCampus);
         spinnerPond = dialog.findViewById(R.id.spinnerPond);
+
+        imageCampus = dialog.findViewById(R.id.imageViewCampus);
 
         textInputCampus = dialog.findViewById(R.id.textInputCampus);
 
@@ -130,6 +134,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                     });
         } else {
             textInputCampus.setVisibility(View.GONE);
+            imageCampus.setVisibility(View.GONE);
             getDataPond(preferenceManager.getString(Constants.KEY_CAMPUS_ID));
         }
 
