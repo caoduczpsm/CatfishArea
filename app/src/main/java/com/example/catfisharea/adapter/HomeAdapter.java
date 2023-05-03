@@ -2,7 +2,6 @@ package com.example.catfisharea.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.app.catfisharea.databinding.LayoutItemHomeRecyclerviewBinding;
-import com.example.catfisharea.activities.alluser.PondDetailsActivity;
 import com.example.catfisharea.listeners.CampusListener;
 import com.example.catfisharea.models.Area;
 import com.example.catfisharea.models.Campus;
@@ -71,7 +69,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     class HomeViewHolder extends RecyclerView.ViewHolder {
         private final LayoutItemHomeRecyclerviewBinding mBinding;
-        private PreferenceManager preferenceManager;
+        private final PreferenceManager preferenceManager;
 
         public HomeViewHolder(LayoutItemHomeRecyclerviewBinding mBinding) {
             super(mBinding.getRoot());
@@ -93,7 +91,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             } else {
                 mBinding.nameEmpty.setVisibility(View.GONE);
                 String type = preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT);
-                
+
                 if (type != null) {
                     if (type.equals(Constants.KEY_DIRECTOR)) {
                         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);

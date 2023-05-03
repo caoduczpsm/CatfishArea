@@ -241,7 +241,6 @@ public class WorkerHomeActivity extends BaseActivity {
                     binding.layoutHome.medicineRecyclerView.setAdapter(medicineAdapter);
                     binding.layoutHome.medicineRecyclerView.setLayoutManager(layoutManager);
                     if (!Objects.equals(preferenceManager.getString(Constants.KEY_TREATMENT_ID), "")) {
-                        binding.layoutHome.cardTreatment.setVisibility(View.VISIBLE);
                         database.collection(Constants.KEY_COLLECTION_TREATMENT)
                                 .document(preferenceManager.getString(Constants.KEY_TREATMENT_ID))
                                 .get()
