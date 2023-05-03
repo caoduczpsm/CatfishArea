@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.app.catfisharea.R;
@@ -413,7 +414,7 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
         Dialog dialog = openDialog(R.layout.layout_dialog_setting_release_fish);
         assert dialog != null;
 
-        Button btnCreate, btnClose;
+        AppCompatButton btnCreate, btnClose;
 
         btnClose = dialog.findViewById(R.id.btnClose);
         btnCreate = dialog.findViewById(R.id.btnCreate);
@@ -620,7 +621,7 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
             assert dialog != null;
 
             PhotoView imageReportImage = dialog.findViewById(R.id.imageReportImage);
-            Button btnClose = dialog.findViewById(R.id.btnClose);
+            AppCompatButton btnClose = dialog.findViewById(R.id.btnClose);
 
             imageReportImage.setImageBitmap(getImage(encodeImageReport));
 
@@ -639,7 +640,7 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
 
         Spinner spinnerNumOfFeed = dialog.findViewById(R.id.spinnerNumOfFeed);
         TextInputLayout textOne, textTwo, textThree, textFour, textFive, textSix, textSeven, textEight;
-        Button btnClose, btnSave;
+        AppCompatButton btnClose, btnSave;
         TextInputEditText edtOne, edtTwo, edtThree, edtFour, edtFive, edtSix, edtSeven, edtEight;
 
         btnClose = dialog.findViewById(R.id.btnClose);
@@ -1012,7 +1013,7 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
         Dialog dialog = openDialog(R.layout.layout_dialog_setting_num_of_watering);
         assert dialog != null;
 
-        Button btnClose, btnSave;
+        AppCompatButton btnClose, btnSave;
         CheckBox checkboxPH, checkboxSalinity, checkboxAlkalinity, checkboxTemperate, checkboxH2S, checkboxNH3;
 
         btnClose = dialog.findViewById(R.id.btnClose);
@@ -1127,7 +1128,7 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
         TextView textTitle = dialog.findViewById(R.id.textTitle);
         textTitle.setText("Danh sách công nhân làm việc tại ao " + pond.getName());
 
-        Button btnClose = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnClose = dialog.findViewById(R.id.btnClose);
         btnClose.setOnClickListener(view -> dialog.dismiss());
 
         RecyclerView userRecyclerView = dialog.findViewById(R.id.userRecyclerView);

@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -486,7 +487,7 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
 
         //ConstrainLayout trong dialog
         RecyclerView recyclerView = dialog.findViewById(R.id.recyclerPickUserDialog);

@@ -1,6 +1,7 @@
 package com.example.catfisharea.activities.alluser;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -86,10 +87,11 @@ public class DiaryActivity extends BaseActivity implements CampusListener, Diary
         dialog = openDialog(R.layout.layout_dialog_pick_diary);
         assert dialog != null;
 
-        Button no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
         RecyclerView recyclerView = dialog.findViewById(R.id.recyclerPickDiary);
         itemList = new ArrayList<>();
         adapter = new DiaryPickAdapter(itemList, this);
+        no_btn.setOnClickListener(view -> dialog.dismiss());
         recyclerView.setAdapter(adapter);
         getDiary(pondId);
         dialog.show();

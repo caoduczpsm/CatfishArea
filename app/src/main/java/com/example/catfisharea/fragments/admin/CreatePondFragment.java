@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -264,8 +265,8 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
-        Button save_btn = dialog.findViewById(R.id.btnSave);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton save_btn = dialog.findViewById(R.id.btnSave);
         save_btn.setVisibility(View.VISIBLE);
 
         //ConstrainLayout trong dialog

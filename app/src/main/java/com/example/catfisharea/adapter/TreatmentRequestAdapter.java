@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -301,7 +302,7 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
             assert dialog != null;
 
             TextView textTitle, textMessage;
-            Button btnComplete, btnClose;
+            AppCompatButton btnComplete, btnClose;
 
             textTitle = dialog.findViewById(R.id.textTitle);
             textMessage = dialog.findViewById(R.id.textMessage);
@@ -352,7 +353,7 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
             Treatment updatedTreatment = new Treatment(treatment);
 
             AutoCompleteTextView nameItem = dialog.findViewById(R.id.nameItem);
-            Button btnCreate, btnClose;
+            AppCompatButton btnCreate, btnClose;
             TextView textDateReport, textNamePond, textTitle;
             TextInputEditText edtNote;
             CheckBox cbWater, cbFood, cbMud;
@@ -580,7 +581,7 @@ public class TreatmentRequestAdapter extends RecyclerView.Adapter<TreatmentReque
             assert dialog != null;
 
             TextView textTitle, textMessage;
-            Button btnDelete, btnClose;
+            AppCompatButton btnDelete, btnClose;
 
             textTitle = dialog.findViewById(R.id.textTitle);
             textMessage = dialog.findViewById(R.id.textMessage);

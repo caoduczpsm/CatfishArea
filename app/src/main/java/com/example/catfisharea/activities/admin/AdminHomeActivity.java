@@ -12,6 +12,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.android.app.catfisharea.R;
@@ -106,7 +108,7 @@ public class AdminHomeActivity extends BaseActivity implements CampusListener {
         ConstraintLayout layoutCreate = dialog.findViewById(R.id.layoutCreate);
         ConstraintLayout layoutChange = dialog.findViewById(R.id.layoutChange);
         ConstraintLayout layoutDelete = dialog.findViewById(R.id.layoutDelete);
-        Button btnClose = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnClose = dialog.findViewById(R.id.btnClose);
 
         layoutCreate.setOnClickListener(view -> {
             selectOptionToCreateAccount();
@@ -137,7 +139,7 @@ public class AdminHomeActivity extends BaseActivity implements CampusListener {
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
 
         //ConstrainLayout trong dialog
         ConstraintLayout layoutALotAccount = dialog.findViewById(R.id.layoutALotAccount);
@@ -168,7 +170,7 @@ public class AdminHomeActivity extends BaseActivity implements CampusListener {
         ConstraintLayout layoutArea = dialog.findViewById(R.id.layoutArea);
         ConstraintLayout layoutCampus = dialog.findViewById(R.id.layoutCampus);
         ConstraintLayout layoutPond = dialog.findViewById(R.id.layoutPond);
-        Button btnClose = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnClose = dialog.findViewById(R.id.btnClose);
 
         layoutArea.setOnClickListener(view -> {
             Intent intent = new Intent(this, AreaManagementActivity.class);

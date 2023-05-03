@@ -1,8 +1,16 @@
 package com.example.catfisharea.activities.admin;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Window;
+import android.view.WindowManager;
+
+import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityWarehouseBinding;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.WarehouseAdapter;
@@ -42,10 +50,17 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
         mBinding.recyclerViewWarehouse.setAdapter(warehouseAdapter);
 
         mBinding.toolbarWarehouse.setNavigationOnClickListener(view -> onBackPressed());
-        mBinding.layoutCreateWarehouse.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), WearhouseCreateActivity.class)));
+        mBinding.layoutCreateWarehouse.setOnClickListener(view ->openCreateWarehouseDialog());
         mBinding.layoutCategory.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), CategoryCreateActivity.class)));
         getDataWarehouse();
 
+    }
+
+    private void openCreateWarehouseDialog() {
+        Dialog dialog = openDialog(R.layout.layout_dialog_create_warehouse);
+        assert dialog != null;
+
+        dialog.show();
     }
 
     private void getDataWarehouse() {
@@ -171,6 +186,25 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
 //                    }
 ////                    warehouseAdapter.notifyDataSetChanged();
 //                });
+    }
+
+    private Dialog openDialog(int layout) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(layout);
+        dialog.setCancelable(true);
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return null;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+
+        return dialog;
     }
 
     @Override

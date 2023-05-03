@@ -120,12 +120,12 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSave"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_fun_background"
-        android:backgroundTint="@color/red"
+        android:background="@drawable/background_button"
+        android:backgroundTint="@color/colorButtonLeft"
         android:text="Lưu"
         android:textAllCaps="false"
         android:textColor="@color/white"
@@ -136,12 +136,12 @@
         app:layout_constraintWidth_percent="0.48"
         tools:ignore="HardcodedText,UnusedAttribute" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnClose"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_fun_background"
-        android:backgroundTint="@color/red"
+        android:background="@drawable/background_button"
+        android:backgroundTint="@color/colorButtonRight"
         android:text="Đóng"
         android:textAllCaps="false"
         android:textColor="@color/white"

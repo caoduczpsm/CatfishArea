@@ -1,5 +1,6 @@
 package com.example.catfisharea.activities.director;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -150,8 +151,8 @@ public class HumanResourceActivity extends BaseActivity implements MultipleCampu
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
-        Button btnApply = dialog.findViewById(R.id.btnApply);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnApply = dialog.findViewById(R.id.btnApply);
         campusRecyclerView = dialog.findViewById(R.id.campusRecyclerView);
 
         if (typeAccount.equals(Constants.KEY_REGIONAL_CHIEF))
@@ -483,8 +484,8 @@ public class HumanResourceActivity extends BaseActivity implements MultipleCampu
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
-        Button btnDelete = dialog.findViewById(R.id.btnDelete);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnDelete = dialog.findViewById(R.id.btnDelete);
 
         btnDelete.setOnClickListener(view -> deleteUser());
 
@@ -552,7 +553,7 @@ public class HumanResourceActivity extends BaseActivity implements MultipleCampu
         TextView textName, textPhone, textDateOfBirth, textAddress, textPosition;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
         RoundedImageView imageUser = dialog.findViewById(R.id.imageUser);
         textName = dialog.findViewById(R.id.textName);
         textPhone = dialog.findViewById(R.id.textPhone);

@@ -1,5 +1,6 @@
 package com.example.catfisharea.activities.alluser;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.SearchView;
 
 import android.annotation.SuppressLint;
@@ -420,8 +421,8 @@ public class AreaHRManagementActivity extends BaseActivity implements MultipleLi
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
-        Button btnDelete = dialog.findViewById(R.id.btnDelete);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnDelete = dialog.findViewById(R.id.btnDelete);
         TextView textTitle = dialog.findViewById(R.id.textTitle);
         textTitle.setText("Bạn có chắc chắn việc thay đổi này hay không?");
         btnDelete.setText("Đổi");

@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -210,7 +211,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
 
         finalReportFish = new ReportFish(reportFish);
 
-        Button btnCreate, btnClose;
+        AppCompatButton btnCreate, btnClose;
         ConstraintLayout layoutUserReport;
         CircleImageView imageProfile;
         TextView textName, textPhone, textPosition, textDateReport, textGuess, textNamePond;
@@ -290,7 +291,7 @@ public class ReportFishActivity extends BaseActivity implements DatePickerListen
         assert dialog != null;
 
         AutoCompleteTextView nameItem = dialog.findViewById(R.id.nameItem);
-        Button btnCreate, btnClose;
+        AppCompatButton btnCreate, btnClose;
         TextView textDateReport, textNamePond;
         TextInputEditText edtNote;
         CheckBox cbWater, cbFood, cbMud;

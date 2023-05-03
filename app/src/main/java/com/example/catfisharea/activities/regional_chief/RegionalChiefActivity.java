@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.android.app.catfisharea.R;
@@ -114,7 +115,7 @@ public class RegionalChiefActivity extends BaseActivity implements CampusListene
         Dialog dialog = openDialog(R.layout.layout_dialog_options_hr_management);
         assert dialog != null;
 
-        Button btnClose = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnClose = dialog.findViewById(R.id.btnClose);
         ConstraintLayout layoutShowInfo, layoutMove;
 
         layoutMove = dialog.findViewById(R.id.layoutMove);

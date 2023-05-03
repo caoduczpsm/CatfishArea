@@ -1,6 +1,7 @@
 package com.example.catfisharea.activities.alluser;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.SearchView;
 
 import android.annotation.SuppressLint;
@@ -193,8 +194,8 @@ public class InviteActivity extends BaseActivity implements MultipleListener {
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
-        Button btnApply = dialog.findViewById(R.id.btnApply);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnApply = dialog.findViewById(R.id.btnApply);
 
         //CheckBox
         CheckBox cbAllAccount, cbAdmin, cbAccountant, cbRegionalChief, cbDirector, cbWorker;

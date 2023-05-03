@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
+import androidx.appcompat.widget.AppCompatButton;
+
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityRequestImportBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
@@ -116,7 +118,7 @@ public class RequestImportActivity extends BaseActivity implements MaterialsList
 
         AutoCompleteTextView spinner = dialog.findViewById(R.id.nameItem);
         TextInputEditText editText = dialog.findViewById(R.id.amountItem);
-        Button btn = dialog.findViewById(R.id.btnAdd);
+        AppCompatButton btn = dialog.findViewById(R.id.btnAdd);
         TextInputEditText note = dialog.findViewById(R.id.edtNote);
 
 

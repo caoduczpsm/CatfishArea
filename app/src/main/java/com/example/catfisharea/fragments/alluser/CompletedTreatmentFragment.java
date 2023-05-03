@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -237,7 +238,7 @@ public class CompletedTreatmentFragment extends Fragment implements TreatmentLis
         Dialog dialog = openDialog(R.layout.layout_dialog_select_worker_for_treatment);
         assert dialog != null;
 
-        Button btnClose, btnSelect;
+        AppCompatButton btnClose, btnSelect;
         RecyclerView userRecyclerView;
 
         btnClose = dialog.findViewById(R.id.btnClose);

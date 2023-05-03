@@ -2,6 +2,7 @@ package com.example.catfisharea.activities.alluser;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.SearchView;
 
 import android.annotation.SuppressLint;
@@ -157,8 +158,8 @@ public class CreateGroupActivity extends BaseActivity implements UserListener, M
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
-        Button btnCreate = dialog.findViewById(R.id.btnCreateGroup);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnCreate = dialog.findViewById(R.id.btnCreateGroup);
 
         //RoundedImageView
         imageGroupProfile = dialog.findViewById(R.id.imageGroupProfile);
@@ -236,8 +237,8 @@ public class CreateGroupActivity extends BaseActivity implements UserListener, M
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
-        Button btnApply = dialog.findViewById(R.id.btnApply);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnApply = dialog.findViewById(R.id.btnApply);
 
         //CheckBox
         CheckBox cbAllAccount, cbAdmin, cbAccountant, cbRegionalChief, cbDirector, cbWorker;

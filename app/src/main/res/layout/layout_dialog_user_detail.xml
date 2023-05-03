@@ -141,12 +141,12 @@
         app:drawableStartCompat="@drawable/ic_location_blue"
         app:drawableTint="@color/colorPrimary" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnClose"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_fun_background"
-        android:backgroundTint="@color/red"
+        android:background="@drawable/background_button"
+        android:backgroundTint="@color/colorButtonLeft"
         android:text="Đóng"
         android:textAllCaps="false"
         android:textColor="@color/white"

@@ -2,6 +2,7 @@ package com.example.catfisharea.activities.alluser;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -164,8 +165,8 @@ public class SettingGroupActivity extends BaseActivity implements MultipleListen
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
-        Button btnApply = dialog.findViewById(R.id.btnApply);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnApply = dialog.findViewById(R.id.btnApply);
 
         EditText edtGroupName = dialog.findViewById(R.id.textGroupName);
 
@@ -219,8 +220,8 @@ public class SettingGroupActivity extends BaseActivity implements MultipleListen
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
-        Button btnApply = dialog.findViewById(R.id.btnApply);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnApply = dialog.findViewById(R.id.btnApply);
 
         EditText edtGroupDescription = dialog.findViewById(R.id.textGroupDescription);
 
@@ -257,8 +258,8 @@ public class SettingGroupActivity extends BaseActivity implements MultipleListen
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
-        Button btnApply = dialog.findViewById(R.id.btnApply);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnApply = dialog.findViewById(R.id.btnApply);
         textNewAddImage = dialog.findViewById(R.id.textNewAddImage);
         imageNewGroupProfile = dialog.findViewById(R.id.imageNewGroupProfile);
         FrameLayout layoutNewImage = dialog.findViewById(R.id.layoutNewImage);
@@ -307,7 +308,7 @@ public class SettingGroupActivity extends BaseActivity implements MultipleListen
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
         RecyclerView userRecyclerView = dialog.findViewById(R.id.userRecyclerView);
         UsersAdapter adapter = new UsersAdapter(users, this);
         userRecyclerView.setAdapter(adapter);
@@ -348,8 +349,8 @@ public class SettingGroupActivity extends BaseActivity implements MultipleListen
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
-        Button btnApply = dialog.findViewById(R.id.btnApply);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnApply = dialog.findViewById(R.id.btnApply);
         usersNotInGroupRecyclerView = dialog.findViewById(R.id.userRecyclerView);
         getUsersNotInGroup();
 
@@ -404,8 +405,8 @@ public class SettingGroupActivity extends BaseActivity implements MultipleListen
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
-        Button btnApply = dialog.findViewById(R.id.btnApply);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnApply = dialog.findViewById(R.id.btnApply);
         RecyclerView userRecyclerView = dialog.findViewById(R.id.userRecyclerView);
         users.clear();
         for (String memberId : groupMember){
@@ -472,8 +473,8 @@ public class SettingGroupActivity extends BaseActivity implements MultipleListen
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
-        Button btnApply = dialog.findViewById(R.id.btnApply);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnApply = dialog.findViewById(R.id.btnApply);
         RecyclerView userRecyclerView = dialog.findViewById(R.id.userRecyclerView);
         users.clear();
         for (String memberId : groupMember){
@@ -536,8 +537,8 @@ public class SettingGroupActivity extends BaseActivity implements MultipleListen
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
-        Button btnApply = dialog.findViewById(R.id.btnApply);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnApply = dialog.findViewById(R.id.btnApply);
 
         btnApply.setOnClickListener(view ->
                 database.collection(Constants.KEY_COLLECTION_GROUP)
@@ -667,8 +668,8 @@ public class SettingGroupActivity extends BaseActivity implements MultipleListen
         assert dialog != null;
 
         //Button trong dialog
-        Button no_btn = dialog.findViewById(R.id.btnClose);
-        Button btnApply = dialog.findViewById(R.id.btnApply);
+        AppCompatButton no_btn = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnApply = dialog.findViewById(R.id.btnApply);
         TextView textTitle = dialog.findViewById(R.id.textTitle);
 
         textTitle.setText("Bạn có chắc chắn muốn xóa nhóm này không?");

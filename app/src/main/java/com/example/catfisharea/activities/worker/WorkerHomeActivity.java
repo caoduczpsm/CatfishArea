@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityWorkerHomeBinding;
@@ -436,7 +437,7 @@ public class WorkerHomeActivity extends BaseActivity {
         Dialog dialog = openDialog(R.layout.layout_dialog_add_release_fish_worker);
         assert dialog != null;
 
-        Button btnClose, btnAdd;
+        AppCompatButton btnClose, btnAdd;
         TextInputEditText edtNumOfFish = dialog.findViewById(R.id.edtNumOfFish);
 
         btnAdd = dialog.findViewById(R.id.btnAdd);
@@ -960,7 +961,7 @@ public class WorkerHomeActivity extends BaseActivity {
         Dialog dialog = openDialog(R.layout.layout_dialog_set_feed_for_fish);
         assert dialog != null;
 
-        Button btnSave, btnClose;
+        AppCompatButton btnSave, btnClose;
 
         btnSave = dialog.findViewById(R.id.btnSave);
         btnClose = dialog.findViewById(R.id.btnClose);
@@ -1049,7 +1050,7 @@ public class WorkerHomeActivity extends BaseActivity {
         Dialog dialog = openDialog(R.layout.layout_dialog_set_measure_water);
         assert dialog != null;
 
-        Button btnSave, btnClose;
+        AppCompatButton btnSave, btnClose;
 
         btnSave = dialog.findViewById(R.id.btnSave);
         btnClose = dialog.findViewById(R.id.btnClose);
@@ -1161,7 +1162,7 @@ public class WorkerHomeActivity extends BaseActivity {
         final Dialog dialog = openDialog(R.layout.layout_dialog_report_fish);
         assert dialog != null;
 
-        Button btnCreate, btnClose;
+        AppCompatButton btnCreate, btnClose;
         TextInputEditText edtGuess;
 
         btnClose = dialog.findViewById(R.id.btnClose);
@@ -1217,7 +1218,7 @@ public class WorkerHomeActivity extends BaseActivity {
         assert dialog != null;
 
         TextInputEditText edtWeight, edtLoss;
-        Button btnClose, btnEnter;
+        AppCompatButton btnClose, btnEnter;
 
         edtWeight = dialog.findViewById(R.id.edtWeight);
         edtLoss = dialog.findViewById(R.id.edtLoss);
@@ -1267,7 +1268,7 @@ public class WorkerHomeActivity extends BaseActivity {
         final Dialog dialog = openDialog(R.layout.layout_dialog_edit_weight);
         assert dialog != null;
 
-        Button btnEdit, btnClose;
+        AppCompatButton btnEdit, btnClose;
         TextInputEditText edtWeight = dialog.findViewById(R.id.edtWeight);
 
 
@@ -1319,7 +1320,7 @@ public class WorkerHomeActivity extends BaseActivity {
         final Dialog dialog = openDialog(R.layout.layout_dialog_edit_loss);
         assert dialog != null;
 
-        Button btnEdit, btnClose;
+        AppCompatButton btnEdit, btnClose;
         TextInputEditText edtLoss = dialog.findViewById(R.id.edtLoss);
 
         btnEdit = dialog.findViewById(R.id.btnEdit);

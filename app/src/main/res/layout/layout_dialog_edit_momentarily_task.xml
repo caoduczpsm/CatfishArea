@@ -167,7 +167,7 @@
                 app:layout_constraintTop_toBottomOf="@id/edtTitle"
                 tools:ignore="HardcodedText,TextFields,UnusedAttribute,TextContrastCheck" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnClose"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_40sdp"
@@ -179,23 +179,25 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_18sdp"
+                android:backgroundTint="@color/colorButtonRight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edtContent"
                 app:layout_constraintWidth_percent="0.48"
                 tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSave"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/border_fun_background"
+                android:background="@drawable/background_button"
                 android:gravity="center"
                 android:text="Lưu"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_18sdp"
+                android:backgroundTint="@color/colorButtonLeft"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edtContent"
                 app:layout_constraintWidth_percent="0.48"

@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -292,7 +293,7 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
         Dialog dialog = openDialog(R.layout.layout_dialog_show_user_uncompleted);
         assert dialog != null;
 
-        Button btnClose = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnClose = dialog.findViewById(R.id.btnClose);
         textMessage = dialog.findViewById(R.id.textMessage);
         RecyclerView uncompletedUserRecyclerView = dialog.findViewById(R.id.userRecyclerView);
         uncompletedUserRecyclerView.setAdapter(usersAdapter);
@@ -308,7 +309,7 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
         Dialog dialog = openDialog(R.layout.layout_dialog_show_user_assign_fixed_task);
         assert dialog != null;
 
-        Button btnClose = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnClose = dialog.findViewById(R.id.btnClose);
         RecyclerView assignedUserRecyclerView = dialog.findViewById(R.id.userRecyclerView);
         assignedUserRecyclerView.setAdapter(usersAdapter);
         getAssignmentUserForFixedTask();
@@ -320,7 +321,7 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
         Dialog dialog = openDialog(R.layout.layout_dialog_show_user_completed);
         assert dialog != null;
 
-        Button btnClose = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnClose = dialog.findViewById(R.id.btnClose);
         textMessage = dialog.findViewById(R.id.textMessage);
         RecyclerView completedUserRecyclerView = dialog.findViewById(R.id.userRecyclerView);
         completedUserRecyclerView.setAdapter(usersAdapter);
@@ -337,8 +338,8 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
         Dialog dialog = openDialog(R.layout.layout_dialog_confirm_delete_task);
         assert dialog != null;
 
-        Button btnClose = dialog.findViewById(R.id.btnClose);
-        Button btnDelete = dialog.findViewById(R.id.btnDelete);
+        AppCompatButton btnClose = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnDelete = dialog.findViewById(R.id.btnDelete);
 
         btnDelete.setOnClickListener(view -> {
             deleteTask();
@@ -354,8 +355,8 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
         Dialog dialog = openDialog(R.layout.layout_dialog_edit_momentarily_task);
         assert dialog != null;
 
-        Button btnClose = dialog.findViewById(R.id.btnClose);
-        Button btnSave = dialog.findViewById(R.id.btnSave);
+        AppCompatButton btnClose = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnSave = dialog.findViewById(R.id.btnSave);
 
         TextView textSelectUser;
         EditText edtTitle, edtContent;
@@ -555,8 +556,8 @@ public class CommentBottomSheetFragment extends BottomSheetDialogFragment implem
         Dialog dialog = openDialog(R.layout.layout_dialog_edit_fixed_task);
         assert dialog != null;
 
-        Button btnClose = dialog.findViewById(R.id.btnClose);
-        Button btnSave = dialog.findViewById(R.id.btnSave);
+        AppCompatButton btnClose = dialog.findViewById(R.id.btnClose);
+        AppCompatButton btnSave = dialog.findViewById(R.id.btnSave);
 
         TextView textSelectUser;
         ImageView imageSelectUser;

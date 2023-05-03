@@ -15,6 +15,8 @@
     <color name="textGray">#87888a</color>
     <color name="black2">#6D000000</color>
     <color name="trans">#00FFFFFF</color>
+    <color name="colorButtonLeft">#38C381</color>
+    <color name="colorButtonRight">#E14B4B</color>
 
     <color name="charcoal">#FF394249</color>
     <color name="medium_jungle_green">#FF273238</color>

@@ -1,13 +1,8 @@
 package com.example.catfisharea.activities.accountant;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
-
-import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityAccountantHomeBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
