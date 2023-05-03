@@ -236,7 +236,7 @@
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_2sdp"
                         android:background="#F6CD50"
-                        app:layout_constraintBottom_toBottomOf="@+id/view3"
+                        app:layout_constraintBottom_toBottomOf="@+id/view9"
                         app:layout_constraintStart_toEndOf="@+id/view9"
                         app:layout_constraintTop_toTopOf="@+id/view9" />
 

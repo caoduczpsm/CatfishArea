@@ -14,8 +14,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import com.android.app.catfisharea.R;
@@ -105,17 +103,7 @@ public class CreateSimpleAccountActivity extends BaseActivity {
         });
 
         // Chọn loại tài khoản cần tạo
-        mBinding.spinnerTypeAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                typeAccount = listTypeAccount.get(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                typeAccount = listTypeAccount.get(0);
-            }
-        });
+        mBinding.spinnerTypeAccount.setOnItemClickListener((adapterView, view, i, l) -> typeAccount = listTypeAccount.get(i));
 
     }
 
@@ -206,7 +194,6 @@ public class CreateSimpleAccountActivity extends BaseActivity {
                             InputStream inputStream = this.getContentResolver().openInputStream(imageUri);
                             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                             mBinding.imageProfile.setImageBitmap(bitmap);
-                            mBinding.textAddImage.setVisibility(View.GONE);
                             encodedImage = encodeImage(bitmap);
                         }catch (FileNotFoundException e){
                             e.printStackTrace();

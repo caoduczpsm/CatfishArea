@@ -1,18 +1,11 @@
 package com.example.catfisharea.activities.admin;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
-
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityWearhouseCreateBinding;
-import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.SpinnerAdapter;
 import com.example.catfisharea.models.Campus;
@@ -23,16 +16,10 @@ import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
-import com.mapbox.mapboxsdk.annotations.Polyline;
-import com.mapbox.mapboxsdk.annotations.PolylineOptions;
-import com.mapbox.mapboxsdk.camera.CameraPosition;
-import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
-import com.mapbox.mapboxsdk.geometry.LatLng;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class WearhouseCreateActivity extends BaseActivity {
     private ActivityWearhouseCreateBinding mBinding;
@@ -54,9 +41,7 @@ public class WearhouseCreateActivity extends BaseActivity {
         database = FirebaseFirestore.getInstance();
         preferenceManager = new PreferenceManager(this);
 
-        mBinding.toolbarWarehouseCreate.setNavigationOnClickListener(view -> {
-            onBackPressed();
-        });
+        mBinding.toolbarWarehouseCreate.setNavigationOnClickListener(view -> onBackPressed());
         getDataSpinner();
         mBinding.edtNameWarehouse.addTextChangedListener(new TextWatcher() {
             @Override
@@ -102,9 +87,7 @@ public class WearhouseCreateActivity extends BaseActivity {
             }
         });
 
-        mBinding.createWarehouse.setOnClickListener(view -> {
-            createWarehouse();
-        });
+        mBinding.createWarehouse.setOnClickListener(view -> createWarehouse());
     }
 
     private void getDataSpinner() {
@@ -145,12 +128,9 @@ public class WearhouseCreateActivity extends BaseActivity {
             getDataPond(preferenceManager.getString(Constants.KEY_CAMPUS_ID));
         }
 
-        mBinding.spinnerCampus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                campus = (Campus) parent.getItemAtPosition(position);
-                getDataPond(campus.getId());
-            }
+        mBinding.spinnerCampus.setOnItemClickListener((parent, view, position, id) -> {
+            campus = (Campus) parent.getItemAtPosition(position);
+            getDataPond(campus.getId());
         });
     }
 
@@ -165,24 +145,21 @@ public class WearhouseCreateActivity extends BaseActivity {
                     for (DocumentSnapshot doc: pondQuery.getDocuments()) {
                         Map<String, Object> data = doc.getData();
                         String id = doc.getId();
-                        Pond pond = new Pond(id, data.get(Constants.KEY_NAME).toString());
+                        assert data != null;
+                        Pond pond = new Pond(id, Objects.requireNonNull(data.get(Constants.KEY_NAME)).toString());
                         mPond.add(pond);
                     }
                     spinnerAdapter.notifyDataSetChanged();
                 });
 
-        mBinding.spinnerPond.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                pondSelected = (Pond) parent.getItemAtPosition(position);
-            }
-        });
+        mBinding.spinnerPond.setOnItemClickListener((parent, view, position, id) ->
+                pondSelected = (Pond) parent.getItemAtPosition(position));
     }
 
     private void createWarehouse() {
-        String name = mBinding.edtNameWarehouse.getText().toString();
-        String acreage = mBinding.edtAceage.getText().toString();
-        String description = mBinding.edtDescription.getText().toString();
+        String name = Objects.requireNonNull(mBinding.edtNameWarehouse.getText()).toString();
+        String acreage = Objects.requireNonNull(mBinding.edtAceage.getText()).toString();
+        String description = Objects.requireNonNull(mBinding.edtDescription.getText()).toString();
 
         if (!name.isEmpty() && !acreage.isEmpty()) {
             if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_ADMIN)
@@ -199,9 +176,10 @@ public class WearhouseCreateActivity extends BaseActivity {
                             .addOnSuccessListener(documentSnapshot -> {
                                 String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
                                 data.put(Constants.KEY_AREA_ID, areaId);
-                                database.collection(Constants.KEY_COLLECTION_WAREHOUSE).document().set(data).addOnSuccessListener(task -> {
-                                    onBackPressed();
-                                });
+                                database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                        .document()
+                                        .set(data)
+                                        .addOnSuccessListener(task -> onBackPressed());
                             });
                 }
             } else {
@@ -217,9 +195,8 @@ public class WearhouseCreateActivity extends BaseActivity {
                             .addOnSuccessListener(documentSnapshot -> {
                                 String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
                                 data.put(Constants.KEY_AREA_ID, areaId);
-                                database.collection(Constants.KEY_COLLECTION_WAREHOUSE).document().set(data).addOnSuccessListener(task -> {
-                                    onBackPressed();
-                                });
+                                database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                        .document().set(data).addOnSuccessListener(task -> onBackPressed());
                             });
                 }
 

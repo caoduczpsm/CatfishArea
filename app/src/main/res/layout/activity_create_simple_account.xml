@@ -56,15 +56,6 @@
                 app:civ_border_color="@color/black"
                 app:civ_border_width="1dp" />
 
-            <TextView
-                android:id="@+id/textAddImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Chọn Ảnh"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_10ssp"
-                tools:ignore="HardcodedText,TextContrastCheck" />
         </FrameLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -77,14 +68,16 @@
             app:endIconMode="dropdown_menu"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layoutImage"
-            app:startIconTint="@color/colorPrimary">
+            app:startIconTint="@color/colorPrimary"
+            tools:ignore="HardcodedText">
 
             <AutoCompleteTextView
                 android:id="@+id/spinnerTypeAccount"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="@dimen/_10sdp"
-                android:textColor="@color/black"></AutoCompleteTextView>
+                android:textColor="@color/black"
+                tools:ignore="LabelFor,TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -97,7 +90,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textInputTypeAccount"
             app:startIconDrawable="@drawable/ic_call_gray"
-            app:startIconTint="@color/colorPrimary">
+            app:startIconTint="@color/colorPrimary"
+            tools:ignore="HardcodedText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtPhone"
@@ -105,7 +99,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:inputType="number"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -119,7 +114,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textInputPhone"
             app:startIconDrawable="@drawable/ic_lock"
-            app:startIconTint="@color/colorPrimary">
+            app:startIconTint="@color/colorPrimary"
+            tools:ignore="HardcodedText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtPassword"
@@ -127,7 +123,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:inputType="textPassword"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -140,7 +137,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textInputPassword"
             app:startIconDrawable="@drawable/ic_user"
-            app:startIconTint="@color/colorPrimary">
+            app:startIconTint="@color/colorPrimary"
+            tools:ignore="HardcodedText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtName"
@@ -148,7 +146,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:inputType="text"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -161,7 +160,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textInputName"
             app:startIconDrawable="@drawable/ic_person_id"
-            app:startIconTint="@color/colorPrimary">
+            app:startIconTint="@color/colorPrimary"
+            tools:ignore="HardcodedText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtPersonalID"
@@ -169,7 +169,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:inputType="number"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -178,11 +179,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
-            android:hint="Ngày thánh năm sinh"
+            android:hint="Ngày tháng năm sinh"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textInputPersonalID"
             app:startIconDrawable="@drawable/ic_user"
-            app:startIconTint="@color/colorPrimary">
+            app:startIconTint="@color/colorPrimary"
+            tools:ignore="HardcodedText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textDateOfBirth"
@@ -191,7 +193,8 @@
                 android:focusable="false"
                 android:gravity="center_vertical"
                 android:inputType="number"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -204,7 +207,8 @@
             app:startIconDrawable="@drawable/ic_location_blue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textInputDateOfBirth"
-            app:startIconTint="@color/colorPrimary">
+            app:startIconTint="@color/colorPrimary"
+            tools:ignore="HardcodedText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtAddress"
@@ -212,14 +216,15 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:inputType="number"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnRegis"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
-            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/button_login"
             android:text="Tiếp Tục"
             android:textAllCaps="false"
