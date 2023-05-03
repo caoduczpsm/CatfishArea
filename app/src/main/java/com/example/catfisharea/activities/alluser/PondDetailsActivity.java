@@ -399,10 +399,10 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
         binding.imageDetail.setOnClickListener(view -> {
             if (binding.layoutInfoDetail.getVisibility() == View.VISIBLE){
                 binding.layoutInfoDetail.setVisibility(View.GONE);
-                binding.imageDetail.setImageResource(R.drawable.ic_down);
+                binding.imageDetail.setImageResource(R.drawable.ic_up);
             } else {
                 binding.layoutInfoDetail.setVisibility(View.VISIBLE);
-                binding.imageDetail.setImageResource(R.drawable.ic_up);
+                binding.imageDetail.setImageResource(R.drawable.ic_down);
             }
         });
     }

@@ -1,7 +1,7 @@
 package com.example.catfisharea.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -12,10 +12,10 @@ import com.example.catfisharea.models.Category;
 
 import java.util.List;
 
-public class WarehouseDetailAdapter extends RecyclerView.Adapter<WarehouseDetailAdapter.WarehouseDetailHolder>{
-    private List<Category> mCategories;
+public class WarehouseFoodDetailAdapter extends RecyclerView.Adapter<WarehouseFoodDetailAdapter.WarehouseDetailHolder>{
+    private final List<Category> mCategories;
 
-    public WarehouseDetailAdapter(List<Category> mCategories) {
+    public WarehouseFoodDetailAdapter(List<Category> mCategories) {
         this.mCategories = mCategories;
     }
 
@@ -37,16 +37,17 @@ public class WarehouseDetailAdapter extends RecyclerView.Adapter<WarehouseDetail
         return mCategories.size();
     }
 
-    class WarehouseDetailHolder extends RecyclerView.ViewHolder {
-        private LayoutWarehouseDetailBinding mBinding;
+    static class WarehouseDetailHolder extends RecyclerView.ViewHolder {
+        private final LayoutWarehouseDetailBinding mBinding;
 
         public WarehouseDetailHolder(@NonNull LayoutWarehouseDetailBinding mBinding) {
             super(mBinding.getRoot());
             this.mBinding = mBinding;
         }
 
+        @SuppressLint("SetTextI18n")
         public void setData(Category category) {
-            mBinding.nameCatagory.setText(category.getName());
+            //mBinding.nameCatagory.setText(category.getName());
             mBinding.nameProducer.setText(category.getProducer());
             mBinding.amountCatagory.setText(category.getAmount()+ " " + category.getUnit());
         }

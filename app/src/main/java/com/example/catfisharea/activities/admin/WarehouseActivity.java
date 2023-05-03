@@ -1,24 +1,14 @@
 package com.example.catfisharea.activities.admin;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-
-import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityWarehouseBinding;
-import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.WarehouseAdapter;
 import com.example.catfisharea.listeners.WarehouseListener;
-import com.example.catfisharea.models.Area;
 import com.example.catfisharea.models.Campus;
 import com.example.catfisharea.models.ItemWarehouse;
-import com.example.catfisharea.models.RegionModel;
 import com.example.catfisharea.models.Warehouse;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
@@ -34,8 +24,6 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
     private PreferenceManager preferenceManager;
     private WarehouseAdapter warehouseAdapter;
     private List<ItemWarehouse> mWarehouses;
-    private boolean isFABOpen = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,37 +42,29 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
         mBinding.recyclerViewWarehouse.setAdapter(warehouseAdapter);
 
         mBinding.toolbarWarehouse.setNavigationOnClickListener(view -> onBackPressed());
-        mBinding.createWarehouse.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), WearhouseCreateActivity.class));
-        });
+        mBinding.layoutCreateWarehouse.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), WearhouseCreateActivity.class)));
+        mBinding.layoutCategory.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), CategoryCreateActivity.class)));
         getDataWarehouse();
-
-        mBinding.fabNew.setOnClickListener(view -> {
-            if (!isFABOpen) {
-                showFABMenu();
-            } else {
-                closeFABMenu();
-            }
-        });
-
-        mBinding.fabNewCategory.setOnClickListener(view -> {
-            Intent intent = new Intent(this, CategoryCreateActivity.class);
-            startActivity(intent);
-        });
 
     }
 
     private void getDataWarehouse() {
         String type = preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT);
-        if (type.equals(Constants.KEY_DIRECTOR)) {
-            getDataWarehouseForDirector();
-        } else if (type.equals(Constants.KEY_REGIONAL_CHIEF) || type.equals(Constants.KEY_ACCOUNTANT)) {
-            getDataWarehouseForRegional();
-        } else if (type.equals(Constants.KEY_ADMIN)) {
-            getDataWarehouseForAdmin();
+        switch (type) {
+            case Constants.KEY_DIRECTOR:
+                getDataWarehouseForDirector();
+                break;
+            case Constants.KEY_REGIONAL_CHIEF:
+            case Constants.KEY_ACCOUNTANT:
+                getDataWarehouseForRegional();
+                break;
+            case Constants.KEY_ADMIN:
+                getDataWarehouseForAdmin();
+                break;
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getDataWarehouseForRegional() {
         database.collection(Constants.KEY_COLLECTION_CAMPUS)
                 .whereEqualTo(Constants.KEY_AREA_ID, preferenceManager.getString(Constants.KEY_AREA_ID))
@@ -122,6 +102,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                 });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getDataWarehouseForDirector() {
         database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
                 .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
@@ -190,20 +171,6 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
 //                    }
 ////                    warehouseAdapter.notifyDataSetChanged();
 //                });
-    }
-
-    private void showFABMenu() {
-        isFABOpen = true;
-        mBinding.fabNewCategory.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-        mBinding.textLeave.setVisibility(View.VISIBLE);
-        mBinding.textLeave.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-    }
-
-    private void closeFABMenu() {
-        isFABOpen = false;
-        mBinding.fabNewCategory.animate().translationY(0);
-        mBinding.textLeave.animate().translationY(0);
-        mBinding.textLeave.setVisibility(View.GONE);
     }
 
     @Override
