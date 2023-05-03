@@ -1,5 +1,6 @@
 package com.example.catfisharea.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import com.example.catfisharea.models.WarehouseHistory;
 import java.util.List;
 
 public class WarehouseHistoryAdapter extends RecyclerView.Adapter<WarehouseHistoryAdapter.WarehouseHistoryHolder> {
-    private List<WarehouseHistory> mList;
+    private final List<WarehouseHistory> mList;
 
     public WarehouseHistoryAdapter(List<WarehouseHistory> mList) {
         this.mList = mList;
@@ -42,7 +43,7 @@ public class WarehouseHistoryAdapter extends RecyclerView.Adapter<WarehouseHisto
         return mList.size();
     }
 
-    class WarehouseHistoryHolder extends RecyclerView.ViewHolder {
+    static class WarehouseHistoryHolder extends RecyclerView.ViewHolder {
         private LayoutItemHistoryWarehouseBinding mBinding;
 
         public WarehouseHistoryHolder(@NonNull LayoutItemHistoryWarehouseBinding mBinding) {
@@ -50,17 +51,18 @@ public class WarehouseHistoryAdapter extends RecyclerView.Adapter<WarehouseHisto
             this.mBinding = mBinding;
         }
 
+        @SuppressLint("SetTextI18n")
         public void setData(WarehouseHistory data) {
             mBinding.dateImport.setText(data.getDate().getDate() + "/" + (data.getDate().getMonth() + 1) + "/" + (data.getDate().getYear() + 1900));
             mBinding.total.setText(data.getTotal());
-            String nameitem = new String();
-            String amount = new String();
+            StringBuilder nameItem = new StringBuilder();
+            StringBuilder amount = new StringBuilder();
             for (Category item : data.getmCategory()) {
-                nameitem += item.getName() + "\n";
-                amount += item.getAmount() + " " + item.getUnit() + "\n";
+                nameItem.append(item.getName()).append("\n");
+                amount.append(item.getAmount()).append(" ").append(item.getUnit()).append("\n");
             }
-            mBinding.nameItem.setText(nameitem);
-            mBinding.amountItem.setText(amount);
+            mBinding.nameItem.setText(nameItem.toString().trim());
+            mBinding.amountItem.setText(amount.toString().trim());
         }
     }
 }

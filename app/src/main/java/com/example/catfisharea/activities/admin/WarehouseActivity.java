@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -46,7 +49,8 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
     private WarehouseAdapter warehouseAdapter;
     private List<ItemWarehouse> mWarehouses;
     private AutoCompleteTextView spinnerPond;
-    private TextInputEditText edtNameWarehouse, edtAceage, edtDescription;
+    private TextInputEditText edtNameWarehouse, edtAceage, edtDescription, edtNameCategory, edtNameSupplier, edtUnit, edtEffect;
+    private TextInputLayout textInputNameCategory, textInputNameSupplier, textInputUnit, textInputEffect;
     private Campus campus;
     private Pond pondSelected;
 
@@ -67,8 +71,8 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
         mBinding.recyclerViewWarehouse.setAdapter(warehouseAdapter);
 
         mBinding.toolbarWarehouse.setNavigationOnClickListener(view -> onBackPressed());
-        mBinding.layoutCreateWarehouse.setOnClickListener(view ->openCreateWarehouseDialog());
-        mBinding.layoutCategory.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), CategoryCreateActivity.class)));
+        mBinding.layoutCreateWarehouse.setOnClickListener(view -> openCreateWarehouseDialog());
+        mBinding.layoutCategory.setOnClickListener(view -> openCreateCategoryDialog());
         getDataWarehouse();
 
     }
@@ -214,6 +218,162 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
 
         }
     }
+
+    private void openCreateCategoryDialog() {
+        Dialog dialog = openDialog(R.layout.layout_dialog_create_category);
+        assert dialog != null;
+
+        AppCompatButton btnClose, btnCreate;
+
+        btnClose = dialog.findViewById(R.id.btnClose);
+        btnCreate = dialog.findViewById(R.id.btnCreate);
+
+        edtNameCategory = dialog.findViewById(R.id.edtNameCategory);
+        edtNameSupplier = dialog.findViewById(R.id.edtNameSupplier);
+        edtUnit = dialog.findViewById(R.id.edtUnit);
+        edtEffect = dialog.findViewById(R.id.edtEffect);
+
+        textInputNameCategory = dialog.findViewById(R.id.textInputNameCategory);
+        textInputNameSupplier = dialog.findViewById(R.id.textInputNameSupplier);
+        textInputUnit = dialog.findViewById(R.id.textInputUnit);
+        textInputEffect = dialog.findViewById(R.id.textInputEffect);
+
+        checkCategoryError();
+
+        btnCreate.setOnClickListener(view -> {
+            saveCategory();
+            dialog.dismiss();
+        });
+
+        btnClose.setOnClickListener(view -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    private void saveCategory() {
+        String name = Objects.requireNonNull(edtNameCategory.getText()).toString().trim();
+        String producer = Objects.requireNonNull(edtNameSupplier.getText()).toString().trim();
+        String unit = Objects.requireNonNull(edtUnit.getText()).toString().trim();
+        String effect = Objects.requireNonNull(edtEffect.getText()).toString().trim();
+        String companyID = preferenceManager.getString(Constants.KEY_COMPANY_ID);
+        String areaID = preferenceManager.getString(Constants.KEY_AREA_ID);
+
+        assert areaID != null;
+
+        if (!name.isEmpty() && !producer.isEmpty() && !unit.isEmpty() && !effect.isEmpty()) {
+            Map<String, Object> data = new HashMap<>();
+            data.put(Constants.KEY_NAME, name);
+            data.put(Constants.KEY_PRODUCER, producer);
+            data.put(Constants.KEY_UNIT, unit);
+            data.put(Constants.KEY_EFFECT, effect);
+            data.put(Constants.KEY_COMPANY_ID, companyID);
+            data.put(Constants.KEY_AREA_ID, areaID);
+            database.collection(Constants.KEY_COLLECTION_CATEGORY).document().set(data).addOnSuccessListener(command -> {
+                edtNameCategory.setText("");
+                edtUnit.setText("");
+                edtNameSupplier.setText("");
+                edtEffect.setText("");
+                textInputNameCategory.setErrorEnabled(false);
+                textInputEffect.setErrorEnabled(false);
+                textInputUnit.setErrorEnabled(false);
+                textInputNameSupplier.setErrorEnabled(false);
+                Toast.makeText(this, "Tạo thành công", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+    }
+
+    private void checkCategoryError() {
+        edtNameCategory.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() <= 0) {
+                    textInputNameCategory.setError("Bắt buộc");
+                    textInputNameCategory.setErrorEnabled(true);
+                } else {
+                    textInputNameCategory.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        edtNameSupplier.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() <= 0) {
+                    textInputNameSupplier.setError("Bắt buộc");
+                    textInputNameSupplier.setErrorEnabled(true);
+                } else {
+                    textInputNameSupplier.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        edtUnit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() <= 0) {
+                    textInputUnit.setError("Bắt buộc");
+                    textInputUnit.setErrorEnabled(true);
+                } else {
+                    textInputUnit.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        edtEffect.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() <= 0) {
+                    textInputEffect.setError("Bắt buộc");
+                    textInputEffect.setErrorEnabled(true);
+                } else {
+                    textInputEffect.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+    }
+
 
     private void getDataWarehouse() {
         String type = preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT);

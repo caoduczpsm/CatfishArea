@@ -38,9 +38,7 @@ public class CategoryCreateActivity extends BaseActivity {
 
         mBinding.toolbarCategoryCreate.setNavigationOnClickListener(view -> onBackPressed());
 
-        mBinding.saveBtn.setOnClickListener(view -> {
-            saveCategory();
-        });
+        mBinding.saveBtn.setOnClickListener(view -> saveCategory());
     }
 
     private void saveCategory() {
