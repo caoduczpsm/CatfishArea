@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -44,7 +45,7 @@ public class AdditionTaskFragment extends Fragment implements MultipleListener {
     private MultipleUserSelectionAdapter usersAdapter;
     private List<User> users, selectedDirector;
     private FirebaseFirestore database;
-    private Button btnCreate, btnDone;
+    private AppCompatButton btnCreate, btnDone;
     private ProgressBar progressBar;
     private RecyclerView directorRecyclerView;
     private TextView textSelectUser, textDayOfStart, textDayOfEnd;

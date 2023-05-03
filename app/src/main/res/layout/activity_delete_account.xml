@@ -107,13 +107,14 @@
             app:layout_constraintTop_toBottomOf="@+id/layoutSearch" />
 
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnDelete"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:background="@drawable/border_fun_background"
+            android:background="@drawable/background_button"
+            android:backgroundTint="@color/colorButtonRight"
             android:gravity="center"
             android:text="Xóa"
             android:textAlignment="center"

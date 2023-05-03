@@ -222,12 +222,14 @@
                 app:layout_constraintTop_toBottomOf="@id/edtTitle"
                 tools:ignore="HardcodedText,TextFields,UnusedAttribute,TextContrastCheck" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnCreate"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/border_fun_background"
+                android:background="@drawable/background_button"
+                android:backgroundTint="@color/colorButtonLeft"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:gravity="center"
                 android:text="Tạo"
                 android:textAlignment="center"
@@ -236,15 +238,17 @@
                 android:textSize="@dimen/_18sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edtContent"
-                app:layout_constraintWidth_percent="0.48"
+                app:layout_constraintWidth_percent="0.45"
                 tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnDone"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/border_fun_background"
+                android:background="@drawable/background_button"
+                android:backgroundTint="@color/colorButtonRight"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:gravity="center"
                 android:text="Trở Lại"
                 android:textAlignment="center"
@@ -253,7 +257,7 @@
                 android:textSize="@dimen/_18sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edtContent"
-                app:layout_constraintWidth_percent="0.48"
+                app:layout_constraintWidth_percent="0.45"
                 tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
             <ProgressBar

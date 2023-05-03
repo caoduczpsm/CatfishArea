@@ -120,7 +120,7 @@
 
         </RadioGroup>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnDelete"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_40sdp"
@@ -131,6 +131,8 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_10sdp"
             android:visibility="gone"
+            android:backgroundTint="@color/colorButtonRight"
+            android:background="@drawable/background_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/radioGroup"
             app:layout_constraintTop_toTopOf="parent"

@@ -358,7 +358,7 @@
     </androidx.core.widget.NestedScrollView>
 
 
-    <com.google.android.material.button.MaterialButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/savePlanBtn"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
@@ -366,6 +366,8 @@
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:text="Lưu"
+        android:background="@drawable/background_button"
+        android:backgroundTint="@color/colorButtonLeft"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp"
         app:layout_constraintBottom_toBottomOf="parent" />

@@ -206,12 +206,13 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/saveBtnCreate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_8sdp"
-            android:background="@drawable/button_login"
+            android:background="@drawable/background_button"
+            android:backgroundTint="@color/colorButtonLeft"
             android:text="Lưu"
             android:textColor="@color/white"
             android:textSize="@dimen/_15ssp"

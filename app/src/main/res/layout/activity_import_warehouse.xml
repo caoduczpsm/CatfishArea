@@ -212,11 +212,12 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <Button
+                        <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/saveBtn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/button_login"
+                            android:background="@drawable/background_button"
+                            android:backgroundTint="@color/colorButtonLeft"
                             android:clickable="false"
                             android:enabled="false"
                             android:text="Nhập"
