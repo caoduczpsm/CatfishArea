@@ -3,18 +3,9 @@ package com.example.catfisharea.activities.alluser;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityViewPlanBinding;
-import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.HomeAdapter;
 import com.example.catfisharea.listeners.CampusListener;
@@ -27,9 +18,7 @@ import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -62,14 +51,18 @@ public class ViewPlanActivity extends BaseActivity implements CampusListener {
         mBinding.recyclerViewPlan.setAdapter(homeAdapter);
 
         String type = preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT);
-        if (type.equals(Constants.KEY_ADMIN)) {
-            mBinding.fabNewPlan.setVisibility(View.GONE);
-            getDataHomeAdmin();
-        } else if (type.equals(Constants.KEY_REGIONAL_CHIEF)) {
-            getDataHomeRegionalChief();
-        } else if (type.equals(Constants.KEY_DIRECTOR)) {
-            mBinding.fabNewPlan.setVisibility(View.GONE);
-            getDataHomeDirector();
+        switch (type) {
+            case Constants.KEY_ADMIN:
+                mBinding.fabNewPlan.setVisibility(View.GONE);
+                getDataHomeAdmin();
+                break;
+            case Constants.KEY_REGIONAL_CHIEF:
+                getDataHomeRegionalChief();
+                break;
+            case Constants.KEY_DIRECTOR:
+                mBinding.fabNewPlan.setVisibility(View.GONE);
+                getDataHomeDirector();
+                break;
         }
 
         mBinding.fabNewPlan.setOnClickListener(view -> {
@@ -111,12 +104,10 @@ public class ViewPlanActivity extends BaseActivity implements CampusListener {
                         Pond pond = new Pond(pondId, pondName, null, campusId, acreage, numOfFeeding, numOfFeedingList, amountFedList, specificationsToMeasureList, parameters);
                         regionModels.add(pond);
                     }
-                    Collections.sort(itemHomes,
-                            (o1, o2) -> (o1.getRegionModel().getName()
-                                    .compareToIgnoreCase(o2.getRegionModel().getName())));
-                    Collections.sort(regionModels,
-                            (o1, o2) -> (o1.getName()
-                                    .compareToIgnoreCase(o2.getName())));
+                    itemHomes.sort((o1, o2) -> (o1.getRegionModel().getName()
+                            .compareToIgnoreCase(o2.getRegionModel().getName())));
+                    regionModels.sort((o1, o2) -> (o1.getName()
+                            .compareToIgnoreCase(o2.getName())));
                     itemHome.setReginonList(regionModels);
                     homeAdapter.notifyDataSetChanged();
                 });
@@ -155,12 +146,10 @@ public class ViewPlanActivity extends BaseActivity implements CampusListener {
 
                                     itemHome.setReginonList(regionModels);
                                     itemHomes.add(itemHome);
-                                    Collections.sort(itemHome.getReginonList(),
-                                            (o1, o2) -> (o1.getName()
-                                                    .compareToIgnoreCase(o2.getName())));
-                                    Collections.sort(itemHomes,
-                                            (o1, o2) -> (o1.getRegionModel().getName()
-                                                    .compareToIgnoreCase(o2.getRegionModel().getName())));
+                                    itemHome.getReginonList().sort((o1, o2) -> (o1.getName()
+                                            .compareToIgnoreCase(o2.getName())));
+                                    itemHomes.sort((o1, o2) -> (o1.getRegionModel().getName()
+                                            .compareToIgnoreCase(o2.getRegionModel().getName())));
                                     homeAdapter.notifyDataSetChanged();
                                 });
                     }
@@ -190,11 +179,9 @@ public class ViewPlanActivity extends BaseActivity implements CampusListener {
                                     itemHome.setReginonList(campuses);
                                     itemHomes.add(itemHome);
                                     homeAdapter.notifyDataSetChanged();
-                                    Collections.sort(itemHome.getReginonList(),
-                                            (o1, o2) -> (o1.getName().compareToIgnoreCase(o2.getName())));
-                                    Collections.sort(itemHomes,
-                                            (o1, o2) -> (o1.getRegionModel().getName()
-                                                    .compareToIgnoreCase(o2.getRegionModel().getName())));
+                                    itemHome.getReginonList().sort((o1, o2) -> (o1.getName().compareToIgnoreCase(o2.getName())));
+                                    itemHomes.sort((o1, o2) -> (o1.getRegionModel().getName()
+                                            .compareToIgnoreCase(o2.getRegionModel().getName())));
                                     homeAdapter.notifyDataSetChanged();
                                 });
 
@@ -202,6 +189,7 @@ public class ViewPlanActivity extends BaseActivity implements CampusListener {
                 });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void OnCampusClicker(RegionModel regionModel) {
         if (homeAdapter.isShowed()) {

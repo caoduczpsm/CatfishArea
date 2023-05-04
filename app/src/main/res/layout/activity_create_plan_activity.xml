@@ -36,325 +36,382 @@
             android:id="@+id/layoutInput"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/_8sdp">
+            android:padding="@dimen/_5sdp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputCampus"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardPond"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_8sdp"
-                android:focusable="false"
-                android:hint="Khu nuôi"
-                app:endIconMode="dropdown_menu"
-                app:layout_constraintEnd_toStartOf="@id/textInputPond"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:startIconTint="@color/colorPrimary">
-
-                <AutoCompleteTextView
-                    android:id="@+id/campusName"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:editable="false"
-                    android:focusable="false"
-                    android:padding="@dimen/_5sdp"
-                    android:textColor="@color/black"></AutoCompleteTextView>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputPond"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:hint="Ao nuôi"
-                app:endIconMode="dropdown_menu"
+                android:visibility="visible"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:cardElevation="@dimen/_2sdp"
+                app:cardUseCompatPadding="true"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/textInputCampus"
-                app:layout_constraintTop_toTopOf="parent"
-                app:startIconTint="@color/colorPrimary">
-
-                <AutoCompleteTextView
-                    android:id="@+id/pondName"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:editable="false"
-                    android:focusable="false"
-                    android:padding="@dimen/_5sdp"
-                    android:textColor="@color/black"></AutoCompleteTextView>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputAcreage"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:focusable="false"
-                android:hint="Diện tích"
-                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputPond"
-                app:startIconTint="@color/colorPrimary">
+                app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtAcreage"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"
-                    android:focusable="false"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:padding="@dimen/_10sdp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputDate"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputCampus"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:focusable="false"
+                        android:hint="Khu nuôi"
+                        app:endIconMode="dropdown_menu"
+                        app:layout_constraintEnd_toStartOf="@id/textInputPond"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:startIconTint="@color/colorPrimary"
+                        tools:ignore="HardcodedText">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/campusName"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:editable="false"
+                            android:focusable="false"
+                            android:padding="@dimen/_5sdp"
+                            android:textColor="@color/black"
+                            tools:ignore="Deprecated,LabelFor,TextContrastCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputPond"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:hint="Ao nuôi"
+                        app:endIconMode="dropdown_menu"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/textInputCampus"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:startIconTint="@color/colorPrimary"
+                        tools:ignore="HardcodedText">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/pondName"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:editable="false"
+                            android:focusable="false"
+                            android:padding="@dimen/_5sdp"
+                            android:textColor="@color/black"
+                            tools:ignore="Deprecated,LabelFor,TextContrastCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputAcreage"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:focusable="false"
+                        android:hint="Diện tích"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textInputPond"
+                        app:startIconTint="@color/colorPrimary"
+                        tools:ignore="HardcodedText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtAcreage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:editable="false"
+                            android:focusable="false"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/black"
+                            tools:ignore="Deprecated" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputDate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:focusable="false"
+                        android:hint="Ngày bắt đầu"
+                        app:endIconDrawable="@drawable/calendar"
+                        app:endIconMode="custom"
+                        app:endIconTint="@color/colorPrimary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textInputAcreage"
+                        tools:ignore="HardcodedText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:editable="false"
+                            android:focusable="false"
+                            android:gravity="center_vertical"
+                            android:inputType="text"
+                            android:textColor="@color/black"
+                            tools:ignore="Deprecated,TextContrastCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardFish"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:focusable="false"
-                android:hint="Ngày bắt đầu"
-                app:endIconDrawable="@drawable/calendar"
-                app:endIconMode="custom"
-                app:endIconTint="@color/colorPrimary"
+                android:visibility="visible"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:cardElevation="@dimen/_2sdp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputAcreage">
+                app:layout_constraintTop_toBottomOf="@id/cardPond">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtDate"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"
-                    android:focusable="false"
-                    android:gravity="center_vertical"
-                    android:inputType="text"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:padding="@dimen/_10sdp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputConsistence"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    <ImageView
+                        android:id="@+id/imageView23"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_density"
+                        app:layout_constraintBottom_toBottomOf="@+id/textInputConsistence"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textInputConsistence"
+                        tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputConsistence"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:hint="Mật dộ thả (con/m²)"
+                        app:layout_constraintWidth_percent="0.85"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:startIconTint="@color/colorPrimary"
+                        tools:ignore="HardcodedText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtConsistence"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:inputType="number"
+                            android:textColor="@color/black"
+                            tools:ignore="TextContrastCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/imageView24"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_amount"
+                        app:layout_constraintBottom_toBottomOf="@+id/textInputNumberOfFish"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textInputNumberOfFish"
+                        tools:ignore="ContentDescription" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputNumberOfFish"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:hint="Số lượng cá thả (con)"
+                        app:layout_constraintWidth_percent="0.85"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textInputConsistence"
+                        app:startIconTint="@color/colorPrimary"
+                        tools:ignore="HardcodedText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtNumberOfFish"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:inputType="number"
+                            android:textColor="@color/black"
+                            tools:ignore="TextContrastCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/imageView25"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_fish_model"
+                        app:layout_constraintBottom_toBottomOf="@+id/textInputFingerlingSamples"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textInputFingerlingSamples"
+                        tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputFingerlingSamples"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:hint="Mẫu cá giống (con/kg)"
+                        app:layout_constraintWidth_percent="0.85"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textInputNumberOfFish"
+                        app:startIconTint="@color/colorPrimary"
+                        tools:ignore="HardcodedText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtFingerlingSamples"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:inputType="number"
+                            android:textColor="@color/black"
+                            tools:ignore="TextContrastCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_release_fish"
+                        app:layout_constraintBottom_toBottomOf="@+id/textInputPrice"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textInputPrice"
+                        tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputPrice"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:hint="Giá mẫu cá (đ/con)"
+                        app:layout_constraintWidth_percent="0.85"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textInputFingerlingSamples"
+                        app:startIconTint="@color/colorPrimary"
+                        tools:ignore="HardcodedText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtPrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:inputType="number"
+                            android:textColor="@color/black"
+                            tools:ignore="TextContrastCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:hint="Mật dộ thả (con/m²)"
+                android:visibility="visible"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:cardElevation="@dimen/_2sdp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputDate"
-                app:startIconTint="@color/colorPrimary">
+                app:layout_constraintTop_toBottomOf="@id/cardFish">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtConsistence"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:inputType="number"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:padding="@dimen/_10sdp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputNumberOfFish"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:hint="Số lượng cá thả (con)"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputConsistence"
-                app:startIconTint="@color/colorPrimary">
+                    <ImageView
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_price"
+                        app:layout_constraintBottom_toBottomOf="@+id/textInputTotal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textInputTotal"
+                        tools:ignore="ContentDescription,ImageContrastCheck" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtNumberOfFish"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:inputType="number"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputTotal"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:hint="Tổng tiền giống (VND)"
+                        app:layout_constraintWidth_percent="0.85"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:startIconTint="@color/colorPrimary"
+                        tools:ignore="HardcodedText">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputFingerlingSamples"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:hint="Mẫu cá giống (con/kg)"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputNumberOfFish"
-                app:startIconTint="@color/colorPrimary">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtTotal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:inputType="number"
+                            android:textColor="@color/black"
+                            tools:ignore="TextContrastCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtFingerlingSamples"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:inputType="number"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    <ImageView
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_expense"
+                        app:layout_constraintBottom_toBottomOf="@+id/textInputExpense"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textInputExpense"
+                        tools:ignore="ContentDescription,ImageContrastCheck" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputPrice"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:hint="Giá mẫu cá (đ/con)"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputFingerlingSamples"
-                app:startIconTint="@color/colorPrimary">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputExpense"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:hint="Chi phí chuẩn bị ao (VND)"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintWidth_percent="0.85"
+                        app:layout_constraintTop_toBottomOf="@id/textInputTotal"
+                        app:startIconTint="@color/colorPrimary"
+                        tools:ignore="HardcodedText">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtPrice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:inputType="number"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtExpense"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:inputType="number"
+                            android:textColor="@color/black"
+                            tools:ignore="TextContrastCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputTotal"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:hint="Tông tiền giống (VND)"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputPrice"
-                app:startIconTint="@color/colorPrimary">
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtTotal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:inputType="number"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputExpense"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:hint="Chi phí chuẩn bị ao (VND)"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputTotal"
-                app:startIconTint="@color/colorPrimary">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtExpense"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:inputType="number"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!--            <com.google.android.material.textfield.TextInputLayout-->
-            <!--                android:id="@+id/textInputSurvivalRate"-->
-            <!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="@dimen/_8sdp"-->
-            <!--                android:hint="Tỷ lệ sống (%)"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@id/textInputFingerlingSamples"-->
-            <!--                app:startIconTint="@color/colorPrimary">-->
-
-            <!--                <com.google.android.material.textfield.TextInputEditText-->
-            <!--                    android:id="@+id/edtSurvivalRate"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:gravity="center_vertical"-->
-            <!--                    android:inputType="number"-->
-            <!--                    android:textColor="@color/black" />-->
-            <!--            </com.google.android.material.textfield.TextInputLayout>-->
-
-            <!--            <com.google.android.material.textfield.TextInputLayout-->
-            <!--                android:id="@+id/textInputNumberOfFishAlive"-->
-            <!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="@dimen/_8sdp"-->
-            <!--                android:hint="Số lượng cá còn (con)"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@id/textInputSurvivalRate"-->
-            <!--                app:startIconTint="@color/colorPrimary">-->
-
-            <!--                <com.google.android.material.textfield.TextInputEditText-->
-            <!--                    android:id="@+id/edtNumberOfFishAlive"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:gravity="center_vertical"-->
-            <!--                    android:inputType="number"-->
-            <!--                    android:textColor="@color/black" />-->
-            <!--            </com.google.android.material.textfield.TextInputLayout>-->
-
-            <!--            <com.google.android.material.textfield.TextInputLayout-->
-            <!--                android:id="@+id/textInputHarvestSize"-->
-            <!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="@dimen/_8sdp"-->
-            <!--                android:hint="Size thu hoạch (kg/ con)"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@id/textInputNumberOfFishAlive"-->
-            <!--                app:startIconTint="@color/colorPrimary">-->
-
-            <!--                <com.google.android.material.textfield.TextInputEditText-->
-            <!--                    android:id="@+id/edtHarvestSize"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:gravity="center_vertical"-->
-            <!--                    android:inputType="number"-->
-            <!--                    android:textColor="@color/black" />-->
-            <!--            </com.google.android.material.textfield.TextInputLayout>-->
-
-            <!--            <com.google.android.material.textfield.TextInputLayout-->
-            <!--                android:id="@+id/textInputHarvestYield"-->
-            <!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="@dimen/_8sdp"-->
-            <!--                android:hint="Sản lượng thu hoạch (kg)"-->
-            <!--                android:visibility="gone"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@id/textInputHarvestSize"-->
-            <!--                app:startIconTint="@color/colorPrimary">-->
-
-            <!--                <com.google.android.material.textfield.TextInputEditText-->
-            <!--                    android:id="@+id/edtHarvestYield"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:gravity="center_vertical"-->
-            <!--                    android:inputType="number"-->
-            <!--                    android:textColor="@color/black" />-->
-            <!--            </com.google.android.material.textfield.TextInputLayout>-->
-
-            <!--            <com.google.android.material.textfield.TextInputLayout-->
-            <!--                android:id="@+id/textInputFCR"-->
-            <!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="@dimen/_8sdp"-->
-            <!--                android:hint="FCR"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@id/textInputHarvestYield"-->
-            <!--                app:startIconTint="@color/colorPrimary">-->
-
-            <!--                <com.google.android.material.textfield.TextInputEditText-->
-            <!--                    android:id="@+id/edtFCR"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:gravity="center_vertical"-->
-            <!--                    android:inputType="number"-->
-            <!--                    android:textColor="@color/black" />-->
-            <!--            </com.google.android.material.textfield.TextInputLayout>-->
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
 
 
@@ -362,13 +419,15 @@
         android:id="@+id/savePlanBtn"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_margin="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:text="Lưu"
         android:background="@drawable/background_button"
         android:backgroundTint="@color/colorButtonLeft"
+        android:text="Lưu"
         android:textColor="@color/white"
         android:textSize="@dimen/_15ssp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText,TextContrastCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,7 +12,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -38,9 +37,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +49,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
     private PreferenceManager preferenceManager;
     private WarehouseAdapter warehouseAdapter;
     private List<ItemWarehouse> mWarehouses;
-    private AutoCompleteTextView spinnerPond, spinnerType;
+    private AutoCompleteTextView spinnerPond;
     private TextInputEditText edtNameWarehouse, edtAceage, edtDescription, edtNameCategory, edtNameSupplier, edtUnit, edtEffect;
     private TextInputLayout textInputNameCategory, textInputNameSupplier, textInputUnit, textInputEffect;
     private Campus campus;
@@ -202,9 +199,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                                 database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
                                         .document()
                                         .set(data)
-                                        .addOnSuccessListener(task -> {
-                                            getDataWarehouse();
-                                        });
+                                        .addOnSuccessListener(task -> getDataWarehouse());
                             });
                     dialog.dismiss();
                 }
@@ -222,9 +217,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                                 String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
                                 data.put(Constants.KEY_AREA_ID, areaId);
                                 database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                        .document().set(data).addOnSuccessListener(task -> {
-                                            getDataWarehouse();
-                                        });
+                                        .document().set(data).addOnSuccessListener(task -> getDataWarehouse());
                             });
                     dialog.dismiss();
                 }
@@ -254,7 +247,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
         textInputNameSupplier = dialog.findViewById(R.id.textInputNameSupplier);
         textInputUnit = dialog.findViewById(R.id.textInputUnit);
         textInputEffect = dialog.findViewById(R.id.textInputEffect);
-        spinnerType = dialog.findViewById(R.id.spinnerTypeCategory);
+        AutoCompleteTextView spinnerType = dialog.findViewById(R.id.spinnerTypeCategory);
 
         List<String> listTypeCategory = new ArrayList<>();
         listTypeCategory.add("Thuốc");
@@ -265,18 +258,15 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerType.setAdapter(adapter);
 
-        spinnerType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    typeCategory = Constants.KEY_CATEGORY_TYPE_MEDICINE;
-                } else if (position == 1) {
-                    typeCategory = Constants.KEY_CATEGORY_TYPE_FOOD;
-                } else {
-                    typeCategory = "other";
-                }
-
+        spinnerType.setOnItemClickListener((parent, view, position, id) -> {
+            if (position == 0) {
+                typeCategory = Constants.KEY_CATEGORY_TYPE_MEDICINE;
+            } else if (position == 1) {
+                typeCategory = Constants.KEY_CATEGORY_TYPE_FOOD;
+            } else {
+                typeCategory = "other";
             }
+
         });
 
         checkCategoryError();
@@ -477,11 +467,9 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
 
                                         warehouseList.add(warehouse);
                                         itemWarehouse.setWarehouseList(warehouseList);
-                                        Collections.sort(mWarehouses,
-                                                (o1, o2) -> (o1.getRegionModel().getName().compareToIgnoreCase(o2.getRegionModel().getName())));
+                                        mWarehouses.sort((o1, o2) -> (o1.getRegionModel().getName().compareToIgnoreCase(o2.getRegionModel().getName())));
 
-                                        Collections.sort(itemWarehouse.getWarehouseList(),
-                                                (o1, o2) -> (o1.getName().compareToIgnoreCase(o2.getName())));
+                                        itemWarehouse.getWarehouseList().sort((o1, o2) -> (o1.getName().compareToIgnoreCase(o2.getName())));
                                         warehouseAdapter.notifyDataSetChanged();
                                     }
 
@@ -505,8 +493,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                                         documentSnapshot.getString(Constants.KEY_NAME));
                                 itemWarehouse.setRegionModel(campus);
                                 mWarehouses.add(itemWarehouse);
-                                Collections.sort(mWarehouses,
-                                        (o1, o2) -> (o1.getRegionModel().getName().compareToIgnoreCase(o2.getRegionModel().getName())));
+                                mWarehouses.sort((o1, o2) -> (o1.getRegionModel().getName().compareToIgnoreCase(o2.getRegionModel().getName())));
                                 warehouseAdapter.notifyDataSetChanged();
                             });
                     for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
@@ -522,8 +509,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                         warehouseList.add(warehouse);
 
                         itemWarehouse.setWarehouseList(warehouseList);
-                        Collections.sort(itemWarehouse.getWarehouseList(),
-                                (o1, o2) -> (o1.getName().compareToIgnoreCase(o2.getName())));
+                        itemWarehouse.getWarehouseList().sort((o1, o2) -> (o1.getName().compareToIgnoreCase(o2.getName())));
                         warehouseAdapter.notifyDataSetChanged();
 //                        mWarehouses.add(warehouse);
 
@@ -534,6 +520,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                 });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getDataWarehouseForAdmin() {
         database.collection(Constants.KEY_COLLECTION_CAMPUS)
                 .whereEqualTo(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID))

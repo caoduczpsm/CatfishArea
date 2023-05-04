@@ -1,18 +1,9 @@
 package com.example.catfisharea.activities.alluser;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.app.catfisharea.R;
@@ -25,16 +16,15 @@ import com.example.catfisharea.models.RegionModel;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.DecimalHelper;
 import com.example.catfisharea.ultilities.PreferenceManager;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class CreatePlanActivity extends BaseActivity {
     private ActivityCreatePlanActivityBinding mBinding;
@@ -53,19 +43,18 @@ public class CreatePlanActivity extends BaseActivity {
         setListener();
     }
 
+    @SuppressLint("SetTextI18n")
     private void setListener() {
         database = FirebaseFirestore.getInstance();
         preferenceManager = new PreferenceManager(this);
 
         mBinding.toolbarCreatPlan.setNavigationOnClickListener(view -> onBackPressed());
         myCal = Calendar.getInstance();
-        mBinding.edtDate.setText(myCal.get(Calendar.DAY_OF_MONTH) + "-" +
+        mBinding.edtDate.setText(myCal.get( Calendar.DAY_OF_MONTH) + "-" +
                 (myCal.get(Calendar.MONTH) + 1) + "-" +
                 myCal.get(Calendar.YEAR)
         );
-        mBinding.edtDate.setOnClickListener(view -> {
-            openDatePicker();
-        });
+        mBinding.edtDate.setOnClickListener(view -> openDatePicker());
         setCampusSpinner();
         setEditText();
 
@@ -79,14 +68,14 @@ public class CreatePlanActivity extends BaseActivity {
     }
 
     private void savePlan() throws ParseException {
-        String acreage = mBinding.edtAcreage.getText().toString().trim();
-        String consistence = mBinding.edtConsistence.getText().toString().trim();
-        String fingerlingSamples = mBinding.edtFingerlingSamples.getText().toString().trim();
-        String numberOfFish = mBinding.edtNumberOfFish.getText().toString().trim();
-        String price = mBinding.edtPrice.getText().toString().trim();
-        String total = mBinding.edtTotal.getText().toString().trim();
+        String acreage = Objects.requireNonNull(mBinding.edtAcreage.getText()).toString().trim();
+        String consistence = Objects.requireNonNull(mBinding.edtConsistence.getText()).toString().trim();
+        String fingerlingSamples = Objects.requireNonNull(mBinding.edtFingerlingSamples.getText()).toString().trim();
+        String numberOfFish = Objects.requireNonNull(mBinding.edtNumberOfFish.getText()).toString().trim();
+        String price = Objects.requireNonNull(mBinding.edtPrice.getText()).toString().trim();
+        String total = Objects.requireNonNull(mBinding.edtTotal.getText()).toString().trim();
         Timestamp timestamp = new Timestamp(myCal.getTime());
-        String preparationCost = mBinding.edtExpense.getText().toString().trim();
+        String preparationCost = Objects.requireNonNull(mBinding.edtExpense.getText()).toString().trim();
 
 
         if (mCampusSelected != null && mPondSelected != null && !acreage.isEmpty()
@@ -119,66 +108,36 @@ public class CreatePlanActivity extends BaseActivity {
 
 
     private void setEditText() {
-        mBinding.edtConsistence.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                updateEditText();
-            }
-        });
+        mBinding.edtConsistence.setOnFocusChangeListener((v, hasFocus) -> updateEditText());
 
-        mBinding.edtAcreage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                updateEditText();
-            }
-        });
+        mBinding.edtAcreage.setOnFocusChangeListener((v, hasFocus) -> updateEditText());
 
-        mBinding.edtFingerlingSamples.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                updateEditText();
-            }
-        });
+        mBinding.edtFingerlingSamples.setOnFocusChangeListener((v, hasFocus) -> updateEditText());
 
-        mBinding.edtNumberOfFish.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                updateEditText();
-            }
-        });
+        mBinding.edtNumberOfFish.setOnFocusChangeListener((v, hasFocus) -> updateEditText());
 
-        mBinding.edtTotal.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                updateEditText();
-            }
-        });
+        mBinding.edtTotal.setOnFocusChangeListener((v, hasFocus) -> updateEditText());
 
-        mBinding.edtPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                updateEditText();
-            }
-        });
+        mBinding.edtPrice.setOnFocusChangeListener((v, hasFocus) -> updateEditText());
     }
-    private boolean isEditing = false;
 
     private void updateEditText() {
-        Log.d("FATAL EXCEPTION: main", "updateEditText");
-        if (!mBinding.edtAcreage.getText().toString().isEmpty() && !mBinding.edtConsistence.getText().toString().isEmpty()) {
+        if (!Objects.requireNonNull(mBinding.edtAcreage.getText()).toString().isEmpty() &&
+                !Objects.requireNonNull(mBinding.edtConsistence.getText()).toString().isEmpty()) {
             try {
                 int acreage = DecimalHelper.parseText(mBinding.edtAcreage.getText().toString()).intValue();
                 int consistence = DecimalHelper.parseText(mBinding.edtConsistence.getText().toString()).intValue();
 //                int acreage = Integer.parseInt((mBinding.edtAcreage.getText().toString()));
 //                int consistence = Integer.parseInt((mBinding.edtConsistence.getText().toString()));
-                long numberOfFish = acreage * consistence;
+                long numberOfFish = (long) acreage * consistence;
                 mBinding.edtNumberOfFish.setText(DecimalHelper.formatText(numberOfFish));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        if (!mBinding.edtPrice.getText().toString().isEmpty() && !mBinding.edtNumberOfFish.getText().toString().isEmpty()) {
+        if (!Objects.requireNonNull(mBinding.edtPrice.getText()).toString().isEmpty() &&
+                !Objects.requireNonNull(mBinding.edtNumberOfFish.getText()).toString().isEmpty()) {
             try {
                 int numberOfFish = DecimalHelper.parseText(mBinding.edtNumberOfFish.getText().toString()).intValue();
                 double price = DecimalHelper.parseText(mBinding.edtPrice.getText().toString()).doubleValue();
@@ -232,14 +191,11 @@ public class CreatePlanActivity extends BaseActivity {
                     spinnerAdapter.notifyDataSetChanged();
                 });
 
-        mBinding.campusName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Campus campus = (Campus) parent.getItemAtPosition(position);
-                mCampusSelected = campus;
-                setPondSpinner(campus.getId());
+        mBinding.campusName.setOnItemClickListener((parent, view, position, id) -> {
+            Campus campus = (Campus) parent.getItemAtPosition(position);
+            mCampusSelected = campus;
+            setPondSpinner(campus.getId());
 
-            }
         });
     }
 
@@ -273,17 +229,14 @@ public class CreatePlanActivity extends BaseActivity {
 
                 });
 
-        mBinding.pondName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Pond pond = (Pond) parent.getItemAtPosition(position);
-                mBinding.textInputAcreage.setVisibility(View.VISIBLE);
-                mPondSelected = pond;
-                try {
-                    mBinding.edtAcreage.setText(DecimalHelper.formatText(Integer.parseInt(pond.getAcreage())));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        mBinding.pondName.setOnItemClickListener((parent, view, position, id) -> {
+            Pond pond = (Pond) parent.getItemAtPosition(position);
+            mBinding.textInputAcreage.setVisibility(View.VISIBLE);
+            mPondSelected = pond;
+            try {
+                mBinding.edtAcreage.setText(DecimalHelper.formatText(Integer.parseInt(pond.getAcreage())));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
