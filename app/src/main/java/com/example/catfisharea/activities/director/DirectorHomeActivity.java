@@ -25,6 +25,7 @@ import com.example.catfisharea.activities.alluser.AIActivity;
 import com.example.catfisharea.activities.alluser.AreaHRManagementActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
+import com.example.catfisharea.activities.alluser.DiaryActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
 import com.example.catfisharea.activities.alluser.PondDetailsActivity;
 import com.example.catfisharea.activities.alluser.TreatmentActivity;
@@ -98,6 +99,10 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
         });
 
         mBinding.layoutControlDirectorHome.layoutReportFish.setVisibility(View.VISIBLE);
+
+        mBinding.layoutControlDirectorHome.layoutDiary.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), DiaryActivity.class));
+        });
 
         mBinding.layoutControlDirectorHome.layoutReportFish.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), ReportFishActivity.class)));
 

@@ -92,6 +92,11 @@ public class AdminHomeActivity extends BaseActivity implements CampusListener {
             startActivity(intent);
         });
 
+        mBinding.layoutControlAdminHome.layoutDiary.setOnClickListener(view -> {
+            Intent intent = new Intent(this, DiaryActivity.class);
+            startActivity(intent);
+        });
+
         mBinding.layoutControlAdminHome.layoutAccount.setOnClickListener(view -> openDialogAccount());
 
         mBinding.layoutControlAdminHome.layoutArea.setOnClickListener(view -> openDialogArea());

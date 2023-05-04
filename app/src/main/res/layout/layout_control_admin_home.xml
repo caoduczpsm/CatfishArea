@@ -154,10 +154,52 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutWarehouse"
+                    android:id="@+id/layoutDiary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toEndOf="@id/layoutSeason"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/imageDiary"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:src="@drawable/ic_diary"
+                        android:translationZ="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardDiary"
+                        android:layout_width="@dimen/_86sdp"
+                        android:layout_height="@dimen/_78sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardElevation="@dimen/_6sdp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/imageDiary">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:gravity="center"
+                            android:text="Nhật ký"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="bold" />
+                    </androidx.cardview.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutWarehouse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/layoutDiary"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView

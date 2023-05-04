@@ -81,7 +81,17 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
 
         setDataRecyclerView();
 
+        getNameWarehose();
+
         mBinding.saveBtn.setOnClickListener(view -> saveCategory());
+    }
+
+    private void getNameWarehose() {
+        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                .document(warehouseID).get().addOnSuccessListener(nameDoc -> {
+                   String name = nameDoc.getString(Constants.KEY_NAME);
+                   mBinding.textName.setText(name);
+                });
     }
 
     private void saveCategory() {
@@ -239,7 +249,7 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
         boolean finish = true;
         for (Category item : result) {
             total += Long.parseLong(item.getAmount()) * Long.parseLong(item.getPrice());
-            if (item.getId().isEmpty() &&
+            if ((item == null || item.getId() == null) || item.getId().isEmpty() &&
                     Objects.equals(item.getAmount(), "0") && Objects.equals(item.getPrice(), "0")) {
                 finish = false;
             }

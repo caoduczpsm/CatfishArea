@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/border_fun_background"
-    android:padding="@dimen/_10sdp"
-    android:layout_gravity="center"
     android:layout_width="@dimen/_280sdp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/border_fun_background"
     android:maxHeight="@dimen/_600sdp"
-    android:layout_height="wrap_content">
+    android:padding="@dimen/_10sdp">
 
     <TextView
         android:id="@+id/textTitle"
@@ -33,12 +32,56 @@
         tools:layout_editor_absoluteX="13dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutName"
+            android:id="@+id/layoutType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imageView22"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_type_category"
+                app:layout_constraintBottom_toBottomOf="@+id/textInputTypeCategory"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textInputTypeCategory"
+                tools:ignore="ContentDescription,ImageContrastCheck" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputTypeCategory"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Loại danh mục"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.87"
+                app:endIconMode="dropdown_menu"
+                app:startIconTint="@color/colorPrimary"
+                tools:ignore="HardcodedText">
+
+                <AutoCompleteTextView
+                    android:id="@+id/spinnerTypeCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_43sdp"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutType">
 
             <ImageView
                 android:id="@+id/imageView17"
@@ -56,6 +99,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:hint="Tên danh mục"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -101,9 +145,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:hint="Nhà sản xuất"
-                app:layout_constraintWidth_percent="0.87"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.87"
                 app:startIconTint="@color/colorPrimary"
                 tools:ignore="HardcodedText">
 
@@ -146,9 +190,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:hint="Đơn vị tính"
-                app:layout_constraintWidth_percent="0.87"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.87"
                 app:startIconTint="@color/colorPrimary"
                 tools:ignore="HardcodedText">
 
@@ -188,11 +232,11 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Công dụng"
                 android:layout_marginTop="@dimen/_8sdp"
-                app:layout_constraintWidth_percent="0.87"
+                android:hint="Công dụng"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.87"
                 app:startIconTint="@color/colorPrimary"
                 tools:ignore="HardcodedText">
 
@@ -238,9 +282,9 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/_16sdp"
-        app:layout_constraintTop_toBottomOf="@id/layoutInput"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutInput"
         app:layout_constraintWidth_percent="0.48"
         tools:ignore="HardcodedText,UnusedAttribute" />
 

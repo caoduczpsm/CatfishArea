@@ -3,6 +3,7 @@ package com.example.catfisharea.activities.admin;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+
 import com.android.app.catfisharea.databinding.ActivityWarehouseHistoryBinding;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.WarehouseHistoryAdapter;
@@ -11,6 +12,7 @@ import com.example.catfisharea.models.WarehouseHistory;
 import com.example.catfisharea.ultilities.Constants;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,8 +41,16 @@ public class WarehouseHistoryActivity extends BaseActivity {
         mBinding.imageBack.setOnClickListener(view -> onBackPressed());
         adapter = new WarehouseHistoryAdapter(warehouseHistoryList);
         mBinding.recyclervewHistory.setAdapter(adapter);
-
+        getNameWarehouse();
         getData();
+    }
+
+    private void getNameWarehouse() {
+        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                .document(warehouseId).get().addOnSuccessListener(nameDoc -> {
+                    String name = nameDoc.getString(Constants.KEY_NAME);
+                    mBinding.textName.setText("Lịch sử nhập " + name);
+                });
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -48,7 +58,7 @@ public class WarehouseHistoryActivity extends BaseActivity {
         database.collection(Constants.KEY_COLLECTION_WAREHOUSE_HISTORY)
                 .whereEqualTo(Constants.KEY_WAREHOUSE_ID, warehouseId)
                 .get().addOnSuccessListener(warehouseQuery -> {
-                    for (DocumentSnapshot doc: warehouseQuery.getDocuments()) {
+                    for (DocumentSnapshot doc : warehouseQuery.getDocuments()) {
                         String id = doc.getId();
                         String total = doc.getString(Constants.KEY_TOTAL_MONEY);
                         Date time = Objects.requireNonNull(doc.getTimestamp(Constants.KEY_TIMESTAMP)).toDate();

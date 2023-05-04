@@ -17,6 +17,7 @@ import com.example.catfisharea.adapter.WarehouseMedicineDetailAdapter;
 import com.example.catfisharea.models.Category;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.DecimalHelper;
+import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -34,6 +35,7 @@ public class WarehouseDetailActivity extends BaseActivity {
     private WarehouseFoodDetailAdapter foodDetailAdapter;
     private WarehouseMedicineDetailAdapter medicineDetailAdapter;
     private WarehouseAnotherDetailAdapter anotherDetailAdapter;
+    private PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +49,17 @@ public class WarehouseDetailActivity extends BaseActivity {
 
     private void setListener() {
         database = FirebaseFirestore.getInstance();
-
+        preferenceManager = new PreferenceManager(this);
         foods = new ArrayList<>();
         medicines = new ArrayList<>();
         anothers = new ArrayList<>();
+
+        String type = preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT);
+        switch (type) {
+            case Constants.KEY_ACCOUNTANT:
+                mBinding.layoutGoods.setVisibility(View.VISIBLE);
+                break;
+        }
 
         foodDetailAdapter = new WarehouseFoodDetailAdapter(foods);
         medicineDetailAdapter = new WarehouseMedicineDetailAdapter(medicines);
