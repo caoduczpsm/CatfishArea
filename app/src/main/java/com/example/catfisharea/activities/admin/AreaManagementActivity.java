@@ -3,25 +3,19 @@ package com.example.catfisharea.activities.admin;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
-import com.airbnb.lottie.L;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityAreaManagementBinding;
-import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
 import com.example.catfisharea.adapter.InfoAreaAdapter;
 import com.example.catfisharea.listeners.InfoClicked;
@@ -51,7 +45,6 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -68,7 +61,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
     private InfoAreaAdapter adapter;
     private List<Object> mItems;
     private String typeActivity;
-    private int zoom = 19;
+    private final int zoom = 19;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +87,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         mBinding.recyclerViewAreaManager.addItemDecoration(itemDecoration);
 
-        mBinding.toolbarManageArea.setNavigationOnClickListener(view -> {
-            onBackPressed();
-        });
+        mBinding.toolbarManageArea.setNavigationOnClickListener(view -> onBackPressed());
         typeActivity = getIntent().getStringExtra("typeActivity");
         if (typeActivity.equals(Constants.KEY_AREA)) {
             mBinding.toolbarManageArea.setTitle("Quản lý vùng");
@@ -132,11 +123,10 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
             mBinding.doneBtn.setVisibility(View.VISIBLE);
         });
 
-        mBinding.doneBtn.setOnClickListener(view -> {
-            deleteItem();
-        });
+        mBinding.doneBtn.setOnClickListener(view -> deleteItem());
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void deleteItem() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
@@ -145,26 +135,20 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
             if (mAreas != null && mAreas.size() > 0) {
                 alertDialog.setTitle("Lưu ý");
                 alertDialog.setMessage("Khi xóa vùng sẽ xóa tất cả khu và ao trong vùng. Bạn có chắc chắn muốn xóa?");
-                alertDialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        adapter.setDeleted(false);
-                        mBinding.newBtn.setVisibility(View.VISIBLE);
-                        mBinding.deleteBtn.setVisibility(View.VISIBLE);
-                        mBinding.doneBtn.setVisibility(View.GONE);
-                        for (Area area : mAreas) {
-                            deleteArea(area.getId());
-                            mItems.remove(area);
-                        }
-                        adapter.notifyDataSetChanged();
-                        drawArea();
+                alertDialog.setPositiveButton("Đồng ý", (dialog, which) -> {
+                    adapter.setDeleted(false);
+                    mBinding.newBtn.setVisibility(View.VISIBLE);
+                    mBinding.deleteBtn.setVisibility(View.VISIBLE);
+                    mBinding.doneBtn.setVisibility(View.GONE);
+                    for (Area area : mAreas) {
+                        deleteArea(area.getId());
+                        mItems.remove(area);
                     }
+                    adapter.notifyDataSetChanged();
+                    drawArea();
                 });
-                alertDialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                alertDialog.setNegativeButton("Hủy", (dialog, which) -> {
 
-                    }
                 });
                 alertDialog.show();
             } else {
@@ -178,27 +162,21 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
             if (mCampues != null && mCampues.size() > 0) {
                 alertDialog.setTitle("Lưu ý");
                 alertDialog.setMessage("Khi xóa khu sẽ xóa tất cả ao trong khu. Bạn có chắc chắn muốn xóa?");
-                alertDialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        adapter.setDeleted(false);
-                        mBinding.newBtn.setVisibility(View.VISIBLE);
-                        mBinding.deleteBtn.setVisibility(View.VISIBLE);
-                        mBinding.doneBtn.setVisibility(View.GONE);
-                        for (Campus campus : mCampues) {
-                            deleteCampus(campus.getId());
-                            mItems.remove(campus);
-                        }
-                        adapter.notifyDataSetChanged();
-                        drawCampus();
+                alertDialog.setPositiveButton("Đồng ý", (dialog, which) -> {
+                    adapter.setDeleted(false);
+                    mBinding.newBtn.setVisibility(View.VISIBLE);
+                    mBinding.deleteBtn.setVisibility(View.VISIBLE);
+                    mBinding.doneBtn.setVisibility(View.GONE);
+                    for (Campus campus : mCampues) {
+                        deleteCampus(campus.getId());
+                        mItems.remove(campus);
                     }
+                    adapter.notifyDataSetChanged();
+                    drawCampus();
                 });
 
-                alertDialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                alertDialog.setNegativeButton("Hủy", (dialog, which) -> {
 
-                    }
                 });
                 alertDialog.show();
             } else {
@@ -236,10 +214,10 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
         database.collection(Constants.KEY_COLLECTION_USER)
                 .whereEqualTo(Constants.KEY_AREA_ID, idArea)
                 .whereEqualTo(Constants.KEY_TYPE_ACCOUNT, Constants.KEY_REGIONAL_CHIEF).get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    database.collection(Constants.KEY_COLLECTION_USER).document(queryDocumentSnapshots.getDocuments().get(0).getId())
-                            .update(Constants.KEY_AREA_ID, FieldValue.delete());
-                });
+                .addOnSuccessListener(queryDocumentSnapshots ->
+                        database.collection(Constants.KEY_COLLECTION_USER).
+                                document(queryDocumentSnapshots.getDocuments().get(0).getId())
+                        .update(Constants.KEY_AREA_ID, FieldValue.delete()));
         database.collection(Constants.KEY_COLLECTION_CAMPUS)
                 .whereEqualTo(Constants.KEY_AREA_ID, idArea)
                 .get().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -294,6 +272,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
     }
 
     // Lấy dữ liệu ao cá lên recyclerview
+    @SuppressLint("NotifyDataSetChanged")
     private void getPondData() {
         drawArea();
         drawCampus();
@@ -317,7 +296,8 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
 //                        thêm điểm ao trên bản đồ
                         MarkerOptions options = new MarkerOptions();
                         options.setIcon(icon);
-                        options.position(new LatLng(geo.getLatitude(), geo.getLongitude()));
+                        assert geo != null;
+                        options.position(new LatLng(Objects.requireNonNull(geo).getLatitude(), geo.getLongitude()));
                         mapboxMap.addMarker(options);
                         Pond pond = new Pond(id, name, geo, campusId, acreage, numOfFeeding, numOfFeedingList, amountFedList, specificationsToMeasureList, parameters);
                         mItems.add(pond);
@@ -334,7 +314,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
     }
 
     //    Lấy dữ liệu khu leen recyclerview
-    @SuppressLint("NewApi")
+    @SuppressLint({"NewApi", "NotifyDataSetChanged"})
     private void getCampusData() {
         drawArea();
         database.collection(Constants.KEY_COLLECTION_CAMPUS)
@@ -347,6 +327,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                         String areaId = doc.getString(Constants.KEY_AREA_ID);
 //                        Vẽ khu trên bản đồ
                         List<LatLng> listPoint = new ArrayList<>();
+                        assert geoList != null;
                         for (GeoPoint point : geoList) {
                             listPoint.add(new LatLng(point.getLatitude(), point.getLongitude()));
                         }
@@ -385,12 +366,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                                     campus.setNumberPond(queryDocumentSnapshots1.size());
                                     adapter.notifyDataSetChanged();
                                 });
-                        Collections.sort(mItems, new Comparator<Object>() {
-                            @Override
-                            public int compare(Object o1, Object o2) {
-                                return ((Campus) o1).getName().compareToIgnoreCase(((Campus) o2).getName());
-                            }
-                        });
+                        mItems.sort((o1, o2) -> ((Campus) o1).getName().compareToIgnoreCase(((Campus) o2).getName()));
                         adapter.notifyDataSetChanged();
                     }
                     clickItem(((Campus) mItems.get(0)).getPolygonCenterPoint(), ((Campus) mItems.get(0)).getListLatLng());
@@ -405,6 +381,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
                         ArrayList<GeoPoint> geoList = (ArrayList<GeoPoint>) doc.get(Constants.KEY_MAP);
                         List<LatLng> listPoint = new ArrayList<>();
+                        assert geoList != null;
                         for (GeoPoint point : geoList) {
                             listPoint.add(new LatLng(point.getLatitude(), point.getLongitude()));
                         }
@@ -430,6 +407,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
                         ArrayList<GeoPoint> geoList = (ArrayList<GeoPoint>) doc.get(Constants.KEY_MAP);
                         List<LatLng> listPoint = new ArrayList<>();
+                        assert geoList != null;
                         for (GeoPoint point : geoList) {
                             listPoint.add(new LatLng(point.getLatitude(), point.getLongitude()));
                         }

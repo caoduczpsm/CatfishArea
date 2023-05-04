@@ -1,5 +1,6 @@
 package com.example.catfisharea.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -24,9 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InfoAreaAdapter extends RecyclerView.Adapter<InfoAreaAdapter.InfoHolder> {
-    private List<Object> mItems;
-    private InfoClicked infoClicked;
-    private Context context;
+    private final List<Object> mItems;
+    private final InfoClicked infoClicked;
+    private final Context context;
 
     private boolean isDeleted = false;
 
@@ -72,14 +73,13 @@ public class InfoAreaAdapter extends RecyclerView.Adapter<InfoAreaAdapter.InfoHo
 
     public class InfoHolder extends RecyclerView.ViewHolder {
         private final LayoutItemAreaBinding mBinding;
-        private final FirebaseFirestore database;
 
         public InfoHolder(@NonNull LayoutItemAreaBinding mBinding) {
             super(mBinding.getRoot());
             this.mBinding = mBinding;
-            database = FirebaseFirestore.getInstance();
         }
 
+        @SuppressLint("SetTextI18n")
         public void setInfo(Area area) {
             mBinding.textNameItem.setText(area.getName());
             if (area.getManager() != null) {
@@ -139,6 +139,7 @@ public class InfoAreaAdapter extends RecyclerView.Adapter<InfoAreaAdapter.InfoHo
 
         }
 
+        @SuppressLint("SetTextI18n")
         public void setInfo(Campus campus) {
             mBinding.textNameManager.setText("Trưởng khu");
             mBinding.textNumberCumpus.setText("Số ao");
@@ -200,6 +201,7 @@ public class InfoAreaAdapter extends RecyclerView.Adapter<InfoAreaAdapter.InfoHo
 
         }
 
+        @SuppressLint("SetTextI18n")
         public void setInfo(Pond pond) {
             mBinding.textNameManager.setText("Khu");
             mBinding.textNumberCumpus.setText("Số công nhân");
@@ -302,6 +304,7 @@ public class InfoAreaAdapter extends RecyclerView.Adapter<InfoAreaAdapter.InfoHo
         return null;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
         notifyDataSetChanged();

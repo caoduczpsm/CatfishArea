@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -8,14 +9,15 @@
 
     <HorizontalScrollView
         android:scrollbars="none"
-        android:paddingLeft="@dimen/_5sdp"
+        android:paddingStart="@dimen/_5sdp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlSymmetry">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/white">
 
@@ -40,7 +42,8 @@
                         android:translationZ="10dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardAccount"
@@ -63,7 +66,8 @@
                             android:text="Tài khoản"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_10ssp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="HardcodedText" />
                     </androidx.cardview.widget.CardView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -79,11 +83,12 @@
                         android:id="@+id/imageArea"
                         android:layout_width="@dimen/_35sdp"
                         android:layout_height="@dimen/_35sdp"
-                        android:src="@drawable/ic_area_home"
+                        android:src="@drawable/ic_campus_color"
                         android:translationZ="10dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription,ImageContrastCheck" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardArea"
@@ -106,7 +111,8 @@
                             android:text="Vùng nuôi"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_10ssp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="HardcodedText" />
                     </androidx.cardview.widget.CardView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -126,7 +132,8 @@
                         android:translationZ="10dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardSeason"
@@ -149,7 +156,8 @@
                             android:text="Vụ nuôi"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_10ssp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="HardcodedText" />
                     </androidx.cardview.widget.CardView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -210,7 +218,8 @@
                         android:translationZ="10dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardWarehouse"
@@ -233,7 +242,8 @@
                             android:text="Kho"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_10ssp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="HardcodedText" />
                     </androidx.cardview.widget.CardView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

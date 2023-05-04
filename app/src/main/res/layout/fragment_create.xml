@@ -36,74 +36,87 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar_shadow">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputNameArea"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardInfo"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tên vùng"
+            android:visibility="visible"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_4sdp"
+            app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:startIconTint="@color/colorPrimary">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtNameArea"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:inputType="text"
-                android:textColor="@color/black" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:padding="@dimen/_10sdp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputNameArea"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Tên vùng"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:startIconTint="@color/colorPrimary"
+                    tools:ignore="HardcodedText">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtNameArea"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:inputType="text"
+                        android:textColor="@color/black"
+                        tools:ignore="TextContrastCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutManager"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/background_edit_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textInputNameArea">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imageManager"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_80sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:src="@drawable/profile"
+                        app:civ_border_color="@color/black"
+                        app:civ_border_width="1dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textNameManager"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="Chọn trưởng vùng"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_15ssp"
+                        app:layout_constraintBottom_toBottomOf="@id/imageManager"
+                        app:layout_constraintStart_toEndOf="@id/imageManager"
+                        app:layout_constraintTop_toTopOf="@id/imageManager"
+                        tools:ignore="HardcodedText" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutManager"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_100sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:background="@drawable/background_edit_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputNameArea">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imageManager"
-                android:layout_width="@dimen/_80sdp"
-                android:layout_height="@dimen/_80sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:src="@drawable/profile"
-                app:civ_border_color="@color/black"
-                app:civ_border_width="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textNameManager"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:text="Chọn trưởng vùng"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_15ssp"
-                app:layout_constraintBottom_toBottomOf="@id/imageManager"
-                app:layout_constraintStart_toEndOf="@id/imageManager"
-                app:layout_constraintTop_toTopOf="@id/imageManager" />
-
-            <TextView
-                android:id="@+id/textManager"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/black2"
-                android:padding="@dimen/_4sdp"
-                android:text="Trưởng vùng"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_14ssp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
 <!--        <com.google.android.material.textfield.TextInputLayout-->
 <!--            android:id="@+id/textInputLatitute"-->
@@ -154,12 +167,14 @@
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_6sdp"
             android:background="@drawable/background_edit_text"
-            android:padding="@dimen/_5sdp"
+            android:padding="@dimen/_10sdp"
             app:layout_constraintBottom_toTopOf="@id/saveBtnCreate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layoutManager">
+            app:layout_constraintTop_toBottomOf="@id/cardInfo">
 
             <com.mapbox.mapboxsdk.maps.MapView
                 android:id="@+id/mapView"
@@ -175,7 +190,8 @@
                 android:src="@drawable/ic_zoom_out_map"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/black" />
+                app:tint="@color/black"
+                tools:ignore="ContentDescription" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/centerLoc"
@@ -187,7 +203,8 @@
                 android:src="@drawable/ic_my_location"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                tools:ignore="ImageContrastCheck" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/freeHandBtn"
@@ -199,7 +216,8 @@
                 android:src="@drawable/baseline_draw_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/centerLoc"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                tools:ignore="ImageContrastCheck" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/deleteBtn"
@@ -212,7 +230,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/freeHandBtn"
                 app:tint="@color/white"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription,ImageContrastCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -229,7 +247,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layoutMaps" />
+            app:layout_constraintTop_toBottomOf="@id/layoutMaps"
+            tools:ignore="HardcodedText,TextContrastCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
