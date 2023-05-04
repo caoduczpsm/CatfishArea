@@ -33,156 +33,134 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarShadow">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputNameCampus"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardInfo"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_8sdp"
-            android:hint="Tên khu"
-            app:layout_constraintEnd_toStartOf="@id/textInputArea"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:startIconTint="@color/colorPrimary">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtNameArea"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:inputType="text"
-                android:textColor="@color/black" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutManager"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_70sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:background="@drawable/background_edit_text"
+            android:visibility="visible"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_4sdp"
+            app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputNameCampus">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imageManager"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:src="@drawable/profile"
-                app:civ_border_color="@color/black"
-                app:civ_border_width="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textNameManager"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:text="Trần Văn A"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_15ssp"
-                app:layout_constraintBottom_toBottomOf="@id/imageManager"
-                app:layout_constraintStart_toEndOf="@id/imageManager"
-                app:layout_constraintTop_toTopOf="@id/imageManager" />
-
-            <TextView
-                android:id="@+id/textManager"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/black2"
-                android:padding="@dimen/_4sdp"
-                android:text="Trưởng khu"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_14ssp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputArea"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:focusable="false"
-            android:hint="Vùng"
-            app:endIconMode="dropdown_menu"
-            app:layout_constraintBottom_toBottomOf="@id/textInputNameCampus"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textInputNameCampus"
-            app:layout_constraintTop_toTopOf="@id/textInputNameCampus"
-            app:startIconTint="@color/colorPrimary">
-
-            <AutoCompleteTextView
-                android:id="@+id/spinnerArea"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:editable="false"
-                android:focusable="false"
-                android:padding="@dimen/_5sdp"
-                android:textColor="@color/black">
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp">
 
-            </AutoCompleteTextView>
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputNameCampus"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:hint="Tên khu"
+                    app:layout_constraintEnd_toStartOf="@id/textInputArea"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:startIconTint="@color/colorPrimary"
+                    tools:ignore="HardcodedText">
 
-        <!--        <com.google.android.material.textfield.TextInputLayout-->
-        <!--            android:id="@+id/textInputLatitute"-->
-        <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="@dimen/_8sdp"-->
-        <!--            android:layout_marginEnd="@dimen/_8sdp"-->
-        <!--            android:hint="Tọa độ N"-->
-        <!--            app:layout_constraintEnd_toStartOf="@id/textInputLongtitute"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/layoutManager"-->
-        <!--            app:startIconTint="@color/colorPrimary">-->
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtNameArea"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:inputType="text"
+                        android:textColor="@color/black"
+                        tools:ignore="TextContrastCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <!--            <com.google.android.material.textfield.TextInputEditText-->
-        <!--                android:id="@+id/edtLatitute"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:gravity="center_vertical"-->
-        <!--                android:inputType="text"-->
-        <!--                android:textColor="@color/black" />-->
-        <!--        </com.google.android.material.textfield.TextInputLayout>-->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutManager"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_70sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/background_edit_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textInputNameCampus">
 
-        <!--        <com.google.android.material.textfield.TextInputLayout-->
-        <!--            android:id="@+id/textInputLongtitute"-->
-        <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="@dimen/_8sdp"-->
-        <!--            android:hint="Tọa độ E"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toEndOf="@id/textInputLatitute"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/layoutManager"-->
-        <!--            app:startIconTint="@color/colorPrimary">-->
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imageManager"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:src="@drawable/profile"
+                        app:civ_border_color="@color/black"
+                        app:civ_border_width="1dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <!--            <com.google.android.material.textfield.TextInputEditText-->
-        <!--                android:id="@+id/edtLongtitute"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:gravity="center_vertical"-->
-        <!--                android:inputType="text"-->
-        <!--                android:textColor="@color/black" />-->
-        <!--        </com.google.android.material.textfield.TextInputLayout>-->
+                    <TextView
+                        android:id="@+id/textNameManager"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="Chọn trưởng khu"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_15ssp"
+                        app:layout_constraintBottom_toBottomOf="@id/imageManager"
+                        app:layout_constraintStart_toEndOf="@id/imageManager"
+                        app:layout_constraintTop_toTopOf="@id/imageManager"
+                        tools:ignore="HardcodedText" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputArea"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:focusable="false"
+                    android:hint="Vùng"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintBottom_toBottomOf="@id/textInputNameCampus"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/textInputNameCampus"
+                    app:layout_constraintTop_toTopOf="@id/textInputNameCampus"
+                    app:startIconTint="@color/colorPrimary"
+                    tools:ignore="HardcodedText">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/spinnerArea"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingBottom="@dimen/_5sdp"
+                        android:paddingEnd="@dimen/_5sdp"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:textColor="@color/black"
+                        tools:ignore="Deprecated,LabelFor,TextContrastCheck">
+
+                    </AutoCompleteTextView>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutMaps"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_6sdp"
             android:background="@drawable/background_edit_text"
-            android:padding="@dimen/_5sdp"
+            android:padding="@dimen/_10sdp"
             app:layout_constraintBottom_toTopOf="@id/saveBtnCreate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layoutManager">
+            app:layout_constraintTop_toBottomOf="@id/cardInfo">
 
             <com.mapbox.mapboxsdk.maps.MapView
                 android:id="@+id/mapView"
@@ -196,7 +174,8 @@
                 android:src="@drawable/ic_zoom_out_map"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/black" />
+                app:tint="@color/black"
+                tools:ignore="ContentDescription" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/centerLoc"
@@ -207,7 +186,8 @@
                 android:src="@drawable/ic_my_location"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                tools:ignore="ContentDescription,ImageContrastCheck,SpeakableTextPresentCheck" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/freeHandBtn"
@@ -218,7 +198,8 @@
                 android:src="@drawable/baseline_draw_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/centerLoc"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                tools:ignore="ContentDescription,ImageContrastCheck,SpeakableTextPresentCheck" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/deleteBtn"
@@ -229,7 +210,8 @@
                 android:src="@drawable/baseline_delete_forever_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/freeHandBtn"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                tools:ignore="ContentDescription,ImageContrastCheck,SpeakableTextPresentCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -239,12 +221,14 @@
             android:layout_height="wrap_content"
             android:background="@drawable/background_button"
             android:backgroundTint="@color/colorButtonLeft"
-            android:text="Lưu"
+            android:text="Tạo"
+            android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/_15ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="HardcodedText,TextContrastCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

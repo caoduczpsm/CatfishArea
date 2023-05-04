@@ -118,7 +118,8 @@ public class RequestImportActivity extends BaseActivity implements MaterialsList
 
         AutoCompleteTextView spinner = dialog.findViewById(R.id.nameItem);
         TextInputEditText editText = dialog.findViewById(R.id.amountItem);
-        AppCompatButton btn = dialog.findViewById(R.id.btnAdd);
+        AppCompatButton btnAdd = dialog.findViewById(R.id.btnAdd);
+        AppCompatButton btnClose = dialog.findViewById(R.id.btnClose);
         TextInputEditText note = dialog.findViewById(R.id.edtNote);
 
 
@@ -128,12 +129,12 @@ public class RequestImportActivity extends BaseActivity implements MaterialsList
         arrayItem.add("Thuốc");
         arrayItem.add("Thiết bị");
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, arrayItem);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, arrayItem);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemClickListener((parent, view, position, id) -> materials.setName(arrayItem.get(position)));
 
-        btn.setOnClickListener(view -> {
+        btnAdd.setOnClickListener(view -> {
             int amount = 0;
             if (!Objects.requireNonNull(editText.getText()).toString().isEmpty()) {
                 amount = Integer.parseInt(editText.getText().toString().trim());
@@ -150,6 +151,9 @@ public class RequestImportActivity extends BaseActivity implements MaterialsList
             }
 
         });
+
+        btnClose.setOnClickListener(view -> dialog.dismiss());
+
         dialog.show();
     }
 

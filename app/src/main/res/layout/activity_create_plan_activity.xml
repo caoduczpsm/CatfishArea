@@ -39,7 +39,7 @@
             android:paddingTop="@dimen/_5sdp"
             android:paddingStart="@dimen/_5sdp"
             android:paddingEnd="@dimen/_5sdp"
-            android:paddingBottom="@dimen/_40sdp"
+            android:paddingBottom="@dimen/_60sdp"
             tools:ignore="RtlSymmetry">
 
             <androidx.cardview.widget.CardView
@@ -60,6 +60,18 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_10sdp">
 
+                    <TextView
+                        android:id="@+id/textTitlePond"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Thông tin ao: "
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_16ssp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="HardcodedText" />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/textInputCampus"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -69,9 +81,10 @@
                         android:focusable="false"
                         android:hint="Khu nuôi"
                         app:endIconMode="dropdown_menu"
+                        android:layout_marginTop="@dimen/_8sdp"
                         app:layout_constraintEnd_toStartOf="@id/textInputPond"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textTitlePond"
                         app:startIconTint="@color/colorPrimary"
                         tools:ignore="HardcodedText">
 
@@ -94,9 +107,10 @@
                         android:focusable="false"
                         android:hint="Ao nuôi"
                         app:endIconMode="dropdown_menu"
+                        android:layout_marginTop="@dimen/_8sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/textInputCampus"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textTitlePond"
                         app:startIconTint="@color/colorPrimary"
                         tools:ignore="HardcodedText">
 
@@ -187,6 +201,18 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_10sdp">
 
+                    <TextView
+                        android:id="@+id/textTitleFish"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Thông tin giống cá: "
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_16ssp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="HardcodedText" />
+
                     <ImageView
                         android:id="@+id/imageView23"
                         android:layout_width="@dimen/_35sdp"
@@ -203,11 +229,11 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_8sdp"
                         android:hint="Mật dộ thả (con/m²)"
+                        android:layout_marginTop="@dimen/_8sdp"
                         app:layout_constraintWidth_percent="0.85"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textTitleFish"
                         app:startIconTint="@color/colorPrimary"
                         tools:ignore="HardcodedText">
 
@@ -344,6 +370,18 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_10sdp">
 
+                    <TextView
+                        android:id="@+id/textTitlePrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Thông tin giá: "
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_16ssp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="HardcodedText" />
+
                     <ImageView
                         android:layout_width="@dimen/_35sdp"
                         android:layout_height="@dimen/_35sdp"
@@ -363,7 +401,7 @@
                         android:hint="Tổng tiền giống (VND)"
                         app:layout_constraintWidth_percent="0.85"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textTitlePrice"
                         app:startIconTint="@color/colorPrimary"
                         tools:ignore="HardcodedText">
 
@@ -421,7 +459,8 @@
                 android:layout_margin="@dimen/_10sdp"
                 android:background="@drawable/background_button"
                 android:backgroundTint="@color/colorButtonLeft"
-                android:text="Lưu"
+                android:text="Tạo"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_15ssp"
                 android:layout_marginBottom="@dimen/_10sdp"

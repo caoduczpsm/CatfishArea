@@ -34,128 +34,162 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarShadow">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputNamePond"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tên ao"
+            android:visibility="visible"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_4sdp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:startIconTint="@color/colorPrimary">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtNameArea"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:inputType="text"
-                android:textColor="@color/black" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:padding="@dimen/_10sdp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputAcreage"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Diện tích"
-            android:layout_marginTop="@dimen/_8sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputNamePond"
-            app:startIconTint="@color/colorPrimary">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputNamePond"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tên ao"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:startIconTint="@color/colorPrimary"
+                    tools:ignore="HardcodedText">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtAcreage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:inputType="numberDecimal"
-                android:textColor="@color/black" />
-        </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtNameArea"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:inputType="text"
+                        android:textColor="@color/black"
+                        tools:ignore="TextContrastCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputArea"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_marginEnd="@dimen/_8sdp"
-            android:hint="Vùng"
-            app:endIconMode="dropdown_menu"
-            app:layout_constraintEnd_toStartOf="@id/textInputCampus"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputAcreage"
-            android:focusable="false"
-            app:startIconTint="@color/colorPrimary">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputAcreage"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Diện tích"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textInputNamePond"
+                    app:startIconTint="@color/colorPrimary"
+                    tools:ignore="HardcodedText">
 
-            <AutoCompleteTextView
-                android:focusable="false"
-                android:editable="false"
-                android:id="@+id/spinnerArea"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/_5sdp"
-                android:textColor="@color/black"></AutoCompleteTextView>
-        </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtAcreage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        tools:ignore="TextContrastCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputCampus"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Khu"
-            app:endIconMode="dropdown_menu"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textInputArea"
-            app:layout_constraintTop_toBottomOf="@id/textInputNamePond"
-            app:layout_constraintTop_toTopOf="@id/textInputArea"
-            android:focusable="false"
-            app:startIconTint="@color/colorPrimary">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputArea"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:hint="Vùng"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toStartOf="@id/textInputCampus"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textInputAcreage"
+                    android:focusable="false"
+                    app:startIconTint="@color/colorPrimary"
+                    tools:ignore="HardcodedText">
 
-            <AutoCompleteTextView
-                android:editable="false"
-                android:id="@+id/spinnerCampus"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/_5sdp"
-                android:textColor="@color/black"></AutoCompleteTextView>
-        </com.google.android.material.textfield.TextInputLayout>
+                    <AutoCompleteTextView
+                        android:id="@+id/spinnerArea"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/black"
+                        tools:ignore="Deprecated,LabelFor,TextContrastCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputWorker"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Công nhân"
-            app:endIconMode="dropdown_menu"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/_8sdp"
-            app:layout_constraintTop_toBottomOf="@id/textInputArea"
-            app:startIconTint="@color/colorPrimary"
-            android:focusable="false">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputCampus"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Khu"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/textInputArea"
+                    app:layout_constraintTop_toBottomOf="@id/textInputNamePond"
+                    app:layout_constraintTop_toTopOf="@id/textInputArea"
+                    android:focusable="false"
+                    app:startIconTint="@color/colorPrimary"
+                    tools:ignore="HardcodedText">
 
-            <AutoCompleteTextView
-                android:editable="false"
-                android:focusable="false"
-                android:id="@+id/edtWorker"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/_5sdp"
-                android:textColor="@color/black"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                    <AutoCompleteTextView
+                        android:id="@+id/spinnerCampus"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:editable="false"
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/black"
+                        tools:ignore="Deprecated,LabelFor,TextContrastCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputWorker"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Công nhân"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:layout_constraintTop_toBottomOf="@id/textInputArea"
+                    app:startIconTint="@color/colorPrimary"
+                    android:focusable="false"
+                    tools:ignore="HardcodedText">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/edtWorker"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/black"
+                        tools:ignore="Deprecated,LabelFor,TextContrastCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutMaps"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_8sdp"
-            android:layout_marginBottom="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_6sdp"
             android:background="@drawable/background_edit_text"
             android:padding="@dimen/_5sdp"
             app:layout_constraintBottom_toTopOf="@id/saveBtnCreate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputWorker">
+            app:layout_constraintTop_toBottomOf="@id/cardInfo">
 
             <com.mapbox.mapboxsdk.maps.MapView
                 android:id="@+id/mapView"
@@ -169,7 +203,8 @@
                 android:src="@drawable/ic_zoom_out_map"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/black" />
+                app:tint="@color/black"
+                tools:ignore="ContentDescription" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/centerLoc"
@@ -180,7 +215,8 @@
                 android:src="@drawable/ic_my_location"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/freeHandBtn"
@@ -191,7 +227,8 @@
                 android:src="@drawable/baseline_draw_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/centerLoc"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/deleteBtn"
@@ -202,7 +239,8 @@
                 android:src="@drawable/baseline_delete_forever_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/freeHandBtn"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -213,12 +251,14 @@
             android:layout_marginBottom="@dimen/_8sdp"
             android:background="@drawable/background_button"
             android:backgroundTint="@color/colorButtonLeft"
-            android:text="Lưu"
+            android:text="Tạo"
             android:textColor="@color/white"
             android:textSize="@dimen/_15ssp"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="HardcodedText,TextContrastCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

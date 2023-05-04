@@ -90,7 +90,8 @@
         android:textColor="@color/black"
         android:textSize="@dimen/_16ssp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/datePicker" />
+        app:layout_constraintTop_toBottomOf="@id/datePicker"
+        tools:ignore="HardcodedText" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewRequest"
@@ -106,12 +107,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_20sdp"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="#FF9800"
         android:src="@drawable/ic_add2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/white"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,DuplicateClickableBoundsCheck" />
 
     <TextView
         android:id="@+id/textLeave"
@@ -125,18 +126,20 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/fabnewLeaveRequest"
         app:layout_constraintEnd_toStartOf="@id/fabnewLeaveRequest"
-        app:layout_constraintTop_toTopOf="@id/fabnewLeaveRequest" />
+        app:layout_constraintTop_toTopOf="@id/fabnewLeaveRequest"
+        tools:ignore="HardcodedText" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabnewImportRequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_20sdp"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="@color/colorButtonLeft"
         android:src="@drawable/ic_add2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/white" />
+        app:tint="@color/white"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/textImport"
@@ -150,7 +153,8 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/fabnewImportRequest"
         app:layout_constraintEnd_toStartOf="@id/fabnewImportRequest"
-        app:layout_constraintTop_toTopOf="@id/fabnewImportRequest" />
+        app:layout_constraintTop_toTopOf="@id/fabnewImportRequest"
+        tools:ignore="HardcodedText" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabnewRequest"
@@ -162,6 +166,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/white"
-        tools:ignore="SpeakableTextPresentCheck"/>
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

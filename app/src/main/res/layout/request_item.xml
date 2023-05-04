@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<com.google.android.material.card.MaterialCardView xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginBottom="@dimen/_8sdp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -22,7 +22,8 @@
             app:layout_constraintTop_toTopOf="parent"
             android:textSize="@dimen/_15ssp"
             android:textColor="@color/black"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
         
         <androidx.cardview.widget.CardView
             android:id="@+id/cardStatus"
@@ -33,28 +34,31 @@
             app:layout_constraintBottom_toBottomOf="@id/nameRequest"
             app:cardCornerRadius="8dp"
             app:cardBackgroundColor="#fff4ec">
+
             <TextView
                 android:id="@+id/textStatus"
-                android:layout_marginLeft="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Chờ xử lý"
                 android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:gravity="center"
+                android:text="Chờ xử lý"
                 android:textColor="#ffa96b"
                 android:textSize="@dimen/_11ssp"
-                android:drawableLeft="@drawable/ic_access_time"/>
+                app:drawableLeftCompat="@drawable/ic_access_time"
+                tools:ignore="HardcodedText,TextContrastCheck" />
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:padding="@dimen/_3sdp"
             android:id="@+id/reasonRequeset"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/nameRequest"
+            android:padding="@dimen/_3sdp"
             android:text="Lý do"
             android:textColor="@color/textGray"
-            android:textSize="@dimen/_13ssp"/>
+            android:textSize="@dimen/_13ssp"
+            app:layout_constraintTop_toBottomOf="@id/nameRequest"
+            tools:ignore="HardcodedText,TextContrastCheck" />
 
         <androidx.cardview.widget.CardView
             android:layout_marginTop="@dimen/_10sdp"
@@ -69,7 +73,8 @@
                 android:padding="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_time_to_leave"/>
+                android:src="@drawable/ic_time_to_leave"
+                tools:ignore="ContentDescription" />
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -84,7 +89,8 @@
             android:textColor="@color/textGray"
             android:textStyle="bold"
             android:textSize="@dimen/_13ssp"
-            android:layout_marginStart="@dimen/_8sdp"/>
+            android:layout_marginStart="@dimen/_8sdp"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/dateLeave"
@@ -98,16 +104,18 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_13ssp"
             android:textStyle="bold"
-            android:layout_marginStart="@dimen/_5sdp"/>
+            android:layout_marginStart="@dimen/_5sdp"
+            tools:ignore="HardcodedText" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageSender"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:src="@drawable/profile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageLeave"
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_marginTop="@dimen/_10sdp"/>
+            tools:ignore="ImageContrastCheck" />
 
         <TextView
             android:id="@+id/textSender"
@@ -121,7 +129,8 @@
             android:textColor="@color/textGray"
             android:textStyle="bold"
             android:textSize="@dimen/_13ssp"
-            android:layout_marginStart="@dimen/_8sdp"/>
+            android:layout_marginStart="@dimen/_8sdp"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/nameSender"
@@ -135,7 +144,8 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_13ssp"
             android:textStyle="bold"
-            android:layout_marginStart="@dimen/_5sdp"/>
+            android:layout_marginStart="@dimen/_5sdp"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/noteRequest"
@@ -146,42 +156,15 @@
             android:text="Tôi bị bệnh"
             android:layout_marginStart="@dimen/_5sdp"
             android:textSize="@dimen/_14ssp"
-            android:textColor="@color/textGray"/>
-
-        <TextView
-            android:background="@drawable/cell"
-            android:visibility="gone"
-            android:id="@+id/textNameSupplies"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_30sdp"
-            app:layout_constraintTop_toBottomOf="@id/noteRequest"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/textAmountSupplies"
-            android:text="Tên vật tư"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_15ssp"
-            android:gravity="center_vertical"/>
-
-        <TextView
-            android:background="@drawable/cell"
-            android:visibility="gone"
-            android:id="@+id/textAmountSupplies"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_30sdp"
-            app:layout_constraintTop_toTopOf="@id/textNameSupplies"
-            app:layout_constraintStart_toEndOf="@id/textNameSupplies"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="Số lượng"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_15ssp"
-            android:gravity="center_vertical"/>
+            android:textColor="@color/textGray"
+            tools:ignore="HardcodedText" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:visibility="gone"
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/textNameSupplies"
+            app:layout_constraintTop_toBottomOf="@id/noteRequest"
             android:layout_marginTop="@dimen/_8sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
@@ -193,35 +176,37 @@
             app:layout_constraintTop_toBottomOf="@id/imageSender" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_marginTop="@dimen/_20sdp"
             android:id="@+id/refuseBtn"
             android:layout_width="0dp"
             android:layout_height="@dimen/_35sdp"
-            app:layout_constraintTop_toBottomOf="@id/recyclerview"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/acceptBtn"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:background="@drawable/background_button"
             android:backgroundTint="@color/colorButtonRight"
-            android:textColor="@color/white"
             android:text="Từ chối"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textSize="@dimen/_14ssp"
-            android:layout_marginEnd="@dimen/_10sdp" />
+            app:layout_constraintEnd_toStartOf="@id/acceptBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recyclerview"
+            tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_marginStart="@dimen/_10sdp"
             android:id="@+id/acceptBtn"
             android:layout_width="0dp"
             android:layout_height="@dimen/_35sdp"
-            app:layout_constraintTop_toTopOf="@id/refuseBtn"
-            app:layout_constraintStart_toEndOf="@id/refuseBtn"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/_10sdp"
             android:background="@drawable/background_button"
             android:backgroundTint="@color/colorButtonLeft"
-            android:textColor="@color/white"
             android:text="Chấp nhận"
             android:textAllCaps="false"
-            android:textSize="@dimen/_14ssp"/>
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/refuseBtn"
+            app:layout_constraintTop_toTopOf="@id/refuseBtn"
+            tools:ignore="HardcodedText,TextContrastCheck,TouchTargetSizeCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

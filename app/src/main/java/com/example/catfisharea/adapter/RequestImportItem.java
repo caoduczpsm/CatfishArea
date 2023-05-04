@@ -1,7 +1,7 @@
 package com.example.catfisharea.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +17,11 @@ import java.util.List;
 
 public class RequestImportItem extends RecyclerView.Adapter<RequestImportItem.ImportHolder> {
     private List<Materials> materials;
-    private Context context;
-    private MaterialsListener listener;
+    private final MaterialsListener listener;
     private boolean isChecked = false;
 
     public RequestImportItem(Context context, List<Materials> materials, MaterialsListener listener) {
         this.materials = materials;
-        this.context = context;
         this.listener = listener;
     }
 
@@ -37,7 +35,7 @@ public class RequestImportItem extends RecyclerView.Adapter<RequestImportItem.Im
     @Override
     public void onBindViewHolder(@NonNull ImportHolder holder, int position) {
         Materials mtr = materials.get(position);
-        holder.setData(mtr, position);
+        holder.setData(mtr);
     }
 
     @Override
@@ -46,7 +44,7 @@ public class RequestImportItem extends RecyclerView.Adapter<RequestImportItem.Im
     }
 
     class ImportHolder extends RecyclerView.ViewHolder {
-        private ImportRequestItemBinding mBinding;
+        private final ImportRequestItemBinding mBinding;
 
         public ImportHolder(ImportRequestItemBinding mBinding) {
             super(mBinding.getRoot());
@@ -54,12 +52,12 @@ public class RequestImportItem extends RecyclerView.Adapter<RequestImportItem.Im
 
         }
 
-        public void setData(Materials mtr, int pst) {
+        @SuppressLint("SetTextI18n")
+        public void setData(Materials mtr) {
             if (mtr.getAmount() >= 0) {
                 mBinding.amountItem.setText(mtr.getAmount() + "");
             }
             mBinding.nameItem.setText(mtr.getName());
-            Log.d("materialsList", mtr.getName());
             if (!mtr.getDecription().trim().isEmpty()) {
                 mBinding.nameChildItem.setVisibility(View.VISIBLE);
                 mBinding.nameChildItem.setText(mtr.getDecription());
@@ -67,15 +65,9 @@ public class RequestImportItem extends RecyclerView.Adapter<RequestImportItem.Im
             if (isChecked) {
                 mBinding.removeItem.setVisibility(View.GONE);
             }
-            mBinding.removeItem.setOnClickListener(view -> {
-                listener.delete(mtr);
-            });
-            mBinding.nameItem.setOnClickListener(view -> {
-                listener.edit(mtr);
-            });
-            mBinding.amountItem.setOnClickListener(view -> {
-                listener.edit(mtr);
-            });
+            mBinding.removeItem.setOnClickListener(view -> listener.delete(mtr));
+            mBinding.nameItem.setOnClickListener(view -> listener.edit(mtr));
+            mBinding.amountItem.setOnClickListener(view -> listener.edit(mtr));
         }
 
     }
@@ -84,6 +76,7 @@ public class RequestImportItem extends RecyclerView.Adapter<RequestImportItem.Im
         return materials;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setMaterials(List<Materials> materials) {
         this.materials = materials;
         notifyDataSetChanged();
@@ -93,6 +86,7 @@ public class RequestImportItem extends RecyclerView.Adapter<RequestImportItem.Im
         return isChecked;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setChecked(boolean checked) {
         isChecked = checked;
         notifyDataSetChanged();

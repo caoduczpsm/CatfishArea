@@ -1,5 +1,6 @@
 package com.example.catfisharea.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -28,9 +29,9 @@ import java.util.List;
 
 
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestHolder> {
-    private List<Object> requests;
-    private Context context;
-    private RequestListener requestListener;
+    private final List<Object> requests;
+    private final Context context;
+    private final RequestListener requestListener;
 
     public RequestAdapter(Context context, List<Object> requests, RequestListener requestListener) {
         this.context = context;
@@ -71,31 +72,36 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestH
             preferenceManager = new PreferenceManager(context);
         }
 
+        @SuppressLint("SetTextI18n")
         public void setRequestLeave(RequestLeave request) {
             mBinding.nameRequest.setText("Xin nghĩ phép");
             mBinding.dateLeave.setText(request.getDateStart() + " - " + request.getDateEnd());
             mBinding.reasonRequeset.setText(request.getReason());
 
-            if (request.getStatus().equals(Constants.KEY_PENDING)) {
-                mBinding.textStatus.setText("Chờ xử lý");
-                mBinding.textStatus.setTextColor(Color.parseColor("#ffa96b"));
-                mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#fff4ec"));
-                mBinding.acceptBtn.setVisibility(View.VISIBLE);
-                mBinding.refuseBtn.setVisibility(View.VISIBLE);
-            } else if (request.getStatus().equals(Constants.KEY_ACCEPT)) {
-                mBinding.textStatus.setText("Chấp nhận");
-                mBinding.textStatus.setTextColor(Color.parseColor("#51b155"));
-                mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#dff8ee"));
-                setDrawableTint(Color.parseColor("#51b155"));
-                mBinding.acceptBtn.setVisibility(View.GONE);
-                mBinding.refuseBtn.setVisibility(View.GONE);
-            } else if (request.getStatus().equals(Constants.KEY_REFUSE)) {
-                mBinding.textStatus.setText("Từ chối");
-                mBinding.textStatus.setTextColor(Color.parseColor("#ed444f"));
-                mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#fcdfe1"));
-                mBinding.acceptBtn.setVisibility(View.GONE);
-                mBinding.refuseBtn.setVisibility(View.GONE);
-                setDrawableTint(Color.parseColor("#ed444f"));
+            switch (request.getStatus()) {
+                case Constants.KEY_PENDING:
+                    mBinding.textStatus.setText("Chờ xử lý");
+                    mBinding.textStatus.setTextColor(Color.parseColor("#ffa96b"));
+                    mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#fff4ec"));
+                    mBinding.acceptBtn.setVisibility(View.VISIBLE);
+                    mBinding.refuseBtn.setVisibility(View.VISIBLE);
+                    break;
+                case Constants.KEY_ACCEPT:
+                    mBinding.textStatus.setText("Chấp nhận");
+                    mBinding.textStatus.setTextColor(Color.parseColor("#51b155"));
+                    mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#dff8ee"));
+                    setDrawableTint(Color.parseColor("#51b155"));
+                    mBinding.acceptBtn.setVisibility(View.GONE);
+                    mBinding.refuseBtn.setVisibility(View.GONE);
+                    break;
+                case Constants.KEY_REFUSE:
+                    mBinding.textStatus.setText("Từ chối");
+                    mBinding.textStatus.setTextColor(Color.parseColor("#ed444f"));
+                    mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#fcdfe1"));
+                    mBinding.acceptBtn.setVisibility(View.GONE);
+                    mBinding.refuseBtn.setVisibility(View.GONE);
+                    setDrawableTint(Color.parseColor("#ed444f"));
+                    break;
             }
             if (request.getNote() == null || request.getNote().isEmpty()) {
                 mBinding.noteRequest.setVisibility(View.GONE);
@@ -111,50 +117,59 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestH
             User user = request.getRequeseter();
             if (user == null) return;
             mBinding.imageSender.setImageBitmap(User.getUserImage(user.image));
-            if (user.position.equals(Constants.KEY_ADMIN))
-                mBinding.textSender.setText("Admin");
-            else if (user.position.equals(Constants.KEY_ACCOUNTANT))
-                mBinding.textSender.setText("Kế Toán");
-            else if (user.position.equals(Constants.KEY_REGIONAL_CHIEF))
-                mBinding.textSender.setText("Trưởng Vùng");
-            else if (user.position.equals(Constants.KEY_DIRECTOR))
-                mBinding.textSender.setText("Trưởng Khu");
-            else if (user.position.equals(Constants.KEY_WORKER))
-                mBinding.textSender.setText("Công Nhân");
+
+            switch (user.position) {
+                case Constants.KEY_ADMIN:
+                    mBinding.textSender.setText("Admin");
+                    break;
+                case Constants.KEY_ACCOUNTANT:
+                    mBinding.textSender.setText("Kế Toán");
+                    break;
+                case Constants.KEY_REGIONAL_CHIEF:
+                    mBinding.textSender.setText("Trưởng Vùng");
+                    break;
+                case Constants.KEY_DIRECTOR:
+                    mBinding.textSender.setText("Trưởng Khu");
+                    break;
+                case Constants.KEY_WORKER:
+                    mBinding.textSender.setText("Công Nhân");
+                    break;
+            }
 
             mBinding.nameSender.setText(user.name);
-            mBinding.acceptBtn.setOnClickListener(view -> {
-                requestListener.accept(request);
-            });
-            mBinding.refuseBtn.setOnClickListener(view -> {
-                requestListener.refush(request);
-            });
+            mBinding.acceptBtn.setOnClickListener(view -> requestListener.accept(request));
+            mBinding.refuseBtn.setOnClickListener(view -> requestListener.refush(request));
         }
 
+        @SuppressLint("SetTextI18n")
         public void setRequestImport(ImportRequest request) {
             mBinding.nameRequest.setText("Xin nhập vật tư");
             mBinding.imageLeave.setVisibility(View.GONE);
 
-            if (request.getStatus().equals(Constants.KEY_PENDING)) {
-                mBinding.textStatus.setText("Chờ xử lý");
-                mBinding.textStatus.setTextColor(Color.parseColor("#ffa96b"));
-                mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#fff4ec"));
-                mBinding.acceptBtn.setVisibility(View.VISIBLE);
-                mBinding.refuseBtn.setVisibility(View.VISIBLE);
-            } else if (request.getStatus().equals(Constants.KEY_ACCEPT)) {
-                mBinding.textStatus.setText("Chấp nhận");
-                mBinding.textStatus.setTextColor(Color.parseColor("#51b155"));
-                mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#dff8ee"));
-                setDrawableTint(Color.parseColor("#51b155"));
-                mBinding.acceptBtn.setVisibility(View.GONE);
-                mBinding.refuseBtn.setVisibility(View.GONE);
-            } else if (request.getStatus().equals(Constants.KEY_REFUSE)) {
-                mBinding.textStatus.setText("Từ chối");
-                mBinding.textStatus.setTextColor(Color.parseColor("#ed444f"));
-                mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#fcdfe1"));
-                mBinding.acceptBtn.setVisibility(View.GONE);
-                mBinding.refuseBtn.setVisibility(View.GONE);
-                setDrawableTint(Color.parseColor("#ed444f"));
+            switch (request.getStatus()) {
+                case Constants.KEY_PENDING:
+                    mBinding.textStatus.setText("Chờ xử lý");
+                    mBinding.textStatus.setTextColor(Color.parseColor("#ffa96b"));
+                    mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#fff4ec"));
+                    mBinding.acceptBtn.setVisibility(View.VISIBLE);
+                    mBinding.refuseBtn.setVisibility(View.VISIBLE);
+                    break;
+                case Constants.KEY_ACCEPT:
+                    mBinding.textStatus.setText("Chấp nhận");
+                    mBinding.textStatus.setTextColor(Color.parseColor("#51b155"));
+                    mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#dff8ee"));
+                    setDrawableTint(Color.parseColor("#51b155"));
+                    mBinding.acceptBtn.setVisibility(View.GONE);
+                    mBinding.refuseBtn.setVisibility(View.GONE);
+                    break;
+                case Constants.KEY_REFUSE:
+                    mBinding.textStatus.setText("Từ chối");
+                    mBinding.textStatus.setTextColor(Color.parseColor("#ed444f"));
+                    mBinding.cardStatus.setCardBackgroundColor(Color.parseColor("#fcdfe1"));
+                    mBinding.acceptBtn.setVisibility(View.GONE);
+                    mBinding.refuseBtn.setVisibility(View.GONE);
+                    setDrawableTint(Color.parseColor("#ed444f"));
+                    break;
             }
 
             mBinding.noteRequest.setVisibility(View.GONE);
@@ -168,16 +183,23 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestH
             User user = request.getRequeseter();
             if (user == null) return;
             mBinding.imageSender.setImageBitmap(User.getUserImage(user.image));
-            if (user.position.equals(Constants.KEY_ADMIN))
-                mBinding.textSender.setText("Admin");
-            else if (user.position.equals(Constants.KEY_ACCOUNTANT))
-                mBinding.textSender.setText("Kế Toán");
-            else if (user.position.equals(Constants.KEY_REGIONAL_CHIEF))
-                mBinding.textSender.setText("Trưởng Vùng");
-            else if (user.position.equals(Constants.KEY_DIRECTOR))
-                mBinding.textSender.setText("Trưởng Khu");
-            else if (user.position.equals(Constants.KEY_WORKER))
-                mBinding.textSender.setText("Công Nhân");
+            switch (user.position) {
+                case Constants.KEY_ADMIN:
+                    mBinding.textSender.setText("Admin");
+                    break;
+                case Constants.KEY_ACCOUNTANT:
+                    mBinding.textSender.setText("Kế Toán");
+                    break;
+                case Constants.KEY_REGIONAL_CHIEF:
+                    mBinding.textSender.setText("Trưởng Vùng");
+                    break;
+                case Constants.KEY_DIRECTOR:
+                    mBinding.textSender.setText("Trưởng Khu");
+                    break;
+                case Constants.KEY_WORKER:
+                    mBinding.textSender.setText("Công Nhân");
+                    break;
+            }
 
             mBinding.nameSender.setText(user.name);
             ArrayList<Materials> materialsList = request.getMaterials();
@@ -196,21 +218,15 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestH
 
             mBinding.recyclerview.setAdapter(adapter);
             mBinding.recyclerview.setVisibility(View.VISIBLE);
-            mBinding.textNameSupplies.setVisibility(View.VISIBLE);
-            mBinding.textAmountSupplies.setVisibility(View.VISIBLE);
 //            materialsList = request.getMaterials();
 //            adapter.notifyDataSetChanged();
 
-            mBinding.acceptBtn.setOnClickListener(view -> {
-                requestListener.accept(request);
-            });
-            mBinding.refuseBtn.setOnClickListener(view -> {
-                requestListener.refush(request);
-            });
+            mBinding.acceptBtn.setOnClickListener(view -> requestListener.accept(request));
+            mBinding.refuseBtn.setOnClickListener(view -> requestListener.refush(request));
         }
 
         private void setDrawableTint(int color) {
-            Drawable drawable = context.getResources().getDrawable(R.drawable.ic_access_time);
+            @SuppressLint("UseCompatLoadingForDrawables") Drawable drawable = context.getResources().getDrawable(R.drawable.ic_access_time);
             drawable = DrawableCompat.wrap(drawable);
             DrawableCompat.setTint(drawable, color);
             DrawableCompat.setTintMode(drawable, PorterDuff.Mode.SRC_IN);

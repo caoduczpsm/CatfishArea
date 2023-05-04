@@ -2,31 +2,22 @@ package com.example.catfisharea.activities.director;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityRequestLeaveBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.catfisharea.activities.BaseActivity;
-import com.example.catfisharea.activities.admin.CreateSimpleAccountActivity;
 import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.PreferenceManager;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.joda.time.DateTime;
@@ -38,6 +29,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class RequestLeaveActivity extends BaseActivity {
     private ActivityRequestLeaveBinding mBinding;
@@ -59,17 +51,11 @@ public class RequestLeaveActivity extends BaseActivity {
     }
 
     private void setListener() {
-        mBinding.toolbarRequestLeave.setNavigationOnClickListener(view -> {
-            onBackPressed();
-        });
+        mBinding.toolbarRequestLeave.setNavigationOnClickListener(view -> onBackPressed());
 
-        mBinding.edtDateStart.setOnClickListener(view -> {
-            openDatePicker(mBinding.edtDateStart);
-        });
+        mBinding.edtDateStart.setOnClickListener(view -> openDatePicker(mBinding.edtDateStart));
 
-        mBinding.edtDateEnd.setOnClickListener(view -> {
-            openDatePicker(mBinding.edtDateEnd);
-        });
+        mBinding.edtDateEnd.setOnClickListener(view -> openDatePicker(mBinding.edtDateEnd));
 
         mBinding.imageReason.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -78,22 +64,17 @@ public class RequestLeaveActivity extends BaseActivity {
             pickImage.launch(intent);
         });
 
-        mBinding.sendReportBtn.setOnClickListener(view -> {
-            sendLeaveRequest();
-        });
+        mBinding.sendReportBtn.setOnClickListener(view -> sendLeaveRequest());
 
 
     }
 
     private void sendLeaveRequest() {
-        String dateStart = mBinding.edtDateStart.getText().toString();
-        String dateEnd = mBinding.edtDateEnd.getText().toString();
-        String reason = mBinding.edtReason.getText().toString().trim();
-        String note = mBinding.edtNote.getText().toString().trim();
-        boolean done = true;
-        if (dateStart.isEmpty()) {
-            done = false;
-        }
+        String dateStart = Objects.requireNonNull(mBinding.edtDateStart.getText()).toString();
+        String dateEnd = Objects.requireNonNull(mBinding.edtDateEnd.getText()).toString();
+        String reason = Objects.requireNonNull(mBinding.edtReason.getText()).toString().trim();
+        String note = Objects.requireNonNull(mBinding.edtNote.getText()).toString().trim();
+        boolean done = !dateStart.isEmpty();
         if (dateEnd.isEmpty()) {
             done = false;
         }
@@ -122,14 +103,11 @@ public class RequestLeaveActivity extends BaseActivity {
                             String campusId = documentSnapshot.getString(Constants.KEY_CAMPUS_ID);
                             data.put(Constants.KEY_RECEIVER_ID, campusId);
                             database.collection(Constants.KEY_COLLECTION_REQUEST).document()
-                                    .set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void unused) {
-                                            Toast.makeText(RequestLeaveActivity.this, "Gửi thành công", Toast.LENGTH_SHORT).show();
-                                            mBinding.edtDateStart.setText("");
-                                            mBinding.edtDateEnd.setText("");
-                                            mBinding.edtReason.setText("");
-                                        }
+                                    .set(data).addOnSuccessListener(unused -> {
+                                        Toast.makeText(RequestLeaveActivity.this, "Gửi thành công", Toast.LENGTH_SHORT).show();
+                                        mBinding.edtDateStart.setText("");
+                                        mBinding.edtDateEnd.setText("");
+                                        mBinding.edtReason.setText("");
                                     });
                         });
             } else if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR)){
@@ -138,14 +116,11 @@ public class RequestLeaveActivity extends BaseActivity {
                             String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
                             data.put(Constants.KEY_RECEIVER_ID, areaId);
                             database.collection(Constants.KEY_COLLECTION_REQUEST).document()
-                                    .set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void unused) {
-                                            Toast.makeText(RequestLeaveActivity.this, "Gửi thành công", Toast.LENGTH_SHORT).show();
-                                            mBinding.edtDateStart.setText("");
-                                            mBinding.edtDateEnd.setText("");
-                                            mBinding.edtReason.setText("");
-                                        }
+                                    .set(data).addOnSuccessListener(unused -> {
+                                        Toast.makeText(RequestLeaveActivity.this, "Gửi thành công", Toast.LENGTH_SHORT).show();
+                                        mBinding.edtDateStart.setText("");
+                                        mBinding.edtDateEnd.setText("");
+                                        mBinding.edtReason.setText("");
                                     });
                         });
             }
@@ -199,22 +174,22 @@ public class RequestLeaveActivity extends BaseActivity {
         dialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
 
         if (edit.equals(mBinding.edtDateEnd)) {
-            if (!mBinding.edtDateStart.getText().toString().isEmpty()) {
-                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            if (!Objects.requireNonNull(mBinding.edtDateStart.getText()).toString().isEmpty()) {
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                 try {
                     Calendar dateStart = Calendar.getInstance();
-                    dateStart.setTime(format.parse(mBinding.edtDateStart.getText().toString()));
+                    dateStart.setTime(Objects.requireNonNull(format.parse(mBinding.edtDateStart.getText().toString())));
                     dialog.getDatePicker().setMinDate(dateStart.getTimeInMillis());
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
             }
         } else if (edit.equals(mBinding.edtDateStart)) {
-            if (!mBinding.edtDateEnd.getText().toString().isEmpty()) {
-                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            if (!Objects.requireNonNull(mBinding.edtDateEnd.getText()).toString().isEmpty()) {
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                 try {
                     Calendar dateEnd = Calendar.getInstance();
-                    dateEnd.setTime(format.parse(mBinding.edtDateEnd.getText().toString()));
+                    dateEnd.setTime(Objects.requireNonNull(format.parse(mBinding.edtDateEnd.getText().toString())));
                     dialog.getDatePicker().setMaxDate(dateEnd.getTimeInMillis());
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
