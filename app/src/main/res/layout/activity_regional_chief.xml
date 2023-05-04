@@ -57,8 +57,8 @@
 
             <ImageView
                 android:id="@+id/imageChat"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
+                android:layout_width="36dp"
+                android:layout_height="30dp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:padding="@dimen/_3sdp"
                 android:src="@drawable/ic_chat"

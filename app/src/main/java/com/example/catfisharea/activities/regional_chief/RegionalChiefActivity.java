@@ -25,6 +25,7 @@ import com.example.catfisharea.activities.alluser.AIActivity;
 import com.example.catfisharea.activities.alluser.AreaHRManagementActivity;
 import com.example.catfisharea.activities.alluser.ConferenceActivity;
 import com.example.catfisharea.activities.alluser.ConversationActivity;
+import com.example.catfisharea.activities.alluser.DiaryActivity;
 import com.example.catfisharea.activities.alluser.LoginActivity;
 import com.example.catfisharea.activities.alluser.PondDetailsActivity;
 import com.example.catfisharea.activities.alluser.TreatmentActivity;
@@ -90,6 +91,10 @@ public class RegionalChiefActivity extends BaseActivity implements CampusListene
         mBinding.layoutControlRegionalChiefHome.layoutSeason.setOnClickListener(view -> {
             Intent intent = new Intent(this, ViewPlanActivity.class);
             startActivity(intent);
+        });
+
+        mBinding.layoutControlRegionalChiefHome.layoutDiary.setOnClickListener(view -> {
+            startActivity(new Intent(this, DiaryActivity.class));
         });
 
         mBinding.layoutControlRegionalChiefHome.layoutHR.setOnClickListener(view -> openHRManagementOptionDialog());

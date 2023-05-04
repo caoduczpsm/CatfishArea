@@ -40,6 +40,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -147,8 +148,8 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
         });
 
         btnCreate.setOnClickListener(view -> {
-            createWarehouse();
-            dialog.dismiss();
+            createWarehouse(dialog);
+//            dialog.dismiss();
         });
 
         btnClose.setOnClickListener(view -> dialog.dismiss());
@@ -178,7 +179,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                 pondSelected = (Pond) parent.getItemAtPosition(position));
     }
 
-    private void createWarehouse() {
+    private void createWarehouse(Dialog dialog) {
         String name = Objects.requireNonNull(edtNameWarehouse.getText()).toString();
         String acreage = Objects.requireNonNull(edtAceage.getText()).toString();
         String description = Objects.requireNonNull(edtDescription.getText()).toString();
@@ -205,6 +206,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                                             getDataWarehouse();
                                         });
                             });
+                    dialog.dismiss();
                 }
             } else {
                 if (preferenceManager.getString(Constants.KEY_CAMPUS_ID) != null && pondSelected != null) {
@@ -224,10 +226,13 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                                             getDataWarehouse();
                                         });
                             });
+                    dialog.dismiss();
                 }
 
             }
 
+        } else {
+            Toast.makeText(this, "Nhập thông tin", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -252,8 +257,9 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
         spinnerType = dialog.findViewById(R.id.spinnerTypeCategory);
 
         List<String> listTypeCategory = new ArrayList<>();
-        listTypeCategory.add(Constants.KEY_CATEGORY_TYPE_MEDICINE);
-        listTypeCategory.add(Constants.KEY_CATEGORY_TYPE_FOOD);
+        listTypeCategory.add("Thuốc");
+        listTypeCategory.add("Thức ăn");
+        listTypeCategory.add("Khác");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.custom_layout_spinner, listTypeCategory);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -262,15 +268,22 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
         spinnerType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                typeCategory = listTypeCategory.get(position);
+                if (position == 0) {
+                    typeCategory = Constants.KEY_CATEGORY_TYPE_MEDICINE;
+                } else if (position == 1) {
+                    typeCategory = Constants.KEY_CATEGORY_TYPE_FOOD;
+                } else {
+                    typeCategory = "other";
+                }
+
             }
         });
 
         checkCategoryError();
 
         btnCreate.setOnClickListener(view -> {
-            saveCategory();
-            dialog.dismiss();
+            saveCategory(dialog);
+//            dialog.dismiss();
         });
 
         btnClose.setOnClickListener(view -> dialog.dismiss());
@@ -278,7 +291,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
         dialog.show();
     }
 
-    private void saveCategory() {
+    private void saveCategory(Dialog dialog) {
         String name = Objects.requireNonNull(edtNameCategory.getText()).toString().trim();
         String producer = Objects.requireNonNull(edtNameSupplier.getText()).toString().trim();
         String unit = Objects.requireNonNull(edtUnit.getText()).toString().trim();
@@ -308,6 +321,9 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                 textInputNameSupplier.setErrorEnabled(false);
                 Toast.makeText(this, "Tạo thành công", Toast.LENGTH_SHORT).show();
             });
+            dialog.dismiss();
+        } else {
+            Toast.makeText(this, "Nhập thông tin", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -461,9 +477,14 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
 
                                         warehouseList.add(warehouse);
                                         itemWarehouse.setWarehouseList(warehouseList);
+                                        Collections.sort(mWarehouses,
+                                                (o1, o2) -> (o1.getRegionModel().getName().compareToIgnoreCase(o2.getRegionModel().getName())));
 
+                                        Collections.sort(itemWarehouse.getWarehouseList(),
+                                                (o1, o2) -> (o1.getName().compareToIgnoreCase(o2.getName())));
                                         warehouseAdapter.notifyDataSetChanged();
                                     }
+
                                 });
                     }
                 });
@@ -484,6 +505,8 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                                         documentSnapshot.getString(Constants.KEY_NAME));
                                 itemWarehouse.setRegionModel(campus);
                                 mWarehouses.add(itemWarehouse);
+                                Collections.sort(mWarehouses,
+                                        (o1, o2) -> (o1.getRegionModel().getName().compareToIgnoreCase(o2.getRegionModel().getName())));
                                 warehouseAdapter.notifyDataSetChanged();
                             });
                     for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
@@ -499,10 +522,14 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
                         warehouseList.add(warehouse);
 
                         itemWarehouse.setWarehouseList(warehouseList);
+                        Collections.sort(itemWarehouse.getWarehouseList(),
+                                (o1, o2) -> (o1.getName().compareToIgnoreCase(o2.getName())));
                         warehouseAdapter.notifyDataSetChanged();
 //                        mWarehouses.add(warehouse);
 
                     }
+
+//                    warehouseAdapter.notifyDataSetChanged();
 //                    warehouseAdapter.notifyDataSetChanged();
                 });
     }
