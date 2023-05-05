@@ -318,7 +318,8 @@
                         android:translationZ="10dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardDiary"
@@ -341,7 +342,8 @@
                             android:text="Nhật ký"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_10ssp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="HardcodedText" />
                     </androidx.cardview.widget.CardView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

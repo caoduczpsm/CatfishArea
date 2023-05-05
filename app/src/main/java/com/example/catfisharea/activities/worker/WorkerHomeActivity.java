@@ -132,7 +132,6 @@ public class WorkerHomeActivity extends BaseActivity {
                             List<String> receiverFeedFishTask = (List<String>) queryDocumentSnapshot.get(Constants.KEY_RECEIVER_ID);
                             assert receiverFeedFishTask != null;
                             if (receiverFeedFishTask.contains(preferenceManager.getString(Constants.KEY_USER_ID))){
-                                binding.layoutHome.btnAddWeight.setVisibility(View.VISIBLE);
                                 scaleTask = new Task();
                                 scaleTask.id = queryDocumentSnapshot.getId();
                                 scaleTask.status = queryDocumentSnapshot.getString(Constants.KEY_STATUS_TASK);
@@ -144,86 +143,88 @@ public class WorkerHomeActivity extends BaseActivity {
                     }
                 })
                 .addOnSuccessListener(runnable -> {
-                    if (scaleTask.status.equals(Constants.KEY_COMPLETED)){
-                        binding.layoutHome.btnAddWeight.setVisibility(View.GONE);
-                    } else {
-                        binding.layoutHome.btnAddWeight.setVisibility(View.VISIBLE);
-                    }
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        if (preferenceManager.getString(Constants.KEY_NOW) == null){
-                            preferenceManager.putString(Constants.KEY_NOW, LocalDate.now().toString());
+                    if (scaleTask != null) {
+                        if (scaleTask.status.equals(Constants.KEY_COMPLETED)){
+                            binding.layoutHome.btnAddWeight.setVisibility(View.GONE);
                         } else {
-                            if (!preferenceManager.getString(Constants.KEY_NOW).equals(LocalDate.now().toString())) {
-                                HashMap<String, Object> unCompleteTask = new HashMap<>();
-                                unCompleteTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
-                                database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
-                                        .document(scaleTask.id)
-                                        .update(unCompleteTask)
-                                        .addOnSuccessListener(runnable1 -> {
-                                            binding.layoutHome.btnAddWeight.setVisibility(View.VISIBLE);
-                                            binding.layoutHome.weight.setText("g/con");
-                                            binding.layoutHome.loss.setText("con");
-                                            binding.layoutHome.imageEditLoss.setVisibility(View.GONE);
-                                            binding.layoutHome.imageEditWeight.setVisibility(View.GONE);
-                                        });
+                            binding.layoutHome.btnAddWeight.setVisibility(View.VISIBLE);
+                        }
 
-                                LocalDate now = LocalDate.now();
-                                String yesterday = now.minusDays(1).toString();
-
-                                database.collection(Constants.KEY_COLLECTION_PLAN)
-                                        .whereEqualTo(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID))
-                                        .get()
-                                        .addOnCompleteListener(task -> {
-                                           if (task.getResult() != null && task.isSuccessful()){
-                                               for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-                                                   if (queryDocumentSnapshot.getString(Constants.KEY_POND_ID) != null){
-                                                       database.collection(Constants.KEY_COLLECTION_FISH_WEIGH)
-                                                               .whereEqualTo(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID))
-                                                               .whereEqualTo(Constants.KEY_FISH_WEIGH_DATE, yesterday)
-                                                               .get()
-                                                               .addOnCompleteListener(task1-> {
-                                                                   for (QueryDocumentSnapshot queryDocumentSnapshot1 : task1.getResult()){
-                                                                       HashMap<String, Object> weight = new HashMap<>();
-                                                                       weight.put(Constants.KEY_FISH_WEIGH_DATE, yesterday);
-                                                                       weight.put(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID));
-                                                                       weight.put(Constants.KEY_FISH_WEIGH_WEIGHT, queryDocumentSnapshot1.getString(Constants.KEY_FISH_WEIGH_WEIGHT));
-                                                                       weight.put(Constants.KEY_FISH_WEIGH_LOSS, queryDocumentSnapshot1.getString(Constants.KEY_FISH_WEIGH_LOSS));
-                                                                       if (task1.getResult() != null && task1.isSuccessful()){
-                                                                           database.collection(Constants.KEY_COLLECTION_PLAN)
-                                                                                   .document(queryDocumentSnapshot.getId())
-                                                                                   .collection(Constants.KEY_COLLECTION_FISH_WEIGH)
-                                                                                   .document(yesterday)
-                                                                                   .set(weight)
-                                                                                   .addOnSuccessListener(runnable1 ->
-                                                                                           database.collection(Constants.KEY_COLLECTION_FISH_WEIGH)
-                                                                                           .document(queryDocumentSnapshot1.getId())
-                                                                                           .delete());
-                                                                       }
-                                                                   }
-                                                               });
-                                                   }
-
-                                               }
-                                           }
-                                        });
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            if (preferenceManager.getString(Constants.KEY_NOW) == null){
+                                preferenceManager.putString(Constants.KEY_NOW, LocalDate.now().toString());
                             } else {
-                                database.collection(Constants.KEY_COLLECTION_FISH_WEIGH)
-                                        .whereEqualTo(Constants.KEY_FISH_WEIGH_DATE, LocalDate.now().toString())
-                                        .whereEqualTo(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID))
-                                        .get()
-                                        .addOnCompleteListener(task -> {
-                                            if (task.getResult() != null && task.isSuccessful()) {
-                                                for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-                                                    binding.layoutHome.btnAddWeight.setVisibility(View.GONE);
-                                                    binding.layoutHome.weight.setText(queryDocumentSnapshot.getString(Constants.KEY_FISH_WEIGH_WEIGHT) + " g/con");
-                                                    binding.layoutHome.loss.setText(queryDocumentSnapshot.getString(Constants.KEY_FISH_WEIGH_LOSS) + " con");
-                                                    binding.layoutHome.imageEditLoss.setVisibility(View.VISIBLE);
-                                                    binding.layoutHome.imageEditWeight.setVisibility(View.VISIBLE);
-                                                }
-                                            }
-                                        });
+                                if (!preferenceManager.getString(Constants.KEY_NOW).equals(LocalDate.now().toString())) {
+                                    HashMap<String, Object> unCompleteTask = new HashMap<>();
+                                    unCompleteTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
+                                    database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                                            .document(scaleTask.id)
+                                            .update(unCompleteTask)
+                                            .addOnSuccessListener(runnable1 -> {
+                                                binding.layoutHome.btnAddWeight.setVisibility(View.VISIBLE);
+                                                binding.layoutHome.weight.setText("g/con");
+                                                binding.layoutHome.loss.setText("con");
+                                                binding.layoutHome.imageEditLoss.setVisibility(View.GONE);
+                                                binding.layoutHome.imageEditWeight.setVisibility(View.GONE);
+                                            });
 
+                                    LocalDate now = LocalDate.now();
+                                    String yesterday = now.minusDays(1).toString();
+
+                                    database.collection(Constants.KEY_COLLECTION_PLAN)
+                                            .whereEqualTo(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID))
+                                            .get()
+                                            .addOnCompleteListener(task -> {
+                                                if (task.getResult() != null && task.isSuccessful()){
+                                                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                                        if (queryDocumentSnapshot.getString(Constants.KEY_POND_ID) != null){
+                                                            database.collection(Constants.KEY_COLLECTION_FISH_WEIGH)
+                                                                    .whereEqualTo(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID))
+                                                                    .whereEqualTo(Constants.KEY_FISH_WEIGH_DATE, yesterday)
+                                                                    .get()
+                                                                    .addOnCompleteListener(task1-> {
+                                                                        for (QueryDocumentSnapshot queryDocumentSnapshot1 : task1.getResult()){
+                                                                            HashMap<String, Object> weight = new HashMap<>();
+                                                                            weight.put(Constants.KEY_FISH_WEIGH_DATE, yesterday);
+                                                                            weight.put(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID));
+                                                                            weight.put(Constants.KEY_FISH_WEIGH_WEIGHT, queryDocumentSnapshot1.getString(Constants.KEY_FISH_WEIGH_WEIGHT));
+                                                                            weight.put(Constants.KEY_FISH_WEIGH_LOSS, queryDocumentSnapshot1.getString(Constants.KEY_FISH_WEIGH_LOSS));
+                                                                            if (task1.getResult() != null && task1.isSuccessful()){
+                                                                                database.collection(Constants.KEY_COLLECTION_PLAN)
+                                                                                        .document(queryDocumentSnapshot.getId())
+                                                                                        .collection(Constants.KEY_COLLECTION_FISH_WEIGH)
+                                                                                        .document(yesterday)
+                                                                                        .set(weight)
+                                                                                        .addOnSuccessListener(runnable1 ->
+                                                                                                database.collection(Constants.KEY_COLLECTION_FISH_WEIGH)
+                                                                                                        .document(queryDocumentSnapshot1.getId())
+                                                                                                        .delete());
+                                                                            }
+                                                                        }
+                                                                    });
+                                                        }
+
+                                                    }
+                                                }
+                                            });
+                                } else {
+                                    database.collection(Constants.KEY_COLLECTION_FISH_WEIGH)
+                                            .whereEqualTo(Constants.KEY_FISH_WEIGH_DATE, LocalDate.now().toString())
+                                            .whereEqualTo(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID))
+                                            .get()
+                                            .addOnCompleteListener(task -> {
+                                                if (task.getResult() != null && task.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                                        binding.layoutHome.btnAddWeight.setVisibility(View.GONE);
+                                                        binding.layoutHome.weight.setText(queryDocumentSnapshot.getString(Constants.KEY_FISH_WEIGH_WEIGHT) + " g/con");
+                                                        binding.layoutHome.loss.setText(queryDocumentSnapshot.getString(Constants.KEY_FISH_WEIGH_LOSS) + " con");
+                                                        binding.layoutHome.imageEditLoss.setVisibility(View.VISIBLE);
+                                                        binding.layoutHome.imageEditWeight.setVisibility(View.VISIBLE);
+                                                    }
+                                                }
+                                            });
+
+                                }
                             }
                         }
                     }

@@ -172,7 +172,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/border_fun_background"
+                android:background="@drawable/background_button"
                 android:gravity="center"
                 android:text="Đóng"
                 android:textAlignment="center"
