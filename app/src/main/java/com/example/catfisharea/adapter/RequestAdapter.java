@@ -51,7 +51,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestH
         if (requests.get(position) instanceof RequestLeave) {
             RequestLeave requestLeave = (RequestLeave) requests.get(position);
             holder.setRequestLeave(requestLeave);
-        } else {
+        } else if (requests.get(position) instanceof ImportRequest){
             ImportRequest requestLeave = (ImportRequest) requests.get(position);
             holder.setRequestImport(requestLeave);
         }
@@ -75,8 +75,10 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestH
         @SuppressLint("SetTextI18n")
         public void setRequestLeave(RequestLeave request) {
             mBinding.nameRequest.setText("Xin nghĩ phép");
+            mBinding.imageLeave.setVisibility(View.VISIBLE);
             mBinding.dateLeave.setText(request.getDateStart() + " - " + request.getDateEnd());
             mBinding.reasonRequeset.setText(request.getReason());
+            mBinding.recyclerview.setVisibility(View.GONE);
 
             switch (request.getStatus()) {
                 case Constants.KEY_PENDING:
@@ -145,6 +147,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestH
         public void setRequestImport(ImportRequest request) {
             mBinding.nameRequest.setText("Xin nhập vật tư");
             mBinding.imageLeave.setVisibility(View.GONE);
+            mBinding.recyclerview.setVisibility(View.VISIBLE);
 
             switch (request.getStatus()) {
                 case Constants.KEY_PENDING:
@@ -223,6 +226,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestH
 
             mBinding.acceptBtn.setOnClickListener(view -> requestListener.accept(request));
             mBinding.refuseBtn.setOnClickListener(view -> requestListener.refush(request));
+            mBinding.layoutItem.setOnClickListener(view -> requestListener.delete(request));
         }
 
         private void setDrawableTint(int color) {

@@ -190,7 +190,7 @@
                 android:src="@drawable/ic_zoom_out_map"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/black"
+                app:tint="@color/colorPrimary"
                 tools:ignore="ContentDescription" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton

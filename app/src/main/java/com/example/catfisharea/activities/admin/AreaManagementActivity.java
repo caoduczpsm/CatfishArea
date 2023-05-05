@@ -3,6 +3,7 @@ package com.example.catfisharea.activities.admin;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,7 +13,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityAreaManagementBinding;
@@ -62,6 +65,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
     private List<Object> mItems;
     private String typeActivity;
     private final int zoom = 19;
+    private boolean isZoomOut = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +90,25 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
         mBinding.recyclerViewAreaManager.setLayoutManager(new LinearLayoutManager(this));
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         mBinding.recyclerViewAreaManager.addItemDecoration(itemDecoration);
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mBinding.layoutMaps.getLayoutParams();
+        mBinding.zoomOutBtn.setOnClickListener(view -> {
+            if (!isZoomOut) {
+                mBinding.layoutMaps.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                mBinding.zoomOutBtn.setImageResource(R.drawable.baseline_zoom_in_map_24);
+                mBinding.scroolView.setVisibility(View.GONE);
+            } else {
+                mBinding.layoutMaps.setLayoutParams(params);
+                mBinding.zoomOutBtn.setImageResource(R.drawable.ic_zoom_out_map);
+                mBinding.scroolView.setVisibility(View.VISIBLE);
+            }
+            isZoomOut = !isZoomOut;
+        });
 
         mBinding.toolbarManageArea.setNavigationOnClickListener(view -> onBackPressed());
         typeActivity = getIntent().getStringExtra("typeActivity");

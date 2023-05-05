@@ -46,7 +46,7 @@ public class ViewPlanActivity extends BaseActivity implements CampusListener {
         itemHomes = new ArrayList<>();
         homeAdapter = new HomeAdapter(this, itemHomes, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mBinding.recyclerViewPlan.setLayoutManager(linearLayoutManager);
         mBinding.recyclerViewPlan.setAdapter(homeAdapter);
 

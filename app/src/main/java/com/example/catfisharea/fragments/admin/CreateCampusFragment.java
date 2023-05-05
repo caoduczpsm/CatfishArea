@@ -125,6 +125,10 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
         database = FirebaseFirestore.getInstance();
         action = getArguments().getString("action");
 
+        mBinding.toolbarManageCampus.setNavigationOnClickListener(view -> {
+            getActivity().onBackPressed();
+        });
+
         return mBinding.getRoot();
     }
 
@@ -308,17 +312,19 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
 
                             polylineList.add(line);
 //                        line.setJointType(JointType.ROUND);
-                            if (boundingBoxListTotal.size() > 0) {
-                                if (!TurfJoins.inside(Point.fromLngLat(latitude, longitude),
-                                        com.mapbox.geojson.Polygon.fromLngLats(boundingBoxListTotal))) {
-                                    Log.d("FATAL EXCEPTION: main", boundingBoxTotal.get(0).toJson());
+
+                            if (!action.equals("edit")) {
+                                if (boundingBoxListTotal.size() > 0) {
+                                    if (!TurfJoins.inside(Point.fromLngLat(latitude, longitude),
+                                            com.mapbox.geojson.Polygon.fromLngLats(boundingBoxListTotal))) {
+                                        fillColor = Color.argb(100, 255, 80, 80);
+                                    }
+                                }
+                                if (checkInside(Point.fromLngLat(latitude, longitude))) {
                                     fillColor = Color.argb(100, 255, 80, 80);
                                 }
                             }
 
-                            if (checkInside(Point.fromLngLat(latitude, longitude))) {
-                                fillColor = Color.argb(100, 255, 80, 80);
-                            }
                             break;
                         case MotionEvent.ACTION_UP:
                             // finger leaves the screen
@@ -355,10 +361,12 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                 mBinding.layoutMaps.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 mBinding.zoomOutBtn.setImageResource(R.drawable.baseline_zoom_in_map_24);
                 mBinding.saveBtnCreate.setVisibility(View.GONE);
+                mBinding.cardInfo.setVisibility(View.GONE);
             } else {
                 mBinding.layoutMaps.setLayoutParams(params);
                 mBinding.zoomOutBtn.setImageResource(R.drawable.ic_zoom_out_map);
                 mBinding.saveBtnCreate.setVisibility(View.VISIBLE);
+                mBinding.cardInfo.setVisibility(View.VISIBLE);
             }
             isZoomOut = !isZoomOut;
         });

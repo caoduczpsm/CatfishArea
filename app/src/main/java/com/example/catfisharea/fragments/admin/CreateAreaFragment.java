@@ -116,6 +116,9 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
         mBinding.mapView.getMapAsync(this);
 //        setListener();
         preferenceManager = new PreferenceManager(getContext());
+        mBinding.toolbarManageArea.setNavigationOnClickListener(view -> {
+            getActivity().onBackPressed();
+        });
         //FireStore
         database = FirebaseFirestore.getInstance();
         action = getArguments().getString("action");
@@ -334,15 +337,18 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
             }
         });
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mBinding.layoutMaps.getLayoutParams();
+
         mBinding.zoomOutBtn.setOnClickListener(view -> {
             if (!isZoomOut) {
                 mBinding.layoutMaps.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 mBinding.zoomOutBtn.setImageResource(R.drawable.baseline_zoom_in_map_24);
                 mBinding.saveBtnCreate.setVisibility(View.INVISIBLE);
+                mBinding.cardInfo.setVisibility(View.GONE);
             } else {
                 mBinding.layoutMaps.setLayoutParams(params);
                 mBinding.zoomOutBtn.setImageResource(R.drawable.ic_zoom_out_map);
                 mBinding.saveBtnCreate.setVisibility(View.VISIBLE);
+                mBinding.cardInfo.setVisibility(View.VISIBLE);
             }
             isZoomOut = !isZoomOut;
         });

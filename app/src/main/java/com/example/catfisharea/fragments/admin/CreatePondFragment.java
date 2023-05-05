@@ -119,6 +119,10 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
 
         action = getArguments().getString("action");
 
+        mBinding.toolbarManagePond.setNavigationOnClickListener(view -> {
+            getActivity().onBackPressed();
+        });
+
         return mBinding.getRoot();
     }
 
@@ -247,9 +251,13 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
             if (!isZoomOut) {
                 mBinding.layoutMaps.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 mBinding.zoomOutBtn.setImageResource(R.drawable.baseline_zoom_in_map_24);
+                mBinding.cardInfo.setVisibility(View.GONE);
+                mBinding.saveBtnCreate.setVisibility(View.GONE);
             } else {
                 mBinding.layoutMaps.setLayoutParams(params);
                 mBinding.zoomOutBtn.setImageResource(R.drawable.ic_zoom_out_map);
+                mBinding.cardInfo.setVisibility(View.VISIBLE);
+                mBinding.saveBtnCreate.setVisibility(View.VISIBLE);
             }
             isZoomOut = !isZoomOut;
         });

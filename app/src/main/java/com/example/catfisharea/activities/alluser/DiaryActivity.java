@@ -98,7 +98,7 @@ public class DiaryActivity extends BaseActivity implements CampusListener, Diary
     }
 
     private void getDiary(String pondId) {
-        database.collection(Constants.KEY_COLLECTION_PLAN)
+        database.collection(Constants.KEY_COLLECTION_DIARY)
                 .whereEqualTo(Constants.KEY_POND_ID, pondId)
                 .get().addOnSuccessListener(diaryQuery -> {
                    for (DocumentSnapshot diaryDoc: diaryQuery.getDocuments()) {

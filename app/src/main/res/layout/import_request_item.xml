@@ -155,7 +155,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:gravity="center_vertical"
-                    android:text="abc abc abc abc"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14ssp"
                     android:maxLines="1"

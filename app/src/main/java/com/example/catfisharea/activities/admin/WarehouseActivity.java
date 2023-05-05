@@ -141,6 +141,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
 
         spinnerCampus.setOnItemClickListener((parent, view, position, id) -> {
             campus = (Campus) parent.getItemAtPosition(position);
+            spinnerPond.setText("");
             getDataPond(campus.getId());
         });
 
@@ -162,14 +163,21 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
         database.collection(Constants.KEY_COLLECTION_POND)
                 .whereEqualTo(Constants.KEY_CAMPUS_ID, campusId)
                 .get().addOnSuccessListener(pondQuery -> {
+
                     for (DocumentSnapshot doc : pondQuery.getDocuments()) {
-                        Map<String, Object> data = doc.getData();
-                        String id = doc.getId();
-                        assert data != null;
-                        Pond pond = new Pond(id, Objects.requireNonNull(data.get(Constants.KEY_NAME)).toString());
-                        mPond.add(pond);
+                        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                .whereEqualTo(Constants.KEY_POND_ID, doc.getId())
+                                .get().addOnSuccessListener(queryDocumentSnapshots -> {
+                                   if (queryDocumentSnapshots.getDocuments().size() == 0) {
+                                       Map<String, Object> data = doc.getData();
+                                       String id = doc.getId();
+                                       assert data != null;
+                                       Pond pond = new Pond(id, Objects.requireNonNull(data.get(Constants.KEY_NAME)).toString());
+                                       mPond.add(pond);
+                                       spinnerAdapter.notifyDataSetChanged();
+                                   }
+                                });
                     }
-                    spinnerAdapter.notifyDataSetChanged();
                 });
 
         spinnerPond.setOnItemClickListener((parent, view, position, id) ->
