@@ -67,7 +67,7 @@ public class RequestImportActivity extends BaseActivity implements MaterialsList
     }
 
     private void sendRequest() {
-
+        if (preferenceManager.getString(Constants.KEY_CAMPUS_ID) == null) return;
         String name = mBinding.toolbarRequestImport.getTitle().toString();
         DateTime dateTime = DateTime.now();
         String dateCreated = dateTime.getDayOfMonth() + "/" + dateTime.getMonthOfYear() + "/" + dateTime.getYear();

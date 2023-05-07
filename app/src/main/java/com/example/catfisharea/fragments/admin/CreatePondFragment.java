@@ -166,7 +166,7 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
             setDefaultUI();
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(locationComponent.getLastKnownLocation().getLatitude(), locationComponent.getLastKnownLocation().getLongitude()))
-                    .zoom(18).build();
+                    .zoom(15).build();
             mapboxMap.setCameraPosition(cameraPosition);
             mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 500);
         });
@@ -546,7 +546,7 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
 
                     CameraPosition areaPosition = new CameraPosition.Builder()
                             .target(center)
-                            .zoom(19).build();
+                            .zoom(15).build();
                     mapboxMap.setCameraPosition(areaPosition);
                     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(areaPosition), 500);
                     setDataCampusSpinner();
@@ -584,7 +584,7 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
                                     LatLng center = getPolygonCenterPoint((ArrayList<LatLng>) arraylistoflatlng);
                                     CameraPosition areaPosition = new CameraPosition.Builder()
                                             .target(center)
-                                            .zoom(19).build();
+                                            .zoom(15).build();
                                     mapboxMap.setCameraPosition(areaPosition);
                                     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(areaPosition), 500);
 
@@ -640,7 +640,7 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
 
                     CameraPosition areaPosition = new CameraPosition.Builder()
                             .target(center)
-                            .zoom(20).build();
+                            .zoom(15).build();
                     mapboxMap.setCameraPosition(areaPosition);
                     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(areaPosition), 500);
 

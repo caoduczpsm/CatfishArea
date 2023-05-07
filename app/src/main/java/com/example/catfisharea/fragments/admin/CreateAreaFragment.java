@@ -217,18 +217,18 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
         database.collection(Constants.KEY_COLLECTION_CAMPUS)
                 .whereEqualTo(Constants.KEY_AREA_ID, idItem)
                 .get().addOnSuccessListener(queryDocumentSnapshots -> {
-                   for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots.getDocuments()) {
-                       ArrayList<GeoPoint> geoPoints = (ArrayList<GeoPoint>) documentSnapshot.get(Constants.KEY_MAP);
+                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                        ArrayList<GeoPoint> geoPoints = (ArrayList<GeoPoint>) documentSnapshot.get(Constants.KEY_MAP);
 
-                       Point point = Point.fromLngLat(geoPoints.get(0).getLatitude(), geoPoints.get(0).getLongitude());
+                        Point point = Point.fromLngLat(geoPoints.get(0).getLatitude(), geoPoints.get(0).getLongitude());
 
-                       if (!TurfJoins.inside(point, com.mapbox.geojson.Polygon.fromLngLats(boundingBoxList))) {
+                        if (!TurfJoins.inside(point, com.mapbox.geojson.Polygon.fromLngLats(boundingBoxList))) {
 
-                           isBound.set(false);
-                       }
-                   }
+                            isBound.set(false);
+                        }
+                    }
                 });
-       return isBound.get();
+        return isBound.get();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -241,9 +241,13 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
         });
 
         mBinding.centerLoc.setOnClickListener(view -> {
+//            CameraPosition cameraPosition = new CameraPosition.Builder()
+//                    .target(new
+//                            LatLng(10.301464, 105.808371))
+//                    .zoom(13).build();
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(locationComponent.getLastKnownLocation().getLatitude(), locationComponent.getLastKnownLocation().getLongitude()))
-                    .zoom(18).build();
+                    .zoom(13).build();
             mapboxMap.setCameraPosition(cameraPosition);
             mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 500);
         });
@@ -331,7 +335,9 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
                 //clear the previous polygon first. Write code here
                 if (polygon != null) {
                     fillColor = Color.argb(100, 20, 137, 238);
-                    deletePolygon();
+                    if (mapboxMap != null) {
+                        deletePolygon();
+                    }
                 }
                 available = false;
             }
@@ -361,44 +367,48 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
         database.collection(Constants.KEY_COLLECTION_CAMPUS)
                 .whereEqualTo(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID))
                 .get().addOnSuccessListener(queryDocumentSnapshots -> {
-                   for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots.getDocuments()) {
-                       ArrayList<GeoPoint> geo = (ArrayList<GeoPoint>) documentSnapshot.get(Constants.KEY_MAP);
-                       assert geo != null;
-                       List<LatLng> listpoint = new ArrayList<>();
-                       for (GeoPoint point : geo) {
-                           listpoint.add(new LatLng(point.getLatitude(), point.getLongitude()));
-                       }
+                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                        ArrayList<GeoPoint> geo = (ArrayList<GeoPoint>) documentSnapshot.get(Constants.KEY_MAP);
+                        assert geo != null;
+                        List<LatLng> listpoint = new ArrayList<>();
+                        for (GeoPoint point : geo) {
+                            listpoint.add(new LatLng(point.getLatitude(), point.getLongitude()));
+                        }
 
-                       Polygon polygon = mapboxMap.addPolygon(new PolygonOptions()
-                               .addAll(listpoint)
-                               .fillColor(Color.argb(100, 255, 80, 80)));
+                        Polygon polygon = mapboxMap.addPolygon(new PolygonOptions()
+                                .addAll(listpoint)
+                                .fillColor(Color.argb(100, 255, 80, 80)));
 
-                       listpoint.add(listpoint.get(0));
-                       PolylineOptions rectOptions = new PolylineOptions()
-                               .addAll(listpoint)
-                               .color(Color.BLACK)
-                               .width(3);
-                       Polyline line = mapboxMap.addPolyline(rectOptions);
-                   }
+                        listpoint.add(listpoint.get(0));
+                        PolylineOptions rectOptions = new PolylineOptions()
+                                .addAll(listpoint)
+                                .color(Color.BLACK)
+                                .width(3);
+                        Polyline line = mapboxMap.addPolyline(rectOptions);
+                    }
                 });
     }
 
 
     private void deletePolygon() {
         if (polygon != null) {
-            mapboxMap.removePolyline(line);
+            if (line != null) {
+                mapboxMap.removePolyline(line);
+                line.remove();
+            }
+
             mapboxMap.removePolygon(polygon);
             polygon.remove();
-            line.remove();
-            polygon.remove();
-            for (Polyline l : polylineList) {
-                l.remove();
+            if (polylineList != null && polylineList.size() > 0){
+                for (Polyline l : polylineList) {
+                    l.remove();
+                }
             }
+
             polylineList.clear();
             arraylistoflatlng.clear();
         }
     }
-
 
 
     //  Lưu lại vùng đã tạo
@@ -464,7 +474,7 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
                                 DocumentReference doc = database.collection(Constants.KEY_COLLECTION_AREA).document(idItem);
                                 doc.update(value).addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
-                                        Log.d("AAAA", doc.getId());
+
                                         HashMap<String, Object> areaId = new HashMap<>();
                                         areaId.put(Constants.KEY_AREA_ID, doc.getId());
                                         database.collection(Constants.KEY_COLLECTION_USER).document(mUserEdit.id)
@@ -704,7 +714,7 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
                     LatLng center = getPolygonCenterPoint((ArrayList<LatLng>) arraylistoflatlng);
                     CameraPosition areaPosition = new CameraPosition.Builder()
                             .target(center)
-                            .zoom(19).build();
+                            .zoom(13).build();
                     mapboxMap.setCameraPosition(areaPosition);
                     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(areaPosition), 500);
                 });

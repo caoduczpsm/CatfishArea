@@ -70,6 +70,7 @@ public class RequestLeaveActivity extends BaseActivity {
     }
 
     private void sendLeaveRequest() {
+        if (preferenceManager.getString(Constants.KEY_POND_ID) == null) return;
         String dateStart = Objects.requireNonNull(mBinding.edtDateStart.getText()).toString();
         String dateEnd = Objects.requireNonNull(mBinding.edtDateEnd.getText()).toString();
         String reason = Objects.requireNonNull(mBinding.edtReason.getText()).toString().trim();

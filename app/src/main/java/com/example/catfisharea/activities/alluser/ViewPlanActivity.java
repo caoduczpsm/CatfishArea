@@ -79,7 +79,7 @@ public class ViewPlanActivity extends BaseActivity implements CampusListener {
     @SuppressLint("NotifyDataSetChanged")
     private void getDataHomeDirector() {
         String campusId = preferenceManager.getString(Constants.KEY_CAMPUS_ID);
-        assert campusId != null;
+        if (campusId == null) return;
         ItemHome itemHome = new ItemHome();
         database.collection(Constants.KEY_COLLECTION_CAMPUS).document(campusId)
                 .get().addOnSuccessListener(campusDocument -> {
@@ -116,7 +116,7 @@ public class ViewPlanActivity extends BaseActivity implements CampusListener {
     @SuppressLint("NotifyDataSetChanged")
     private void getDataHomeRegionalChief() {
         String areaId = preferenceManager.getString(Constants.KEY_AREA_ID);
-        assert areaId != null;
+        if (areaId == null) return;
 
         database.collection(Constants.KEY_COLLECTION_CAMPUS)
                 .whereEqualTo(Constants.KEY_AREA_ID, areaId)

@@ -56,8 +56,9 @@ public class HarvestViewFragment extends Fragment {
         database.collection(Constants.KEY_COLLECTION_DIARY)
                 .document(planId).get().addOnSuccessListener(documentSnapshot -> {
                     long cost = documentSnapshot.getLong(Constants.KEY_PREPARATION_COST).longValue();
-                    double price = documentSnapshot.getDouble(Constants.KEY_PRICE).doubleValue()
-                            * documentSnapshot.getLong(Constants.KEY_NUMBER_OF_FISH).longValue();
+                    double price = documentSnapshot.getLong(Constants.KEY_NUMBER_OF_FISH).longValue()
+                            / documentSnapshot.getLong(Constants.KEY_FINGERLING_SAMPLES).longValue()
+                            * documentSnapshot.getDouble(Constants.KEY_PRICE).doubleValue();
                     mBinding.cost.setText(DecimalHelper.formatText(cost));
                     mBinding.stocking.setText(DecimalHelper.formatText(price));
                     setTotal();
@@ -69,7 +70,8 @@ public class HarvestViewFragment extends Fragment {
                     for (DocumentSnapshot releaseDoc : releaseQuery.getDocuments()) {
                         String price = releaseDoc.getString(Constants.KEY_RELEASE_FISH_PRICE);
                         String amount = releaseDoc.getString(Constants.KEY_AMOUNT);
-                        double total = Double.parseDouble(price) * Long.parseLong(amount);
+                        String model = releaseDoc.getString(Constants.KEY_RELEASE_FISH_MODEL);
+                        double total = Long.parseLong(amount) / Long.parseLong(model) * Double.parseDouble(price);
                         double old = DecimalHelper.parseText(mBinding.stocking.getText().toString()).doubleValue();
                         mBinding.stocking.setText(String.valueOf(old + total));
                     }
@@ -84,16 +86,16 @@ public class HarvestViewFragment extends Fragment {
                                 .document(documentSnapshot.getId())
                                 .collection("medicinePrices")
                                 .get().addOnSuccessListener(priceQuery -> {
-                                    for (DocumentSnapshot priceDoc: priceQuery.getDocuments()) {
+                                    for (DocumentSnapshot priceDoc : priceQuery.getDocuments()) {
                                         String price = priceDoc.getString(Constants.KEY_PRICE);
                                         Double old = DecimalHelper.parseText(mBinding.treatment.getText().toString()).doubleValue();
                                         mBinding.treatment.setText(
                                                 DecimalHelper.formatText(
-                                                  old + Double.parseDouble(price)
+                                                        old + Double.parseDouble(price)
                                                 )
                                         );
                                     }
-                                 });
+                                });
                     }
                 });
 

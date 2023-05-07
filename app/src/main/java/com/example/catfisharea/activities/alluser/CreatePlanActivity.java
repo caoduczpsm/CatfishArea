@@ -139,11 +139,13 @@ public class CreatePlanActivity extends BaseActivity {
         }
 
         if (!Objects.requireNonNull(mBinding.edtPrice.getText()).toString().isEmpty() &&
-                !Objects.requireNonNull(mBinding.edtNumberOfFish.getText()).toString().isEmpty()) {
+                !Objects.requireNonNull(mBinding.edtNumberOfFish.getText()).toString().isEmpty()
+        && !Objects.requireNonNull(mBinding.edtConsistence.getText().toString().isEmpty())) {
             try {
                 int numberOfFish = DecimalHelper.parseText(mBinding.edtNumberOfFish.getText().toString()).intValue();
                 double price = DecimalHelper.parseText(mBinding.edtPrice.getText().toString()).doubleValue();
-                int total = (int) (numberOfFish * price);
+                int consistence = DecimalHelper.parseText(mBinding.edtConsistence.getText().toString()).intValue();
+                int total = (int) (numberOfFish/consistence * price);
 
                 mBinding.edtTotal.setText(DecimalHelper.formatText(total));
             } catch (Exception e) {

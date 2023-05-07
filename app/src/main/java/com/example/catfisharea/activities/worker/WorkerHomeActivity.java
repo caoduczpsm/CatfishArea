@@ -487,6 +487,8 @@ public class WorkerHomeActivity extends BaseActivity {
 
     @SuppressLint("SetTextI18n")
     private void getPondData() {
+        if (preferenceManager.getString(Constants.KEY_POND_ID) == null) return;
+
         database.collection(Constants.KEY_COLLECTION_POND)
                 .document(preferenceManager.getString(Constants.KEY_POND_ID))
                 .get()
@@ -1281,6 +1283,7 @@ public class WorkerHomeActivity extends BaseActivity {
         btnClose = dialog.findViewById(R.id.btnClose);
 
         btnEdit.setOnClickListener(view -> {
+            if (preferenceManager.getString(Constants.KEY_POND_ID) == null) return;
             if (Objects.requireNonNull(edtWeight.getText()).toString().equals("")){
                 showToast("Vui lòng nhập đầy đủ thông tin!");
             } else {

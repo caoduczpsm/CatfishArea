@@ -147,6 +147,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                             listpoint.add(new LatLng(point.getLatitude(), point.getLongitude()));
                             boundingBox.add(Point.fromLngLat(point.getLatitude(), point.getLongitude()));
                         }
+                        listpoint.add(listpoint.get(0));
                         List<List<Point>> boundingBoxList = new ArrayList<>();
                         boundingBoxList.add(boundingBox);
 //                        Polygon polygon = mapboxMap.addPolygon(new PolygonOptions()
@@ -192,6 +193,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                         }
                         List<List<Point>> boundingBoxList = new ArrayList<>();
                         boundingBoxList.add(boundingBox);
+                        listpoint.add(listpoint.get(0));
                         if (idItem != null && idItem.equals(doc.getId())) {
                             polygon = mapboxMap.addPolygon(new PolygonOptions()
                                     .addAll(listpoint)
@@ -350,7 +352,10 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                 //clear the previous polygon first. Write code here
                 if (polygon != null) {
                     fillColor = Color.argb(100, 20, 137, 238);
-                    deletePolygon();
+                    if (mapboxMap != null) {
+                        deletePolygon();
+                    }
+
                 }
                 available = false;
             }
@@ -479,10 +484,10 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                                 return (o1.getName().compareToIgnoreCase(o2.getName()));
                             }
                         });
-                        if (mArae.size() > 0) {
-                            mBinding.spinnerArea.setListSelection(0);
-                            mBinding.spinnerArea.setText(mArae.get(0).getName());
-                        }
+//                        if (mArae.size() > 0) {
+//                            mBinding.spinnerArea.setListSelection(0);
+//                            mBinding.spinnerArea.setText(mArae.get(0).getName());
+//                        }
                         spinnerAdapter.notifyDataSetChanged();
 
                     });
@@ -544,7 +549,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
 
                     CameraPosition areaPosition = new CameraPosition.Builder()
                             .target(center)
-                            .zoom(19).build();
+                            .zoom(15).build();
                     mapboxMap.setCameraPosition(areaPosition);
                     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(areaPosition), 500);
 
@@ -688,12 +693,16 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
 
     private void deletePolygon() {
         if (polygon != null) {
-            mapboxMap.removePolyline(line);
+            if (line != null) {
+                mapboxMap.removePolyline(line);
+                line.remove();
+            }
             mapboxMap.removePolygon(polygon);
             polygon.remove();
-            line.remove();
-            for (Polyline l : polylineList) {
-                l.remove();
+            if (polylineList != null && polylineList.size() > 0) {
+                for (Polyline l : polylineList) {
+                    l.remove();
+                }
             }
             polylineList.clear();
             arraylistoflatlng.clear();
@@ -854,7 +863,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                     LatLng center = getPolygonCenterPoint((ArrayList<LatLng>) arraylistoflatlng);
                     CameraPosition areaPosition = new CameraPosition.Builder()
                             .target(center)
-                            .zoom(19).build();
+                            .zoom(15).build();
                     mapboxMap.setCameraPosition(areaPosition);
                     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(areaPosition), 500);
 

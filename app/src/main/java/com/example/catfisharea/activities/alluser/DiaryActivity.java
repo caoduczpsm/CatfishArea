@@ -105,6 +105,9 @@ public class DiaryActivity extends BaseActivity implements CampusListener, Diary
                        Timestamp dateEnd = diaryDoc.getTimestamp(Constants.KEY_DATE_HARVEST);
                        DiaryPickItem item = new DiaryPickItem();
                        item.dateStart = DecimalHelper.formatDate(dateStart.toDate());
+                       if (dateEnd == null) {
+                           dateEnd = Timestamp.now();
+                       }
                        item.dateEnd = DecimalHelper.formatDate(dateEnd.toDate());
                        item.id = diaryDoc.getId();
                        itemList.add(item);
@@ -170,7 +173,7 @@ public class DiaryActivity extends BaseActivity implements CampusListener, Diary
     @SuppressLint("NotifyDataSetChanged")
     private void getDataHomeDirector() {
         String campusId = preferenceManager.getString(Constants.KEY_CAMPUS_ID);
-        assert campusId != null;
+        if (campusId == null) return;
         ItemHome itemHome = new ItemHome();
         database.collection(Constants.KEY_COLLECTION_CAMPUS).document(campusId)
                 .get().addOnSuccessListener(campusDocument -> {
@@ -209,7 +212,7 @@ public class DiaryActivity extends BaseActivity implements CampusListener, Diary
     @SuppressLint("NotifyDataSetChanged")
     private void getDataHomeRegionalChief() {
         String areaId = preferenceManager.getString(Constants.KEY_AREA_ID);
-        assert areaId != null;
+        if (areaId == null) return;
 
         database.collection(Constants.KEY_COLLECTION_CAMPUS)
                 .whereEqualTo(Constants.KEY_AREA_ID, areaId)

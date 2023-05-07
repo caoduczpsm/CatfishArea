@@ -104,7 +104,7 @@ public class HarvestFishActivity extends BaseActivity {
             data.put(Constants.KEY_FISH_WEIGH_WEIGHT, bq);
             data.put(Constants.KEY_QUANTITY, quantity);
             data.put(Constants.KEY_PRICE, price);
-            data.put(Constants.KEY_NUMBER_OF_FISH, DecimalHelper.parseText(number).toString());
+            data.put(Constants.KEY_NUMBER_OF_FISH, String.valueOf(DecimalHelper.parseText(number).intValue()));
             data.put(Constants.KEY_TOTAL_MONEY, DecimalHelper.parseText(total).toString());
 
             database.collection(Constants.KEY_COLLECTION_PLAN)
@@ -131,6 +131,7 @@ public class HarvestFishActivity extends BaseActivity {
     }
 
     private void copyDocument(Map<String, Object> data, QuerySnapshot planQuery) {
+
         DocumentReference ref = database.collection(Constants.KEY_COLLECTION_DIARY)
                         .document();
         database.collection(Constants.KEY_COLLECTION_PLAN).document(planQuery.getDocuments().get(0).getId())
@@ -163,12 +164,12 @@ public class HarvestFishActivity extends BaseActivity {
                                 .document(doc.getId()).set(doc.getData());
                     }
                 });
-
+        data.put(Constants.KEY_DATE_HARVEST, myCal.getTime());
         ref.set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-
+                        ref.update(Constants.KEY_DATE_HARVEST, myCal.getTime());
                         database.collection(Constants.KEY_COLLECTION_PLAN)
                                 .document(planQuery.getDocuments().get(0).getId())
                                 .delete();
@@ -180,6 +181,7 @@ public class HarvestFishActivity extends BaseActivity {
                                                 .document(documentSnapshot.getId()).delete();
                                         startActivity(new Intent(getApplicationContext(), RegionalChiefActivity.class));
                                     }
+                                    Toast.makeText(HarvestFishActivity.this, "Thu hoạch thành công", Toast.LENGTH_SHORT).show();
                                 });
                     }
                 });
@@ -228,7 +230,7 @@ public class HarvestFishActivity extends BaseActivity {
         }
 
         mBinding.edtQuantity.setText(quantity);
-        mBinding.edtNumOfFish.setText(DecimalHelper.formatText(Double.parseDouble(number)));
+        mBinding.edtNumOfFish.setText(DecimalHelper.formatText(DecimalHelper.parseText(number).intValue()));
         mBinding.edtTotal.setText(DecimalHelper.formatText(Double.parseDouble(total)));
     }
 

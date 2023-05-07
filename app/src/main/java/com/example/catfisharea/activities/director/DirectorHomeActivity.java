@@ -166,7 +166,8 @@ public class DirectorHomeActivity extends BaseActivity implements CampusListener
     @SuppressLint("NotifyDataSetChanged")
     private void getDataHome() {
         String campusId = preferenceManager.getString(Constants.KEY_CAMPUS_ID);
-        assert campusId != null;
+        if (campusId == null) return;
+
         ItemHome itemHome = new ItemHome();
         database.collection(Constants.KEY_COLLECTION_CAMPUS).document(campusId)
                 .get().addOnSuccessListener(campusDocument -> {

@@ -297,7 +297,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
         String companyID = preferenceManager.getString(Constants.KEY_COMPANY_ID);
         String areaID = preferenceManager.getString(Constants.KEY_AREA_ID);
 
-        assert areaID != null;
+        if (areaID == null) return;
 
         if (!name.isEmpty() && !producer.isEmpty() && !unit.isEmpty() && !effect.isEmpty() && typeCategory != null) {
             Map<String, Object> data = new HashMap<>();
@@ -447,6 +447,8 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
     @SuppressLint("NotifyDataSetChanged")
     private void getDataWarehouseForRegional() {
         mWarehouses.clear();
+        String campusid = preferenceManager.getString(Constants.KEY_AREA_ID);
+        if (campusid == null) return;
         database.collection(Constants.KEY_COLLECTION_CAMPUS)
                 .whereEqualTo(Constants.KEY_AREA_ID, preferenceManager.getString(Constants.KEY_AREA_ID))
                 .get().addOnSuccessListener(campusQuery -> {
@@ -489,6 +491,8 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
     @SuppressLint("NotifyDataSetChanged")
     private void getDataWarehouseForDirector() {
         mWarehouses.clear();
+        String campusid = preferenceManager.getString(Constants.KEY_CAMPUS_ID);
+        if (campusid == null) return;
         database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
                 .whereEqualTo(Constants.KEY_CAMPUS_ID, preferenceManager.getString(Constants.KEY_CAMPUS_ID))
                 .get().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -530,6 +534,7 @@ public class WarehouseActivity extends BaseActivity implements WarehouseListener
 
     @SuppressLint("NotifyDataSetChanged")
     private void getDataWarehouseForAdmin() {
+
         database.collection(Constants.KEY_COLLECTION_CAMPUS)
                 .whereEqualTo(Constants.KEY_COMPANY_ID, preferenceManager.getString(Constants.KEY_COMPANY_ID))
                 .get().addOnSuccessListener(campusQuery -> {

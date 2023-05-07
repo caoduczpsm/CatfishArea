@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityAreaManagementBinding;
 import com.example.catfisharea.activities.BaseActivity;
@@ -48,6 +50,7 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -64,7 +67,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
     private InfoAreaAdapter adapter;
     private List<Object> mItems;
     private String typeActivity;
-    private final int zoom = 19;
+    private final int zoom = 13;
     private boolean isZoomOut = false;
 
     @Override
@@ -240,7 +243,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                 .addOnSuccessListener(queryDocumentSnapshots ->
                         database.collection(Constants.KEY_COLLECTION_USER).
                                 document(queryDocumentSnapshots.getDocuments().get(0).getId())
-                        .update(Constants.KEY_AREA_ID, FieldValue.delete()));
+                                .update(Constants.KEY_AREA_ID, FieldValue.delete()));
         database.collection(Constants.KEY_COLLECTION_CAMPUS)
                 .whereEqualTo(Constants.KEY_AREA_ID, idArea)
                 .get().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -260,7 +263,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                                     Map<String, Object> mapUser = new HashMap<>();
                                     mapUser.put(Constants.KEY_POND_ID, FieldValue.delete());
                                     mapUser.put(Constants.KEY_CAMPUS_ID, FieldValue.delete());
-                                    mapUser.put(Constants.KEY_AREA_ID,  FieldValue.delete());
+                                    mapUser.put(Constants.KEY_AREA_ID, FieldValue.delete());
                                     database.collection(Constants.KEY_COLLECTION_USER).document(documentSnapshot.getId())
                                             .update(mapUser);
 
@@ -280,7 +283,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                     for (DocumentSnapshot documentSnapshot : userDelete.getDocuments()) {
                         Map<String, Object> mapUser = new HashMap<>();
                         mapUser.put(Constants.KEY_CAMPUS_ID, FieldValue.delete());
-                        mapUser.put(Constants.KEY_AREA_ID,  FieldValue.delete());
+                        mapUser.put(Constants.KEY_AREA_ID, FieldValue.delete());
                         database.collection(Constants.KEY_COLLECTION_USER).document(documentSnapshot.getId())
                                 .update(mapUser);
                     }
@@ -332,7 +335,10 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                                     adapter.notifyDataSetChanged();
                                 });
                     }
-                    clickPond(((Pond) mItems.get(0)).getLatLng());
+                    if (mItems != null && mItems.size() > 0) {
+                        clickPond(((Pond) mItems.get(0)).getLatLng());
+                    }
+
                 });
     }
 
@@ -392,7 +398,10 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                         mItems.sort((o1, o2) -> ((Campus) o1).getName().compareToIgnoreCase(((Campus) o2).getName()));
                         adapter.notifyDataSetChanged();
                     }
-                    clickItem(((Campus) mItems.get(0)).getPolygonCenterPoint(), ((Campus) mItems.get(0)).getListLatLng());
+                    if (mItems != null && mItems.size() > 0) {
+                        clickItem(((Campus) mItems.get(0)).getPolygonCenterPoint(), ((Campus) mItems.get(0)).getListLatLng());
+                    }
+
                 });
     }
 
@@ -513,7 +522,9 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                         });
                         adapter.notifyDataSetChanged();
                     }
-                    clickItem(((Area) mItems.get(0)).getPolygonCenterPoint(), ((Area) mItems.get(0)).getListLatLng());
+                    if (mItems != null && mItems.size() > 0) {
+                        clickItem(((Area) mItems.get(0)).getPolygonCenterPoint(), ((Area) mItems.get(0)).getListLatLng());
+                    }
                 });
     }
 

@@ -85,8 +85,9 @@ public class AccountingPondActivity extends BaseActivity {
                                 for (DocumentSnapshot releaseDoc : releaseQuery.getDocuments()) {
                                     String price = releaseDoc.getString(Constants.KEY_RELEASE_FISH_PRICE);
                                     String amount = releaseDoc.getString(Constants.KEY_AMOUNT);
+                                    String model = releaseDoc.getString(Constants.KEY_RELEASE_FISH_MODEL);
 
-                                    total.addAndGet((long) (Long.parseLong(amount) * Double.parseDouble(price)));
+                                    total.addAndGet((long) (Long.parseLong(amount) / Long.parseLong(model) * Double.parseDouble(price)));
                                 }
                                 mBinding.stocking.setText(total +"");
                                 accountingItems.add(new AccountingItem("Thả giống", DecimalHelper.formatText(total), ColorTemplate.PASTEL_COLORS[1]));

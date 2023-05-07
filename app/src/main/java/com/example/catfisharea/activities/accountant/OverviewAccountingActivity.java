@@ -105,14 +105,15 @@ public class OverviewAccountingActivity extends BaseActivity {
                                     mBinding.food.setText(totalFood + "");
                                     setDataExpend();
                                 });
-                        totalFish.addAndGet((long) (planDoc.getLong(Constants.KEY_NUMBER_OF_FISH) * planDoc.getDouble(Constants.KEY_PRICE)));
+                        totalFish.addAndGet((long) (planDoc.getLong(Constants.KEY_NUMBER_OF_FISH) / planDoc.getLong(Constants.KEY_FINGERLING_SAMPLES) * planDoc.getDouble(Constants.KEY_PRICE)));
                         database.collection(Constants.KEY_COLLECTION_RELEASE_FISH)
                                 .whereEqualTo(Constants.KEY_RELEASE_FISH_PLAN_ID, planDoc.getId())
                                 .get().addOnSuccessListener(releaseQuery -> {
                                     for (DocumentSnapshot releaseDoc : releaseQuery.getDocuments()) {
                                         String amount = releaseDoc.getString(Constants.KEY_AMOUNT);
                                         String price = releaseDoc.getString(Constants.KEY_RELEASE_FISH_PRICE);
-                                        totalFish.addAndGet((long) (Long.parseLong(amount) * Double.parseDouble(price)));
+                                        String model = releaseDoc.getString(Constants.KEY_RELEASE_FISH_MODEL);
+                                        totalFish.addAndGet((long) (Long.parseLong(amount) / Long.parseLong(model)* Double.parseDouble(price)));
                                     }
                                     mBinding.fish.setText(totalFish + "");
                                     setDataExpend();
