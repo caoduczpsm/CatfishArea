@@ -226,12 +226,12 @@ public class HarvestFishActivity extends BaseActivity {
         }
 
         if (!number.isEmpty() && !bq.isEmpty()) {
-            quantity = String.valueOf(((double) (Double.parseDouble(number) * Double.parseDouble(bq) / 1000000.000)));
+            quantity = String.valueOf(((double) (Double.parseDouble(number) * Double.parseDouble(bq) / 1000000)));
         }
 
         mBinding.edtQuantity.setText(quantity);
         mBinding.edtNumOfFish.setText(DecimalHelper.formatText(DecimalHelper.parseText(number).intValue()));
-        mBinding.edtTotal.setText(DecimalHelper.formatText(Double.parseDouble(total)));
+        mBinding.edtTotal.setText(DecimalHelper.formatText(Double.parseDouble(total) / 1000));
     }
 
     private void getDataPond() {
