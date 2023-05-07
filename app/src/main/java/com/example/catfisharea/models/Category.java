@@ -8,6 +8,15 @@ public class Category {
     private String unit;
     private String producer;
     private String effect;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public Category(String id, String name) {
         this.id = id;

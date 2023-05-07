@@ -96,6 +96,13 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
 
     private void saveCategory() {
         List<Category> result = adapter.getResult();
+
+        if (result == null || result.size() == 0) {
+            Toast.makeText(this, "Nhập sản phẩm", Toast.LENGTH_SHORT).show();
+        } else if (encodedImage == null){
+            Toast.makeText(this, "Chọn hình ảnh", Toast.LENGTH_SHORT).show();
+        }
+
         if (result != null && result.size() > 0 && encodedImage != null) {
             for (Category item : result) {
                 DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
@@ -108,7 +115,8 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
                     data.put(Constants.KEY_UNIT, item.getUnit());
                     data.put(Constants.KEY_EFFECT, item.getEffect());
                     data.put(Constants.KEY_PRODUCER, item.getProducer());
-                    data.put(Constants.KEY_IMAGE, encodedImage);
+                    data.put(Constants.KEY_CATEGORY_TYPE, item.getType());
+
                     if (documentSnapshot.get(Constants.KEY_PRICE) != null) {
                         String priceOld = documentSnapshot.getString(Constants.KEY_PRICE);
                         String amountOld = documentSnapshot.getString(Constants.KEY_AMOUNT);
@@ -143,11 +151,7 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
             }
             saveHistory(result);
         }
-        if (result == null || result.size() > 0) {
-            Toast.makeText(this, "Nhập sản phẩm", Toast.LENGTH_SHORT).show();
-        } else if (encodedImage == null){
-            Toast.makeText(this, "Chọn hình ảnh", Toast.LENGTH_SHORT).show();
-        }
+
 
     }
 
@@ -166,6 +170,7 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
         data.put(Constants.KEY_WAREHOUSE_ID, warehouseID);
         data.put(Constants.KEY_AREA_ID, areaID);
         data.put(Constants.KEY_TOTAL_MONEY, Objects.requireNonNull(mBinding.edtMoney.getText()).toString());
+        data.put(Constants.KEY_IMAGE, encodedImage);
 
         List<Map<String, Object>> product = new ArrayList<>();
 
@@ -192,11 +197,13 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
                         String unit = doc.getString(Constants.KEY_UNIT);
                         String producer = doc.getString(Constants.KEY_PRODUCER);
                         String effect = doc.getString(Constants.KEY_EFFECT);
+                        String type = doc.getString(Constants.KEY_CATEGORY_TYPE);
 
                         Category category = new Category(id, name);
                         category.setUnit(unit);
                         category.setProducer(producer);
                         category.setEffect(effect);
+                        category.setType(type);
                         mList.add(category);
                     }
                     adapter.notifyDataSetChanged();

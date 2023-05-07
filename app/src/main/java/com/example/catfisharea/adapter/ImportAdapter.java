@@ -79,6 +79,7 @@ public class ImportAdapter extends RecyclerView.Adapter<ImportAdapter.ImportHold
                 category.setUnit(mCategories.get(position1).getUnit());
                 category.setEffect(mCategories.get(position1).getEffect());
                 category.setProducer(mCategories.get(position1).getProducer());
+                category.setType(mCategories.get(position1).getType());
             });
 
             mBinding.edtAmount.addTextChangedListener(new TextWatcher() {

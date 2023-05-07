@@ -78,7 +78,7 @@ public class AccountingPondActivity extends BaseActivity {
                     long cost = planDoc.getLong(Constants.KEY_PREPARATION_COST).longValue();
                     mBinding.cost.setText(cost + "");
 
-                    AtomicLong total = new AtomicLong((long) (planDoc.getLong(Constants.KEY_NUMBER_OF_FISH).longValue() * planDoc.getDouble(Constants.KEY_PRICE).doubleValue()));
+                    AtomicLong total = new AtomicLong((long) (planDoc.getLong(Constants.KEY_NUMBER_OF_FISH).longValue() / planDoc.getLong(Constants.KEY_FINGERLING_SAMPLES) * planDoc.getDouble(Constants.KEY_PRICE).doubleValue()));
                     database.collection(Constants.KEY_COLLECTION_RELEASE_FISH)
                             .whereEqualTo(Constants.KEY_RELEASE_FISH_PLAN_ID, planId)
                             .get().addOnSuccessListener(releaseQuery -> {

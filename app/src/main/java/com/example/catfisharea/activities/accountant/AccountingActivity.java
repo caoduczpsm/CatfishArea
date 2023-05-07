@@ -77,7 +77,8 @@ public class AccountingActivity extends BaseActivity implements CampusListener {
                     for (DocumentSnapshot planDoc : planQuery.getDocuments()) {
                         long preparationCost = planDoc.getLong(Constants.KEY_PREPARATION_COST);
                         expenditure.addAndGet(preparationCost);
-                        long stocking = planDoc.getLong(Constants.KEY_PRICE) * planDoc.getLong(Constants.KEY_NUMBER_OF_FISH);
+                        long stocking = planDoc.getLong(Constants.KEY_NUMBER_OF_FISH) / planDoc.getLong(Constants.KEY_FINGERLING_SAMPLES)
+                                * planDoc.getLong(Constants.KEY_PRICE);
                         expenditure.addAndGet(stocking);
                         database.collection(Constants.KEY_COLLECTION_PLAN).document(planDoc.getId())
                                 .collection(Constants.KEY_DIARY_COLLECTION_FEEDS)
@@ -95,7 +96,8 @@ public class AccountingActivity extends BaseActivity implements CampusListener {
                                     for (DocumentSnapshot releaseDoc : releaseQuery.getDocuments()) {
                                         String amount = releaseDoc.getString(Constants.KEY_AMOUNT);
                                         String price = releaseDoc.getString(Constants.KEY_RELEASE_FISH_PRICE);
-                                        long total = Long.parseLong(amount) * Long.parseLong(price);
+                                        String model = releaseDoc.getString(Constants.KEY_RELEASE_FISH_MODEL);
+                                        long total = Long.parseLong(amount) / Long.parseLong(model) * Long.parseLong(price);
                                         mBinding.expenditure.setText(
                                                 (
                                                         Long.parseLong(mBinding.expenditure.getText().toString())
@@ -192,6 +194,7 @@ public class AccountingActivity extends BaseActivity implements CampusListener {
         mBinding.pieChart.animateX(1000);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getDataHome() {
         String areaId = preferenceManager.getString(Constants.KEY_AREA_ID);
         if (areaId == null) return;
@@ -211,36 +214,26 @@ public class AccountingActivity extends BaseActivity implements CampusListener {
                                 .get().addOnSuccessListener(pondQuery -> {
                                     for (DocumentSnapshot pondDoc : pondQuery.getDocuments()) {
                                         String pondId = pondDoc.getId();
-                                        database.collection(Constants.KEY_COLLECTION_PLAN)
-                                                .whereEqualTo(Constants.KEY_POND_ID, pondId)
-                                                .get().addOnSuccessListener(planQuery -> {
-                                                    for (DocumentSnapshot documentSnapshot : planQuery.getDocuments()) {
-                                                        if (documentSnapshot.exists()) {
-                                                            String pondName = pondDoc.getString(Constants.KEY_NAME);
-                                                            String acreage = pondDoc.getString(Constants.KEY_ACREAGE);
-                                                            List<String> numOfFeedingList = (List<String>) pondDoc.get(Constants.KEY_NUM_OF_FEEDING_LIST);
-                                                            List<String> amountFedList = (List<String>) pondDoc.get(Constants.KEY_AMOUNT_FED);
-                                                            List<String> specificationsToMeasureList = (List<String>) pondDoc.get(Constants.KEY_SPECIFICATIONS_TO_MEASURE);
-                                                            HashMap<String, Object> parameters = (HashMap<String, Object>) pondDoc.get(Constants.KEY_SPECIFICATIONS_MEASURED);
-                                                            int numOfFeeding = Integer.parseInt(Objects.requireNonNull(pondDoc.getString(Constants.KEY_NUM_OF_FEEDING)));
-                                                            Pond pond = new Pond(pondId, pondName, null, campusId, acreage, numOfFeeding, numOfFeedingList, amountFedList, specificationsToMeasureList, parameters);
-                                                            regionModels.add(pond);
-                                                            itemHome.setReginonList(regionModels);
-                                                            itemHomes.add(itemHome);
-                                                            Collections.sort(itemHome.getReginonList(),
-                                                                    (o1, o2) -> (o1.getName()
-                                                                            .compareToIgnoreCase(o2.getName())));
-                                                            Collections.sort(itemHomes,
-                                                                    (o1, o2) -> (o1.getRegionModel().getName()
-                                                                            .compareToIgnoreCase(o2.getRegionModel().getName())));
-                                                            homeAdapter.notifyDataSetChanged();
-                                                        }
-                                                    }
-                                                });
-
+                                        String pondName = pondDoc.getString(Constants.KEY_NAME);
+//                                        String acreage = pondDoc.getString(Constants.KEY_ACREAGE);
+//                                        List<String> numOfFeedingList = (List<String>) pondDoc.get(Constants.KEY_NUM_OF_FEEDING_LIST);
+//                                        List<String> amountFedList = (List<String>) pondDoc.get(Constants.KEY_AMOUNT_FED);
+//                                        List<String> specificationsToMeasureList = (List<String>) pondDoc.get(Constants.KEY_SPECIFICATIONS_TO_MEASURE);
+//                                        HashMap<String, Object> parameters = (HashMap<String, Object>) pondDoc.get(Constants.KEY_SPECIFICATIONS_MEASURED);
+//                                        int numOfFeeding = Integer.parseInt(Objects.requireNonNull(pondDoc.getString(Constants.KEY_NUM_OF_FEEDING)));
+                                        Pond pond = new Pond(pondId, pondName);
+                                        regionModels.add(pond);
                                     }
 
-
+                                    itemHome.setReginonList(regionModels);
+                                    itemHomes.add(itemHome);
+                                    Collections.sort(itemHome.getReginonList(),
+                                            (o1, o2) -> (o1.getName()
+                                                    .compareToIgnoreCase(o2.getName())));
+                                    Collections.sort(itemHomes,
+                                            (o1, o2) -> (o1.getRegionModel().getName()
+                                                    .compareToIgnoreCase(o2.getRegionModel().getName())));
+                                    homeAdapter.notifyDataSetChanged();
                                 });
                     }
                 });

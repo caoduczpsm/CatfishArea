@@ -70,7 +70,7 @@ public class RequestLeaveActivity extends BaseActivity {
     }
 
     private void sendLeaveRequest() {
-        if (preferenceManager.getString(Constants.KEY_POND_ID) == null) return;
+
         String dateStart = Objects.requireNonNull(mBinding.edtDateStart.getText()).toString();
         String dateEnd = Objects.requireNonNull(mBinding.edtDateEnd.getText()).toString();
         String reason = Objects.requireNonNull(mBinding.edtReason.getText()).toString().trim();
@@ -103,6 +103,7 @@ public class RequestLeaveActivity extends BaseActivity {
                 data.put(Constants.KEY_IMAGE, encodedImage);
             }
             if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_WORKER)) {
+                if (preferenceManager.getString(Constants.KEY_POND_ID) == null) return;
                 database.collection(Constants.KEY_COLLECTION_POND).document(preferenceManager.getString(Constants.KEY_POND_ID))
                         .get().addOnSuccessListener(documentSnapshot -> {
                             String campusId = documentSnapshot.getString(Constants.KEY_CAMPUS_ID);
@@ -116,6 +117,7 @@ public class RequestLeaveActivity extends BaseActivity {
                                     });
                         });
             } else if (preferenceManager.getString(Constants.KEY_TYPE_ACCOUNT).equals(Constants.KEY_DIRECTOR)){
+                if (preferenceManager.getString(Constants.KEY_CAMPUS_ID) == null) return;
                 database.collection(Constants.KEY_COLLECTION_CAMPUS).document(preferenceManager.getString(Constants.KEY_CAMPUS_ID))
                         .get().addOnSuccessListener(documentSnapshot -> {
                             String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);

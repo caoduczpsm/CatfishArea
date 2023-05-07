@@ -80,6 +80,7 @@ public class AccountantHomeActivity extends BaseActivity implements CampusListen
     private void getDataHome() {
         String areaId = preferenceManager.getString(Constants.KEY_AREA_ID);
         if (areaId == null) return;
+
         database.collection(Constants.KEY_COLLECTION_CAMPUS)
                 .whereEqualTo(Constants.KEY_AREA_ID, areaId)
                 .get().addOnSuccessListener(campusQuery -> {
@@ -96,13 +97,13 @@ public class AccountantHomeActivity extends BaseActivity implements CampusListen
                                     for (DocumentSnapshot pondDoc : pondQuery.getDocuments()) {
                                         String pondId = pondDoc.getId();
                                         String pondName = pondDoc.getString(Constants.KEY_NAME);
-                                        String acreage = pondDoc.getString(Constants.KEY_ACREAGE);
-                                        List<String> numOfFeedingList = (List<String>) pondDoc.get(Constants.KEY_NUM_OF_FEEDING_LIST);
-                                        List<String> amountFedList = (List<String>) pondDoc.get(Constants.KEY_AMOUNT_FED);
-                                        List<String> specificationsToMeasureList = (List<String>) pondDoc.get(Constants.KEY_SPECIFICATIONS_TO_MEASURE);
-                                        HashMap<String, Object> parameters = (HashMap<String, Object>) pondDoc.get(Constants.KEY_SPECIFICATIONS_MEASURED);
-                                        int numOfFeeding = Integer.parseInt(Objects.requireNonNull(pondDoc.getString(Constants.KEY_NUM_OF_FEEDING)));
-                                        Pond pond = new Pond(pondId, pondName, null, campusId, acreage, numOfFeeding, numOfFeedingList, amountFedList, specificationsToMeasureList, parameters);
+//                                        String acreage = pondDoc.getString(Constants.KEY_ACREAGE);
+//                                        List<String> numOfFeedingList = (List<String>) pondDoc.get(Constants.KEY_NUM_OF_FEEDING_LIST);
+//                                        List<String> amountFedList = (List<String>) pondDoc.get(Constants.KEY_AMOUNT_FED);
+//                                        List<String> specificationsToMeasureList = (List<String>) pondDoc.get(Constants.KEY_SPECIFICATIONS_TO_MEASURE);
+//                                        HashMap<String, Object> parameters = (HashMap<String, Object>) pondDoc.get(Constants.KEY_SPECIFICATIONS_MEASURED);
+//                                        int numOfFeeding = Integer.parseInt(Objects.requireNonNull(pondDoc.getString(Constants.KEY_NUM_OF_FEEDING)));
+                                        Pond pond = new Pond(pondId, pondName);
                                         regionModels.add(pond);
                                     }
 

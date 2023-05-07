@@ -113,7 +113,7 @@ public class OverviewAccountingActivity extends BaseActivity {
                                         String amount = releaseDoc.getString(Constants.KEY_AMOUNT);
                                         String price = releaseDoc.getString(Constants.KEY_RELEASE_FISH_PRICE);
                                         String model = releaseDoc.getString(Constants.KEY_RELEASE_FISH_MODEL);
-                                        totalFish.addAndGet((long) (Long.parseLong(amount) / Long.parseLong(model)* Double.parseDouble(price)));
+                                        totalFish.addAndGet((long) (Long.parseLong(amount) / Long.parseLong(model) * Double.parseDouble(price)));
                                     }
                                     mBinding.fish.setText(totalFish + "");
                                     setDataExpend();
