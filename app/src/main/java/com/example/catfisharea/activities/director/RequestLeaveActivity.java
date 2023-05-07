@@ -77,9 +77,13 @@ public class RequestLeaveActivity extends BaseActivity {
         boolean done = !dateStart.isEmpty();
         if (dateEnd.isEmpty()) {
             done = false;
-        }
-        if (reason.isEmpty()) {
+            Toast.makeText(this, "Chọn ngày kết thúc", Toast.LENGTH_SHORT).show();
+        } else if (reason.isEmpty()) {
             done = false;
+            Toast.makeText(this, "Nhập lý do", Toast.LENGTH_SHORT).show();
+        } else if (dateStart.isEmpty()) {
+            done = false;
+            Toast.makeText(this, "Chọn ngày hoàn thành", Toast.LENGTH_SHORT).show();
         }
         if (done) {
             DateTime dateTime = DateTime.now();

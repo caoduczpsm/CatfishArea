@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back_activity"
-        app:title="Yêu cầu nhập vật tư"
+        app:title="Yêu cầu nhập hàng"
         app:titleTextColor="@color/black" />
 
     <View

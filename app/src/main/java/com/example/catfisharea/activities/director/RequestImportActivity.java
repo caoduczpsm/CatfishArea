@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -72,6 +73,7 @@ public class RequestImportActivity extends BaseActivity implements MaterialsList
         String dateCreated = dateTime.getDayOfMonth() + "/" + dateTime.getMonthOfYear() + "/" + dateTime.getYear();
         Map<String, ArrayList<String>> map = new HashMap<>();
         if (materialsList.isEmpty()) {
+            Toast.makeText(this, "Nhập danh sách hàng cần nhập", Toast.LENGTH_SHORT).show();
             return;
         }
         for (Materials mtr : materialsList) {
@@ -92,7 +94,10 @@ public class RequestImportActivity extends BaseActivity implements MaterialsList
                     .get().addOnSuccessListener(documentSnapshot -> {
                         String areaId = documentSnapshot.getString(Constants.KEY_AREA_ID);
                         value.put(Constants.KEY_RECEIVER_ID, areaId);
-                        database.collection(Constants.KEY_COLLECTION_REQUEST).document().set(value).addOnSuccessListener(unused -> finish());
+                        database.collection(Constants.KEY_COLLECTION_REQUEST).document().set(value).addOnSuccessListener(unused -> {
+                            Toast.makeText(this, "Gửi thành công", Toast.LENGTH_SHORT).show();
+                            onBackPressed();
+                        });
                     });
         }
 

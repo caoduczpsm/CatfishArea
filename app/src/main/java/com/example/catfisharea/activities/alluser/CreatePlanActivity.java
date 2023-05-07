@@ -103,6 +103,8 @@ public class CreatePlanActivity extends BaseActivity {
                 Toast.makeText(this, "Tạo vụ nuôi thành công", Toast.LENGTH_SHORT).show();
             });
 
+        } else {
+            Toast.makeText(this, "Nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
         }
     }
 

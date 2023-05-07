@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +19,7 @@ import com.example.catfisharea.ultilities.Constants;
 import com.example.catfisharea.ultilities.DecimalHelper;
 import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -116,8 +118,8 @@ public class HarvestFishActivity extends BaseActivity {
                                         database.collection(Constants.KEY_COLLECTION_PLAN).document(planQuery.getDocuments().get(0).getId())
                                                 .collection(Constants.KEY_COLLECTION_HARVEST)
                                                 .document().set(data).addOnSuccessListener(harvestDoc -> {
-//                                                    copyDocument(planQuery.getDocuments().get(0).getData(),
-//                                                            planQuery);
+                                                    copyDocument(planQuery.getDocuments().get(0).getData(),
+                                                            planQuery);
                                                 });
                                     }
                                 });
@@ -129,9 +131,40 @@ public class HarvestFishActivity extends BaseActivity {
     }
 
     private void copyDocument(Map<String, Object> data, QuerySnapshot planQuery) {
+        DocumentReference ref = database.collection(Constants.KEY_COLLECTION_DIARY)
+                        .document();
+        database.collection(Constants.KEY_COLLECTION_PLAN).document(planQuery.getDocuments().get(0).getId())
+                .collection(Constants.KEY_COLLECTION_HARVEST).get().addOnSuccessListener(harvest -> {
+                    for (DocumentSnapshot doc: harvest.getDocuments()) {
+                        ref.collection(Constants.KEY_COLLECTION_HARVEST)
+                                .document(doc.getId()).set(doc.getData());
+                    }
+                });
+        database.collection(Constants.KEY_COLLECTION_PLAN).document(planQuery.getDocuments().get(0).getId())
+                .collection(Constants.KEY_DIARY_COLLECTION_FEEDS).get().addOnSuccessListener(feed -> {
+                    for (DocumentSnapshot doc: feed.getDocuments()) {
+                        ref.collection(Constants.KEY_DIARY_COLLECTION_FEEDS)
+                                .document(doc.getId()).set(doc.getData());
+                    }
+                });
 
-        database.collection(Constants.KEY_COLLECTION_DIARY)
-                .document().set(data)
+        database.collection(Constants.KEY_COLLECTION_PLAN).document(planQuery.getDocuments().get(0).getId())
+                .collection(Constants.KEY_COLLECTION_FISH_WEIGH).get().addOnSuccessListener(feed -> {
+                    for (DocumentSnapshot doc: feed.getDocuments()) {
+                        ref.collection(Constants.KEY_COLLECTION_FISH_WEIGH)
+                                .document(doc.getId()).set(doc.getData());
+                    }
+                });
+
+        database.collection(Constants.KEY_COLLECTION_PLAN).document(planQuery.getDocuments().get(0).getId())
+                .collection(Constants.KEY_DIARY_COLLECTION_WATER).get().addOnSuccessListener(feed -> {
+                    for (DocumentSnapshot doc: feed.getDocuments()) {
+                        ref.collection(Constants.KEY_DIARY_COLLECTION_WATER)
+                                .document(doc.getId()).set(doc.getData());
+                    }
+                });
+
+        ref.set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -145,6 +178,7 @@ public class HarvestFishActivity extends BaseActivity {
                                     for (DocumentSnapshot documentSnapshot : taskQuery.getDocuments()) {
                                         database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
                                                 .document(documentSnapshot.getId()).delete();
+                                        startActivity(new Intent(getApplicationContext(), RegionalChiefActivity.class));
                                     }
                                 });
                     }

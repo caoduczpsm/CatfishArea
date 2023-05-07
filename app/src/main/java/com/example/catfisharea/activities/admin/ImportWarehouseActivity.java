@@ -81,12 +81,12 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
 
         setDataRecyclerView();
 
-        getNameWarehose();
+        getNameWarehouse();
 
         mBinding.saveBtn.setOnClickListener(view -> saveCategory());
     }
 
-    private void getNameWarehose() {
+    private void getNameWarehouse() {
         database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
                 .document(warehouseID).get().addOnSuccessListener(nameDoc -> {
                    String name = nameDoc.getString(Constants.KEY_NAME);
@@ -96,53 +96,62 @@ public class ImportWarehouseActivity extends BaseActivity implements ImportWareh
 
     private void saveCategory() {
         List<Category> result = adapter.getResult();
-        for (Category item : result) {
-            DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                    .document(warehouseID).collection(Constants.KEY_CATEGORY_OF_WAREHOUSE)
-                    .document(item.getId());
+        if (result != null && result.size() > 0 && encodedImage != null) {
+            for (Category item : result) {
+                DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                        .document(warehouseID).collection(Constants.KEY_CATEGORY_OF_WAREHOUSE)
+                        .document(item.getId());
 
-            documentReference.get().addOnSuccessListener(documentSnapshot -> {
-                Map<String, Object> data = new HashMap<>();
-                data.put(Constants.KEY_NAME, item.getName());
-                data.put(Constants.KEY_UNIT, item.getUnit());
-                data.put(Constants.KEY_EFFECT, item.getEffect());
-                data.put(Constants.KEY_PRODUCER, item.getProducer());
-                if (documentSnapshot.get(Constants.KEY_PRICE) != null) {
-                    String priceOld = documentSnapshot.getString(Constants.KEY_PRICE);
-                    String amountOld = documentSnapshot.getString(Constants.KEY_AMOUNT);
-                    data.put(Constants.KEY_PRICE, priceCaculation(priceOld, amountOld, item.getPrice(), item.getAmount()));
+                documentReference.get().addOnSuccessListener(documentSnapshot -> {
+                    Map<String, Object> data = new HashMap<>();
+                    data.put(Constants.KEY_NAME, item.getName());
+                    data.put(Constants.KEY_UNIT, item.getUnit());
+                    data.put(Constants.KEY_EFFECT, item.getEffect());
+                    data.put(Constants.KEY_PRODUCER, item.getProducer());
+                    data.put(Constants.KEY_IMAGE, encodedImage);
+                    if (documentSnapshot.get(Constants.KEY_PRICE) != null) {
+                        String priceOld = documentSnapshot.getString(Constants.KEY_PRICE);
+                        String amountOld = documentSnapshot.getString(Constants.KEY_AMOUNT);
+                        data.put(Constants.KEY_PRICE, priceCalculation(priceOld, amountOld, item.getPrice(), item.getAmount()));
 //                    if (detail.containsKey(String.valueOf(item.getPrice()))) {
 //                        detail.put(String.valueOf(item.getPrice()), item.getAmount() + Integer.parseInt(detail.get(String.valueOf(item.getPrice())).toString()));
 //                    } else {
 //                        detail.put(String.valueOf(item.getPrice()), item.getAmount());
 //                    }
-                } else {
-                    data.put(Constants.KEY_PRICE, (item.getPrice()));
-                }
+                    } else {
+                        data.put(Constants.KEY_PRICE, (item.getPrice()));
+                    }
 
 //                data.put(Constants.KEY_DETAIL, detail);
-                if (documentSnapshot.exists()) {
-                    long amount = Long.parseLong(item.getAmount()) +
-                            Long.parseLong(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_AMOUNT)));
-                    data.put(Constants.KEY_AMOUNT, String.valueOf(amount));
-                    documentReference.update(data).addOnSuccessListener(command -> {
+                    if (documentSnapshot.exists()) {
+                        long amount = Long.parseLong(item.getAmount()) +
+                                Long.parseLong(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_AMOUNT)));
+                        data.put(Constants.KEY_AMOUNT, String.valueOf(amount));
+                        documentReference.update(data).addOnSuccessListener(command -> {
 
-                        Toast.makeText(this, "Nhập hàng thành công", Toast.LENGTH_SHORT).show();
-                        onBackPressed();
-                    });
-                } else {
-                    data.put(Constants.KEY_AMOUNT, String.valueOf(item.getAmount()));
-                    documentReference.set(data).addOnSuccessListener(command -> {
-                        Toast.makeText(this, "Nhập hàng thành công", Toast.LENGTH_SHORT).show();
-                        onBackPressed();
-                    });
-                }
-            });
+                            Toast.makeText(this, "Nhập kho thành công", Toast.LENGTH_SHORT).show();
+                            onBackPressed();
+                        });
+                    } else {
+                        data.put(Constants.KEY_AMOUNT, String.valueOf(item.getAmount()));
+                        documentReference.set(data).addOnSuccessListener(command -> {
+                            Toast.makeText(this, "Nhập kho thành công", Toast.LENGTH_SHORT).show();
+                            onBackPressed();
+                        });
+                    }
+                });
+            }
+            saveHistory(result);
         }
-        saveHistory(result);
+        if (result == null || result.size() > 0) {
+            Toast.makeText(this, "Nhập sản phẩm", Toast.LENGTH_SHORT).show();
+        } else if (encodedImage == null){
+            Toast.makeText(this, "Chọn hình ảnh", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
-    private String priceCaculation(String priceOld, String amountOld, String priceNew, String amountNew) {
+    private String priceCalculation(String priceOld, String amountOld, String priceNew, String amountNew) {
         double totalOld = Integer.parseInt(amountOld) * Double.parseDouble(priceOld);
         double totalNew = Integer.parseInt(amountNew) * Double.parseDouble(priceNew);
         double price = (totalOld + totalNew) / (Integer.parseInt(amountOld) + Integer.parseInt(amountNew));

@@ -69,7 +69,6 @@ public class DiaryActivity extends BaseActivity implements CampusListener, Diary
         itemHomes = new ArrayList<>();
         homeAdapter = new HomeAdapter(this, itemHomes, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mBinding.recyclerviewDiary.setLayoutManager(linearLayoutManager);
         mBinding.recyclerviewDiary.setAdapter(homeAdapter);
 
