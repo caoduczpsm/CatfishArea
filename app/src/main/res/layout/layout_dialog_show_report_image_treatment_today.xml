@@ -14,7 +14,7 @@
         android:id="@+id/textTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thêm thành viên vào nhóm"
+        android:text="Ảnh báo cáo điều trị hôm nay"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/_18sdp"
@@ -42,19 +42,19 @@
         android:id="@+id/btnClose"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/background_button"
         android:backgroundTint="@color/colorButtonLeft"
         android:text="Đóng"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageReportImage"
         app:layout_constraintWidth_percent="0.48"
-        tools:ignore="HardcodedText,UnusedAttribute" />
+        tools:ignore="HardcodedText,UnusedAttribute,TextContrastCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

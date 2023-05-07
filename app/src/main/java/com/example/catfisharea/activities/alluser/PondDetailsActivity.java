@@ -131,7 +131,7 @@ public class PondDetailsActivity extends BaseActivity implements UserListener, M
                             if (queryDocumentSnapshot.getString(Constants.KEY_POND_ID) != null){
                                 binding.textPreparationCos.setText(String.format(Locale.US, "%,d"
                                         , queryDocumentSnapshot.get(Constants.KEY_PREPARATION_COST)) + " VNĐ");
-                                binding.textFishModel.setText(queryDocumentSnapshot.get(Constants.KEY_FINGERLING_SAMPLES) + " g/con");
+                                binding.textFishModel.setText(queryDocumentSnapshot.get(Constants.KEY_FINGERLING_SAMPLES) + " con/kg");
                                 binding.textNumOfFish.setText(String.format(Locale.US, "%,d"
                                         , queryDocumentSnapshot.get(Constants.KEY_NUMBER_OF_FISH)) + " con");
                             }
