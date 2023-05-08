@@ -90,7 +90,7 @@ public class RequestLeaveActivity extends BaseActivity {
             DateTime dateTime = DateTime.now();
             String dateCreated = dateTime.getDayOfMonth() + "/" + dateTime.getMonthOfYear() + "/" + dateTime.getYear();
             HashMap<String, Object> data = new HashMap<>();
-            data.put(Constants.KEY_NAME, "Yêu cầu nghĩ phép");
+            data.put(Constants.KEY_NAME, "Yêu cầu nghỉ phép");
             data.put(Constants.KEY_TYPE_REQUEST, Constants.KEY_LEAVE_REQUEST);
             data.put(Constants.KEY_DATE_CREATED_REQUEST, dateCreated);
             data.put(Constants.KEY_DATESTART_REQUESET, dateStart);

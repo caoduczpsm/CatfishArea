@@ -74,7 +74,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestH
 
         @SuppressLint("SetTextI18n")
         public void setRequestLeave(RequestLeave request) {
-            mBinding.nameRequest.setText("Xin nghĩ phép");
+            mBinding.nameRequest.setText("Xin nghỉ phép");
             mBinding.imageLeave.setVisibility(View.VISIBLE);
             mBinding.dateLeave.setText(request.getDateStart() + " - " + request.getDateEnd());
             mBinding.reasonRequeset.setText(request.getReason());
