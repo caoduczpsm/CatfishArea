@@ -121,7 +121,9 @@ public class OverviewPlanFragment extends Fragment {
                         String date = doc.getId();
                         List<String> amountFeed = (List<String>) doc.get(Constants.KEY_AMOUNT_FED);
                         long total = 0;
-                        assert amountFeed != null;
+                        if (amountFeed == null) {
+                            return;
+                        }
                         for (String item : amountFeed) {
                             total += Long.parseLong(item);
                         }
@@ -143,7 +145,7 @@ public class OverviewPlanFragment extends Fragment {
                             preferenceManager.putString(Constants.KEY_TOTAL_MONEY, String.valueOf(totalFood));
                             planList.add(plan);
 
-                            database.collection(Constants.KEY_COLLECTION_PLAN).document(planId)
+                            database.collection(Constants.KEY_COLLECTION_DIARY).document(planId)
                                     .collection(Constants.KEY_COLLECTION_FISH_WEIGH)
                                     .document(date).get().addOnSuccessListener(fishDoc -> {
                                         if (fishDoc.exists()) {

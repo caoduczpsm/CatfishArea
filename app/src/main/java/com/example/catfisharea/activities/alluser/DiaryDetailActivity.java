@@ -50,7 +50,7 @@ public class DiaryDetailActivity extends BaseActivity {
         harvestViewFragment = new HarvestViewFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_ID_PLAN, planId);
+        bundle.putString(Constants.KEY_ID_PLAN, planId);
         overviewPlanFragment.setArguments(bundle);
         viewFoodFragment.setArguments(bundle);
         environmentViewFragment.setArguments(bundle);

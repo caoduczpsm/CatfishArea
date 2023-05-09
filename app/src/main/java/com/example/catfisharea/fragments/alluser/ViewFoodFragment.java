@@ -86,7 +86,7 @@ public class ViewFoodFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     private void retrieveFoodDiary(String id, Timestamp datePlan) {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("--MM-dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         @SuppressLint("SimpleDateFormat") SimpleDateFormat format2 = new SimpleDateFormat("dd-MM-yyyy");
         String dateTime = format2.format(datePlan.toDate());
 

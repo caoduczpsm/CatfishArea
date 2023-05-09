@@ -74,6 +74,7 @@ public class WorkerHomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityWorkerHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         init();
         setListener();
     }
