@@ -250,7 +250,7 @@ public class InfoAreaAdapter extends RecyclerView.Adapter<InfoAreaAdapter.InfoHo
                 });
             } else {
                 mBinding.layoutItem.setOnClickListener(v -> {
-                    infoClicked.clickPond(pond.getLatLng());
+                    infoClicked.clickPond(pond.getLatLng(), pond.getName());
                     int visible = mBinding.infoLayout.getVisibility();
                     if (visible == View.VISIBLE) {
                         mBinding.infoLayout.setVisibility(View.GONE);
@@ -267,7 +267,7 @@ public class InfoAreaAdapter extends RecyclerView.Adapter<InfoAreaAdapter.InfoHo
 
     public List<Area> getAreasSeleted() {
         List<Area> areas = new ArrayList<>();
-        if (areas != null && areas.size() > 0) {
+        if (mItems != null && mItems.size() > 0) {
             if (mItems.get(0) instanceof Area) {
                 for (Object item : mItems) {
                     if (((Area) item).isSelected()) {
@@ -283,7 +283,7 @@ public class InfoAreaAdapter extends RecyclerView.Adapter<InfoAreaAdapter.InfoHo
 
     public List<Pond> getPondsSeleted() {
         List<Pond> ponds = new ArrayList<>();
-        if (ponds == null || ponds.size() == 0) return null;
+        if (mItems == null || mItems.size() == 0) return null;
         if (mItems.get(0) instanceof Pond) {
             for (Object item : mItems) {
                 if (((Pond) item).isSelected()) {
@@ -297,7 +297,7 @@ public class InfoAreaAdapter extends RecyclerView.Adapter<InfoAreaAdapter.InfoHo
 
     public List<Campus> getCampuesSeleted() {
         List<Campus> campues = new ArrayList<>();
-        if (campues == null || campues.size() == 0) return null;
+        if (mItems == null || mItems.size() == 0) return null;
         if (mItems.get(0) instanceof Campus) {
             for (Object item : mItems) {
                 if (((Campus) item).isSelected()) {

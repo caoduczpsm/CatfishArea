@@ -464,7 +464,7 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
                                             database.collection(Constants.KEY_COLLECTION_USER).document(user.id)
                                                     .update(pondId);
                                         }
-                                        Toast.makeText(getContext(), "Thêm ao mới thành công", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Sửa thành công", Toast.LENGTH_SHORT).show();
                                         getPonds(campusSelected.getId());
                                     }
                                 });
@@ -728,6 +728,7 @@ public class CreatePondFragment extends Fragment implements PermissionsListener,
         if (action.equals("create")) {
 
         } else if (action.equals("edit")) {
+            mBinding.saveBtnCreate.setText("Sửa");
             mBinding.toolbarManagePond.setTitle("Chỉnh sửa ao");
             idItem = getArguments().getString("idItem");
             setData(idItem);

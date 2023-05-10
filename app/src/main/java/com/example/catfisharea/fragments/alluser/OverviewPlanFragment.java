@@ -151,9 +151,9 @@ public class OverviewPlanFragment extends Fragment {
                                         if (fishDoc.exists()) {
                                             String loss = fishDoc.getString(Constants.KEY_FISH_WEIGH_LOSS);
                                             String weigh = fishDoc.getString(Constants.KEY_FISH_WEIGH_WEIGHT);
-                                            assert weigh != null;
+                                            if (weigh == null) weigh = "0";
                                             plan.setAVG(Long.parseLong(weigh));
-                                            assert loss != null;
+                                            if (loss == null) weigh = "0";
                                             plan.setNumberOfDeadFish(Long.parseLong(loss));
                                             long totalLoss = Long.parseLong(preferenceManager.getString(Constants.KEY_FISH_WEIGH_LOSS)) + Long.parseLong(loss);
                                             preferenceManager.putString(Constants.KEY_FINGERLING_SAMPLES, weigh);

@@ -69,6 +69,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
     private String typeActivity;
     private final int zoom = 13;
     private boolean isZoomOut = false;
+    private boolean isListened = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +82,10 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
         preferenceManager = new PreferenceManager(this);
         database = FirebaseFirestore.getInstance();
         checkPermission();
-
     }
 
     private void setListener() {
+        isListened = true;
         mItems = new ArrayList<>();
         adapter = new InfoAreaAdapter(this, mItems, this);
         mBinding.recyclerViewAreaManager.setAdapter(adapter);
@@ -158,7 +159,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
 
         if (typeActivity.equals(Constants.KEY_AREA)) {
             List<Area> mAreas = adapter.getAreasSeleted();
-            if (mAreas != null && mAreas.size() > 0) {
+            if (mAreas != null) {
                 alertDialog.setTitle("Lưu ý");
                 alertDialog.setMessage("Khi xóa vùng sẽ xóa tất cả khu và ao trong vùng. Bạn có chắc chắn muốn xóa?");
                 alertDialog.setPositiveButton("Đồng ý", (dialog, which) -> {
@@ -172,13 +173,19 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                     }
                     adapter.notifyDataSetChanged();
                     drawArea();
+                    adapter.setDeleted(false);
+                    mBinding.newBtn.setVisibility(View.VISIBLE);
+                    mBinding.deleteBtn.setVisibility(View.VISIBLE);
+                    mBinding.doneBtn.setVisibility(View.GONE);
+//                    dialog.dismiss();
                 });
                 alertDialog.setNegativeButton("Hủy", (dialog, which) -> {
-
+                    dialog.dismiss();
                 });
                 alertDialog.show();
             } else {
                 adapter.setDeleted(false);
+                adapter.notifyDataSetChanged();
                 mBinding.newBtn.setVisibility(View.VISIBLE);
                 mBinding.deleteBtn.setVisibility(View.VISIBLE);
                 mBinding.doneBtn.setVisibility(View.GONE);
@@ -336,7 +343,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
                                 });
                     }
                     if (mItems != null && mItems.size() > 0) {
-                        clickPond(((Pond) mItems.get(0)).getLatLng());
+                        clickPond(((Pond) mItems.get(0)).getLatLng(), ((Pond) mItems.get(0)).getName());
                     }
 
                 });
@@ -532,6 +539,9 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
     protected void onStart() {
         super.onStart();
         mBinding.mapView.onStart();
+        if (mapboxMap != null) {
+            setListener();
+        }
     }
 
     @Override
@@ -552,6 +562,7 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
         mBinding.mapView.onSaveInstanceState(outState);
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -562,7 +573,9 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
-        setListener();
+        if (!isListened) {
+            setListener();
+        }
         mapboxMap.setStyle(Style.SATELLITE_STREETS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
@@ -627,17 +640,30 @@ public class AreaManagementActivity extends BaseActivity implements OnMapReadyCa
 
     @SuppressLint("NewApi")
     @Override
-    public void clickPond(LatLng point) {
-        mapboxMap.getPolygons().forEach(it -> {
-            if (it.getPoints().contains(point)) {
-                it.setFillColor(Color.argb(0, 20, 137, 238));
+    public void clickPond(LatLng point, String name) {
+//        mapboxMap.getPolygons().forEach(it -> {
+//            if (it.getPoints().contains(point)) {
+//                it.setFillColor(Color.argb(0, 20, 137, 238));
+//            } else {
+//                it.setFillColor(Color.argb(0, 255, 80, 80));
+//            }
+//        });
+        IconFactory iconFactory = IconFactory.getInstance(this);
+        Icon icon = iconFactory.fromResource(R.drawable.ic_location);
+        Icon icon2 = iconFactory.fromResource(R.drawable.ic_pond_marker);
+        if (mapboxMap.getMarkers() == null || mapboxMap.getMarkers().size() == 0) return;
+        mapboxMap.getMarkers().forEach(it-> {
+            if (it.getPosition().equals(point)) {
+                it.setTitle(name);
+                it.setIcon(icon);
             } else {
-                it.setFillColor(Color.argb(0, 255, 80, 80));
+                it.setIcon(icon2);
             }
         });
+
         CameraPosition areaPosition = new CameraPosition.Builder()
                 .target(point)
-                .zoom(zoom).build();
+                .zoom(15).build();
         mapboxMap.setCameraPosition(areaPosition);
         mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(areaPosition), 500);
     }

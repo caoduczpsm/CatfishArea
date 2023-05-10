@@ -481,7 +481,7 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
                                                 .update(Constants.KEY_AREA_ID, FieldValue.delete());
                                         database.collection(Constants.KEY_COLLECTION_USER).document(magager.id)
                                                 .update(areaId).addOnSuccessListener(task1 -> {
-                                                    Toast.makeText(getContext(), "Thêm vùng mới thành công", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getContext(), "Sửa thành công", Toast.LENGTH_SHORT).show();
 
                                                 });
                                     }
@@ -594,6 +594,7 @@ public class CreateAreaFragment extends Fragment implements PermissionsListener,
         if (action.equals("create")) {
             getAraes();
         } else if (action.equals("edit")) {
+            mBinding.saveBtnCreate.setText("Sửa");
             mBinding.toolbarManageArea.setTitle("Chỉnh sửa vùng");
             idItem = getArguments().getString("idItem");
             getAraes();

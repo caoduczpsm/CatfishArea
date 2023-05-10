@@ -415,7 +415,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                                         areaId.put(Constants.KEY_AREA_ID, areaSelected.getId());
                                         database.collection(Constants.KEY_COLLECTION_USER).document(magager.id)
                                                 .update(areaId).addOnSuccessListener(task1 -> {
-                                                    Toast.makeText(getContext(), "Thêm vùng mới thành công", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getContext(), "Thêm khu mới thành công", Toast.LENGTH_SHORT).show();
                                                     mBinding.edtNameArea.setText("");
                                                     magager = null;
                                                     deletePolygon();
@@ -450,7 +450,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
                                                 .update(Constants.KEY_CAMPUS_ID, "");
                                         database.collection(Constants.KEY_COLLECTION_USER).document(magager.id)
                                                 .update(areaId).addOnSuccessListener(task1 -> {
-                                                    Toast.makeText(getContext(), "Thêm vùng mới thành công", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getContext(), "Sửa thành công", Toast.LENGTH_SHORT).show();
                                                 });
                                     }
                                 });
@@ -740,6 +740,7 @@ public class CreateCampusFragment extends Fragment implements PermissionsListene
         if (action.equals("create") && mapboxMap != null) {
             getAraes();
         } else if (action.equals("edit")) {
+            mBinding.saveBtnCreate.setText("Sửa");
             mBinding.toolbarManageCampus.setTitle("Chỉnh sửa khu");
             idItem = getArguments().getString("idItem");
             setData(idItem);
