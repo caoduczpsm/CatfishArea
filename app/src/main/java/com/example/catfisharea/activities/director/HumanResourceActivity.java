@@ -16,10 +16,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.app.catfisharea.R;
 import com.android.app.catfisharea.databinding.ActivityHumanResourceBinding;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
@@ -40,7 +38,6 @@ import com.example.catfisharea.ultilities.PreferenceManager;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -561,12 +558,13 @@ public class HumanResourceActivity extends BaseActivity implements MultipleCampu
         textAddress = dialog.findViewById(R.id.textAddress);
         textPosition = dialog.findViewById(R.id.textPosition);
 
-        byte[] bytes = Base64.decode(user.image, Base64.DEFAULT);
-        Bitmap image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        if (image != null) {
-            imageUser.setImageBitmap(image);
+        if (user.image != null) {
+            byte[] bytes = Base64.decode(user.image, Base64.DEFAULT);
+            Bitmap image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            if (image != null) {
+                imageUser.setImageBitmap(image);
+            }
         }
-
         textName.setText(user.name);
         textPhone.setText(user.phone);
         textAddress.setText(user.address);
