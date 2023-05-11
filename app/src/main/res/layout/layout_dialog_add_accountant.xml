@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_width="@dimen/_280sdp"
+    android:background="@drawable/border_fun_background"
+    android:padding="@dimen/_10sdp">
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kế toán vùng"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/_18sdp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutCreate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:padding="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTitle"
+        app:layout_constraintWidth_percent="0.9"
+        tools:ignore="UnusedAttribute">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageAccountant"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            app:civ_border_color="@color/black"
+            app:civ_border_width="2dp"
+            android:src="@drawable/profile"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/textInputItem"
+            app:layout_constraintEnd_toStartOf="@+id/textInputItem"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textInputItem"
+            tools:ignore="ContentDescription,ImageContrastCheck" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputItem"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Kế toán"
+            app:layout_constraintWidth_percent="0.85"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:focusable="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:startIconTint="@color/colorPrimary"
+            tools:ignore="HardcodedText">
+
+            <AutoCompleteTextView
+                android:id="@+id/nameItem"
+                android:editable="false"
+                android:focusable="false"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_12sdp"
+                android:paddingBottom="@dimen/_12sdp"
+                android:paddingEnd="@dimen/_12sdp"
+                android:textColor="@color/black"
+                tools:ignore="LabelFor,RtlSymmetry,TextContrastCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnClose"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:background="@drawable/background_button"
+        android:backgroundTint="@color/colorButtonRight"
+        android:text="Đóng"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutCreate"
+        app:layout_constraintWidth_percent="0.44"
+        tools:ignore="HardcodedText,UnusedAttribute,TextContrastCheck" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnAdd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:background="@drawable/background_button"
+        android:backgroundTint="@color/colorButtonLeft"
+        android:text="Lưu"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutCreate"
+        app:layout_constraintWidth_percent="0.44"
+        tools:ignore="HardcodedText,UnusedAttribute,TextContrastCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
