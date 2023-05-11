@@ -16,7 +16,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -74,7 +73,6 @@ public class WorkerHomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityWorkerHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         init();
         setListener();
     }
@@ -82,6 +80,7 @@ public class WorkerHomeActivity extends BaseActivity {
     @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
     private void init(){
         preferenceManager = new PreferenceManager(this);
+        preferenceManager.putString(Constants.KEY_NOW, "abc");
         database = FirebaseFirestore.getInstance();
 
         binding.layoutHome.textSelectImage.setVisibility(View.VISIBLE);
@@ -239,110 +238,108 @@ public class WorkerHomeActivity extends BaseActivity {
                 && !Objects.equals(preferenceManager.getString(Constants.KEY_TREATMENT_ASSIGNMENT), "")) {
             if (preferenceManager.getString(Constants.KEY_TREATMENT_ASSIGNMENT).equals(Constants.KEY_TREATMENT_IS_ASSIGNMENT)){
                 treatment = new Treatment();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    List<Medicine> medicines = new ArrayList<>();
-                    List<String> quantityList = new ArrayList<>();
-                    MedicineTreatmentUsedAdapter medicineAdapter = new MedicineTreatmentUsedAdapter(medicines, quantityList);
-                    LinearLayoutManager layoutManager
-                            = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-                    binding.layoutHome.medicineRecyclerView.setAdapter(medicineAdapter);
-                    binding.layoutHome.medicineRecyclerView.setLayoutManager(layoutManager);
-                    if (!Objects.equals(preferenceManager.getString(Constants.KEY_TREATMENT_ID), "")) {
-                        database.collection(Constants.KEY_COLLECTION_TREATMENT)
-                                .document(preferenceManager.getString(Constants.KEY_TREATMENT_ID))
-                                .get()
-                                .addOnCompleteListener(task -> {
-                                    DocumentSnapshot documentSnapshot = task.getResult();
-                                    treatment.id = documentSnapshot.getId();
-                                    treatment.pondId = documentSnapshot.getString(Constants.KEY_TREATMENT_POND_ID);
-                                    treatment.campusId = documentSnapshot.getString(Constants.KEY_TREATMENT_CAMPUS_ID);
-                                    treatment.creatorId = documentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_ID);
-                                    treatment.creatorName = documentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_NAME);
-                                    treatment.creatorImage = documentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_IMAGE);
-                                    treatment.creatorPhone = documentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_PHONE);
-                                    if (documentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER) != null){
-                                        treatment.replaceWater = documentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
-                                    }
-                                    if (documentSnapshot.getString(Constants.KEY_TREATMENT_NO_FOOD) != null){
-                                        treatment.noFood = documentSnapshot.getString(Constants.KEY_TREATMENT_NO_FOOD);
-                                    }
-                                    if (documentSnapshot.getString(Constants.KEY_TREATMENT_SUCK_MUD) != null){
-                                        treatment.suckMud = documentSnapshot.getString(Constants.KEY_TREATMENT_SUCK_MUD);
-                                    }
-                                    if (documentSnapshot.getString(Constants.KEY_TREATMENT_NOTE) != null){
-                                        treatment.note = documentSnapshot.getString(Constants.KEY_TREATMENT_NOTE);
-                                    }
-                                    treatment.date = documentSnapshot.getString(Constants.KEY_TREATMENT_DATE);
-                                    treatment.sickName = documentSnapshot.getString(Constants.KEY_TREATMENT_SICK_NAME);
-                                    treatment.status = documentSnapshot.getString(Constants.KEY_TREATMENT_STATUS);
-                                    treatment.medicines = (HashMap<String, Object>) documentSnapshot.get(Constants.KEY_TREATMENT_MEDICINE);
-                                    treatment.assignmentStatus = documentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS);
-                                })
-                                .addOnSuccessListener(runnable -> {
+                List<Medicine> medicines = new ArrayList<>();
+                List<String> quantityList = new ArrayList<>();
+                MedicineTreatmentUsedAdapter medicineAdapter = new MedicineTreatmentUsedAdapter(medicines, quantityList);
+                LinearLayoutManager layoutManager
+                        = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+                binding.layoutHome.medicineRecyclerView.setAdapter(medicineAdapter);
+                binding.layoutHome.medicineRecyclerView.setLayoutManager(layoutManager);
+                if (!Objects.equals(preferenceManager.getString(Constants.KEY_TREATMENT_ID), "")) {
+                    database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                            .document(preferenceManager.getString(Constants.KEY_TREATMENT_ID))
+                            .get()
+                            .addOnCompleteListener(task -> {
+                                DocumentSnapshot documentSnapshot = task.getResult();
+                                treatment.id = documentSnapshot.getId();
+                                treatment.pondId = documentSnapshot.getString(Constants.KEY_TREATMENT_POND_ID);
+                                treatment.campusId = documentSnapshot.getString(Constants.KEY_TREATMENT_CAMPUS_ID);
+                                treatment.creatorId = documentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_ID);
+                                treatment.creatorName = documentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_NAME);
+                                treatment.creatorImage = documentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_IMAGE);
+                                treatment.creatorPhone = documentSnapshot.getString(Constants.KEY_TREATMENT_CREATOR_PHONE);
+                                if (documentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER) != null){
+                                    treatment.replaceWater = documentSnapshot.getString(Constants.KEY_TREATMENT_REPLACE_WATER);
+                                }
+                                if (documentSnapshot.getString(Constants.KEY_TREATMENT_NO_FOOD) != null){
+                                    treatment.noFood = documentSnapshot.getString(Constants.KEY_TREATMENT_NO_FOOD);
+                                }
+                                if (documentSnapshot.getString(Constants.KEY_TREATMENT_SUCK_MUD) != null){
+                                    treatment.suckMud = documentSnapshot.getString(Constants.KEY_TREATMENT_SUCK_MUD);
+                                }
+                                if (documentSnapshot.getString(Constants.KEY_TREATMENT_NOTE) != null){
+                                    treatment.note = documentSnapshot.getString(Constants.KEY_TREATMENT_NOTE);
+                                }
+                                treatment.date = documentSnapshot.getString(Constants.KEY_TREATMENT_DATE);
+                                treatment.sickName = documentSnapshot.getString(Constants.KEY_TREATMENT_SICK_NAME);
+                                treatment.status = documentSnapshot.getString(Constants.KEY_TREATMENT_STATUS);
+                                treatment.medicines = (HashMap<String, Object>) documentSnapshot.get(Constants.KEY_TREATMENT_MEDICINE);
+                                treatment.assignmentStatus = documentSnapshot.getString(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS);
+                            })
+                            .addOnSuccessListener(runnable -> {
 
 
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                        if (preferenceManager.getString(Constants.KEY_NOW) == null){
-                                            preferenceManager.putString(Constants.KEY_NOW, LocalDate.now().toString());
-                                        } else {
-                                            if (!preferenceManager.getString(Constants.KEY_NOW).equals(LocalDate.now().toString())){
-                                                HashMap<String, Object> newTreatment = new HashMap<>();
-                                                newTreatment.put(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS, Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING);
-                                                database.collection(Constants.KEY_COLLECTION_TREATMENT)
-                                                        .document(treatment.id)
-                                                        .update(newTreatment);
-                                                treatment.assignmentStatus = Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING;
-                                            }
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    if (preferenceManager.getString(Constants.KEY_NOW) == null){
+                                        preferenceManager.putString(Constants.KEY_NOW, LocalDate.now().toString());
+                                    } else {
+                                        if (!preferenceManager.getString(Constants.KEY_NOW).equals(LocalDate.now().toString())){
+                                            HashMap<String, Object> newTreatment = new HashMap<>();
+                                            newTreatment.put(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS, Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING);
+                                            database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                                                    .document(treatment.id)
+                                                    .update(newTreatment);
+                                            treatment.assignmentStatus = Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING;
                                         }
-
                                     }
 
-                                    if (treatment.assignmentStatus.equals(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING) &&
-                                            treatment.status.equals(Constants.KEY_TREATMENT_ACCEPT)) {
-                                        binding.layoutHome.cardTreatment.setVisibility(View.VISIBLE);
-                                        if (treatment.noFood == null || treatment.noFood.equals("")){
-                                            binding.layoutHome.textNoFood.setVisibility(View.GONE);
-                                        }
+                                }
 
-                                        if (treatment.replaceWater == null || treatment.replaceWater.equals("")){
-                                            binding.layoutHome.textReplaceWater.setVisibility(View.GONE);
-                                        }
-
-                                        if (treatment.suckMud == null || treatment.suckMud.equals("")){
-                                            binding.layoutHome.textSuckMud.setVisibility(View.GONE);
-                                        }
-                                        treatment.medicines.forEach((key, value) ->
-                                                database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                                        .whereEqualTo(Constants.KEY_POND_ID, treatment.pondId)
-                                                        .get()
-                                                        .addOnCompleteListener(task -> {
-                                                            for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-                                                                database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                                                        .document(queryDocumentSnapshot.getId())
-                                                                        .collection(Constants.KEY_COLLECTION_CATEGORY)
-                                                                        .document(key)
-                                                                        .get()
-                                                                        .addOnCompleteListener(task1 -> {
-                                                                            DocumentSnapshot documentSnapshot = task1.getResult();
-                                                                            Medicine medicine = new Medicine();
-                                                                            medicine.id = documentSnapshot.getId();
-                                                                            medicine.amount = documentSnapshot.getString(Constants.KEY_AMOUNT_OF_ROOM);
-                                                                            medicine.effect = documentSnapshot.getString(Constants.KEY_EFFECT);
-                                                                            medicine.producer = documentSnapshot.getString(Constants.KEY_PRODUCER);
-                                                                            medicine.type = documentSnapshot.getString(Constants.KEY_CATEGORY_TYPE);
-                                                                            medicine.name = documentSnapshot.getString(Constants.KEY_NAME);
-                                                                            medicine.unit = documentSnapshot.getString(Constants.KEY_UNIT);
-                                                                            medicines.add(medicine);
-                                                                            quantityList.add(value.toString());
-                                                                            medicineAdapter.notifyDataSetChanged();
-                                                                        });
-                                                            }
-                                                        })
-                                        );
+                                if (treatment.assignmentStatus.equals(Constants.KEY_TREATMENT_ASSIGNMENT_STATUS_DOING) &&
+                                        treatment.status.equals(Constants.KEY_TREATMENT_ACCEPT)) {
+                                    binding.layoutHome.cardTreatment.setVisibility(View.VISIBLE);
+                                    if (treatment.noFood == null || treatment.noFood.equals("")){
+                                        binding.layoutHome.textNoFood.setVisibility(View.GONE);
                                     }
 
-                                });
-                    }
+                                    if (treatment.replaceWater == null || treatment.replaceWater.equals("")){
+                                        binding.layoutHome.textReplaceWater.setVisibility(View.GONE);
+                                    }
+
+                                    if (treatment.suckMud == null || treatment.suckMud.equals("")){
+                                        binding.layoutHome.textSuckMud.setVisibility(View.GONE);
+                                    }
+                                    treatment.medicines.forEach((key, value) ->
+                                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                    .whereEqualTo(Constants.KEY_POND_ID, treatment.pondId)
+                                                    .get()
+                                                    .addOnCompleteListener(task -> {
+                                                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                                    .document(queryDocumentSnapshot.getId())
+                                                                    .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                                    .document(key)
+                                                                    .get()
+                                                                    .addOnCompleteListener(task1 -> {
+                                                                        DocumentSnapshot documentSnapshot = task1.getResult();
+                                                                        Medicine medicine = new Medicine();
+                                                                        medicine.id = documentSnapshot.getId();
+                                                                        medicine.amount = documentSnapshot.getString(Constants.KEY_AMOUNT_OF_ROOM);
+                                                                        medicine.effect = documentSnapshot.getString(Constants.KEY_EFFECT);
+                                                                        medicine.producer = documentSnapshot.getString(Constants.KEY_PRODUCER);
+                                                                        medicine.type = documentSnapshot.getString(Constants.KEY_CATEGORY_TYPE);
+                                                                        medicine.name = documentSnapshot.getString(Constants.KEY_NAME);
+                                                                        medicine.unit = documentSnapshot.getString(Constants.KEY_UNIT);
+                                                                        medicines.add(medicine);
+                                                                        quantityList.add(value.toString());
+                                                                        medicineAdapter.notifyDataSetChanged();
+                                                                    });
+                                                        }
+                                                    })
+                                    );
+                                }
+
+                            });
                 }
             }
         }
@@ -354,7 +351,7 @@ public class WorkerHomeActivity extends BaseActivity {
                     if (task.isSuccessful()){
                         for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
                             List<String> workerAssignId = (List<String>) queryDocumentSnapshot.get(Constants.KEY_RELEASE_FISH_WORKER_ID_ASSIGN);
-                            for (String id : workerAssignId){
+                            for (String id : Objects.requireNonNull(workerAssignId)){
                                 if (Objects.equals(queryDocumentSnapshot.getString(Constants.KEY_RELEASE_FISH_STATUS), Constants.KEY_RELEASE_FISH_UNCOMPLETED)){
                                     if (id.equals(preferenceManager.getString(Constants.KEY_USER_ID))){
                                         binding.layoutHome.cardReleaseFish.setVisibility(View.VISIBLE);
@@ -362,6 +359,88 @@ public class WorkerHomeActivity extends BaseActivity {
                                         binding.layoutHome.textNeedToRelease.setText(queryDocumentSnapshot.getString(Constants.KEY_RELEASE_FISH_AMOUNT) + " con");
                                     }
                                 }
+                            }
+                        }
+                    }
+                });
+
+        database.collection(Constants.KEY_COLLECTION_POND)
+                .document(preferenceManager.getString(Constants.KEY_POND_ID))
+                .get()
+                .addOnCompleteListener(pondTask -> {
+                    if (pondTask.isSuccessful()){
+                        DocumentSnapshot documentSnapshot = pondTask.getResult();
+                        List<String> amountFeds = (List<String>) documentSnapshot.get(Constants.KEY_AMOUNT_FED);
+                        if (preferenceManager.getString(Constants.KEY_NOW) == null){
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                preferenceManager.putString(Constants.KEY_NOW, String.valueOf(LocalDate.now()));
+                            }
+                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            if (!preferenceManager.getString(Constants.KEY_NOW).equals(String.valueOf(LocalDate.now()))){
+                                int totalFeedInDate = 0;
+                                for (String num : amountFeds){
+                                    totalFeedInDate = totalFeedInDate + Integer.parseInt(num);
+                                }
+                                int finalTotalFeedInDate = totalFeedInDate;
+                                database.collection(Constants.KEY_COLLECTION_PLAN)
+                                        .whereEqualTo(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID))
+                                        .get()
+                                        .addOnCompleteListener(task -> {
+                                            for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                                if (queryDocumentSnapshot.getString(Constants.KEY_POND_ID) != null){
+                                                    LocalDate now = LocalDate.now();
+                                                    String yesterday = now.minusDays(1).toString();
+
+                                                    database.collection(Constants.KEY_COLLECTION_PLAN)
+                                                            .document(queryDocumentSnapshot.getId())
+                                                            .get()
+                                                            .addOnCompleteListener(task1 -> {
+                                                                DocumentSnapshot documentSnapshot1 = task1.getResult();
+
+                                                                database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                                        .whereEqualTo(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID))
+                                                                        .get()
+                                                                        .addOnCompleteListener(warehouseTask -> {
+                                                                            if (warehouseTask.isSuccessful()){
+                                                                                for (QueryDocumentSnapshot warehouseQuerySnapshot : warehouseTask.getResult()){
+                                                                                    if (warehouseQuerySnapshot.getString(Constants.KEY_POND_ID) != null){
+
+                                                                                        database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                                                                .document(warehouseQuerySnapshot.getId())
+                                                                                                .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                                                                .whereEqualTo(Constants.KEY_CATEGORY_TYPE, Constants.KEY_FOOD)
+                                                                                                .get()
+                                                                                                .addOnCompleteListener(categoryTask -> {
+                                                                                                    if (categoryTask.isSuccessful()){
+                                                                                                        for (QueryDocumentSnapshot categoryDoc : categoryTask.getResult()){
+                                                                                                            if (categoryDoc.getString(Constants.KEY_PRICE) != null){
+                                                                                                                double price = finalTotalFeedInDate * Double.parseDouble(Objects.requireNonNull(categoryDoc.getString(Constants.KEY_PRICE)));
+                                                                                                                HashMap<String, Object> feeds = new HashMap<>();
+                                                                                                                feeds.put(Constants.KEY_DIARY_FEEDS_POND_ID, pond.getId());
+                                                                                                                feeds.put(Constants.KEY_DIARY_FEEDS_DATE, yesterday);
+                                                                                                                feeds.put(Constants.KEY_AMOUNT_FED, amountFeds);
+                                                                                                                feeds.put(Constants.KEY_PRICE, price);
+
+                                                                                                                database.collection(Constants.KEY_COLLECTION_PLAN)
+                                                                                                                        .document(documentSnapshot1.getId())
+                                                                                                                        .collection(Constants.KEY_DIARY_COLLECTION_FEEDS)
+                                                                                                                        .document(yesterday)
+                                                                                                                        .set(feeds);
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                });
+                                                                                    }
+                                                                                }
+                                                                            }
+
+                                                                        });
+
+                                                            });
+
+                                                }
+                                            }
+                                        });
                             }
                         }
                     }
@@ -488,8 +567,6 @@ public class WorkerHomeActivity extends BaseActivity {
 
     @SuppressLint("SetTextI18n")
     private void getPondData() {
-        if (preferenceManager.getString(Constants.KEY_POND_ID) == null) return;
-
         database.collection(Constants.KEY_COLLECTION_POND)
                 .document(preferenceManager.getString(Constants.KEY_POND_ID))
                 .get()
@@ -540,45 +617,6 @@ public class WorkerHomeActivity extends BaseActivity {
                                                        .get()
                                                        .addOnCompleteListener(task1 -> {
                                                            DocumentSnapshot documentSnapshot = task1.getResult();
-
-                                                           database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                                                   .whereEqualTo(Constants.KEY_POND_ID, preferenceManager.getString(Constants.KEY_POND_ID))
-                                                                   .get()
-                                                                   .addOnCompleteListener(warehouseTask -> {
-                                                                       if (warehouseTask.isSuccessful()){
-                                                                           for (QueryDocumentSnapshot warehouseQuerySnapshot : warehouseTask.getResult()){
-                                                                               if (warehouseQuerySnapshot.getString(Constants.KEY_POND_ID) != null){
-
-                                                                                   database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                                                                           .document(warehouseQuerySnapshot.getId())
-                                                                                           .collection(Constants.KEY_COLLECTION_CATEGORY)
-                                                                                           .whereEqualTo(Constants.KEY_CATEGORY_TYPE, Constants.KEY_FOOD)
-                                                                                           .get()
-                                                                                           .addOnCompleteListener(categoryTask -> {
-                                                                                               if (categoryTask.isSuccessful()){
-                                                                                                   for (QueryDocumentSnapshot categoryDoc : categoryTask.getResult()){
-                                                                                                       if (categoryDoc.getString(Constants.KEY_PRICE) != null){
-                                                                                                           double price = finalTotalFeedInDate * Double.parseDouble(Objects.requireNonNull(categoryDoc.getString(Constants.KEY_PRICE)));
-                                                                                                           HashMap<String, Object> feeds = new HashMap<>();
-                                                                                                           feeds.put(Constants.KEY_DIARY_FEEDS_POND_ID, pond.getId());
-                                                                                                           feeds.put(Constants.KEY_DIARY_FEEDS_DATE, yesterday);
-                                                                                                           feeds.put(Constants.KEY_AMOUNT_FED, pond.getAmountFeedList());
-                                                                                                           feeds.put(Constants.KEY_PRICE, price);
-
-                                                                                                           database.collection(Constants.KEY_COLLECTION_PLAN)
-                                                                                                                   .document(documentSnapshot.getId())
-                                                                                                                   .collection(Constants.KEY_DIARY_COLLECTION_FEEDS)
-                                                                                                                   .document(yesterday)
-                                                                                                                   .set(feeds);
-                                                                                                       }
-                                                                                                   }
-                                                                                               }
-                                                                                           });
-                                                                               }
-                                                                           }
-                                                                       }
-
-                                                                   });
 
                                                            database.collection(Constants.KEY_COLLECTION_PLAN)
                                                                    .document(documentSnapshot.getId())
@@ -1073,44 +1111,32 @@ public class WorkerHomeActivity extends BaseActivity {
                 binding.layoutHome.imageEnvironment1.setVisibility(View.GONE);
                 binding.layoutHome.textQuantityEnvironment1.setVisibility(View.VISIBLE);
                 binding.layoutHome.textQuantityEnvironment1.setText(parameter);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    parameters.replace(Constants.KEY_SPECIFICATION_PH, parameter);
-                }
+                parameters.replace(Constants.KEY_SPECIFICATION_PH, parameter);
             } else if (numOfFeed == 2) {
                 binding.layoutHome.imageEnvironment2.setVisibility(View.GONE);
                 binding.layoutHome.textQuantityEnvironment2.setVisibility(View.VISIBLE);
                 binding.layoutHome.textQuantityEnvironment2.setText(parameter);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    parameters.replace(Constants.KEY_SPECIFICATION_SALINITY, parameter);
-                }
+                parameters.replace(Constants.KEY_SPECIFICATION_SALINITY, parameter);
             } else if (numOfFeed == 3) {
                 binding.layoutHome.imageEnvironment3.setVisibility(View.GONE);
                 binding.layoutHome.textQuantityEnvironment3.setVisibility(View.VISIBLE);
                 binding.layoutHome.textQuantityEnvironment3.setText(parameter);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    parameters.replace(Constants.KEY_SPECIFICATION_ALKALINITY, parameter);
-                }
+                parameters.replace(Constants.KEY_SPECIFICATION_ALKALINITY, parameter);
             } else if (numOfFeed == 4) {
                 binding.layoutHome.imageEnvironment4.setVisibility(View.GONE);
                 binding.layoutHome.textQuantityEnvironment4.setVisibility(View.VISIBLE);
                 binding.layoutHome.textQuantityEnvironment4.setText(parameter);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    parameters.replace(Constants.KEY_SPECIFICATION_TEMPERATE, parameter);
-                }
+                parameters.replace(Constants.KEY_SPECIFICATION_TEMPERATE, parameter);
             } else if (numOfFeed == 5) {
                 binding.layoutHome.imageEnvironment5.setVisibility(View.GONE);
                 binding.layoutHome.textQuantityEnvironment5.setVisibility(View.VISIBLE);
                 binding.layoutHome.textQuantityEnvironment5.setText(parameter);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    parameters.replace(Constants.KEY_SPECIFICATION_H2S, parameter);
-                }
+                parameters.replace(Constants.KEY_SPECIFICATION_H2S, parameter);
             } else if (numOfFeed == 6) {
                 binding.layoutHome.imageEnvironment6.setVisibility(View.GONE);
                 binding.layoutHome.textQuantityEnvironment6.setVisibility(View.VISIBLE);
                 binding.layoutHome.textQuantityEnvironment6.setText(parameter);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    parameters.replace(Constants.KEY_SPECIFICATION_NH3, parameter);
-                }
+                parameters.replace(Constants.KEY_SPECIFICATION_NH3, parameter);
             }
 
             if (!parameter.equals("")){
@@ -1284,7 +1310,6 @@ public class WorkerHomeActivity extends BaseActivity {
         btnClose = dialog.findViewById(R.id.btnClose);
 
         btnEdit.setOnClickListener(view -> {
-            if (preferenceManager.getString(Constants.KEY_POND_ID) == null) return;
             if (Objects.requireNonNull(edtWeight.getText()).toString().equals("")){
                 showToast("Vui lòng nhập đầy đủ thông tin!");
             } else {
@@ -1402,46 +1427,44 @@ public class WorkerHomeActivity extends BaseActivity {
                                 .addOnCompleteListener(task -> {
                                     for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
                                         HashMap<String, Object> medicines = treatment.medicines;
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                            medicines.forEach((key, value) ->
-                                                    database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                                            .document(queryDocumentSnapshot.getId())
-                                                            .collection(Constants.KEY_COLLECTION_CATEGORY)
-                                                            .document(key)
-                                                            .get()
-                                                            .addOnCompleteListener(task1 -> {
+                                        medicines.forEach((key, value) ->
+                                                database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                        .document(queryDocumentSnapshot.getId())
+                                                        .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                        .document(key)
+                                                        .get()
+                                                        .addOnCompleteListener(task1 -> {
 
-                                                                DocumentSnapshot documentSnapshot = task1.getResult();
-                                                                int amountInWareHouse = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_AMOUNT)));
+                                                            DocumentSnapshot documentSnapshot = task1.getResult();
+                                                            int amountInWareHouse = Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_AMOUNT)));
 
-                                                                amountInWareHouse = amountInWareHouse - Integer.parseInt(String.valueOf(value));
-                                                                HashMap<String, Object> amount = new HashMap<>();
-                                                                amount.put(Constants.KEY_AMOUNT, amountInWareHouse + "");
+                                                            amountInWareHouse = amountInWareHouse - Integer.parseInt(String.valueOf(value));
+                                                            HashMap<String, Object> amount = new HashMap<>();
+                                                            amount.put(Constants.KEY_AMOUNT, amountInWareHouse + "");
 
-                                                                database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
-                                                                        .document(queryDocumentSnapshot.getId())
-                                                                        .collection(Constants.KEY_COLLECTION_CATEGORY)
-                                                                        .document(documentSnapshot.getId())
-                                                                        .update(amount)
-                                                                        .addOnCompleteListener(runnable1 -> {
-                                                                            final double price = Double.parseDouble(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_PRICE))) * Integer.parseInt(String.valueOf(value));
-                                                                            double totalPrice = Double.parseDouble(preferenceManager.getString(Constants.KEY_MEDICINES_PRICE_PRICE)) + price;
-                                                                            preferenceManager.putString(Constants.KEY_MEDICINES_PRICE_PRICE, totalPrice + "");
-                                                                        })
-                                                                        .addOnSuccessListener(runnable1 -> {
-                                                                            HashMap<String, Object> medicinePrice = new HashMap<>();
-                                                                            medicinePrice.put(Constants.KEY_PRICE, preferenceManager.getString(Constants.KEY_MEDICINES_PRICE_PRICE));
-                                                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                                                                database.collection(Constants.KEY_COLLECTION_TREATMENT)
-                                                                                        .document(treatment.id)
-                                                                                        .collection(Constants.KEY_COLLECTION_MEDICINES_PRICE)
-                                                                                        .document(LocalDate.now().toString())
-                                                                                        .set(medicinePrice);
-                                                                            }
-                                                                        });
+                                                            database.collection(Constants.KEY_COLLECTION_WAREHOUSE)
+                                                                    .document(queryDocumentSnapshot.getId())
+                                                                    .collection(Constants.KEY_COLLECTION_CATEGORY)
+                                                                    .document(documentSnapshot.getId())
+                                                                    .update(amount)
+                                                                    .addOnCompleteListener(runnable1 -> {
+                                                                        final double price = Double.parseDouble(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_PRICE))) * Integer.parseInt(String.valueOf(value));
+                                                                        double totalPrice = Double.parseDouble(preferenceManager.getString(Constants.KEY_MEDICINES_PRICE_PRICE)) + price;
+                                                                        preferenceManager.putString(Constants.KEY_MEDICINES_PRICE_PRICE, totalPrice + "");
+                                                                    })
+                                                                    .addOnSuccessListener(runnable1 -> {
+                                                                        HashMap<String, Object> medicinePrice = new HashMap<>();
+                                                                        medicinePrice.put(Constants.KEY_PRICE, preferenceManager.getString(Constants.KEY_MEDICINES_PRICE_PRICE));
+                                                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                                            database.collection(Constants.KEY_COLLECTION_TREATMENT)
+                                                                                    .document(treatment.id)
+                                                                                    .collection(Constants.KEY_COLLECTION_MEDICINES_PRICE)
+                                                                                    .document(LocalDate.now().toString())
+                                                                                    .set(medicinePrice);
+                                                                        }
+                                                                    });
 
-                                                            }));
-                                        }
+                                                        }));
                                     }
                                 });
                     });
