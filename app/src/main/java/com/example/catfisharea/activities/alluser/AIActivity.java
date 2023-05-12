@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import androidx.annotation.Nullable;
 
 import com.android.app.catfisharea.databinding.ActivityAiactivityBinding;
+import com.android.app.catfisharea.ml.CatfishArea;
 import com.android.app.catfisharea.ml.Model;
 import com.example.catfisharea.activities.BaseActivity;
 
@@ -63,7 +64,7 @@ public class AIActivity extends BaseActivity {
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     public void classifyImage(Bitmap image){
         try {
-            Model model = Model.newInstance(getApplicationContext());
+            CatfishArea model = CatfishArea.newInstance(getApplicationContext());
 
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 112, 112, 3}, DataType.FLOAT32);
             ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3);
@@ -85,7 +86,7 @@ public class AIActivity extends BaseActivity {
 
             inputFeature0.loadBuffer(byteBuffer);
 
-            Model.Outputs outputs = model.process(inputFeature0);
+            CatfishArea.Outputs outputs = model.process(inputFeature0);
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
             float[] confidences = outputFeature0.getFloatArray();

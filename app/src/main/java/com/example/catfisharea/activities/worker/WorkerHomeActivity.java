@@ -666,26 +666,32 @@ public class WorkerHomeActivity extends BaseActivity {
                                                            HashMap<String, Object> updateAmountFed = new HashMap<>();
                                                            updateAmountFed.put(Constants.KEY_AMOUNT_FED, amountFed);
                                                            updateAmountFed.put(Constants.KEY_SPECIFICATIONS_MEASURED, updateMeasuredParameters);
-                                                           database.collection(Constants.KEY_COLLECTION_POND)
-                                                                   .document(pond.getId())
-                                                                   .update(updateAmountFed)
-                                                                   .addOnSuccessListener(runnable2 -> getPondDataAfterUpdate())
-                                                                   .addOnCompleteListener(tas1k -> {
-                                                                       HashMap<String, Object> unCompletedTask = new HashMap<>();
-                                                                       unCompletedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
-                                                                       database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
-                                                                               .document(feedTask.id)
-                                                                               .update(unCompletedTask)
-                                                                               .addOnSuccessListener(runnable2 -> setVisibleData());
 
-                                                                       database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
-                                                                               .document(measureTask.id)
-                                                                               .update(unCompletedTask)
-                                                                               .addOnSuccessListener(runnable2 -> setVisibleData());
+                                                           if(feedTask != null) {
+
+                                                               database.collection(Constants.KEY_COLLECTION_POND)
+                                                                       .document(pond.getId())
+                                                                       .update(updateAmountFed)
+                                                                       .addOnSuccessListener(runnable2 -> getPondDataAfterUpdate())
+                                                                       .addOnCompleteListener(tas1k -> {
+                                                                           HashMap<String, Object> unCompletedTask = new HashMap<>();
+                                                                           unCompletedTask.put(Constants.KEY_STATUS_TASK, Constants.KEY_UNCOMPLETED);
+                                                                           database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                                                                                   .document(feedTask.id)
+                                                                                   .update(unCompletedTask)
+                                                                                   .addOnSuccessListener(runnable2 -> setVisibleData());
+
+                                                                           database.collection(Constants.KEY_COLLECTION_FIXED_TASK)
+                                                                                   .document(measureTask.id)
+                                                                                   .update(unCompletedTask)
+                                                                                   .addOnSuccessListener(runnable2 -> setVisibleData());
 
 
-                                                                       preferenceManager.putString(Constants.KEY_NOW, String.valueOf(LocalDate.now()));
-                                                                   });
+                                                                           preferenceManager.putString(Constants.KEY_NOW, String.valueOf(LocalDate.now()));
+                                                                       });
+
+                                                           }
+
                                                        });
 
                                            }
