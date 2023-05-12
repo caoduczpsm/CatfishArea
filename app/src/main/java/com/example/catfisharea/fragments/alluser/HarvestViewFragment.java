@@ -126,7 +126,7 @@ public class HarvestViewFragment extends Fragment {
                     mBinding.number.setText(DecimalHelper.formatText(Long.parseLong(num)) + " con");
                     mBinding.price.setText(DecimalHelper.formatText(Double.parseDouble(price)) + " VNĐ/kg");
                     mBinding.quantity.setText(quantity + " tấn");
-                    mBinding.weigh.setText(weigh + " con/kg");
+                    mBinding.weigh.setText(weigh + " gram");
                     mBinding.total.setText(DecimalHelper.formatText(Long.parseLong(total)));
 
                 });
